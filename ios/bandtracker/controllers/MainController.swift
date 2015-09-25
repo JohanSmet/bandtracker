@@ -1,0 +1,90 @@
+//
+//  MainController.swift
+//  bandtracker
+//
+//  Created by Johan Smet on 20/09/15.
+//  Copyright © 2015 Justcode.be. All rights reserved.
+//
+
+import Foundation
+import UIKit
+
+protocol MainTabSheet {
+    func updateSearchResults(searchText : String)
+    func addNewItem();
+    
+    var searchBarVisible : Bool { get }
+    var addButtonVisible : Bool { get }
+}
+
+class MainController:   UITabBarController,
+                        UITabBarControllerDelegate,
+                        UISearchResultsUpdating {
+   
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
+    // variables
+    //
+    
+    var searchController : UISearchController! = nil
+    
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
+    // outlets
+    //
+    
+    @IBOutlet var buttonAdd: UIBarButtonItem!
+    
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
+    // UIViewController overrides
+    //
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // create search controller
+        searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.dimsBackgroundDuringPresentation = false
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.searchBar.sizeToFit()
+        navigationItem.titleView = searchController.searchBar
+        
+        self.delegate = self
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
+    // UITabBarControllerDelegate
+    
+    func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
+        if let tab = viewController as? MainTabSheet {
+            searchController.searchBar.hidden = !tab.searchBarVisible
+            navigationItem.rightBarButtonItem = (tab.addButtonVisible) ? buttonAdd : nil
+        }
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
+    // UISearchResultsUpdating
+    //
+    
+    func updateSearchResultsForSearchController(searchController: UISearchController) {
+        if let tab = self.selectedViewController as? MainTabSheet {
+            tab.updateSearchResults(searchController.searchBar.text!)
+        }
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
+    // actions
+    //
+    
+    @IBAction func addSeenBand(sender: UIBarButtonItem) {
+        if let tab = self.selectedViewController as? MainTabSheet {
+            tab.addNewItem()
+        }
+    }
+}
+

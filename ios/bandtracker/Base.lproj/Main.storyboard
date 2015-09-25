@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vhd-Wp-B0c">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+    </dependencies>
+    <scenes>
+        <!--Item-->
+        <scene sceneID="drH-6O-OSR">
+            <objects>
+                <navigationController id="vhd-Wp-B0c" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="xzP-gu-bI8"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="h1K-do-Qbx">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="MWG-Pt-wm4" kind="relationship" relationship="rootViewController" id="I8C-zw-20Q"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="npU-la-ZCq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-336" y="377"/>
+        </scene>
+        <!--Main Controller-->
+        <scene sceneID="xhe-Vm-kMp">
+            <objects>
+                <tabBarController id="MWG-Pt-wm4" customClass="MainController" customModule="bandtracker" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="Ptm-Rt-CIv">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="TEA-KJ-ZYm">
+                            <connections>
+                                <action selector="addSeenBand:" destination="MWG-Pt-wm4" id="d9a-Bt-Uov"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="0OH-VZ-3fp">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <outlet property="buttonAdd" destination="TEA-KJ-ZYm" id="E9o-ry-bKJ"/>
+                        <segue destination="xyX-fB-UPd" kind="relationship" relationship="viewControllers" id="sEL-hC-hfg"/>
+                        <segue destination="U3r-an-699" kind="relationship" relationship="viewControllers" id="kGe-2F-2Qa"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ped-Li-3QR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="398" y="377"/>
+        </scene>
+        <!--Bands-->
+        <scene sceneID="iLT-hi-O6m">
+            <objects>
+                <tableViewController id="xyX-fB-UPd" customClass="BandsSeenController" customModule="bandtracker" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="jP3-Db-IVE">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SeenBandCell" id="gXV-vl-m7K">
+                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gXV-vl-m7K" id="Sz0-OM-GKK">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="xyX-fB-UPd" id="vts-vs-0vS"/>
+                            <outlet property="delegate" destination="xyX-fB-UPd" id="VNX-8c-135"/>
+                        </connections>
+                    </tableView>
+                    <tabBarItem key="tabBarItem" title="Bands" id="Uqd-ek-Ov4"/>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <segue destination="uCk-OG-azI" kind="show" identifier="bandSearchSegue" id="qcH-Ad-xop"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="v1e-q2-G0q" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1164" y="91"/>
+        </scene>
+        <!--Band Search Controller-->
+        <scene sceneID="LIz-i6-KaE">
+            <objects>
+                <tableViewController storyboardIdentifier="BandSearchController" id="uCk-OG-azI" customClass="BandSearchController" customModule="bandtracker" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="dPt-hX-Ji3">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SearchBandCell" id="x3I-le-jCa">
+                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="x3I-le-jCa" id="GNg-jz-0VM">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="uCk-OG-azI" id="Pts-rZ-fuh"/>
+                            <outlet property="delegate" destination="uCk-OG-azI" id="LbR-05-qpA"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="4Fp-hx-q6Z"/>
+                    <connections>
+                        <outlet property="tableBands" destination="dPt-hX-Ji3" id="6ov-WL-sRm"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iLj-bl-Guh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1855" y="91"/>
+        </scene>
+        <!--Events-->
+        <scene sceneID="cAs-9T-v4o">
+            <objects>
+                <tableViewController id="U3r-an-699" customClass="EventsSeenController" customModule="bandtracker" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="FKy-Ai-LkJ">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SeenEventCell" id="3Nl-nm-RbO">
+                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3Nl-nm-RbO" id="cZd-J5-5SA">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="U3r-an-699" id="3GJ-Wk-rPd"/>
+                            <outlet property="delegate" destination="U3r-an-699" id="y87-CS-buj"/>
+                        </connections>
+                    </tableView>
+                    <tabBarItem key="tabBarItem" title="Events" id="Uhv-CM-mkt"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EHo-Eq-ZXJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1164" y="768"/>
+        </scene>
+    </scenes>
+</document>
