@@ -81,4 +81,18 @@ class BandSearchController: UITableViewController,
         return cell
     }
     
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
+    // UITableViewDelegate
+    //
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        // add the band to core data
+        let band = bandList[indexPath.row]
+        dataContext().createBand(band)
+        
+        // go to the detail page of the selected band
+        self.navigationController?.popToRootViewControllerAnimated(true)
+    }
+    
 }

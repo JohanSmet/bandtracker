@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="8195" systemVersion="14F27" minimumToolsVersion="Xcode 7.0">
+    <entity name="Band" representedClassName="Band" syncable="YES">
+        <attribute name="bandMBID" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="biography" attributeType="String" syncable="YES"/>
+        <attribute name="imageUrl" attributeType="String" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="numGigs" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="totalRating" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Band" positionX="-63" positionY="-18" width="128" height="135"/>
+    </elements>
+</model>

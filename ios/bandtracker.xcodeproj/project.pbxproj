@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		040D68C51BB0A46F000068EA /* EventsSeenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040D68C41BB0A46F000068EA /* EventsSeenController.swift */; settings = {ASSET_TAGS = (); }; };
 		0410EE451BB1F330006B1FAB /* BandSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0410EE441BB1F330006B1FAB /* BandSearchController.swift */; settings = {ASSET_TAGS = (); }; };
+		041A12791BB5DEC2005DDB8E /* BandTracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 041A12771BB5DEC2005DDB8E /* BandTracker.xcdatamodeld */; settings = {ASSET_TAGS = (); }; };
+		041A127B1BB5DFDE005DDB8E /* Band.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041A127A1BB5DFDE005DDB8E /* Band.swift */; settings = {ASSET_TAGS = (); }; };
+		041A127D1BB5E0F4005DDB8E /* CoreDataStackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041A127C1BB5E0F4005DDB8E /* CoreDataStackManager.swift */; settings = {ASSET_TAGS = (); }; };
+		041A12801BB5E308005DDB8E /* AlertPopups.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041A127F1BB5E308005DDB8E /* AlertPopups.swift */; settings = {ASSET_TAGS = (); }; };
+		041A12821BB5E41E005DDB8E /* DataContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041A12811BB5E41E005DDB8E /* DataContext.swift */; settings = {ASSET_TAGS = (); }; };
 		042805E41BAF4CCA0019120F /* BandsSeenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042805E31BAF4CCA0019120F /* BandsSeenController.swift */; settings = {ASSET_TAGS = (); }; };
 		04A5B4811BB336CD002D7E4B /* WebApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A5B4801BB336CD002D7E4B /* WebApiClient.swift */; settings = {ASSET_TAGS = (); }; };
 		04A5B4841BB33A2F002D7E4B /* BandTrackerClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A5B4831BB33A2F002D7E4B /* BandTrackerClient.swift */; settings = {ASSET_TAGS = (); }; };
@@ -23,6 +28,11 @@
 /* Begin PBXFileReference section */
 		040D68C41BB0A46F000068EA /* EventsSeenController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsSeenController.swift; sourceTree = "<group>"; };
 		0410EE441BB1F330006B1FAB /* BandSearchController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BandSearchController.swift; sourceTree = "<group>"; };
+		041A12781BB5DEC2005DDB8E /* BandTracker.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BandTracker.xcdatamodel; sourceTree = "<group>"; };
+		041A127A1BB5DFDE005DDB8E /* Band.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Band.swift; sourceTree = "<group>"; };
+		041A127C1BB5E0F4005DDB8E /* CoreDataStackManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStackManager.swift; sourceTree = "<group>"; };
+		041A127F1BB5E308005DDB8E /* AlertPopups.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertPopups.swift; sourceTree = "<group>"; };
+		041A12811BB5E41E005DDB8E /* DataContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataContext.swift; sourceTree = "<group>"; };
 		042805E31BAF4CCA0019120F /* BandsSeenController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BandsSeenController.swift; sourceTree = "<group>"; };
 		04A5B4801BB336CD002D7E4B /* WebApiClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebApiClient.swift; sourceTree = "<group>"; };
 		04A5B4831BB33A2F002D7E4B /* BandTrackerClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BandTrackerClient.swift; sourceTree = "<group>"; };
@@ -56,6 +66,14 @@
 			path = clients;
 			sourceTree = "<group>";
 		};
+		041A127E1BB5E2CB005DDB8E /* view */ = {
+			isa = PBXGroup;
+			children = (
+				041A127F1BB5E308005DDB8E /* AlertPopups.swift */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
 		04A5B4821BB339DF002D7E4B /* bandtracker */ = {
 			isa = PBXGroup;
 			children = (
@@ -67,6 +85,10 @@
 		04A5B4851BB33D88002D7E4B /* model */ = {
 			isa = PBXGroup;
 			children = (
+				041A127C1BB5E0F4005DDB8E /* CoreDataStackManager.swift */,
+				041A12811BB5E41E005DDB8E /* DataContext.swift */,
+				041A12771BB5DEC2005DDB8E /* BandTracker.xcdatamodeld */,
+				041A127A1BB5DFDE005DDB8E /* Band.swift */,
 				04A5B4861BB33DD6002D7E4B /* ServerBand.swift */,
 			);
 			path = model;
@@ -94,6 +116,7 @@
 				0410EE461BB1F92B006B1FAB /* clients */,
 				04F963321BAF48EE00ABCE80 /* controllers */,
 				04A5B4851BB33D88002D7E4B /* model */,
+				041A127E1BB5E2CB005DDB8E /* view */,
 				04F963041BAF175200ABCE80 /* AppDelegate.swift */,
 				04F963081BAF175200ABCE80 /* Main.storyboard */,
 				04F9630B1BAF175200ABCE80 /* Assets.xcassets */,
@@ -186,12 +209,17 @@
 			files = (
 				042805E41BAF4CCA0019120F /* BandsSeenController.swift in Sources */,
 				040D68C51BB0A46F000068EA /* EventsSeenController.swift in Sources */,
+				041A127D1BB5E0F4005DDB8E /* CoreDataStackManager.swift in Sources */,
+				041A127B1BB5DFDE005DDB8E /* Band.swift in Sources */,
 				04A5B4871BB33DD6002D7E4B /* ServerBand.swift in Sources */,
 				04F963361BAF4B5D00ABCE80 /* MainController.swift in Sources */,
+				041A12791BB5DEC2005DDB8E /* BandTracker.xcdatamodeld in Sources */,
 				04A5B4841BB33A2F002D7E4B /* BandTrackerClient.swift in Sources */,
 				04F963051BAF175200ABCE80 /* AppDelegate.swift in Sources */,
 				04A5B4811BB336CD002D7E4B /* WebApiClient.swift in Sources */,
+				041A12821BB5E41E005DDB8E /* DataContext.swift in Sources */,
 				0410EE451BB1F330006B1FAB /* BandSearchController.swift in Sources */,
+				041A12801BB5E308005DDB8E /* AlertPopups.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,6 +372,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		041A12771BB5DEC2005DDB8E /* BandTracker.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				041A12781BB5DEC2005DDB8E /* BandTracker.xcdatamodel */,
+			);
+			currentVersion = 041A12781BB5DEC2005DDB8E /* BandTracker.xcdatamodel */;
+			path = BandTracker.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 04F962F91BAF175200ABCE80 /* Project object */;
 }
