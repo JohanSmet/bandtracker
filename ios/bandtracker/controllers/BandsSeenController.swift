@@ -87,6 +87,13 @@ class BandsSeenController:  UITableViewController,
         }
     }
     
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        let detailVc = self.storyboard?.instantiateViewControllerWithIdentifier("BandDetailsController") as! BandDetailsController
+        detailVc.band = fetchedResultsController.objectAtIndexPath(indexPath) as! Band
+        self.navigationController?.showViewController(detailVc, sender: self)
+    }
+    
     ///////////////////////////////////////////////////////////////////////////////////
     //
     // NSFetchedResultsControllerDelegate
