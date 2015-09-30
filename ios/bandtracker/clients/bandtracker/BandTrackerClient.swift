@@ -17,6 +17,16 @@ class BandTrackerClient : WebApiClient {
     
     static let BASE_URL : String = "https://bandtracker-justcode.rhcloud.com/api/"
     
+    static let USERNAME : String = "ios-development"
+    static let PASSWORD : String = "test"
+    
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
+    // variables
+    //
+    
+    var apiToken : String!
+    
     ///////////////////////////////////////////////////////////////////////////////////
     //
     // initializers
@@ -31,13 +41,42 @@ class BandTrackerClient : WebApiClient {
     // request interface
     //
     
-    func bandsFindByName(pattern : String, completionHandler: (bands : [ServerBand]?, error : String?) -> Void) {
+    func login(completionHandler: () -> Void) {
+       
+        let postBody : [ String : AnyObject] = [
+            "name"   : BandTrackerClient.USERNAME,
+            "passwd" : BandTrackerClient.PASSWORD
+        ]
         
+        startTaskPOST(BandTrackerClient.BASE_URL, method: "auth/login", parameters: [:], jsonBody: postBody) { result, error in
+            if let postResult = result as? NSDictionary {
+                self.apiToken = postResult.valueForKey("token") as? String
+                if let _ = self.apiToken {
+                    completionHandler();
+                }
+            }
+        }
+        
+    }
+    
+    func bandsFindByName(pattern : String, completionHandler: (bands : [ServerBand]?, error : String?) -> Void) {
+       
+        // make sure to login first
+        guard let token = apiToken else {
+            return login() { self.bandsFindByName(pattern, completionHandler: completionHandler); }
+        }
+        
+        // configure request
         let parameters : [String : AnyObject] = [
             "name": pattern
         ]
         
-        startTaskGET(BandTrackerClient.BASE_URL, method: "bands/find-by-name", parameters: parameters) { result, error in
+        let extraHeaders : [String : String] = [
+            "x-access-token" : token
+        ]
+        
+        // execute request
+        startTaskGET(BandTrackerClient.BASE_URL, method: "bands/find-by-name", parameters: parameters, extraHeaders: extraHeaders) { result, error in
             if let basicError = error as? NSError {
                 completionHandler(bands: nil, error: BandTrackerClient.formatBasicError(basicError))
             } else if let httpError = error as? NSHTTPURLResponse {
