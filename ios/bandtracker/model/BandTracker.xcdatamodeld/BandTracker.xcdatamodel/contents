@@ -7,8 +7,42 @@
         <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="numGigs" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="totalRating" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <relationship name="gigs" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Gig" inverseName="band" inverseEntity="Gig" syncable="YES"/>
+    </entity>
+    <entity name="City" representedClassName="City" syncable="YES">
+        <attribute name="latitude" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="longitude" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <relationship name="gigs" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Gig" inverseName="city" inverseEntity="Gig" syncable="YES"/>
+    </entity>
+    <entity name="Country" representedClassName="Country" syncable="YES">
+        <attribute name="code" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <relationship name="gigs" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Gig" inverseName="country" inverseEntity="Gig" syncable="YES"/>
+    </entity>
+    <entity name="Gig" representedClassName="Gig" syncable="YES">
+        <attribute name="comments" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="endDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="rating" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="stage" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="startDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="supportAct" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <relationship name="band" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Band" inverseName="gigs" inverseEntity="Band" syncable="YES"/>
+        <relationship name="city" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="City" inverseName="gigs" inverseEntity="City" syncable="YES"/>
+        <relationship name="country" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Country" inverseName="gigs" inverseEntity="Country" syncable="YES"/>
+        <relationship name="venue" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Venue" inverseName="gigs" inverseEntity="Venue" syncable="YES"/>
+    </entity>
+    <entity name="Venue" representedClassName="Venue" syncable="YES">
+        <attribute name="latitude" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="longitude" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <relationship name="gigs" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Gig" inverseName="venue" inverseEntity="Gig" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Band" positionX="-63" positionY="-18" width="128" height="135"/>
+        <element name="Band" positionX="-513" positionY="18" width="128" height="148"/>
+        <element name="Gig" positionX="-317" positionY="18" width="128" height="193"/>
+        <element name="Venue" positionX="16" positionY="27" width="128" height="103"/>
+        <element name="City" positionX="-38" positionY="-231" width="128" height="103"/>
+        <element name="Country" positionX="-2" positionY="-90" width="128" height="88"/>
     </elements>
 </model>
