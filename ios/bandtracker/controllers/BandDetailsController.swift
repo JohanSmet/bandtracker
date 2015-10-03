@@ -33,6 +33,7 @@ class BandDetailsController : UIViewController {
     //
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
     }
     
@@ -42,8 +43,16 @@ class BandDetailsController : UIViewController {
         loadBandImageAsync()
     }
     
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
+    // actions
+    //
     
-    
+    @IBAction func addGig(sender: AnyObject) {
+        let storyboard = UIStoryboard(name: "Gigs", bundle: nil)
+        let newVC = storyboard.instantiateViewControllerWithIdentifier("GigDetailsController")
+        navigationController?.pushViewController(newVC, animated: true)
+    }
     ///////////////////////////////////////////////////////////////////////////////////
     //
     // helper functions
