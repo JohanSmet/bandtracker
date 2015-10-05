@@ -133,6 +133,16 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="UI8-NU-AVy">
                                 <rect key="frame" x="20" y="292" width="560" height="264"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="gigSeenCell" id="EAU-FI-Lga">
+                                        <rect key="frame" x="0.0" y="28" width="560" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EAU-FI-Lga" id="bFA-ws-jDt">
+                                            <rect key="frame" x="0.0" y="0.0" width="560" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -156,6 +166,7 @@
                         <outlet property="bandImage" destination="J5T-87-YBd" id="Kuh-vU-BYh"/>
                         <outlet property="biography" destination="ZbR-0r-bAh" id="3L3-OF-uIt"/>
                         <outlet property="pageTitle" destination="PiV-8K-VXG" id="or3-Yt-SpV"/>
+                        <outlet property="tableGigs" destination="UI8-NU-AVy" id="Z93-Om-QoB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M4C-qs-DQz" userLabel="First Responder" sceneMemberID="firstResponder"/>

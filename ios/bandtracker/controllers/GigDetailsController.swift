@@ -9,19 +9,62 @@
 import Foundation
 import UIKit
 
+enum GigDetailsControllerMode {
+    case Create
+    case Edit
+    case View
+}
+
+protocol GigDetailsSubView {
+    var gig : Gig! {get set}
+}
+
 class GigDetailsController :    UIPageViewController,
                                 UIPageViewControllerDataSource {
+    
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
+    // constants
+    //
+    
+    let pageIDs : [String] = [
+        "GigDetailsDataContainer",
+        "GigDetailsSetlistController",
+        "GigDetailsYoutubeController"
+    ]
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
     // variables
     //
     
-    let pageIDs : [String] = [
-        "GigDetailsDataController",
-        "GigDetailsSetlistController",
-        "GigDetailsYoutubeController"
-    ]
+    var mode    : GigDetailsControllerMode!
+    var gig     : Gig!
+    
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
+    // class functions
+    //
+    
+    class func createNewGig(band : Band) -> GigDetailsController {
+        let storyboard = UIStoryboard(name: "Gigs", bundle: nil)
+        
+        let newVC = storyboard.instantiateViewControllerWithIdentifier("GigDetailsController") as! GigDetailsController
+        newVC.mode = .Create
+        newVC.gig  = dataContext().createPartialGig(band)
+        
+        return newVC
+    }
+    
+    class func displayGig(gig : Gig) -> GigDetailsController {
+        let storyboard = UIStoryboard(name: "Gigs", bundle: nil)
+        
+        let newVC = storyboard.instantiateViewControllerWithIdentifier("GigDetailsController") as! GigDetailsController
+        newVC.mode = .View
+        newVC.gig  = gig
+        
+        return newVC
+    }
    
     ///////////////////////////////////////////////////////////////////////////////////
     //
@@ -37,6 +80,23 @@ class GigDetailsController :    UIPageViewController,
         // create the initial view
         let page = pageViewControllerForIndex(0)
         setViewControllers([page!], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
+        
+        // configure navigation controller
+        switch (self.mode!) {
+            case .Create :
+                let buttonSave = UIBarButtonItem(title: "Add", style: .Plain, target: self, action: "saveGig")
+                self.navigationItem.setRightBarButtonItems([buttonSave], animated: false)
+            
+            case .View :
+                let buttonEdit = UIBarButtonItem(title: "Edit", style: .Plain, target: self, action: "editGig")
+                self.navigationItem.setRightBarButtonItems([buttonEdit], animated: false)
+            
+            case .Edit :
+                let buttonSave = UIBarButtonItem(title: "Save", style: .Plain, target: self, action: "saveGig")
+                self.navigationItem.setRightBarButtonItems([buttonSave], animated: false)
+        }
+        
+        gig.prepareForEdit()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -47,9 +107,6 @@ class GigDetailsController :    UIPageViewController,
         pageControl.pageIndicatorTintColor = UIColor.lightGrayColor()
         pageControl.currentPageIndicatorTintColor = UIColor.blackColor()
         pageControl.backgroundColor = UIColor.whiteColor()
-        
-        let buttonSave = UIBarButtonItem(title: "Add", style: .Plain, target: self, action: "saveGig")
-        self.navigationItem.setRightBarButtonItems([buttonSave], animated: false)
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -58,6 +115,13 @@ class GigDetailsController :    UIPageViewController,
     //
     
     func saveGig() {
+        if let gig = gig {
+            gig.processEdit()
+            coreDataStackManager().saveContext()
+        }
+    }
+    
+    func editGig() {
         
     }
     
@@ -105,7 +169,11 @@ class GigDetailsController :    UIPageViewController,
             return nil
         }
         
-        return self.storyboard?.instantiateViewControllerWithIdentifier(pageIDs[index])
+        let vc = self.storyboard?.instantiateViewControllerWithIdentifier(pageIDs[index])
+        if var det = vc as? GigDetailsSubView {
+            det.gig = gig
+        }
+        return vc
         
     }
     

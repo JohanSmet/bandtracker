@@ -22,8 +22,12 @@ class Gig : NSManagedObject {
     
     @NSManaged var band         : Band
     @NSManaged var country      : Country
-    @NSManaged var city         : City
-    @NSManaged var venue        : Venue
+    @NSManaged var city         : City?
+    @NSManaged var venue        : Venue?
+    
+    var editCountry             : String = ""
+    var editCity                : String = ""
+    var editVenue               : String = ""
     
     ////////////////////////////////////////////////////////////////////////////////
     //
@@ -34,10 +38,33 @@ class Gig : NSManagedObject {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
     }
     
-    init(context: NSManagedObjectContext) {
+    init(band : Band, context: NSManagedObjectContext) {
         
         // Core Data
         let entity =  NSEntityDescription.entityForName("Gig", inManagedObjectContext: context)!
         super.init(entity: entity, insertIntoManagedObjectContext: context)
+        
+        // properties
+        self.startDate  = NSDate()
+        self.endDate    = NSDate()
+        self.band = band
     }
+    
+    ////////////////////////////////////////////////////////////////////////////////
+    //
+    // edit functions
+    //
+    
+    func prepareForEdit () {
+        editCountry = country.name
+        editCity    = city?.name ?? ""
+        editVenue   = venue?.name ?? ""
+    }
+    
+    func processEdit() {
+        country = dataContext().countryByName(editCountry)
+        city    = dataContext().cityByName(editCity)
+        venue   = dataContext().venueByName(editVenue)
+    }
+    
 }

@@ -9,7 +9,13 @@
 import Foundation
 import UIKit
 
-class GigDetailsYoutubeController : UIViewController {
+class GigDetailsYoutubeController : UIViewController,
+                                    GigDetailsSubView {
     
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
+    // variables
+    //
     
+    var gig : Gig!
 }

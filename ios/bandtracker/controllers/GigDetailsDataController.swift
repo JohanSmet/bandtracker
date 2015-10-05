@@ -9,7 +9,9 @@
 import Foundation
 import UIKit
 
-class GigDetailsDataController : UITableViewController {
+class GigDetailsDataController : UITableViewController,
+                                 UITextFieldDelegate,
+                                 GigDetailsSubView {
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
@@ -26,9 +28,13 @@ class GigDetailsDataController : UITableViewController {
     // variables
     //
     
+    var gig : Gig!
     var editingStartDate : Bool = false
     var editingEndDate : Bool = false
     var datePickerHeight : CGFloat = 0
+    
+    var dateFormatter : NSDateFormatter!
+    var timeFormatter : NSDateFormatter!
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
@@ -43,6 +49,15 @@ class GigDetailsDataController : UITableViewController {
     @IBOutlet weak var labelEndTime: UILabel!
     @IBOutlet weak var pickEnd: UIDatePicker!
     
+    @IBOutlet weak var textCountry: UITextField!
+    @IBOutlet weak var textCity: UITextField!
+    @IBOutlet weak var textVenue: UITextField!
+    @IBOutlet weak var textStage: UITextField!
+    
+    @IBOutlet weak var switchSupportAct: UISwitch!
+    
+    @IBOutlet weak var textComments: UITextField!
+    
     ///////////////////////////////////////////////////////////////////////////////////
     //
     // UIViewController overrides
@@ -50,16 +65,82 @@ class GigDetailsDataController : UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // save the default height of a datepicker
         datePickerHeight = pickStart.bounds.height
         
-       
+        // prepare formatters for date and time
+        dateFormatter = NSDateFormatter()
+        dateFormatter.dateStyle = .MediumStyle
+        dateFormatter.timeStyle = .NoStyle
+        
+        timeFormatter = NSDateFormatter()
+        timeFormatter.dateStyle = .NoStyle
+        timeFormatter.timeStyle = .MediumStyle
+        
+        // set delegates
+        textCountry.delegate = self
+        textCity.delegate = self
+        textVenue.delegate = self
+        textStage.delegate = self
+        textComments.delegate = self
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        setUIFields()
     }
     
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
+    // actions
+    //
     
+    @IBAction func pickStartChanged(sender: UIDatePicker) {
+        gig.startDate = sender.date
+        updateStartLabels()
+    }
+    
+    @IBAction func pickEndChanged(sender: UIDatePicker) {
+        gig.endDate = sender.date
+        updateEndLabels()
+    }
+    
+    @IBAction func cityChanged(sender: UITextField) {
+        gig.editCity = sender.text!
+    }
+    
+    @IBAction func venueChanged(sender: UITextField) {
+        gig.editVenue = sender.text!
+    }
+    
+    @IBAction func stageChanged(sender: UITextField) {
+        gig.stage = sender.text!
+    }
+    
+    @IBAction func commensChanged(sender: UITextField) {
+        gig.comments = sender.text!
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
+    // UITextFieldDelegate
+    //
+    
+    func textFieldDidEndEditing(textField: UITextField) {
+        
+        if textField == textCountry {
+            gig.editCountry = textField.text!
+        } else if textField == textCity {
+            gig.editCity = textField.text!
+        } else if textField == textVenue {
+            gig.editVenue = textField.text!
+        } else if textField == textStage {
+            gig.stage = textField.text!
+        } else if textField == textComments {
+            gig.comments = textField.text!
+        }
+    }
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
@@ -98,6 +179,34 @@ class GigDetailsDataController : UITableViewController {
             tableView.endUpdates()
         }
     }
+   
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
+    // helper functions
+    //
     
+    private func setUIFields() {
+        pickStart.date = gig.startDate
+        updateStartLabels()
+        
+        pickEnd.date = gig.endDate
+        updateEndLabels()
+        
+        textCountry.text = gig.editCountry
+        textCity.text    = gig.editCity
+        textVenue.text   = gig.editVenue
+        textStage.text   = gig.stage
+        
+        switchSupportAct.on = gig.supportAct
+    }
     
+    private func updateStartLabels() {
+        labelStartDate.text = dateFormatter.stringFromDate(gig.startDate)
+        labelStartTime.text = timeFormatter.stringFromDate(gig.startDate)
+    }
+    
+    private func updateEndLabels() {
+        labelEndDate.text = dateFormatter.stringFromDate(gig.endDate)
+        labelEndTime.text = timeFormatter.stringFromDate(gig.endDate)
+    }
 }

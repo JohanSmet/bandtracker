@@ -9,6 +9,13 @@
 import Foundation
 import UIKit
 
-class GigDetailsSetlistController : UIViewController {
+class GigDetailsSetlistController : UIViewController ,
+                                    GigDetailsSubView {
     
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
+    // variables
+    //
+    
+    var gig : Gig!
 }
