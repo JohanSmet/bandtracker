@@ -94,6 +94,42 @@ class BandTrackerClient : WebApiClient {
         }
     }
     
+    func countrySync(syncId : Int, completionHandler : (syncId : Int, countries : [ServerCountry]?, error : String?) -> Void) {
+        
+        // make sure to login first
+        guard let token = apiToken else {
+            return login() { self.countrySync(syncId, completionHandler: completionHandler) }
+        }
+        
+        // configure request
+        let parameters : [String : AnyObject] = [
+            "syncId": syncId
+        ]
+        
+        let extraHeaders : [String : String] = [
+            "x-access-token" : token
+        ]
+        
+        // execute request
+        startTaskGET(BandTrackerClient.BASE_URL, method: "country/sync", parameters : parameters, extraHeaders: extraHeaders) { result, error in
+            if let basicError = error as? NSError {
+                completionHandler(syncId: 0, countries : nil, error: BandTrackerClient.formatBasicError(basicError))
+            } else if let httpError = error as? NSHTTPURLResponse {
+                completionHandler(syncId: 0, countries : nil, error: BandTrackerClient.formatHttpError(httpError))
+            } else {
+                let postResult = result as! NSDictionary
+                var countries :  [ServerCountry] = []
+                
+                for country in postResult.valueForKey("countries") as! [[String : AnyObject]] {
+                    countries.append(ServerCountry(values: country))
+                }
+                
+                completionHandler(syncId: postResult["sync"] as! Int, countries: countries, error: nil);
+                    
+            }
+        }
+    }
+    
     ///////////////////////////////////////////////////////////////////////////////////
     //
     // helper functions

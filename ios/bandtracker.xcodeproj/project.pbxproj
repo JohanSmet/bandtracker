@@ -10,6 +10,8 @@
 		040927591BC177EF00736855 /* GigDetailsDataContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040927581BC177EF00736855 /* GigDetailsDataContainer.swift */; settings = {ASSET_TAGS = (); }; };
 		0409603E1BBDB918001F2907 /* GigDetailsSetlistController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0409603D1BBDB918001F2907 /* GigDetailsSetlistController.swift */; settings = {ASSET_TAGS = (); }; };
 		04098D481BB6ED38008AEDF7 /* BandDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04098D471BB6ED38008AEDF7 /* BandDetailsController.swift */; settings = {ASSET_TAGS = (); }; };
+		040C12E01BC45214001BFE78 /* DataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040C12DF1BC45214001BFE78 /* DataLoader.swift */; settings = {ASSET_TAGS = (); }; };
+		040C12E21BC4594A001BFE78 /* ServerCountry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040C12E11BC4594A001BFE78 /* ServerCountry.swift */; settings = {ASSET_TAGS = (); }; };
 		040D68C51BB0A46F000068EA /* EventsSeenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040D68C41BB0A46F000068EA /* EventsSeenController.swift */; settings = {ASSET_TAGS = (); }; };
 		040E31131BBC7C9E00275449 /* Gigs.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 040E31121BBC7C9E00275449 /* Gigs.storyboard */; settings = {ASSET_TAGS = (); }; };
 		040E31151BBC843D00275449 /* GigDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040E31141BBC843D00275449 /* GigDetailsController.swift */; settings = {ASSET_TAGS = (); }; };
@@ -40,6 +42,8 @@
 		040927581BC177EF00736855 /* GigDetailsDataContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "\U0010GigDetailsDataContainer.swift"; sourceTree = "<group>"; };
 		0409603D1BBDB918001F2907 /* GigDetailsSetlistController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GigDetailsSetlistController.swift; sourceTree = "<group>"; };
 		04098D471BB6ED38008AEDF7 /* BandDetailsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BandDetailsController.swift; sourceTree = "<group>"; };
+		040C12DF1BC45214001BFE78 /* DataLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataLoader.swift; sourceTree = "<group>"; };
+		040C12E11BC4594A001BFE78 /* ServerCountry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerCountry.swift; sourceTree = "<group>"; };
 		040D68C41BB0A46F000068EA /* EventsSeenController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsSeenController.swift; sourceTree = "<group>"; };
 		040E31121BBC7C9E00275449 /* Gigs.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Gigs.storyboard; sourceTree = "<group>"; };
 		040E31141BBC843D00275449 /* GigDetailsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GigDetailsController.swift; sourceTree = "<group>"; };
@@ -79,6 +83,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		040C12DE1BC45157001BFE78 /* services */ = {
+			isa = PBXGroup;
+			children = (
+				040C12DF1BC45214001BFE78 /* DataLoader.swift */,
+			);
+			path = services;
+			sourceTree = "<group>";
+		};
 		040E31111BBC7C2500275449 /* storyboards */ = {
 			isa = PBXGroup;
 			children = (
@@ -121,11 +133,12 @@
 				041A12811BB5E41E005DDB8E /* DataContext.swift */,
 				041A12771BB5DEC2005DDB8E /* BandTracker.xcdatamodeld */,
 				041A127A1BB5DFDE005DDB8E /* Band.swift */,
-				04A5B4861BB33DD6002D7E4B /* ServerBand.swift */,
 				04B275921BBFF7AF00FAD5B6 /* Country.swift */,
 				04B275941BBFF88B00FAD5B6 /* Gig.swift */,
 				04B275961BBFF99600FAD5B6 /* City.swift */,
 				04B275981BBFFA3F00FAD5B6 /* Venue.swift */,
+				04A5B4861BB33DD6002D7E4B /* ServerBand.swift */,
+				040C12E11BC4594A001BFE78 /* ServerCountry.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -152,6 +165,7 @@
 				0410EE461BB1F92B006B1FAB /* clients */,
 				04F963321BAF48EE00ABCE80 /* controllers */,
 				04A5B4851BB33D88002D7E4B /* model */,
+				040C12DE1BC45157001BFE78 /* services */,
 				040E31111BBC7C2500275449 /* storyboards */,
 				041A127E1BB5E2CB005DDB8E /* view */,
 				04F963041BAF175200ABCE80 /* AppDelegate.swift */,
@@ -254,6 +268,7 @@
 				040D68C51BB0A46F000068EA /* EventsSeenController.swift in Sources */,
 				041A127D1BB5E0F4005DDB8E /* CoreDataStackManager.swift in Sources */,
 				0409603E1BBDB918001F2907 /* GigDetailsSetlistController.swift in Sources */,
+				040C12E21BC4594A001BFE78 /* ServerCountry.swift in Sources */,
 				040E31171BBC855700275449 /* GigDetailsDataController.swift in Sources */,
 				041A127B1BB5DFDE005DDB8E /* Band.swift in Sources */,
 				04B275931BBFF7AF00FAD5B6 /* Country.swift in Sources */,
@@ -269,6 +284,7 @@
 				041A12821BB5E41E005DDB8E /* DataContext.swift in Sources */,
 				04098D481BB6ED38008AEDF7 /* BandDetailsController.swift in Sources */,
 				0410EE451BB1F330006B1FAB /* BandSearchController.swift in Sources */,
+				040C12E01BC45214001BFE78 /* DataLoader.swift in Sources */,
 				041A12801BB5E308005DDB8E /* AlertPopups.swift in Sources */,
 				04B275951BBFF88B00FAD5B6 /* Gig.swift in Sources */,
 				04B275971BBFF99600FAD5B6 /* City.swift in Sources */,

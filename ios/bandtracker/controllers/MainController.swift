@@ -49,6 +49,10 @@ class MainController:   UITabBarController,
             return
         }
         
+        // sync data
+        DataLoader.loadCountries() { error in
+        }
+        
         // create search controller
         searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self

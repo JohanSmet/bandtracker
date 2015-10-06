@@ -48,6 +48,22 @@ class DataContext {
     // country
     //
     
+    func countryDictionary() -> [String : Country] {
+        
+        let fetchRequest = NSFetchRequest(entityName: "Country")
+        var results : [String : Country] = [:]
+        
+        do {
+            for country in try coreDataStackManager().managedObjectContext!.executeFetchRequest(fetchRequest) as! [Country] {
+                results[country.code] = country
+            }
+        } catch let error as NSError {
+            NSLog("Unresolved error \(error), \(error.userInfo)")
+        }
+            
+        return results
+    }
+    
     func countryByName(countryName : String) -> Country {
         
         // try to fetch an existing record
@@ -69,6 +85,11 @@ class DataContext {
         let country = Country(code: countryName, name: countryName, context: coreDataStackManager().managedObjectContext!)
         return country
     }
+    
+    ////////////////////////////////////////////////////////////////////////////////
+    //
+    // city
+    //
     
     func cityByName(cityName : String) -> City? {
         
@@ -94,6 +115,11 @@ class DataContext {
         // create a new record
         return City(name: cityName, longitude: 0, latitude: 0, context: coreDataStackManager().managedObjectContext!)
     }
+    
+    ////////////////////////////////////////////////////////////////////////////////
+    //
+    // venue
+    //
     
     func venueByName(venueName : String) -> Venue? {
         
