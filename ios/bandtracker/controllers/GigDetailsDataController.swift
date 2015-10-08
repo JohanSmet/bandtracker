@@ -18,10 +18,11 @@ class GigDetailsDataController : UITableViewController,
     // constants
     //
    
-    static let SECTION_START_DATE = 0
-    static let ROW_START_DATE = 1
-    static let SECTION_END_DATE = 0
-    static let ROW_END_DATE = 3
+    let SECTION_DATES = 0
+    let START_DATE = 0
+    let START_TIME = 1
+    let END_DATE   = 2
+    let END_TIME   = 3
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
@@ -29,25 +30,18 @@ class GigDetailsDataController : UITableViewController,
     //
     
     var gig : Gig!
-    var editingStartDate : Bool = false
-    var editingEndDate : Bool = false
-    var datePickerHeight : CGFloat = 0
     
-    var dateFormatter : NSDateFormatter!
-    var timeFormatter : NSDateFormatter!
+    var datePickerRows      : [Int]  = [1, 3, 5, 7]
+    var datePickerEditing   : [Bool] = [false, false, false, false]
+    var datePickerHeight    : CGFloat = 0
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
     // outlets
     //
     
-    @IBOutlet weak var labelStartDate: UILabel!
-    @IBOutlet weak var labelStartTime: UILabel!
-    @IBOutlet weak var pickStart: UIDatePicker!
-    
-    @IBOutlet weak var labelEndDate: UILabel!
-    @IBOutlet weak var labelEndTime: UILabel!
-    @IBOutlet weak var pickEnd: UIDatePicker!
+    @IBOutlet var datePickers : [UIDatePicker]!
+    @IBOutlet var dateLabels  : [UILabel]!
     
     @IBOutlet weak var textCountry: UITextField!
     @IBOutlet weak var textCity: UITextField!
@@ -67,23 +61,14 @@ class GigDetailsDataController : UITableViewController,
         super.viewDidLoad()
         
         // save the default height of a datepicker
-        datePickerHeight = pickStart.bounds.height
-        
-        // prepare formatters for date and time
-        dateFormatter = NSDateFormatter()
-        dateFormatter.dateStyle = .MediumStyle
-        dateFormatter.timeStyle = .NoStyle
-        
-        timeFormatter = NSDateFormatter()
-        timeFormatter.dateStyle = .NoStyle
-        timeFormatter.timeStyle = .MediumStyle
+        datePickerHeight = datePickers[0].bounds.height
         
         // set delegates
-        textCountry.delegate = self
-        textCity.delegate = self
-        textVenue.delegate = self
-        textStage.delegate = self
-        textComments.delegate = self
+        textCountry.delegate    = self
+        textCity.delegate       = self
+        textVenue.delegate      = self
+        textStage.delegate      = self
+        textComments.delegate   = self
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -97,29 +82,13 @@ class GigDetailsDataController : UITableViewController,
     //
     
     @IBAction func pickStartChanged(sender: UIDatePicker) {
-        gig.startDate = sender.date
+        gig.startDate = DateUtils.join(datePickers[START_DATE].date, time: datePickers[START_TIME].date)
         updateStartLabels()
     }
     
     @IBAction func pickEndChanged(sender: UIDatePicker) {
-        gig.endDate = sender.date
+        gig.endDate = DateUtils.join(datePickers[END_DATE].date, time: datePickers[END_TIME].date)
         updateEndLabels()
-    }
-    
-    @IBAction func cityChanged(sender: UITextField) {
-        gig.editCity = sender.text!
-    }
-    
-    @IBAction func venueChanged(sender: UITextField) {
-        gig.editVenue = sender.text!
-    }
-    
-    @IBAction func stageChanged(sender: UITextField) {
-        gig.stage = sender.text!
-    }
-    
-    @IBAction func commensChanged(sender: UITextField) {
-        gig.comments = sender.text!
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -149,10 +118,10 @@ class GigDetailsDataController : UITableViewController,
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
-        if indexPath.section == GigDetailsDataController.SECTION_START_DATE && indexPath.row == GigDetailsDataController.ROW_START_DATE {
-            return (self.editingStartDate) ? datePickerHeight : 0
-        } else if indexPath.section == GigDetailsDataController.SECTION_END_DATE && indexPath.row == GigDetailsDataController.ROW_END_DATE {
-            return (self.editingEndDate) ? datePickerHeight : 0
+        if indexPath.section == SECTION_DATES {
+            if let index = datePickerRows.indexOf(indexPath.row) {
+                return self.datePickerEditing[index] ? datePickerHeight : 0
+            }
         }
         
         return self.tableView.rowHeight
@@ -162,19 +131,16 @@ class GigDetailsDataController : UITableViewController,
         
         var doReload = false
         
-        if indexPath.section == GigDetailsDataController.SECTION_START_DATE && indexPath.row == GigDetailsDataController.ROW_START_DATE - 1 {
-            editingStartDate = !editingStartDate
-            editingEndDate = false
-            doReload = true
-        } else if indexPath.section == GigDetailsDataController.SECTION_END_DATE && indexPath.row == GigDetailsDataController.ROW_END_DATE - 1 {
-            editingStartDate = false
-            editingEndDate = !editingEndDate
-            doReload = true
+        if indexPath.section == SECTION_DATES {
+            
+            if let index = datePickerRows.indexOf(indexPath.row + 1) {
+                togglePicker(index)
+                tableView.deselectRowAtIndexPath(indexPath, animated: true)
+                doReload = true
+            }
         }
         
         if doReload {
-            pickStart.hidden = !editingStartDate
-            pickEnd.hidden = !editingEndDate
             tableView.beginUpdates()
             tableView.endUpdates()
         }
@@ -186,10 +152,12 @@ class GigDetailsDataController : UITableViewController,
     //
     
     private func setUIFields() {
-        pickStart.date = gig.startDate
+        datePickers[START_DATE].date = gig.startDate
+        datePickers[START_TIME].date = gig.startDate
         updateStartLabels()
         
-        pickEnd.date = gig.endDate
+        datePickers[END_DATE].date = gig.endDate
+        datePickers[END_TIME].date = gig.endDate
         updateEndLabels()
         
         textCountry.text = gig.editCountry
@@ -201,12 +169,23 @@ class GigDetailsDataController : UITableViewController,
     }
     
     private func updateStartLabels() {
-        labelStartDate.text = dateFormatter.stringFromDate(gig.startDate)
-        labelStartTime.text = timeFormatter.stringFromDate(gig.startDate)
+        dateLabels[START_DATE].text = DateUtils.toDateStringMedium(gig.startDate)
+        dateLabels[START_TIME].text = DateUtils.toTimeStringShort(gig.startDate)
     }
     
     private func updateEndLabels() {
-        labelEndDate.text = dateFormatter.stringFromDate(gig.endDate)
-        labelEndTime.text = timeFormatter.stringFromDate(gig.endDate)
+        dateLabels[END_DATE].text = DateUtils.toDateStringMedium(gig.endDate)
+        dateLabels[END_TIME].text = DateUtils.toTimeStringShort(gig.endDate)
+    }
+        
+    private func togglePicker(picker : Int) {
+        
+        for var idx = 0; idx < datePickerEditing.count; ++idx {
+            datePickerEditing[idx]  = (picker == idx) ? !datePickerEditing[idx] : false
+            
+            datePickers[idx].hidden     = !datePickerEditing[idx]
+            dateLabels[idx].textColor   = datePickerEditing[idx] ? UIColor.redColor() : UIColor.blackColor()
+        }
+        
     }
 }

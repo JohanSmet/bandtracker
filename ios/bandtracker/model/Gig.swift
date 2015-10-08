@@ -45,8 +45,8 @@ class Gig : NSManagedObject {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
         
         // properties
-        self.startDate  = NSDate()
-        self.endDate    = NSDate()
+        self.startDate  = DateUtils.currentTimeRoundMinutes(15)
+        self.endDate    = self.startDate
         self.band = band
     }
     
