@@ -23,6 +23,7 @@
 		041A12801BB5E308005DDB8E /* AlertPopups.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041A127F1BB5E308005DDB8E /* AlertPopups.swift */; settings = {ASSET_TAGS = (); }; };
 		041A12821BB5E41E005DDB8E /* DataContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041A12811BB5E41E005DDB8E /* DataContext.swift */; settings = {ASSET_TAGS = (); }; };
 		042805E41BAF4CCA0019120F /* BandsSeenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042805E31BAF4CCA0019120F /* BandsSeenController.swift */; settings = {ASSET_TAGS = (); }; };
+		0474A17A1BC70A4C0047070A /* ListSelectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0474A1791BC70A4C0047070A /* ListSelectionController.swift */; settings = {ASSET_TAGS = (); }; };
 		04A5B4811BB336CD002D7E4B /* WebApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A5B4801BB336CD002D7E4B /* WebApiClient.swift */; settings = {ASSET_TAGS = (); }; };
 		04A5B4841BB33A2F002D7E4B /* BandTrackerClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A5B4831BB33A2F002D7E4B /* BandTrackerClient.swift */; settings = {ASSET_TAGS = (); }; };
 		04A5B4871BB33DD6002D7E4B /* ServerBand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A5B4861BB33DD6002D7E4B /* ServerBand.swift */; settings = {ASSET_TAGS = (); }; };
@@ -56,6 +57,7 @@
 		041A127F1BB5E308005DDB8E /* AlertPopups.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertPopups.swift; sourceTree = "<group>"; };
 		041A12811BB5E41E005DDB8E /* DataContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataContext.swift; sourceTree = "<group>"; };
 		042805E31BAF4CCA0019120F /* BandsSeenController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BandsSeenController.swift; sourceTree = "<group>"; };
+		0474A1791BC70A4C0047070A /* ListSelectionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ListSelection\U0010Controller.swift"; sourceTree = "<group>"; };
 		04A5B4801BB336CD002D7E4B /* WebApiClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebApiClient.swift; sourceTree = "<group>"; };
 		04A5B4831BB33A2F002D7E4B /* BandTrackerClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BandTrackerClient.swift; sourceTree = "<group>"; };
 		04A5B4861BB33DD6002D7E4B /* ServerBand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerBand.swift; sourceTree = "<group>"; };
@@ -199,6 +201,7 @@
 				040E31161BBC855700275449 /* GigDetailsDataController.swift */,
 				0409603D1BBDB918001F2907 /* GigDetailsSetlistController.swift */,
 				04B275901BBFF04400FAD5B6 /* GigDetailsYoutubeController.swift */,
+				0474A1791BC70A4C0047070A /* ListSelectionController.swift */,
 			);
 			path = controllers;
 			sourceTree = "<group>";
@@ -295,6 +298,7 @@
 				04B275991BBFFA3F00FAD5B6 /* Venue.swift in Sources */,
 				041A12821BB5E41E005DDB8E /* DataContext.swift in Sources */,
 				04098D481BB6ED38008AEDF7 /* BandDetailsController.swift in Sources */,
+				0474A17A1BC70A4C0047070A /* ListSelectionController.swift in Sources */,
 				0410EE451BB1F330006B1FAB /* BandSearchController.swift in Sources */,
 				040C12E01BC45214001BFE78 /* DataLoader.swift in Sources */,
 				041A12801BB5E308005DDB8E /* AlertPopups.swift in Sources */,

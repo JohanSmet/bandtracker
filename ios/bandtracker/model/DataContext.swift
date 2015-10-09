@@ -86,6 +86,20 @@ class DataContext {
         return country
     }
     
+    func countryList(nameFilter : String) -> [Country] {
+        
+        let fetchRequest = NSFetchRequest(entityName: "Country")
+        fetchRequest.predicate       = NSPredicate(format: "name CONTAINS[cd] %@", nameFilter)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        
+        do {
+            return try coreDataStackManager().managedObjectContext!.executeFetchRequest(fetchRequest) as! [Country]
+        } catch let error as NSError {
+            NSLog("Unresolved error \(error), \(error.userInfo)")
+            return []
+        }
+    }
+    
     ////////////////////////////////////////////////////////////////////////////////
     //
     // city

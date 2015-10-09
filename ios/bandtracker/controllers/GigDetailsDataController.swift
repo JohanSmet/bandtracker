@@ -19,6 +19,10 @@ class GigDetailsDataController : UITableViewController,
     //
    
     let SECTION_DATES = 0
+    let SECTION_META  = 1
+    
+    let ROW_COUNTRY   = 0
+    
     let START_DATE = 0
     let START_TIME = 1
     let END_DATE   = 2
@@ -132,12 +136,29 @@ class GigDetailsDataController : UITableViewController,
         var doReload = false
         
         if indexPath.section == SECTION_DATES {
-            
             if let index = datePickerRows.indexOf(indexPath.row + 1) {
                 togglePicker(index)
                 tableView.deselectRowAtIndexPath(indexPath, animated: true)
                 doReload = true
             }
+        }
+        else if indexPath.section == SECTION_META && indexPath.row == ROW_COUNTRY {
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            
+            let countrySelect = ListSelectionController.create(withFilter: "Enter country", initialFilter: gig.editCountry, enableCustom: false,
+                filterCallback : { filterText in
+                    return dataContext().countryList(filterText)
+                },
+                displayCallback : { item in
+                    return (item as? Country)!.name
+                },
+                selectCallback : { custom, item in
+                    if let country = item as? Country {
+                        self.gig.editCountry = country.name
+                    }
+                }
+            )
+            navigationController?.pushViewController(countrySelect, animated: true)
         }
         
         if doReload {
