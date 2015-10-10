@@ -18,6 +18,8 @@ class GigDetailsDataContainer : UIViewController,
     //
     
     var gig : Gig!
+    var embeddedVc   : GigDetailsSubView!
+    var editable     : Bool = false
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
@@ -27,10 +29,23 @@ class GigDetailsDataContainer : UIViewController,
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
        
         if segue.identifier == "embedGigDetailsData" {
-            var embeddedVc = segue.destinationViewController as! GigDetailsSubView
+            embeddedVc = segue.destinationViewController as! GigDetailsSubView
             embeddedVc.gig = gig
+            embeddedVc.setEditableControls(editable)
         }
         
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
+    // GigDetailsSubView
+    //
+    
+    func setEditableControls(edit: Bool) {
+        if let vc = embeddedVc {
+            vc.setEditableControls(edit)
+        }
+        editable = edit
     }
 
 }

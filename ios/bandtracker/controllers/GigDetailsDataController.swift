@@ -41,6 +41,8 @@ class GigDetailsDataController : UITableViewController,
     var datePickerEditing   : [Bool] = [false, false, false, false]
     var datePickerHeight    : CGFloat = 0
     
+    var editable            : Bool = false
+    
     ///////////////////////////////////////////////////////////////////////////////////
     //
     // outlets
@@ -75,11 +77,30 @@ class GigDetailsDataController : UITableViewController,
         textVenue.delegate      = self
         textStage.delegate      = self
         textComments.delegate   = self
+        
+        switchSupportAct.enabled = editable
+        textStage.enabled = editable
+        textComments.enabled = editable
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         setUIFields()
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
+    // GigDetailsSubView
+    //
+    
+    func setEditableControls(edit: Bool) {
+        editable = edit
+        
+        if let _ = switchSupportAct {
+            switchSupportAct.enabled = editable
+            textStage.enabled = editable
+            textComments.enabled = editable
+        }
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -136,6 +157,11 @@ class GigDetailsDataController : UITableViewController,
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         var doReload = false
+        
+        if !editable {
+            tableView.deselectRowAtIndexPath(indexPath, animated: false)
+            return
+        }
         
         if indexPath.section == SECTION_DATES {
             if let index = datePickerRows.indexOf(indexPath.row + 1) {

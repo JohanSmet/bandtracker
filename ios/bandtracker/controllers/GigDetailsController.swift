@@ -17,6 +17,7 @@ enum GigDetailsControllerMode {
 
 protocol GigDetailsSubView {
     var gig : Gig! {get set}
+    func setEditableControls(edit : Bool)
 }
 
 class GigDetailsController :    UIPageViewController,
@@ -40,6 +41,7 @@ class GigDetailsController :    UIPageViewController,
     
     var mode    : GigDetailsControllerMode!
     var gig     : Gig!
+    var page    : GigDetailsSubView!
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
@@ -77,26 +79,15 @@ class GigDetailsController :    UIPageViewController,
         // init page controller
         self.dataSource = self
         
+        // initialize gig-record
+        gig.prepareForEdit()
+        
         // create the initial view
         let page = pageViewControllerForIndex(0)
         setViewControllers([page!], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
         
         // configure navigation controller
-        switch (self.mode!) {
-            case .Create :
-                let buttonSave = UIBarButtonItem(title: "Add", style: .Plain, target: self, action: "saveGig")
-                self.navigationItem.setRightBarButtonItems([buttonSave], animated: false)
-            
-            case .View :
-                let buttonEdit = UIBarButtonItem(title: "Edit", style: .Plain, target: self, action: "editGig")
-                self.navigationItem.setRightBarButtonItems([buttonEdit], animated: false)
-            
-            case .Edit :
-                let buttonSave = UIBarButtonItem(title: "Save", style: .Plain, target: self, action: "saveGig")
-                self.navigationItem.setRightBarButtonItems([buttonSave], animated: false)
-        }
-        
-        gig.prepareForEdit()
+        createNavigationButtons()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -118,11 +109,14 @@ class GigDetailsController :    UIPageViewController,
         if let gig = gig {
             gig.processEdit()
             coreDataStackManager().saveContext()
+            navigationController?.popViewControllerAnimated(true)
         }
     }
     
     func editGig() {
-        
+        mode = .Edit
+        createNavigationButtons()
+        page.setEditableControls(true)
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -170,11 +164,28 @@ class GigDetailsController :    UIPageViewController,
         }
         
         let vc = self.storyboard?.instantiateViewControllerWithIdentifier(pageIDs[index])
-        if var det = vc as? GigDetailsSubView {
-            det.gig = gig
-        }
-        return vc
         
+        page = vc as! GigDetailsSubView
+        page.gig = gig
+        page.setEditableControls(self.mode! != .View)
+        
+        return vc
+    }
+    
+    func createNavigationButtons() {
+        switch (self.mode!) {
+            case .Create :
+                let buttonSave = UIBarButtonItem(title: "Add", style: .Plain, target: self, action: "saveGig")
+                self.navigationItem.setRightBarButtonItems([buttonSave], animated: false)
+                
+            case .View :
+                let buttonEdit = UIBarButtonItem(title: "Edit", style: .Plain, target: self, action: "editGig")
+                self.navigationItem.setRightBarButtonItems([buttonEdit], animated: false)
+                
+            case .Edit :
+                let buttonSave = UIBarButtonItem(title: "Save", style: .Plain, target: self, action: "saveGig")
+                self.navigationItem.setRightBarButtonItems([buttonSave], animated: false)
+        }
     }
     
 }

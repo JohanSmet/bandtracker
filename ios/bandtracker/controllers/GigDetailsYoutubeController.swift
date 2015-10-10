@@ -18,4 +18,12 @@ class GigDetailsYoutubeController : UIViewController,
     //
     
     var gig : Gig!
+    
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
+    // GigDetailsSubView
+    //
+    
+    func setEditableControls(edit: Bool) {
+    }
 }
