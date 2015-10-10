@@ -22,6 +22,7 @@ class GigDetailsDataController : UITableViewController,
     let SECTION_META  = 1
     
     let ROW_COUNTRY   = 0
+    let ROW_CITY      = 1
     
     let START_DATE = 0
     let START_TIME = 1
@@ -159,6 +160,26 @@ class GigDetailsDataController : UITableViewController,
                 }
             )
             navigationController?.pushViewController(countrySelect, animated: true)
+        } else if indexPath.section == SECTION_META && indexPath.row == ROW_CITY {
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            
+            let citySelect = ListSelectionController.create(withFilter: "Enter city", initialFilter: gig.editCity, enableCustom: true,
+                filterCallback: { filterText in
+                    return dataContext().cityList(filterText)
+                },
+                displayCallback: { item in
+                    return (item as? City)!.name
+                },
+                selectCallback: { custom, item in
+                    if let city = item as? City {
+                        self.gig.editCity = city.name
+                    } else if custom {
+                        self.gig.editCity = item as! String
+                    }
+                }
+            )
+            
+            navigationController?.pushViewController(citySelect, animated: true)
         }
         
         if doReload {

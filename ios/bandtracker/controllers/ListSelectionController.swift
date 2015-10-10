@@ -30,7 +30,6 @@ class ListSelectionController : UIViewController,
     private var filterPlaceholder : String = ""
     private var filterInitial     : String = ""
     private var selectionData   : [AnyObject] = []
-    private var customEntryCell : UITableViewCell!
     
     private var filterCallback  : FilterCallbackType!
     private var displayCallback : DisplayCallbackType!
@@ -114,12 +113,19 @@ class ListSelectionController : UIViewController,
         
         if enableCustom && indexPath.section == 0 {
             cell.textLabel?.text = filterText.text
-            customEntryCell = cell
         } else {
             cell.textLabel?.text = displayCallback(item: selectionData[indexPath.row])
         }
         
         return cell
+    }
+    
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if enableCustom && section == 1 && selectionData.count > 0 {
+            return "Matches"
+        }
+        
+        return nil
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -147,20 +153,21 @@ class ListSelectionController : UIViewController,
         
         var newText : NSString = textField.text! as NSString
         newText = newText.stringByReplacingCharactersInRange(range, withString: string)
+        textField.text = newText as String
         
-        // update custom field ?
-        if enableCustom && customEntryCell != nil {
-            customEntryCell.textLabel!.text = newText as String
-        }
+        var doReload : Bool = enableCustom
         
         // update selection list
         if let callback = filterCallback {
             selectionData = callback(filterText: newText as String)
+            doReload = true
+        }
+        
+        if doReload {
             tableView.reloadData()
         }
         
-        return true
-        
+        return false
     }
     
     

@@ -130,6 +130,19 @@ class DataContext {
         return City(name: cityName, longitude: 0, latitude: 0, context: coreDataStackManager().managedObjectContext!)
     }
     
+    func cityList(nameFilter : String) -> [City] {
+        let fetchRequest        = NSFetchRequest(entityName: "City")
+        fetchRequest.predicate  = NSPredicate(format: "name CONTAINS[cd] %@", nameFilter)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        
+        do {
+            return try coreDataStackManager().managedObjectContext!.executeFetchRequest(fetchRequest) as! [City]
+        } catch let error as NSError {
+            NSLog("Unresolved error \(error), \(error.userInfo)")
+            return []
+        }
+    }
+    
     ////////////////////////////////////////////////////////////////////////////////
     //
     // venue
