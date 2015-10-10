@@ -23,6 +23,7 @@ class GigDetailsDataController : UITableViewController,
     
     let ROW_COUNTRY   = 0
     let ROW_CITY      = 1
+    let ROW_VENUE     = 2
     
     let START_DATE = 0
     let START_TIME = 1
@@ -180,6 +181,26 @@ class GigDetailsDataController : UITableViewController,
             )
             
             navigationController?.pushViewController(citySelect, animated: true)
+        } else if indexPath.section == SECTION_META && indexPath.row == ROW_VENUE {
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            
+            let venueSelect = ListSelectionController.create(withFilter: "Enter venue", initialFilter: gig.editVenue, enableCustom: true,
+                filterCallback: { filterText in
+                    return dataContext().venueList(filterText)
+                },
+                displayCallback: { item in
+                    return (item as? Venue)!.name
+                },
+                selectCallback: { custom, item in
+                    if let venue = item as? Venue {
+                        self.gig.editVenue = venue.name
+                    } else if custom {
+                        self.gig.editVenue = item as! String
+                    }
+                }
+            )
+            
+            navigationController?.pushViewController(venueSelect, animated: true)
         }
         
         if doReload {
