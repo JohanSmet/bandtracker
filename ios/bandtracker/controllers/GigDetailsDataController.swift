@@ -11,6 +11,7 @@ import UIKit
 
 class GigDetailsDataController : UITableViewController,
                                  UITextFieldDelegate,
+                                 RatingControlDelegate,
                                  GigDetailsSubView {
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -57,6 +58,7 @@ class GigDetailsDataController : UITableViewController,
     @IBOutlet weak var textStage: UITextField!
     
     @IBOutlet weak var switchSupportAct: UISwitch!
+    @IBOutlet weak var ratingControl: RatingControl!
     
     @IBOutlet weak var textComments: UITextField!
     
@@ -77,10 +79,9 @@ class GigDetailsDataController : UITableViewController,
         textVenue.delegate      = self
         textStage.delegate      = self
         textComments.delegate   = self
+        ratingControl.delegate  = self
         
-        switchSupportAct.enabled = editable
-        textStage.enabled = editable
-        textComments.enabled = editable
+        setEditableControls(editable)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -97,9 +98,10 @@ class GigDetailsDataController : UITableViewController,
         editable = edit
         
         if let _ = switchSupportAct {
-            switchSupportAct.enabled = editable
-            textStage.enabled = editable
-            textComments.enabled = editable
+            switchSupportAct.enabled    = editable
+            textStage.enabled           = editable
+            textComments.enabled        = editable
+            ratingControl.enabled       = editable
         }
     }
     
@@ -136,6 +138,15 @@ class GigDetailsDataController : UITableViewController,
         } else if textField == textComments {
             gig.comments = textField.text!
         }
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
+    // RatingControlDelegate
+    //
+    
+    func ratingDidChange(ratingControl: RatingControl, newRating: Float, oldRating: Float) {
+        gig.rating = newRating
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -253,6 +264,8 @@ class GigDetailsDataController : UITableViewController,
         textCity.text    = gig.editCity
         textVenue.text   = gig.editVenue
         textStage.text   = gig.stage
+        
+        ratingControl.rating = gig.rating.floatValue
         
         switchSupportAct.on = gig.supportAct
     }

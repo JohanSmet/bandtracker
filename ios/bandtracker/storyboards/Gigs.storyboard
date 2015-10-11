@@ -384,8 +384,32 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RMA-H4-SoG" customClass="RatingControl" customModule="bandtracker" customModuleProvider="target">
+                                                    <rect key="frame" x="424" y="8" width="160" height="27"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="27" id="LXs-uv-yqd"/>
+                                                        <constraint firstAttribute="width" constant="160" id="m0M-Yl-uWe"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="numberOfStars">
+                                                            <integer key="value" value="5"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="gapBetweenStars">
+                                                            <real key="value" value="3"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="rating">
+                                                            <real key="value" value="3"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="fillColor">
+                                                            <color key="value" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                </view>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstAttribute="trailingMargin" secondItem="RMA-H4-SoG" secondAttribute="trailing" constant="8" id="7tt-tT-Lpb"/>
+                                                <constraint firstItem="RMA-H4-SoG" firstAttribute="centerY" secondItem="VOp-Jh-6nk" secondAttribute="centerY" id="EM0-ke-Y3s"/>
                                                 <constraint firstItem="YaS-I9-b1b" firstAttribute="centerY" secondItem="VOp-Jh-6nk" secondAttribute="centerY" id="MWB-Dl-jWy"/>
                                                 <constraint firstAttribute="leadingMargin" secondItem="YaS-I9-b1b" secondAttribute="leading" constant="-8" id="bvr-H7-9KQ"/>
                                             </constraints>
@@ -422,6 +446,7 @@
                     </tableView>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <connections>
+                        <outlet property="ratingControl" destination="RMA-H4-SoG" id="jqP-1b-OgH"/>
                         <outlet property="switchSupportAct" destination="Cub-F4-Exl" id="ofl-fF-DOs"/>
                         <outlet property="textCity" destination="PmU-1O-7K6" id="8ou-5j-2Mb"/>
                         <outlet property="textComments" destination="x8N-aI-W7q" id="EDS-2g-9Hb"/>
