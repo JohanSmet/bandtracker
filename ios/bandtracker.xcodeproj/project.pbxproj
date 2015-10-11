@@ -10,6 +10,7 @@
 		040927591BC177EF00736855 /* GigDetailsDataContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040927581BC177EF00736855 /* GigDetailsDataContainer.swift */; settings = {ASSET_TAGS = (); }; };
 		0409603E1BBDB918001F2907 /* GigDetailsSetlistController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0409603D1BBDB918001F2907 /* GigDetailsSetlistController.swift */; settings = {ASSET_TAGS = (); }; };
 		04098D481BB6ED38008AEDF7 /* BandDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04098D471BB6ED38008AEDF7 /* BandDetailsController.swift */; settings = {ASSET_TAGS = (); }; };
+		040B80FA1BCA81F200545877 /* RatingControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040B80F91BCA81F200545877 /* RatingControl.swift */; settings = {ASSET_TAGS = (); }; };
 		040C12E01BC45214001BFE78 /* DataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040C12DF1BC45214001BFE78 /* DataLoader.swift */; settings = {ASSET_TAGS = (); }; };
 		040C12E21BC4594A001BFE78 /* ServerCountry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040C12E11BC4594A001BFE78 /* ServerCountry.swift */; settings = {ASSET_TAGS = (); }; };
 		040D68C51BB0A46F000068EA /* EventsSeenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040D68C41BB0A46F000068EA /* EventsSeenController.swift */; settings = {ASSET_TAGS = (); }; };
@@ -44,6 +45,7 @@
 		040927581BC177EF00736855 /* GigDetailsDataContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "\U0010GigDetailsDataContainer.swift"; sourceTree = "<group>"; };
 		0409603D1BBDB918001F2907 /* GigDetailsSetlistController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GigDetailsSetlistController.swift; sourceTree = "<group>"; };
 		04098D471BB6ED38008AEDF7 /* BandDetailsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BandDetailsController.swift; sourceTree = "<group>"; };
+		040B80F91BCA81F200545877 /* RatingControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingControl.swift; sourceTree = "<group>"; };
 		040C12DF1BC45214001BFE78 /* DataLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataLoader.swift; sourceTree = "<group>"; };
 		040C12E11BC4594A001BFE78 /* ServerCountry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerCountry.swift; sourceTree = "<group>"; };
 		040D68C41BB0A46F000068EA /* EventsSeenController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsSeenController.swift; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 			isa = PBXGroup;
 			children = (
 				041A127F1BB5E308005DDB8E /* AlertPopups.swift */,
+				040B80F91BCA81F200545877 /* RatingControl.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -277,6 +280,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				040B80FA1BCA81F200545877 /* RatingControl.swift in Sources */,
 				042805E41BAF4CCA0019120F /* BandsSeenController.swift in Sources */,
 				040E31151BBC843D00275449 /* GigDetailsController.swift in Sources */,
 				040D68C51BB0A46F000068EA /* EventsSeenController.swift in Sources */,
