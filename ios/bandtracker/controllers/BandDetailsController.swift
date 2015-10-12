@@ -69,7 +69,11 @@ class BandDetailsController :   UIViewController,
     override func viewWillAppear(animated: Bool) {
         pageTitle.title = band.name
         biography.text  = band.biography
-        loadBandImageAsync()
+        
+        UrlFetcher.loadImageFromUrl(band.imageUrl) { image in
+            self.bandImage.image = image
+        }
+
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -149,22 +153,5 @@ class BandDetailsController :   UIViewController,
     
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
         tableGigs.endUpdates()
-    }
-    
-    ///////////////////////////////////////////////////////////////////////////////////
-    //
-    // helper functions
-    //
-    
-    private func loadBandImageAsync() {
-       
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            guard let url  = NSURL(string: self.band.imageUrl) else { return }
-            let data = NSData(contentsOfURL: url)
-            
-            dispatch_async(dispatch_get_main_queue()) {
-                self.bandImage.image = UIImage(data: data!)
-            }
-        }
     }
 }
