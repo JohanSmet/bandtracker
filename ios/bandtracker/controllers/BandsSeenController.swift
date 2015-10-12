@@ -64,15 +64,22 @@ class BandsSeenController:  UITableViewController,
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("SeenBandCell", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier("SeenBandCell", forIndexPath: indexPath) as! SeenBandTableViewCell
         configureCell(cell, indexPath: indexPath)
         return cell
     }
     
-    private func configureCell(cell : UITableViewCell, indexPath : NSIndexPath) {
+    private func configureCell(cell : SeenBandTableViewCell, indexPath : NSIndexPath) {
         
         let band = fetchedResultsController.objectAtIndexPath(indexPath) as! Band
-        cell.textLabel?.text = band.name
+        
+        cell.bandName.text          = band.name
+        cell.numberOfGigs.text      = "(\(band.gigs.count) gigs)"
+        cell.ratingControl.rating   = band.totalRating.floatValue / (Float(band.gigs.count) * 10)
+        
+        UrlFetcher.loadImageFromUrl(band.imageUrl) { image in
+            cell.bandImage.image = image
+        }
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -111,7 +118,7 @@ class BandsSeenController:  UITableViewController,
             case .Delete :
                 tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
             case .Update :
-                configureCell(tableView.cellForRowAtIndexPath(indexPath!)!, indexPath: indexPath!)
+                configureCell(tableView.cellForRowAtIndexPath(indexPath!) as! SeenBandTableViewCell, indexPath: indexPath!)
             case .Move :
                 tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
                 tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)

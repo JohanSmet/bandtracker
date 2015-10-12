@@ -182,13 +182,74 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SeenBandCell" id="gXV-vl-m7K">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="SeenBandCell" id="gXV-vl-m7K" customClass="SeenBandTableViewCell" customModule="bandtracker" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="92" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gXV-vl-m7K" id="Sz0-OM-GKK">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="567" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dRO-QA-EiQ">
+                                            <rect key="frame" x="8" y="-1" width="60" height="45"/>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bzw-xb-MbK">
+                                            <rect key="frame" x="76" y="4" width="47" height="23"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Y3-Lz-ssx">
+                                            <rect key="frame" x="76" y="27" width="29" height="14"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fbj-gb-XT9" customClass="RatingControl" customModule="bandtracker" customModuleProvider="target">
+                                            <rect key="frame" x="409" y="0.0" width="150" height="44"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="strokeColor">
+                                                    <color key="value" red="0.0" green="0.0" blue="0.38937069949999997" alpha="1" colorSpace="calibratedRGB"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="numberOfStars">
+                                                    <integer key="value" value="5"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="gapBetweenStars">
+                                                    <real key="value" value="3"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="fillColor">
+                                                    <color key="value" red="0.0" green="0.00015125612389999999" blue="0.49410116790000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="rating">
+                                                    <real key="value" value="3"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="enabled" value="NO"/>
+                                            </userDefinedRuntimeAttributes>
+                                        </view>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="bottomMargin" secondItem="4Y3-Lz-ssx" secondAttribute="bottom" constant="-6" id="Bjo-eI-KaG"/>
+                                        <constraint firstItem="dRO-QA-EiQ" firstAttribute="centerY" secondItem="Sz0-OM-GKK" secondAttribute="centerY" id="Cc8-G7-WYj"/>
+                                        <constraint firstItem="4Y3-Lz-ssx" firstAttribute="leading" secondItem="dRO-QA-EiQ" secondAttribute="trailing" constant="8" id="HsW-yn-kG9"/>
+                                        <constraint firstItem="bzw-xb-MbK" firstAttribute="top" secondItem="Sz0-OM-GKK" secondAttribute="topMargin" constant="-4" id="JoS-DQ-BLZ"/>
+                                        <constraint firstItem="fbj-gb-XT9" firstAttribute="top" secondItem="Sz0-OM-GKK" secondAttribute="topMargin" constant="-8" id="NYJ-wv-G4O"/>
+                                        <constraint firstItem="bzw-xb-MbK" firstAttribute="leading" secondItem="dRO-QA-EiQ" secondAttribute="trailing" constant="8" id="ZR7-VO-Kce"/>
+                                        <constraint firstItem="fbj-gb-XT9" firstAttribute="trailing" secondItem="Sz0-OM-GKK" secondAttribute="trailingMargin" id="grO-AI-FmP"/>
+                                        <constraint firstAttribute="leadingMargin" secondItem="dRO-QA-EiQ" secondAttribute="leading" id="ycO-RD-SH8"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <constraints>
+                                    <constraint firstItem="fbj-gb-XT9" firstAttribute="height" secondItem="gXV-vl-m7K" secondAttribute="height" id="KuJ-Sa-yHg"/>
+                                    <constraint firstItem="dRO-QA-EiQ" firstAttribute="width" secondItem="gXV-vl-m7K" secondAttribute="width" multiplier="0.1" id="M2Y-1c-8xI"/>
+                                    <constraint firstItem="dRO-QA-EiQ" firstAttribute="height" secondItem="gXV-vl-m7K" secondAttribute="height" id="ckd-55-f87"/>
+                                    <constraint firstItem="fbj-gb-XT9" firstAttribute="width" secondItem="gXV-vl-m7K" secondAttribute="width" multiplier="0.25" id="iWD-fr-ewz"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="bandImage" destination="dRO-QA-EiQ" id="cn3-dM-bnb"/>
+                                    <outlet property="bandName" destination="bzw-xb-MbK" id="NDs-gl-wWX"/>
+                                    <outlet property="numberOfGigs" destination="4Y3-Lz-ssx" id="tKl-Bi-PcC"/>
+                                    <outlet property="ratingControl" destination="fbj-gb-XT9" id="dBM-rc-f3H"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>

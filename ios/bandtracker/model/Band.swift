@@ -20,6 +20,8 @@ class Band : NSManagedObject {
     @NSManaged var numGigs      : NSNumber
     @NSManaged var totalRating  : NSNumber
     
+    @NSManaged var gigs         : [Gig]
+    
     ////////////////////////////////////////////////////////////////////////////////
     //
     // initialisers

@@ -43,6 +43,30 @@ class DataContext {
         return Gig(band: band, context: coreDataStackManager().managedObjectContext!)
     }
     
+    func totalRatingOfGigs(band : Band) -> Int {
+        
+        let sumExpDesc = NSExpressionDescription()
+        sumExpDesc.name = "sumRating"
+        sumExpDesc.expression = NSExpression(forFunction: "sum:", arguments: [NSExpression(forKeyPath: "rating")])
+        sumExpDesc.expressionResultType = .Integer32AttributeType
+        
+        let fetchRequest = NSFetchRequest(entityName: "Gig")
+        fetchRequest.predicate      = NSPredicate(format: "band.bandMBID == %@", band.bandMBID)
+        fetchRequest.resultType     = .DictionaryResultType
+        fetchRequest.propertiesToFetch = [sumExpDesc]
+        
+        do {
+            if let results = try coreDataStackManager().managedObjectContext?.executeFetchRequest(fetchRequest) {
+                let dict = results[0] as! [String : Int]
+                return dict["sumRating"]!
+            }
+        } catch let error as NSError {
+            NSLog("Unresolved error \(error), \(error.userInfo)")
+        }
+        
+        return 0
+    }
+    
     ////////////////////////////////////////////////////////////////////////////////
     //
     // country

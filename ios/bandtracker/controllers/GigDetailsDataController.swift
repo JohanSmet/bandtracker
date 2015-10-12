@@ -146,7 +146,7 @@ class GigDetailsDataController : UITableViewController,
     //
     
     func ratingDidChange(ratingControl: RatingControl, newRating: Float, oldRating: Float) {
-        gig.rating = newRating
+        gig.rating = Int(newRating * 10)
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -265,7 +265,7 @@ class GigDetailsDataController : UITableViewController,
         textVenue.text   = gig.editVenue
         textStage.text   = gig.stage
         
-        ratingControl.rating = gig.rating.floatValue
+        ratingControl.rating = gig.rating.floatValue / 10
         
         switchSupportAct.on = gig.supportAct
     }

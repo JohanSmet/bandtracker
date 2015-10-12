@@ -109,6 +109,10 @@ class GigDetailsController :    UIPageViewController,
         if let gig = gig {
             gig.processEdit()
             coreDataStackManager().saveContext()
+            
+            gig.band.totalRating = dataContext().totalRatingOfGigs(gig.band)
+            coreDataStackManager().saveContext()
+            
             navigationController?.popViewControllerAnimated(true)
         }
     }
