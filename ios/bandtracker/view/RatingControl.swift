@@ -35,7 +35,7 @@ class RatingControl : UIView {
     override func drawRect(rect: CGRect) {
         
         // determine the size of the stars
-        let availableWidth = rect.width - (gapBetweenStars * CGFloat(numberOfStars - 1))
+        let availableWidth = rect.width - (gapBetweenStars * CGFloat(numberOfStars - 1)) - 4.5
         starSize = min(rect.height - 1, availableWidth / CGFloat(numberOfStars))
         let outerRadius = starSize / 2
         let innerRadius = starSize / 5
