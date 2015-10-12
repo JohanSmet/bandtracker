@@ -13,16 +13,16 @@ class UrlFetcher {
    
     static func loadImageFromUrl(urlString : String, completionHandlerUI : (image : UIImage?) -> Void) {
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            guard let url  = NSURL(string: urlString) else { return }
-            let data = NSData(contentsOfURL: url)
-            
-            dispatch_async(dispatch_get_main_queue()) {
-                completionHandlerUI(image: UIImage(data: data!))
+        guard let url  = NSURL(string: urlString) else { return }
+        
+        let task = NSURLSession.sharedSession().dataTaskWithRequest(NSURLRequest(URL: url)) { data, response, urlError in
+            if let data = data {
+                dispatch_async(dispatch_get_main_queue()) {
+                    completionHandlerUI(image: UIImage(data: data))
+                }
             }
         }
+        
+        task.resume()
     }
-    
-    
-    
 }
