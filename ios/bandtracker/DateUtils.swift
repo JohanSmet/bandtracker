@@ -55,5 +55,13 @@ class DateUtils {
         return dateFormatter.stringFromDate(date)
     }
     
+    static func format(date : NSDate, format : String) -> String {
+        
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = format
+       
+        return dateFormatter.stringFromDate(date)
+    }
+    
 }
 
