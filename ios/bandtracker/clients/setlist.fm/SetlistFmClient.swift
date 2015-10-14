@@ -38,7 +38,6 @@ class SetlistFmClient : WebApiClient {
     //
     
     func searchSetlist(gig : Gig, completionHandler : (setList : [SetPart]?, setListUrl : String?, error : String?) -> Void) {
-       // http://api.setlist.fm/rest/0.1/search/setlists?artistMbid=ca891d65-d9b0-4258-89f7-e6ba29d83767&date=10-09-1999
         
         // configure request
         let parameters : [String : AnyObject] = [

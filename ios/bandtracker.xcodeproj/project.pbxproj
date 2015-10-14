@@ -21,6 +21,8 @@
 		040E31171BBC855700275449 /* GigDetailsDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040E31161BBC855700275449 /* GigDetailsDataController.swift */; settings = {ASSET_TAGS = (); }; };
 		040F32421BCC5033006E46E1 /* SetlistFmClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040F32411BCC5033006E46E1 /* SetlistFmClient.swift */; settings = {ASSET_TAGS = (); }; };
 		0410EE451BB1F330006B1FAB /* BandSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0410EE441BB1F330006B1FAB /* BandSearchController.swift */; settings = {ASSET_TAGS = (); }; };
+		041506D01BCEBBC000627433 /* YoutubeDataClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041506CF1BCEBBC000627433 /* YoutubeDataClient.swift */; settings = {ASSET_TAGS = (); }; };
+		041506D21BCEF47D00627433 /* YoutubeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041506D11BCEF47D00627433 /* YoutubeTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 		041A12791BB5DEC2005DDB8E /* BandTracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 041A12771BB5DEC2005DDB8E /* BandTracker.xcdatamodeld */; settings = {ASSET_TAGS = (); }; };
 		041A127B1BB5DFDE005DDB8E /* Band.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041A127A1BB5DFDE005DDB8E /* Band.swift */; settings = {ASSET_TAGS = (); }; };
 		041A127D1BB5E0F4005DDB8E /* CoreDataStackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041A127C1BB5E0F4005DDB8E /* CoreDataStackManager.swift */; settings = {ASSET_TAGS = (); }; };
@@ -59,6 +61,8 @@
 		040E31161BBC855700275449 /* GigDetailsDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GigDetailsDataController.swift; sourceTree = "<group>"; };
 		040F32411BCC5033006E46E1 /* SetlistFmClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetlistFmClient.swift; sourceTree = "<group>"; };
 		0410EE441BB1F330006B1FAB /* BandSearchController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BandSearchController.swift; sourceTree = "<group>"; };
+		041506CF1BCEBBC000627433 /* YoutubeDataClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YoutubeDataClient.swift; sourceTree = "<group>"; };
+		041506D11BCEF47D00627433 /* YoutubeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YoutubeTableViewCell.swift; sourceTree = "<group>"; };
 		041A12781BB5DEC2005DDB8E /* BandTracker.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BandTracker.xcdatamodel; sourceTree = "<group>"; };
 		041A127A1BB5DFDE005DDB8E /* Band.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Band.swift; sourceTree = "<group>"; };
 		041A127C1BB5E0F4005DDB8E /* CoreDataStackManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStackManager.swift; sourceTree = "<group>"; };
@@ -126,10 +130,19 @@
 			children = (
 				04A5B4821BB339DF002D7E4B /* bandtracker */,
 				040F32401BCC5007006E46E1 /* setlist.fm */,
+				041506CE1BCEBB7400627433 /* youtube */,
 				04A5B4801BB336CD002D7E4B /* WebApiClient.swift */,
 				040B3AF81BCAFAF80017D7A0 /* UrlFetcher.swift */,
 			);
 			path = clients;
+			sourceTree = "<group>";
+		};
+		041506CE1BCEBB7400627433 /* youtube */ = {
+			isa = PBXGroup;
+			children = (
+				041506CF1BCEBBC000627433 /* YoutubeDataClient.swift */,
+			);
+			path = youtube;
 			sourceTree = "<group>";
 		};
 		041A127E1BB5E2CB005DDB8E /* view */ = {
@@ -138,6 +151,7 @@
 				041A127F1BB5E308005DDB8E /* AlertPopups.swift */,
 				040B80F91BCA81F200545877 /* RatingControl.swift */,
 				040B3AF61BCAF3690017D7A0 /* SeenBandTableViewCell.swift */,
+				041506D11BCEF47D00627433 /* YoutubeTableViewCell.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -315,12 +329,14 @@
 				04F963361BAF4B5D00ABCE80 /* MainController.swift in Sources */,
 				041A12791BB5DEC2005DDB8E /* BandTracker.xcdatamodeld in Sources */,
 				04B275911BBFF04400FAD5B6 /* GigDetailsYoutubeController.swift in Sources */,
+				041506D21BCEF47D00627433 /* YoutubeTableViewCell.swift in Sources */,
 				04A5B4841BB33A2F002D7E4B /* BandTrackerClient.swift in Sources */,
 				04F963051BAF175200ABCE80 /* AppDelegate.swift in Sources */,
 				04A5B4811BB336CD002D7E4B /* WebApiClient.swift in Sources */,
 				04B275991BBFFA3F00FAD5B6 /* Venue.swift in Sources */,
 				041A12821BB5E41E005DDB8E /* DataContext.swift in Sources */,
 				040F32421BCC5033006E46E1 /* SetlistFmClient.swift in Sources */,
+				041506D01BCEBBC000627433 /* YoutubeDataClient.swift in Sources */,
 				04098D481BB6ED38008AEDF7 /* BandDetailsController.swift in Sources */,
 				0474A17A1BC70A4C0047070A /* ListSelectionController.swift in Sources */,
 				0410EE451BB1F330006B1FAB /* BandSearchController.swift in Sources */,
