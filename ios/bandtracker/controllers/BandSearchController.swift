@@ -44,6 +44,13 @@ class BandSearchController: UITableViewController,
         navigationItem.titleView = searchController.searchBar
     }
     
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        // dismiss the search controller (to prevent "already presenting" errors next time)
+        searchController.active = false
+    }
+    
     ///////////////////////////////////////////////////////////////////////////////////
     //
     // UISearchResultsUpdating
@@ -56,8 +63,10 @@ class BandSearchController: UITableViewController,
             } else {
                 self.bandList.removeAll()
             }
-            
-            self.tableBands.reloadData()
+           
+            dispatch_sync(dispatch_get_main_queue()) {
+                self.tableBands.reloadData()
+            }
         }
     }
     
@@ -92,7 +101,7 @@ class BandSearchController: UITableViewController,
         dataContext().createBand(band)
         
         // go to the detail page of the selected band
-        self.navigationController?.popToRootViewControllerAnimated(true)
+        self.navigationController?.popViewControllerAnimated(true)
     }
     
 }
