@@ -18,7 +18,9 @@ class BandSearchController: UITableViewController,
     //
     
     var searchController : UISearchController! = nil
-    var bandList : [ServerBand] = []
+    
+    var newBandList      : [ServerBand] = []
+    var existingBandList : [Band] = []
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
@@ -58,10 +60,16 @@ class BandSearchController: UITableViewController,
     
     func updateSearchResultsForSearchController(searchController: UISearchController) {
         bandTrackerClient().bandsFindByName(searchController.searchBar.text!) { bands, error in
+            
+            self.existingBandList = dataContext().bandList(searchController.searchBar.text!)
+            
             if let bands = bands {
-                self.bandList = bands
+                self.newBandList = bands.filter { (newBand) in
+                    return !self.existingBandList.contains({existingBand in newBand.MBID == existingBand.bandMBID})
+                }
+                
             } else {
-                self.bandList.removeAll()
+                self.newBandList.removeAll()
             }
            
             dispatch_sync(dispatch_get_main_queue()) {
@@ -75,8 +83,24 @@ class BandSearchController: UITableViewController,
     // UITableViewDataSource
     //
     
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return self.existingBandList.count > 0 ? 2 : 1
+    }
+    
+    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 1 {
+            return "Already added bands"
+        } else {
+            return nil
+        }
+    }
+    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.bandList.count
+        if section == 0 {
+            return self.newBandList.count
+        } else {
+            return self.existingBandList.count
+        }
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -84,8 +108,11 @@ class BandSearchController: UITableViewController,
         let cell = tableView.dequeueReusableCellWithIdentifier("SearchBandCell")!
         
         // set the cell data
-        let band = bandList[indexPath.row]
-        cell.textLabel?.text = band.name
+        if indexPath.section == 0 {
+            cell.textLabel?.text = newBandList[indexPath.row].name
+        } else {
+            cell.textLabel?.text = existingBandList[indexPath.row].name
+        }
         
         return cell
     }
@@ -96,9 +123,11 @@ class BandSearchController: UITableViewController,
     //
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        // add the band to core data
-        let band = bandList[indexPath.row]
-        dataContext().createBand(band)
+        // add the band to core data (if it's a new one)
+        if indexPath.section == 0 {
+            let band = newBandList[indexPath.row]
+            dataContext().createBand(band)
+        }
         
         // go to the detail page of the selected band
         self.navigationController?.popViewControllerAnimated(true)

@@ -34,6 +34,21 @@ class DataContext {
         coreDataStackManager().managedObjectContext?.deleteObject(band)
     }
     
+    func bandList(nameFilter : String) -> [Band] {
+        let fetchRequest = NSFetchRequest(entityName: "Band")
+        if nameFilter.characters.count > 0 {
+            fetchRequest.predicate       = NSPredicate(format: "name CONTAINS[cd] %@", nameFilter)
+        }
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        
+        do {
+            return try coreDataStackManager().managedObjectContext!.executeFetchRequest(fetchRequest) as! [Band]
+        } catch let error as NSError {
+            NSLog("Unresolved error \(error), \(error.userInfo)")
+            return []
+        }
+    }
+    
     ////////////////////////////////////////////////////////////////////////////////
     //
     // gig management
