@@ -11,6 +11,7 @@ import UIKit
 
 class GigDetailsYoutubeController : UIViewController,
                                     UITableViewDataSource,
+                                    UITableViewDelegate,
                                     GigDetailsSubView {
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -45,6 +46,7 @@ class GigDetailsYoutubeController : UIViewController,
         super.viewDidLoad()
         
         tableView.dataSource = self
+        tableView.delegate   = self
         
         // load the videos
         youtubeDataClient().searchVideosForGig(gig, song: nil, maxResults: 10) { videos, error in
@@ -52,6 +54,18 @@ class GigDetailsYoutubeController : UIViewController,
                 self.videos = videos
             }
         }
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
+    // UITableViewDelegate
+    //
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        let vc = YoutubePlayerController.createForVideo(videos[indexPath.row])
+        navigationController?.pushViewController(vc, animated: true)
+        
     }
     
     ///////////////////////////////////////////////////////////////////////////////////

@@ -88,7 +88,7 @@ class YoutubeDataClient {
                 guard let thumbs  = snippet["thumbnails"] as? [ String : AnyObject ] else { break }
                 
                 var video = Video()
-                video.id        = (item["id"] as? NSDictionary)?["videoID"] as? String ?? ""
+                video.id        = (item["id"] as? NSDictionary)?["videoId"] as? String ?? ""
                 video.title     = snippet["title"] as? String ?? ""
                 video.thumbUrl  = (thumbs["medium"] as? NSDictionary)?["url"] as? String ?? ""
                 
