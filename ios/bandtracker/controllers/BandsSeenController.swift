@@ -21,7 +21,7 @@ class BandsSeenController:  UITableViewController,
     
     lazy var fetchedResultsController: NSFetchedResultsController = {
         let fetchRequest = NSFetchRequest(entityName: "Band")
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "totalRating", ascending:false), NSSortDescriptor(key: "name", ascending: true)]
         
         let fetchedResultsController = NSFetchedResultsController (
                                             fetchRequest: fetchRequest,
@@ -39,14 +39,7 @@ class BandsSeenController:  UITableViewController,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // load the bands
-        do {
-            try fetchedResultsController.performFetch()
-        } catch let error as NSError {
-            // XXX
-            NSLog("Unresolved error \(error), \(error.userInfo)")
-        }
+        updateSearchResults("")
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -76,6 +69,7 @@ class BandsSeenController:  UITableViewController,
         cell.bandName.text          = band.name
         cell.numberOfGigs.text      = "(\(band.gigs.count) gigs)"
         cell.ratingControl.rating   = band.totalRating.floatValue / (Float(band.gigs.count) * 10)
+        cell.bandImage.image        = nil
         
         UrlFetcher.loadImageFromUrl(band.imageUrl) { image in
             cell.bandImage.image = image
@@ -136,6 +130,21 @@ class BandsSeenController:  UITableViewController,
     
     func updateSearchResults(searchText : String) {
         
+        // update the predicate to correspond to the filter string
+        if searchText.characters.count > 0 {
+            fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "name CONTAINS[cd] %@", searchText)
+        } else {
+            fetchedResultsController.fetchRequest.predicate = nil
+        }
+        
+        // execute the query again
+        do {
+            try fetchedResultsController.performFetch()
+        } catch let error as NSError {
+            NSLog("Unresolved error \(error), \(error.userInfo)")
+        }
+        
+        tableView.reloadData()
     }
     
     func addNewItem() {

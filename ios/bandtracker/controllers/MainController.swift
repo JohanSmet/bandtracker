@@ -19,7 +19,8 @@ protocol MainTabSheet {
 
 class MainController:   UITabBarController,
                         UITabBarControllerDelegate,
-                        UISearchResultsUpdating {
+                        UISearchResultsUpdating,
+                        UISearchControllerDelegate {
    
     ///////////////////////////////////////////////////////////////////////////////////
     //
@@ -56,9 +57,11 @@ class MainController:   UITabBarController,
         // create search controller
         searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
+        searchController.delegate = self
         searchController.dimsBackgroundDuringPresentation = false
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.sizeToFit()
+        searchController.searchBar.placeholder = "Filter"
         navigationItem.titleView = searchController.searchBar
         
         self.delegate = self
@@ -84,6 +87,15 @@ class MainController:   UITabBarController,
         if let tab = self.selectedViewController as? MainTabSheet {
             tab.updateSearchResults(searchController.searchBar.text!)
         }
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
+    // UISearchControllerDelegate
+    //
+    
+    func didPresentSearchController(searchController: UISearchController) {
+        searchController.searchBar.showsCancelButton = false
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
