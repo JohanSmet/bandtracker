@@ -68,7 +68,7 @@ class BandsSeenController:  UITableViewController,
         
         cell.bandName.text          = band.name
         cell.numberOfGigs.text      = "(\(band.gigs.count) gigs)"
-        cell.ratingControl.rating   = band.totalRating.floatValue / (Float(band.gigs.count) * 10)
+        cell.ratingControl.rating   = band.rating()
         cell.bandImage.image        = nil
         
         UrlFetcher.loadImageFromUrl(band.imageUrl) { image in

@@ -45,4 +45,8 @@ class Band : NSManagedObject {
         numGigs     = 0
         totalRating = 0
     }
+    
+    func rating() -> Float {
+       return totalRating.floatValue / (Float(gigs.count) * 10)
+    }
 }
