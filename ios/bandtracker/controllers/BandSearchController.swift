@@ -59,9 +59,18 @@ class BandSearchController: UITableViewController,
     //
     
     func updateSearchResultsForSearchController(searchController: UISearchController) {
-        bandTrackerClient().bandsFindByName(searchController.searchBar.text!) { bands, error in
+        
+        guard let searchText = searchController.searchBar.text else { return }
+        
+        // check minimum length of the search pattern
+        if searchText.characters.count < 2 {
+            return
+        }
+        
+        // search online
+        bandTrackerClient().bandsFindByName(searchText) { bands, error in
             
-            self.existingBandList = dataContext().bandList(searchController.searchBar.text!)
+            self.existingBandList = dataContext().bandList(searchText)
             
             if let bands = bands {
                 self.newBandList = bands.filter { (newBand) in
