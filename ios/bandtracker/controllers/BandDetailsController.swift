@@ -45,6 +45,8 @@ class BandDetailsController :   UIViewController,
     @IBOutlet var bandImage: UIImageView!
     @IBOutlet var biography: UITextView!
     @IBOutlet weak var tableGigs: UITableView!
+    @IBOutlet weak var ratingControl: RatingControl!
+    @IBOutlet weak var gigTitle: UILabel!
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
@@ -67,13 +69,14 @@ class BandDetailsController :   UIViewController,
     }
     
     override func viewWillAppear(animated: Bool) {
-        pageTitle.title = band.name
-        biography.text  = band.biography
+        pageTitle.title         = band.name
+        biography.text          = band.biography
+        ratingControl.rating    = band.rating()
+        gigTitle.text           = "You have been to \(band.gigs.count) gigs :"
         
         UrlFetcher.loadImageFromUrl(band.imageUrl) { image in
             self.bandImage.image = image
         }
-
     }
     
     ///////////////////////////////////////////////////////////////////////////////////

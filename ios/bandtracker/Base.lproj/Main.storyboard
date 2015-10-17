@@ -74,32 +74,43 @@
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="J5T-87-YBd">
                                         <rect key="frame" x="0.0" y="0.0" width="269" height="145"/>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rating" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2uC-c8-fFc">
-                                        <rect key="frame" x="110" y="145" width="49" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You've seen this band n times." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="6" translatesAutoresizingMaskIntoConstraints="NO" id="cfk-Iw-Ha5">
-                                        <rect key="frame" x="0.0" y="166" width="269" height="14"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GSA-du-OHx" customClass="RatingControl" customModule="bandtracker" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="153" width="269" height="27"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="27" id="dSh-Vc-IcL"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="strokeColor">
+                                                <color key="value" red="0.0" green="0.0" blue="0.38937069949999997" alpha="1" colorSpace="calibratedRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="fillColor">
+                                                <color key="value" red="0.0" green="0.0" blue="0.38937069949999997" alpha="1" colorSpace="calibratedRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="numberOfStars">
+                                                <integer key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="rating">
+                                                <real key="value" value="3"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="gapBetweenStars">
+                                                <real key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="enabled" value="NO"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="cfk-Iw-Ha5" firstAttribute="centerX" secondItem="J5T-87-YBd" secondAttribute="centerX" id="5uS-oh-6Fh"/>
+                                    <constraint firstItem="GSA-du-OHx" firstAttribute="leading" secondItem="k5h-aH-PsJ" secondAttribute="leading" id="9s1-iy-zBO"/>
                                     <constraint firstAttribute="trailing" secondItem="ZbR-0r-bAh" secondAttribute="trailing" id="Au6-tO-4tG"/>
-                                    <constraint firstAttribute="bottom" secondItem="cfk-Iw-Ha5" secondAttribute="bottom" id="BEG-h2-hkG"/>
-                                    <constraint firstItem="2uC-c8-fFc" firstAttribute="top" secondItem="J5T-87-YBd" secondAttribute="bottom" id="EV0-DE-r3V"/>
                                     <constraint firstItem="J5T-87-YBd" firstAttribute="top" secondItem="k5h-aH-PsJ" secondAttribute="top" id="TJ3-UL-YJT"/>
                                     <constraint firstAttribute="bottom" secondItem="ZbR-0r-bAh" secondAttribute="bottom" id="Utf-1u-KMY"/>
                                     <constraint firstItem="ZbR-0r-bAh" firstAttribute="width" secondItem="k5h-aH-PsJ" secondAttribute="width" multiplier="0.48" id="ZFM-Lf-yHI"/>
-                                    <constraint firstItem="2uC-c8-fFc" firstAttribute="centerX" secondItem="J5T-87-YBd" secondAttribute="centerX" id="dQ7-0l-Ilv"/>
+                                    <constraint firstItem="GSA-du-OHx" firstAttribute="width" secondItem="k5h-aH-PsJ" secondAttribute="width" multiplier="0.48" id="dQI-f4-kps"/>
                                     <constraint firstItem="J5T-87-YBd" firstAttribute="width" secondItem="k5h-aH-PsJ" secondAttribute="width" multiplier="0.48" id="ewY-JH-iQr"/>
                                     <constraint firstItem="J5T-87-YBd" firstAttribute="leading" secondItem="k5h-aH-PsJ" secondAttribute="leading" id="f9Q-dF-mTC"/>
-                                    <constraint firstItem="cfk-Iw-Ha5" firstAttribute="top" secondItem="2uC-c8-fFc" secondAttribute="bottom" id="onS-fh-Jww"/>
-                                    <constraint firstItem="cfk-Iw-Ha5" firstAttribute="width" secondItem="J5T-87-YBd" secondAttribute="width" id="uLs-AA-ECq"/>
+                                    <constraint firstItem="GSA-du-OHx" firstAttribute="top" secondItem="J5T-87-YBd" secondAttribute="bottom" constant="8" id="iGf-km-QQd"/>
+                                    <constraint firstAttribute="bottom" secondItem="J5T-87-YBd" secondAttribute="bottom" constant="35" id="rJx-Ia-OMZ"/>
                                     <constraint firstItem="ZbR-0r-bAh" firstAttribute="top" secondItem="k5h-aH-PsJ" secondAttribute="top" id="wuY-ey-K1g"/>
                                 </constraints>
                             </view>
@@ -165,7 +176,9 @@
                     <connections>
                         <outlet property="bandImage" destination="J5T-87-YBd" id="Kuh-vU-BYh"/>
                         <outlet property="biography" destination="ZbR-0r-bAh" id="3L3-OF-uIt"/>
+                        <outlet property="gigTitle" destination="Gsd-aw-azE" id="PKu-Lx-GzN"/>
                         <outlet property="pageTitle" destination="PiV-8K-VXG" id="or3-Yt-SpV"/>
+                        <outlet property="ratingControl" destination="GSA-du-OHx" id="eed-jF-zsK"/>
                         <outlet property="tableGigs" destination="UI8-NU-AVy" id="Z93-Om-QoB"/>
                     </connections>
                 </viewController>
