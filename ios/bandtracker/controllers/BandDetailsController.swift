@@ -43,11 +43,12 @@ class BandDetailsController :   UIViewController,
     
     @IBOutlet var pageTitle: UINavigationItem!
     @IBOutlet var bandImage: UIImageView!
-    @IBOutlet var biography: UITextView!
     @IBOutlet weak var tableGigs: UITableView!
     @IBOutlet weak var ratingControl: RatingControl!
     @IBOutlet weak var gigTitle: UILabel!
+    @IBOutlet weak var htmlBiography: UIWebView!
     
+    @IBOutlet weak var biography: UITextView!
     ///////////////////////////////////////////////////////////////////////////////////
     //
     // UIViewController overrides
@@ -66,17 +67,16 @@ class BandDetailsController :   UIViewController,
             // XXX
             NSLog("Unresolved error \(error), \(error.userInfo)")
         }
+        
+        setUIFields()
     }
     
-    override func viewWillAppear(animated: Bool) {
-        pageTitle.title         = band.name
-        biography.text          = band.biography
-        ratingControl.rating    = band.rating()
-        gigTitle.text           = "You have been to \(band.gigs.count) gigs :"
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         
-        UrlFetcher.loadImageFromUrl(band.imageUrl) { image in
-            self.bandImage.image = image
-        }
+        biography.setContentOffset(CGPointMake(0,0), animated: false)
+        biography.scrollEnabled = true
+        
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -156,5 +156,39 @@ class BandDetailsController :   UIViewController,
     
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
         tableGigs.endUpdates()
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
+    // helper functions
+    //
+    
+    private func setUIFields() {
+        pageTitle.title         = band.name
+        
+        do {
+            let font = UIFont(name: "Arial", size: 10)!
+            let bio = "<style type='text/css'>"
+                + " html { "
+                + "    line-height:80%; "
+                + "    font-family: \(font.familyName);"
+                + "    font-size: \(font.pointSize)px; }"
+                + "</style>"
+                + band.biography
+            
+            let text = try NSMutableAttributedString(  data: bio.dataUsingEncoding(NSUTF8StringEncoding)!,
+                options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType],
+                documentAttributes: nil);
+            biography.scrollEnabled = false
+            biography.attributedText = text
+        } catch {
+            biography.text = ""
+        }
+        ratingControl.rating    = band.rating()
+        gigTitle.text           = "You have been to \(band.gigs.count) gigs :"
+        
+        UrlFetcher.loadImageFromUrl(band.imageUrl) { image in
+            self.bandImage.image = image
+        }
     }
 }

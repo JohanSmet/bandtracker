@@ -65,12 +65,6 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k5h-aH-PsJ" userLabel="HeaderContainer">
                                 <rect key="frame" x="20" y="72" width="560" height="180"/>
                                 <subviews>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZbR-0r-bAh">
-                                        <rect key="frame" x="291" y="0.0" width="269" height="180"/>
-                                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="9"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                    </textView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="J5T-87-YBd">
                                         <rect key="frame" x="0.0" y="0.0" width="269" height="145"/>
                                     </imageView>
@@ -99,19 +93,32 @@
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="enabled" value="NO"/>
                                         </userDefinedRuntimeAttributes>
                                     </view>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8DX-sw-sjh">
+                                        <rect key="frame" x="291" y="0.0" width="269" height="180"/>
+                                        <attributedString key="attributedText">
+                                            <fragment>
+                                                <string key="content">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                                <attributes>
+                                                    <font key="NSFont" size="12" name="Helvetica"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                                </attributes>
+                                            </fragment>
+                                        </attributedString>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="GSA-du-OHx" firstAttribute="leading" secondItem="k5h-aH-PsJ" secondAttribute="leading" id="9s1-iy-zBO"/>
-                                    <constraint firstAttribute="trailing" secondItem="ZbR-0r-bAh" secondAttribute="trailing" id="Au6-tO-4tG"/>
+                                    <constraint firstItem="8DX-sw-sjh" firstAttribute="width" secondItem="k5h-aH-PsJ" secondAttribute="width" multiplier="0.48" id="NDQ-4r-J4g"/>
+                                    <constraint firstAttribute="bottom" secondItem="8DX-sw-sjh" secondAttribute="bottom" id="O3Z-3R-Xiu"/>
                                     <constraint firstItem="J5T-87-YBd" firstAttribute="top" secondItem="k5h-aH-PsJ" secondAttribute="top" id="TJ3-UL-YJT"/>
-                                    <constraint firstAttribute="bottom" secondItem="ZbR-0r-bAh" secondAttribute="bottom" id="Utf-1u-KMY"/>
-                                    <constraint firstItem="ZbR-0r-bAh" firstAttribute="width" secondItem="k5h-aH-PsJ" secondAttribute="width" multiplier="0.48" id="ZFM-Lf-yHI"/>
+                                    <constraint firstItem="8DX-sw-sjh" firstAttribute="top" secondItem="k5h-aH-PsJ" secondAttribute="top" id="WhQ-5w-pG5"/>
                                     <constraint firstItem="GSA-du-OHx" firstAttribute="width" secondItem="k5h-aH-PsJ" secondAttribute="width" multiplier="0.48" id="dQI-f4-kps"/>
                                     <constraint firstItem="J5T-87-YBd" firstAttribute="width" secondItem="k5h-aH-PsJ" secondAttribute="width" multiplier="0.48" id="ewY-JH-iQr"/>
                                     <constraint firstItem="J5T-87-YBd" firstAttribute="leading" secondItem="k5h-aH-PsJ" secondAttribute="leading" id="f9Q-dF-mTC"/>
+                                    <constraint firstAttribute="trailing" secondItem="8DX-sw-sjh" secondAttribute="trailing" id="fwT-tg-q97"/>
                                     <constraint firstItem="GSA-du-OHx" firstAttribute="top" secondItem="J5T-87-YBd" secondAttribute="bottom" constant="8" id="iGf-km-QQd"/>
                                     <constraint firstAttribute="bottom" secondItem="J5T-87-YBd" secondAttribute="bottom" constant="35" id="rJx-Ia-OMZ"/>
-                                    <constraint firstItem="ZbR-0r-bAh" firstAttribute="top" secondItem="k5h-aH-PsJ" secondAttribute="top" id="wuY-ey-K1g"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8lP-yA-x2N" userLabel="TableHeader">
@@ -175,7 +182,7 @@
                     <navigationItem key="navigationItem" title="Title" id="PiV-8K-VXG"/>
                     <connections>
                         <outlet property="bandImage" destination="J5T-87-YBd" id="Kuh-vU-BYh"/>
-                        <outlet property="biography" destination="ZbR-0r-bAh" id="3L3-OF-uIt"/>
+                        <outlet property="biography" destination="8DX-sw-sjh" id="7FC-Xa-mMd"/>
                         <outlet property="gigTitle" destination="Gsd-aw-azE" id="PKu-Lx-GzN"/>
                         <outlet property="pageTitle" destination="PiV-8K-VXG" id="or3-Yt-SpV"/>
                         <outlet property="ratingControl" destination="GSA-du-OHx" id="eed-jF-zsK"/>
