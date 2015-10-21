@@ -286,7 +286,11 @@ class GigDetailsDataController : UITableViewController,
     }
     
     private func updateEndLabels() {
-        dateLabels[DURATION].text = durationPicker.formattedString
+        if durationPicker.timeInterval > 0 {
+            dateLabels[DURATION].text = durationPicker.formattedString
+        } else {
+            dateLabels[DURATION].text = "not set"
+        }
     }
         
     private func togglePicker(picker : Int) {
