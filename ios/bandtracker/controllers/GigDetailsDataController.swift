@@ -35,7 +35,8 @@ class GigDetailsDataController : UITableViewController,
     // variables
     //
     
-    var gig : Gig!
+    var gig      : Gig!
+    var delegate : GigDetailsSubViewDelegate!
     
     var datePickerRows      : [Int]  = [1, 3, 5]
     var datePickerEditing   : [Bool] = [false, false, false]
@@ -116,11 +117,13 @@ class GigDetailsDataController : UITableViewController,
     @IBAction func pickStartChanged(sender: UIDatePicker) {
         gig.startDate = DateUtils.join(startDatePicker.date, time: startTimePicker.date)
         updateStartLabels()
+        validateForm()
     }
     
     @IBAction func pickDurationChanged(sender: TimeIntervalPicker) {
         gig.endDate = DateUtils.add(gig.startDate, interval: durationPicker.timeInterval)
         updateEndLabels()
+        validateForm()
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -141,6 +144,8 @@ class GigDetailsDataController : UITableViewController,
         } else if textField == textComments {
             gig.comments = textField.text!
         }
+        
+        validateForm()
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -150,6 +155,7 @@ class GigDetailsDataController : UITableViewController,
     
     func ratingDidChange(ratingControl: RatingControl, newRating: Float, oldRating: Float) {
         gig.rating = Int(newRating * 10)
+        validateForm()
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -270,6 +276,8 @@ class GigDetailsDataController : UITableViewController,
         ratingControl.rating = gig.rating.floatValue / 10
         
         switchSupportAct.on = gig.supportAct
+        
+        validateForm()
     }
     
     private func updateStartLabels() {
@@ -290,5 +298,19 @@ class GigDetailsDataController : UITableViewController,
             dateLabels[idx].textColor   = datePickerEditing[idx] ? UIColor.redColor() : UIColor.blackColor()
         }
         
+    }
+    
+    private func validateForm() {
+        var isValid : Bool = true
+        
+        // country moet ingevuld zijn
+        if gig.editCountry.isEmpty {
+            isValid = false
+        }
+        
+        
+        if let delegate = delegate {
+            delegate.enableSave(isValid)
+        }
     }
 }

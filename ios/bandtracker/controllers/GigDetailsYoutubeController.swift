@@ -19,8 +19,9 @@ class GigDetailsYoutubeController : UIViewController,
     // variables
     //
     
-    var gig     : Gig!
-    var videos  : [YoutubeDataClient.Video] = []
+    var gig         : Gig!
+    var delegate    : GigDetailsSubViewDelegate!
+    var videos      : [YoutubeDataClient.Video] = []
     
     ///////////////////////////////////////////////////////////////////////////////////
     //

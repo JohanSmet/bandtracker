@@ -18,7 +18,9 @@ class GigDetailsSetlistController : UIViewController ,
     // variables
     //
     
-    var gig : Gig!
+    var gig         : Gig!
+    var delegate    : GigDetailsSubViewDelegate!
+    
     var set : [SetlistFmClient.SetPart] = []
     var urlString : String?
     

@@ -63,6 +63,20 @@ class CoreDataStackManager {
         
     }
     
+    func rollbackContext() -> Bool {
+        
+        if managedObjectContext == nil {
+            return false
+        }
+        
+        if !managedObjectContext!.hasChanges {
+            return true
+        }
+        
+        managedObjectContext!.rollback()
+        return true
+    }
+    
     ////////////////////////////////////////////////////////////////////////////////
     //
     // singleton

@@ -17,7 +17,8 @@ class GigDetailsDataContainer : UIViewController,
     // variables
     //
     
-    var gig : Gig!
+    var gig          : Gig!
+    var delegate     : GigDetailsSubViewDelegate!
     var embeddedVc   : GigDetailsSubView!
     var editable     : Bool = false
     
@@ -31,6 +32,7 @@ class GigDetailsDataContainer : UIViewController,
         if segue.identifier == "embedGigDetailsData" {
             embeddedVc = segue.destinationViewController as! GigDetailsSubView
             embeddedVc.gig = gig
+            embeddedVc.delegate = delegate
             embeddedVc.setEditableControls(editable)
         }
         
