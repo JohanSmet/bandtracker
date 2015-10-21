@@ -37,6 +37,14 @@ class DateUtils {
         return cal.dateFromComponents(dateComponents)!
     }
     
+    static func add(date : NSDate, interval : NSTimeInterval) -> NSDate {
+        return date.dateByAddingTimeInterval(interval)
+    }
+    
+    static func diff(dateEnd : NSDate, dateBegin : NSDate) -> NSTimeInterval {
+        return dateEnd.timeIntervalSinceDate(dateBegin)
+    }
+    
     static func toDateStringMedium(date : NSDate) -> String {
         
         let dateFormatter = NSDateFormatter()
@@ -60,6 +68,15 @@ class DateUtils {
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = format
        
+        return dateFormatter.stringFromDate(date)
+    }
+    
+    static func format(interval : NSTimeInterval, format : String) -> String {
+        
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = format
+        
+        let date = NSDate(timeIntervalSinceReferenceDate: interval)
         return dateFormatter.stringFromDate(date)
     }
     

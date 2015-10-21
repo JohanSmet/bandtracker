@@ -28,8 +28,7 @@ class GigDetailsDataController : UITableViewController,
     
     let START_DATE = 0
     let START_TIME = 1
-    let END_DATE   = 2
-    let END_TIME   = 3
+    let DURATION   = 2
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
@@ -38,8 +37,8 @@ class GigDetailsDataController : UITableViewController,
     
     var gig : Gig!
     
-    var datePickerRows      : [Int]  = [1, 3, 5, 7]
-    var datePickerEditing   : [Bool] = [false, false, false, false]
+    var datePickerRows      : [Int]  = [1, 3, 5]
+    var datePickerEditing   : [Bool] = [false, false, false]
     var datePickerHeight    : CGFloat = 0
     
     var editable            : Bool = false
@@ -49,8 +48,12 @@ class GigDetailsDataController : UITableViewController,
     // outlets
     //
     
-    @IBOutlet var datePickers : [UIDatePicker]!
+    @IBOutlet var datePickers : [UIView]!
     @IBOutlet var dateLabels  : [UILabel]!
+    
+    @IBOutlet weak var startDatePicker: UIDatePicker!
+    @IBOutlet weak var startTimePicker: UIDatePicker!
+    @IBOutlet weak var durationPicker: TimeIntervalPicker!
     
     @IBOutlet weak var textCountry: UITextField!
     @IBOutlet weak var textCity: UITextField!
@@ -111,12 +114,12 @@ class GigDetailsDataController : UITableViewController,
     //
     
     @IBAction func pickStartChanged(sender: UIDatePicker) {
-        gig.startDate = DateUtils.join(datePickers[START_DATE].date, time: datePickers[START_TIME].date)
+        gig.startDate = DateUtils.join(startDatePicker.date, time: startTimePicker.date)
         updateStartLabels()
     }
     
-    @IBAction func pickEndChanged(sender: UIDatePicker) {
-        gig.endDate = DateUtils.join(datePickers[END_DATE].date, time: datePickers[END_TIME].date)
+    @IBAction func pickDurationChanged(sender: TimeIntervalPicker) {
+        gig.endDate = DateUtils.add(gig.startDate, interval: durationPicker.timeInterval)
         updateEndLabels()
     }
     
@@ -252,12 +255,11 @@ class GigDetailsDataController : UITableViewController,
     //
     
     private func setUIFields() {
-        datePickers[START_DATE].date = gig.startDate
-        datePickers[START_TIME].date = gig.startDate
+        startDatePicker.date = gig.startDate
+        startTimePicker.date = gig.startDate
         updateStartLabels()
         
-        datePickers[END_DATE].date = gig.endDate
-        datePickers[END_TIME].date = gig.endDate
+        durationPicker.timeInterval = DateUtils.diff(gig.endDate, dateBegin: gig.startDate)
         updateEndLabels()
         
         textCountry.text = gig.editCountry
@@ -276,8 +278,7 @@ class GigDetailsDataController : UITableViewController,
     }
     
     private func updateEndLabels() {
-        dateLabels[END_DATE].text = DateUtils.toDateStringMedium(gig.endDate)
-        dateLabels[END_TIME].text = DateUtils.toTimeStringShort(gig.endDate)
+        dateLabels[DURATION].text = durationPicker.formattedString
     }
         
     private func togglePicker(picker : Int) {
