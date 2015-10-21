@@ -23,6 +23,7 @@
 		040E31151BBC843D00275449 /* GigDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040E31141BBC843D00275449 /* GigDetailsController.swift */; settings = {ASSET_TAGS = (); }; };
 		040E31171BBC855700275449 /* GigDetailsDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040E31161BBC855700275449 /* GigDetailsDataController.swift */; settings = {ASSET_TAGS = (); }; };
 		040F32421BCC5033006E46E1 /* SetlistFmClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040F32411BCC5033006E46E1 /* SetlistFmClient.swift */; settings = {ASSET_TAGS = (); }; };
+		0410CE621BD8299A001151C5 /* SeenGigTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0410CE611BD8299A001151C5 /* SeenGigTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 		0410EE451BB1F330006B1FAB /* BandSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0410EE441BB1F330006B1FAB /* BandSearchController.swift */; settings = {ASSET_TAGS = (); }; };
 		041506D01BCEBBC000627433 /* YoutubeDataClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041506CF1BCEBBC000627433 /* YoutubeDataClient.swift */; settings = {ASSET_TAGS = (); }; };
 		041506D21BCEF47D00627433 /* YoutubeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041506D11BCEF47D00627433 /* YoutubeTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
@@ -67,6 +68,7 @@
 		040E31141BBC843D00275449 /* GigDetailsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GigDetailsController.swift; sourceTree = "<group>"; };
 		040E31161BBC855700275449 /* GigDetailsDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GigDetailsDataController.swift; sourceTree = "<group>"; };
 		040F32411BCC5033006E46E1 /* SetlistFmClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetlistFmClient.swift; sourceTree = "<group>"; };
+		0410CE611BD8299A001151C5 /* SeenGigTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeenGigTableViewCell.swift; sourceTree = "<group>"; };
 		0410EE441BB1F330006B1FAB /* BandSearchController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BandSearchController.swift; sourceTree = "<group>"; };
 		041506CF1BCEBBC000627433 /* YoutubeDataClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YoutubeDataClient.swift; sourceTree = "<group>"; };
 		041506D11BCEF47D00627433 /* YoutubeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YoutubeTableViewCell.swift; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 				040B3AF61BCAF3690017D7A0 /* SeenBandTableViewCell.swift */,
 				041506D11BCEF47D00627433 /* YoutubeTableViewCell.swift */,
 				046DCCC71BD6CDE2008B01A1 /* TimeIntervalPicker.swift */,
+				0410CE611BD8299A001151C5 /* SeenGigTableViewCell.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -356,6 +359,7 @@
 				0474A17A1BC70A4C0047070A /* ListSelectionController.swift in Sources */,
 				0410EE451BB1F330006B1FAB /* BandSearchController.swift in Sources */,
 				040C12E01BC45214001BFE78 /* DataLoader.swift in Sources */,
+				0410CE621BD8299A001151C5 /* SeenGigTableViewCell.swift in Sources */,
 				040B69BC1BD02FF5006633AB /* YouTubePlayer.swift in Sources */,
 				041A12801BB5E308005DDB8E /* AlertPopups.swift in Sources */,
 				04B275951BBFF88B00FAD5B6 /* Gig.swift in Sources */,

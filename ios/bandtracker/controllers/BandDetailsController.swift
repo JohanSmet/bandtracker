@@ -104,19 +104,17 @@ class BandDetailsController :   UIViewController,
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("gigSeenCell", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier("gigSeenCell", forIndexPath: indexPath) as! SeenGigTableViewCell
         configureCell(cell, indexPath: indexPath)
         return cell
     }
     
-    func configureCell(cell : UITableViewCell, indexPath : NSIndexPath) {
+    func configureCell(cell : SeenGigTableViewCell, indexPath : NSIndexPath) {
         let gig = gigFetchedResultsController.objectAtIndexPath(indexPath) as! Gig
         
-        let dateFormat = NSDateFormatter()
-        dateFormat.dateStyle = .MediumStyle
-        dateFormat.timeStyle = .NoStyle
-        
-        cell.textLabel?.text = dateFormat.stringFromDate(gig.startDate) + " " + (gig.city?.name ?? "")
+        cell.setLocation(gig)
+        cell.dateLabel.text = DateUtils.toDateStringMedium(gig.startDate)
+        cell.ratingControl.rating = gig.rating.floatValue / 10
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -147,7 +145,7 @@ class BandDetailsController :   UIViewController,
             case .Delete :
                 tableGigs.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
             case .Update :
-                configureCell(tableGigs.cellForRowAtIndexPath(indexPath!)!, indexPath: indexPath!)
+                configureCell(tableGigs.cellForRowAtIndexPath(indexPath!) as! SeenGigTableViewCell, indexPath: indexPath!)
             case .Move :
                 tableGigs.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
                 tableGigs.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
