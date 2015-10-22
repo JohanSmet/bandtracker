@@ -11,6 +11,7 @@ import UIKit
 
 class GigDetailsSetlistController : UIViewController ,
                                     UITableViewDataSource,
+                                    UITableViewDelegate,
                                     GigDetailsSubView {
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -50,6 +51,7 @@ class GigDetailsSetlistController : UIViewController ,
         
         // init tableview
         tableView.dataSource = self
+        tableView.delegate   = self
         
         // init website link
         let tapRecognizer = UITapGestureRecognizer(target: self, action : "visitSetlistFm")
@@ -106,6 +108,20 @@ class GigDetailsSetlistController : UIViewController ,
         cell.textLabel!.text = "\(indexPath.row + 1). \(song)"
         return cell
         
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
+    // UITableViewDelegate
+    //
+   
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: false)
+        
+        if let delegate = delegate {
+            let song = set[indexPath.section].songs[indexPath.row]
+            delegate.switchToYoutubePage(song)
+        }
     }
     
 }

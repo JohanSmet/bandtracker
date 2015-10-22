@@ -43,7 +43,7 @@ class YoutubeDataClient {
             "key" :     YoutubeDataClient.API_KEY,
             "videoEmbeddable" : "true",
             "type" :            "video",
-            "order" :           "rating",
+            "order" :           "relevance",
             "part" :            "snippet",
             "fields" :          "items(id,snippet)",
             "maxResults" :      maxResults

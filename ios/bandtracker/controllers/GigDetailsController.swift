@@ -17,6 +17,8 @@ enum GigDetailsControllerMode {
 
 protocol GigDetailsSubViewDelegate {
     func enableSave(enable : Bool)
+    func switchToYoutubePage(song : String)
+    func youtubeSong() -> String!
 }
 
 protocol GigDetailsSubView {
@@ -27,6 +29,7 @@ protocol GigDetailsSubView {
 
 class GigDetailsController :    UIPageViewController,
                                 UIPageViewControllerDataSource,
+                                UIPageViewControllerDelegate,
                                 GigDetailsSubViewDelegate {
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -47,7 +50,11 @@ class GigDetailsController :    UIPageViewController,
     
     var mode    : GigDetailsControllerMode!
     var gig     : Gig!
-    var page    : GigDetailsSubView!
+    var song    : String!
+    
+    var pages   : [GigDetailsSubView!] = [nil, nil, nil]
+    var curPage : Int = 0
+    var nextPage: Int = 0
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
@@ -84,6 +91,7 @@ class GigDetailsController :    UIPageViewController,
         
         // init page controller
         self.dataSource = self
+        self.delegate   = self
         
         // initialize gig-record
         gig.prepareForEdit()
@@ -115,7 +123,7 @@ class GigDetailsController :    UIPageViewController,
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
-    // actions
+    // GigDetailsSubviewDelegate
     //
     
     func enableSave(enable : Bool) {
@@ -123,6 +131,25 @@ class GigDetailsController :    UIPageViewController,
             navigationItem.rightBarButtonItem?.enabled = enable
         }
     }
+    
+    func switchToYoutubePage(song : String) {
+        self.song = song
+        self.curPage = 2
+        
+        let page = pageViewControllerForIndex(2)
+        setViewControllers([page!], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: nil)
+    }
+    
+    func youtubeSong() -> String! {
+        let result = song
+        song = nil
+        return result
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
+    // actions
+    //
     
     func saveGig() {
         if let gig = gig {
@@ -139,7 +166,12 @@ class GigDetailsController :    UIPageViewController,
     func editGig() {
         mode = .Edit
         createNavigationButtons()
-        page.setEditableControls(true)
+        
+        for page in pages {
+            if let page = page {
+                page.setEditableControls(true)
+            }
+        }
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -172,7 +204,20 @@ class GigDetailsController :    UIPageViewController,
     }
     
     func presentationIndexForPageViewController(pageViewController: UIPageViewController) -> Int {
-        return 0
+        return curPage
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
+    // UIPageViewControllerDelegate
+    //
+    
+    func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        if !completed {
+            return
+        }
+       
+        curPage = (pageViewController.viewControllers?[0].view.tag)!
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -186,12 +231,19 @@ class GigDetailsController :    UIPageViewController,
             return nil
         }
         
+        if let page = pages[index] {
+            return page as? UIViewController
+        }
+        
         let vc = self.storyboard?.instantiateViewControllerWithIdentifier(pageIDs[index])
         
-        page = vc as! GigDetailsSubView
+        var page = vc as! GigDetailsSubView
         page.gig = gig
         page.delegate = self
         page.setEditableControls(self.mode! != .View)
+        vc!.view.tag = index
+        
+        pages[index] = page
         
         return vc
     }

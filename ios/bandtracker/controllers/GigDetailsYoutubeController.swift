@@ -20,6 +20,8 @@ class GigDetailsYoutubeController : UIViewController,
     //
     
     var gig         : Gig!
+    var song        : String!
+    
     var delegate    : GigDetailsSubViewDelegate!
     var videos      : [YoutubeDataClient.Video] = []
     
@@ -50,10 +52,19 @@ class GigDetailsYoutubeController : UIViewController,
         tableView.delegate   = self
         
         // load the videos
-        youtubeDataClient().searchVideosForGig(gig, song: nil, maxResults: 10) { videos, error in
-            if let videos = videos {
-                self.videos = videos
-            }
+        searchForVideos()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+       
+        guard let delegate = delegate else { return }
+        
+        // check if list has to be refreshed
+        let newSong = delegate.youtubeSong()
+        if song != newSong {
+            song = newSong
+            searchForVideos()
         }
     }
     
@@ -89,6 +100,20 @@ class GigDetailsYoutubeController : UIViewController,
         }
         
         return cell
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
+    // helper functions
+    //
+    
+    func searchForVideos() {
+        youtubeDataClient().searchVideosForGig(gig, song: song, maxResults: 10) { videos, error in
+            if let videos = videos {
+                self.videos = videos
+                self.tableView.reloadData()
+            }
+        }
     }
     
 }
