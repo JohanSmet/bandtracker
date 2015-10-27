@@ -31,7 +31,7 @@ class CoreDataStackManager {
             try coordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: storeUrl, options: nil)
             
             // finally, create the managed object context
-            var managedObjectContext = NSManagedObjectContext()
+            var managedObjectContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
             managedObjectContext.persistentStoreCoordinator = coordinator
             
             return managedObjectContext
@@ -42,6 +42,12 @@ class CoreDataStackManager {
         }
         
     }()
+    
+    func childObjectContext() -> NSManagedObjectContext {
+        let context = NSManagedObjectContext(concurrencyType: .PrivateQueueConcurrencyType)
+        context.parentContext = managedObjectContext
+        return context
+    }
     
     func saveContext () -> Bool {
         
@@ -60,21 +66,16 @@ class CoreDataStackManager {
             NSLog("Unresolved error \(error), \(error.userInfo)")
             return false
         }
-        
     }
     
-    func rollbackContext() -> Bool {
-        
-        if managedObjectContext == nil {
+    func saveChildContext(childContext : NSManagedObjectContext) -> Bool {
+        do {
+            try childContext.save()
+            return true
+        } catch let error as NSError {
+            NSLog("Unresolved error \(error), \(error.userInfo)")
             return false
         }
-        
-        if !managedObjectContext!.hasChanges {
-            return true
-        }
-        
-        managedObjectContext!.rollback()
-        return true
     }
     
     ////////////////////////////////////////////////////////////////////////////////

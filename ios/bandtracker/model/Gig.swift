@@ -62,9 +62,9 @@ class Gig : NSManagedObject {
     }
     
     func processEdit() {
-        country = dataContext().countryByName(editCountry)
-        city    = dataContext().cityByName(editCity)
-        venue   = dataContext().venueByName(editVenue)
+        country = dataContext().countryByName(editCountry, context: managedObjectContext!)
+        city    = dataContext().cityByName(editCity, context: managedObjectContext!)
+        venue   = dataContext().venueByName(editVenue, context: managedObjectContext!)
     }
     
 }

@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import CoreData
 
 enum GigDetailsControllerMode {
     case Create
@@ -48,9 +49,10 @@ class GigDetailsController :    UIPageViewController,
     // variables
     //
     
-    var mode    : GigDetailsControllerMode!
-    var gig     : Gig!
-    var song    : String!
+    var mode            : GigDetailsControllerMode!
+    var scratchContext  : NSManagedObjectContext = coreDataStackManager().childObjectContext()
+    var gig             : Gig!
+    var song            : String!
     
     var pages   : [GigDetailsSubView!] = [nil, nil, nil]
     var curPage : Int = 0
@@ -66,7 +68,7 @@ class GigDetailsController :    UIPageViewController,
         
         let newVC = storyboard.instantiateViewControllerWithIdentifier("GigDetailsController") as! GigDetailsController
         newVC.mode      = .Create
-        newVC.gig       = dataContext().createPartialGig(band)
+        newVC.gig       = Gig(band: newVC.scratchContext.objectWithID(band.objectID) as! Band, context: newVC.scratchContext)
         
         return newVC
     }
@@ -76,7 +78,7 @@ class GigDetailsController :    UIPageViewController,
         
         let newVC = storyboard.instantiateViewControllerWithIdentifier("GigDetailsController") as! GigDetailsController
         newVC.mode = .View
-        newVC.gig  = gig
+        newVC.gig  = newVC.scratchContext.objectWithID(gig.objectID) as! Gig
         
         return newVC
     }
@@ -114,12 +116,6 @@ class GigDetailsController :    UIPageViewController,
         pageControl.backgroundColor = UIColor.whiteColor()
     }
     
-    override func viewWillDisappear(animated: Bool) {
-        
-        coreDataStackManager().rollbackContext()
-        
-        super.viewWillDisappear(animated)
-    }
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
@@ -154,6 +150,8 @@ class GigDetailsController :    UIPageViewController,
     func saveGig() {
         if let gig = gig {
             gig.processEdit()
+            
+            coreDataStackManager().saveChildContext(scratchContext)
             coreDataStackManager().saveContext()
             
             gig.band.totalRating = dataContext().totalRatingOfGigs(gig.band)

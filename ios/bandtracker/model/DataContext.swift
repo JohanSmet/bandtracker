@@ -54,10 +54,6 @@ class DataContext {
     // gig management
     //
     
-    func createPartialGig(band : Band) -> Gig {
-        return Gig(band: band, context: coreDataStackManager().managedObjectContext!)
-    }
-    
     func totalRatingOfGigs(band : Band) -> Int {
         
         let sumExpDesc = NSExpressionDescription()
@@ -103,14 +99,14 @@ class DataContext {
         return results
     }
     
-    func countryByName(countryName : String) -> Country {
+    func countryByName(countryName : String, context : NSManagedObjectContext = coreDataStackManager().managedObjectContext!) -> Country {
         
         // try to fetch an existing record
         let fetchRequest        = NSFetchRequest(entityName: "Country")
         fetchRequest.predicate  = NSPredicate(format: "name == %@", countryName)
         
         do {
-            let results = try coreDataStackManager().managedObjectContext!.executeFetchRequest(fetchRequest) as! [Country]
+            let results = try context.executeFetchRequest(fetchRequest) as! [Country]
            
             if results.count > 0 {
                 return results[0]
@@ -121,7 +117,7 @@ class DataContext {
         }
         
         // create a new record (XXX this makes no sense ...)
-        let country = Country(code: countryName, name: countryName, context: coreDataStackManager().managedObjectContext!)
+        let country = Country(code: countryName, name: countryName, context: context)
         return country
     }
     
@@ -144,7 +140,7 @@ class DataContext {
     // city
     //
     
-    func cityByName(cityName : String) -> City? {
+    func cityByName(cityName : String, context : NSManagedObjectContext = coreDataStackManager().managedObjectContext!) -> City? {
         
         if cityName.characters.count <= 0 {
             return nil
@@ -155,7 +151,7 @@ class DataContext {
         fetchRequest.predicate  = NSPredicate(format: "name == %@", cityName)
         
         do {
-            let results = try coreDataStackManager().managedObjectContext!.executeFetchRequest(fetchRequest) as! [City]
+            let results = try context.executeFetchRequest(fetchRequest) as! [City]
             
             if results.count > 0 {
                 return results[0]
@@ -166,7 +162,7 @@ class DataContext {
         }
         
         // create a new record
-        return City(name: cityName, longitude: 0, latitude: 0, context: coreDataStackManager().managedObjectContext!)
+        return City(name: cityName, longitude: 0, latitude: 0, context: context)
     }
     
     func cityList(nameFilter : String) -> [City] {
@@ -187,7 +183,7 @@ class DataContext {
     // venue
     //
     
-    func venueByName(venueName : String) -> Venue? {
+    func venueByName(venueName : String, context : NSManagedObjectContext = coreDataStackManager().managedObjectContext!) -> Venue? {
         
         if venueName.characters.count <= 0 {
             return nil
@@ -198,7 +194,7 @@ class DataContext {
         fetchRequest.predicate  = NSPredicate(format: "name == %@", venueName)
         
         do {
-            let results = try coreDataStackManager().managedObjectContext!.executeFetchRequest(fetchRequest) as! [Venue]
+            let results = try context.executeFetchRequest(fetchRequest) as! [Venue]
             
             if results.count > 0 {
                 return results[0]
@@ -209,7 +205,7 @@ class DataContext {
         }
         
         // create a new record
-        return Venue(name: venueName, longitude: 0, latitude: 0, context: coreDataStackManager().managedObjectContext!)
+        return Venue(name: venueName, longitude: 0, latitude: 0, context: context)
     }
     
     func venueList(nameFilter : String) -> [Venue] {
