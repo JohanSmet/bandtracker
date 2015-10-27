@@ -94,6 +94,82 @@ class BandTrackerClient : WebApiClient {
         }
     }
     
+    func cityFind(pattern : String, countryCode : String?, completionHandler : (cities : [String]?, error : String?) -> Void) {
+        
+        // make sure to login first
+        guard let token = apiToken else {
+            return login() { self.cityFind(pattern, countryCode: countryCode, completionHandler: completionHandler) }
+        }
+        
+        // configure request
+        var parameters : [String : AnyObject] = [
+            "pattern": pattern
+        ]
+        
+        if let countryCode = countryCode {
+            if !countryCode.isEmpty {
+                parameters["country"] = countryCode
+            }
+        }
+        
+        let extraHeaders : [String : String] = [
+            "x-access-token" : token
+        ]
+        
+        // execute request
+        startTaskGET(BandTrackerClient.BASE_URL, method: "city/find", parameters: parameters, extraHeaders: extraHeaders) { result, error in
+            if let basicError = error as? NSError {
+                completionHandler(cities: nil, error: BandTrackerClient.formatBasicError(basicError))
+            } else if let httpError = error as? NSHTTPURLResponse {
+                completionHandler(cities: nil, error: BandTrackerClient.formatHttpError(httpError))
+            } else {
+                let postResult = result as! [String]
+                completionHandler(cities : postResult, error : nil)
+            }
+        }
+    }
+    
+    func venueFind(pattern : String, countryCode : String?, city : String?, completionHandler : (venues : [String]?, error : String?) -> Void)  {
+        
+        // make sure to login first
+        guard let token = apiToken else {
+            return login() { self.venueFind(pattern, countryCode: countryCode, city: city, completionHandler: completionHandler) }
+        }
+        
+        // configure request
+        var parameters : [String : AnyObject] = [
+            "pattern": pattern
+        ]
+        
+        if let countryCode = countryCode {
+            if !countryCode.isEmpty {
+                parameters["country"] = countryCode
+            }
+        }
+        
+        if let city = city {
+            if !city.isEmpty {
+                parameters["city"] = city
+            }
+        }
+        
+        let extraHeaders : [String : String] = [
+            "x-access-token" : token
+        ]
+        
+        // execute request
+        startTaskGET(BandTrackerClient.BASE_URL, method: "venue/find", parameters: parameters, extraHeaders: extraHeaders) { result, error in
+            if let basicError = error as? NSError {
+                completionHandler(venues: nil, error: BandTrackerClient.formatBasicError(basicError))
+            } else if let httpError = error as? NSHTTPURLResponse {
+                completionHandler(venues: nil, error: BandTrackerClient.formatHttpError(httpError))
+            } else {
+                let postResult = result as! [String]
+                completionHandler(venues : postResult, error : nil)
+            }
+        }
+    }
+    
     func countrySync(syncId : Int, completionHandler : (syncId : Int, countries : [ServerCountry]?, error : String?) -> Void) {
         
         // make sure to login first
