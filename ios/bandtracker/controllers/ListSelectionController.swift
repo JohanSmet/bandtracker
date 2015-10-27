@@ -9,31 +9,36 @@
 import Foundation
 import UIKit
 
+protocol ListSelectionControllerDelegate {
+   
+    var enableFilter        : Bool   { get }
+    var enableCustomValue   : Bool   { get }
+    var filterPlaceHolder   : String { get }
+    var filterInitialValue  : String { get }
+    
+    func numberOfSections(listSelectionController : ListSelectionController) -> Int
+    func titleForSection(listSelectionController : ListSelectionController, section : Int) -> String?
+    func dataForSection(listSelectionController : ListSelectionController, section : Int, filterText : String, completionHandler : (data  : [AnyObject]?) -> Void)
+    func labelForItem(listSelectionController : ListSelectionController, section : Int, item : AnyObject) -> String
+    
+    func didSelectItem(listSelectionController : ListSelectionController, custom : Bool, section : Int, item : AnyObject)
+    
+}
+
+
 class ListSelectionController : UIViewController,
                                 UITextFieldDelegate,
                                 UITableViewDataSource,
                                 UITableViewDelegate {
-    
-    
-    typealias FilterCallbackType  = (filterText : String) -> [AnyObject]
-    typealias DisplayCallbackType = (item : AnyObject) -> String
-    typealias SelectCallbackType  = (custom : Bool, item : AnyObject) -> Void
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
     // variables
     //
     
-    private var enableFilter : Bool = false
-    private var enableCustom : Bool = false
-    
-    private var filterPlaceholder : String = ""
-    private var filterInitial     : String = ""
-    private var selectionData   : [AnyObject] = []
-    
-    private var filterCallback  : FilterCallbackType!
-    private var displayCallback : DisplayCallbackType!
-    private var selectCallback  : SelectCallbackType!
+    private var delegate        : ListSelectionControllerDelegate!
+    private var numSections     : Int = 0
+    private var selectionData   : [[AnyObject]] = []
    
     ///////////////////////////////////////////////////////////////////////////////////
     //
@@ -48,19 +53,11 @@ class ListSelectionController : UIViewController,
     // interface to create a selection list
     //
     
-    class func create(withFilter filterPlaceholder : String, initialFilter filterInitial : String, enableCustom : Bool,
-                      filterCallback : FilterCallbackType, displayCallback : DisplayCallbackType, selectCallback : SelectCallbackType) -> ListSelectionController {
+    class func create(delegate : ListSelectionControllerDelegate) -> ListSelectionController {
+        
         let storyboard = UIStoryboard(name: "Gigs", bundle: nil)
         let vc = storyboard.instantiateViewControllerWithIdentifier("ListSelectionController") as! ListSelectionController
-        
-        vc.enableFilter = true
-        vc.filterPlaceholder = filterPlaceholder
-        vc.filterInitial     = filterInitial
-        vc.enableCustom = enableCustom
-        
-        vc.filterCallback  = filterCallback
-        vc.displayCallback = displayCallback
-        vc.selectCallback  = selectCallback
+        vc.delegate = delegate
         
         return vc
     }
@@ -73,10 +70,25 @@ class ListSelectionController : UIViewController,
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        filterText.delegate = self
-        filterText.placeholder = filterPlaceholder
-        filterText.text        = filterInitial
+        guard let delegate = delegate else { return }
         
+        // filter
+        if delegate.enableFilter {
+            filterText.delegate    = self
+            filterText.placeholder = delegate.filterPlaceHolder
+            filterText.text        = delegate.filterInitialValue
+        } else {
+            filterText.hidden      = true
+        }
+        
+        // table sections
+        numSections = delegate.numberOfSections(self)
+
+        for _ in 0 ..< numSections {
+            selectionData.append([])
+        }
+        
+        // tableview
         tableView.dataSource = self
         tableView.delegate   = self
     }
@@ -84,10 +96,7 @@ class ListSelectionController : UIViewController,
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        if let callback = filterCallback {
-            selectionData = callback(filterText: filterText.text!)
-            tableView.reloadData()
-        }
+        refilterData(filterText.text!)
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -96,33 +105,39 @@ class ListSelectionController : UIViewController,
     //
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1 + (enableCustom ? 1 : 0)
+        return numSections + (delegate.enableCustomValue ? 1 : 0)
     }
    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if enableCustom && section == 0 {
+        if delegate.enableCustomValue && section == 0 {
             return 1
         }
         
-        return selectionData.count
+        return dataForSection(section).count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("SelectionCell", forIndexPath: indexPath)
         
-        if enableCustom && indexPath.section == 0 {
+        if delegate.enableCustomValue && indexPath.section == 0 {
             cell.textLabel?.text = filterText.text
         } else {
-            cell.textLabel?.text = displayCallback(item: selectionData[indexPath.row])
+            let delta = delegate.enableCustomValue ? 1 : 0
+            cell.textLabel?.text = delegate.labelForItem(self, section: indexPath.section - delta, item: itemForIndexPath(indexPath))
         }
         
         return cell
     }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if enableCustom && section == 1 && selectionData.count > 0 {
-            return "Matches"
+        if delegate.enableCustomValue && section == 0 {
+            return nil
+        }
+        
+        let delta = delegate.enableCustomValue ? 1 : 0
+        if selectionData[section - delta].count > 0 {
+            return delegate.titleForSection(self, section: section - delta)
         }
         
         return nil
@@ -135,13 +150,14 @@ class ListSelectionController : UIViewController,
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        self.navigationController?.popViewControllerAnimated(true)
-        
-        if enableCustom && indexPath.section == 0 && selectCallback != nil {
-            selectCallback(custom: true, item: filterText.text!)
+        if delegate.enableCustomValue && indexPath.section == 0 {
+            delegate.didSelectItem(self, custom: true, section: 0, item: filterText.text!)
         } else {
-            selectCallback(custom: false, item: selectionData[indexPath.row])
+            let delta = delegate.enableCustomValue ? 1 : 0
+            delegate.didSelectItem(self, custom: false, section: indexPath.section - delta, item: itemForIndexPath(indexPath))
         }
+        
+        self.navigationController?.popViewControllerAnimated(true)
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -155,20 +171,39 @@ class ListSelectionController : UIViewController,
         newText = newText.stringByReplacingCharactersInRange(range, withString: string)
         textField.text = newText as String
         
-        var doReload : Bool = enableCustom
-        
-        // update selection list
-        if let callback = filterCallback {
-            selectionData = callback(filterText: newText as String)
-            doReload = true
-        }
-        
-        if doReload {
-            tableView.reloadData()
-        }
+        refilterData(textField.text!)
+        tableView.reloadData()
         
         return false
     }
     
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
+    // helper functions
+    //
+    
+    private func refilterData(filter : String) {
+        
+        for section in 0 ..< numSections {
+            delegate.dataForSection(self, section: section, filterText: filter) { data in
+                self.selectionData[section] = data ?? []
+                
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.tableView.reloadData()
+                }
+            }
+        }
+        
+    }
+    
+    private func dataForSection(section : Int) -> [AnyObject] {
+        let delta = delegate.enableCustomValue ? 1 : 0
+        return selectionData[section - delta]
+    }
+    
+    private func itemForIndexPath(indexPath : NSIndexPath) -> AnyObject {
+        let delta = delegate.enableCustomValue ? 1 : 0
+        return selectionData[indexPath.section - delta][indexPath.row]
+    }
     
 }

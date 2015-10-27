@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 
+
+
 class GigDetailsDataController : UITableViewController,
                                  UITextFieldDelegate,
                                  RatingControlDelegate,
@@ -193,58 +195,26 @@ class GigDetailsDataController : UITableViewController,
         else if indexPath.section == SECTION_META && indexPath.row == ROW_COUNTRY {
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
             
-            let countrySelect = ListSelectionController.create(withFilter: "Enter country", initialFilter: gig.editCountry, enableCustom: false,
-                filterCallback : { filterText in
-                    return dataContext().countryList(filterText)
-                },
-                displayCallback : { item in
-                    return (item as? Country)!.name
-                },
-                selectCallback : { custom, item in
-                    if let country = item as? Country {
-                        self.gig.editCountry = country.name
-                    }
-                }
-            )
+            let countrySelect = ListSelectionController.create(CountrySelectionDelegate(initialFilter: gig.editCountry) { name in
+                self.gig.editCountry = name
+                self.gig.country     = dataContext().countryByName(name, context: self.gig.managedObjectContext!)
+            })
+            
             navigationController?.pushViewController(countrySelect, animated: true)
         } else if indexPath.section == SECTION_META && indexPath.row == ROW_CITY {
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
             
-            let citySelect = ListSelectionController.create(withFilter: "Enter city", initialFilter: gig.editCity, enableCustom: true,
-                filterCallback: { filterText in
-                    return dataContext().cityList(filterText)
-                },
-                displayCallback: { item in
-                    return (item as? City)!.name
-                },
-                selectCallback: { custom, item in
-                    if let city = item as? City {
-                        self.gig.editCity = city.name
-                    } else if custom {
-                        self.gig.editCity = item as! String
-                    }
-                }
-            )
+            let citySelect = ListSelectionController.create(CitySelectionDelegate(initialFilter: gig.editCity, countryCode: gig.country.code) { name in
+                self.gig.editCity = name
+            })
             
             navigationController?.pushViewController(citySelect, animated: true)
         } else if indexPath.section == SECTION_META && indexPath.row == ROW_VENUE {
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
             
-            let venueSelect = ListSelectionController.create(withFilter: "Enter venue", initialFilter: gig.editVenue, enableCustom: true,
-                filterCallback: { filterText in
-                    return dataContext().venueList(filterText)
-                },
-                displayCallback: { item in
-                    return (item as? Venue)!.name
-                },
-                selectCallback: { custom, item in
-                    if let venue = item as? Venue {
-                        self.gig.editVenue = venue.name
-                    } else if custom {
-                        self.gig.editVenue = item as! String
-                    }
-                }
-            )
+            let venueSelect = ListSelectionController.create(VenueSelectionDelegate(initialFilter: gig.editVenue, countryCode: gig.country.code, city: gig.editCity) { name in
+                self.gig.editVenue = name
+            })
             
             navigationController?.pushViewController(venueSelect, animated: true)
         }
