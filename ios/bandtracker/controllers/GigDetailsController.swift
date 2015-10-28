@@ -10,53 +10,65 @@ import Foundation
 import UIKit
 import CoreData
 
-enum GigDetailsControllerMode {
-    case Create
-    case Edit
-    case View
-}
-
-protocol GigDetailsSubViewDelegate {
-    func enableSave(enable : Bool)
-    func switchToYoutubePage(song : String)
-    func youtubeSong() -> String!
-}
-
-protocol GigDetailsSubView {
-    var gig : Gig! {get set}
-    var delegate : GigDetailsSubViewDelegate! {get set}
-    func setEditableControls(edit : Bool)
-}
-
-class GigDetailsController :    UIPageViewController,
-                                UIPageViewControllerDataSource,
-                                UIPageViewControllerDelegate,
-                                GigDetailsSubViewDelegate {
+class GigDetailsController :    UITableViewController,
+                                UITextFieldDelegate,
+                                RatingControlDelegate {
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
     // constants
     //
     
-    let pageIDs : [String] = [
-        "GigDetailsDataContainer",
-        "GigDetailsSetlistController",
-        "GigDetailsYoutubeController"
-    ]
+    let SECTION_DATES = 0
+    let SECTION_META  = 1
+    let SECTION_LINKS = 3
+    
+    let ROW_COUNTRY   = 0
+    let ROW_CITY      = 1
+    let ROW_VENUE     = 2
+    let ROW_SETLIST   = 0
+    let ROW_YOUTUBE   = 1
+    
+    let START_DATE = 0
+    let START_TIME = 1
+    let DURATION   = 2
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
     // variables
     //
     
-    var mode            : GigDetailsControllerMode!
     var scratchContext  : NSManagedObjectContext = coreDataStackManager().childObjectContext()
     var gig             : Gig!
-    var song            : String!
     
-    var pages   : [GigDetailsSubView!] = [nil, nil, nil]
-    var curPage : Int = 0
-    var nextPage: Int = 0
+    var datePickerRows      : [Int]  = [1, 3, 5]
+    var datePickerEditing   : [Bool] = [false, false, false]
+    var datePickerHeight    : CGFloat = 0
+    
+    var editable            : Bool = false
+    
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
+    // outlets
+    //
+    
+    @IBOutlet var datePickers : [UIView]!
+    @IBOutlet var dateLabels  : [UILabel]!
+    
+    @IBOutlet weak var startDatePicker: UIDatePicker!
+    @IBOutlet weak var startTimePicker: UIDatePicker!
+    @IBOutlet weak var durationPicker: TimeIntervalPicker!
+    
+    @IBOutlet weak var textCountry: UITextField!
+    @IBOutlet weak var textCity: UITextField!
+    @IBOutlet weak var textVenue: UITextField!
+    @IBOutlet weak var textStage: UITextField!
+    
+    @IBOutlet weak var switchSupportAct: UISwitch!
+    @IBOutlet weak var ratingControl: RatingControl!
+    
+    @IBOutlet weak var textComments: UITextField!
+    
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
@@ -67,7 +79,7 @@ class GigDetailsController :    UIPageViewController,
         let storyboard = UIStoryboard(name: "Gigs", bundle: nil)
         
         let newVC = storyboard.instantiateViewControllerWithIdentifier("GigDetailsController") as! GigDetailsController
-        newVC.mode      = .Create
+        newVC.editable  = true
         newVC.gig       = Gig(band: newVC.scratchContext.objectWithID(band.objectID) as! Band, context: newVC.scratchContext)
         
         return newVC
@@ -77,12 +89,13 @@ class GigDetailsController :    UIPageViewController,
         let storyboard = UIStoryboard(name: "Gigs", bundle: nil)
         
         let newVC = storyboard.instantiateViewControllerWithIdentifier("GigDetailsController") as! GigDetailsController
-        newVC.mode = .View
+        newVC.editable  = false
         newVC.gig  = newVC.scratchContext.objectWithID(gig.objectID) as! Gig
+        newVC.gig = gig
         
         return newVC
     }
-   
+    
     ///////////////////////////////////////////////////////////////////////////////////
     //
     // UIViewController overrides
@@ -91,16 +104,19 @@ class GigDetailsController :    UIPageViewController,
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // init page controller
-        self.dataSource = self
-        self.delegate   = self
+        // save the default height of a datepicker
+        datePickerHeight = datePickers[0].bounds.height
+        
+        // set delegates
+        textCountry.delegate    = self
+        textCity.delegate       = self
+        textVenue.delegate      = self
+        textStage.delegate      = self
+        textComments.delegate   = self
+        ratingControl.delegate  = self
         
         // initialize gig-record
         gig.prepareForEdit()
-        
-        // create the initial view
-        let page = pageViewControllerForIndex(0)
-        setViewControllers([page!], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
         
         // configure navigation controller
         createNavigationButtons()
@@ -108,38 +124,7 @@ class GigDetailsController :    UIPageViewController,
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
-        // customize the page control
-        let pageControl = UIPageControl.appearance()
-        pageControl.pageIndicatorTintColor = UIColor.lightGrayColor()
-        pageControl.currentPageIndicatorTintColor = UIColor.blackColor()
-        pageControl.backgroundColor = UIColor.whiteColor()
-    }
-    
-    
-    ///////////////////////////////////////////////////////////////////////////////////
-    //
-    // GigDetailsSubviewDelegate
-    //
-    
-    func enableSave(enable : Bool) {
-        if mode != .View {
-            navigationItem.rightBarButtonItem?.enabled = enable
-        }
-    }
-    
-    func switchToYoutubePage(song : String) {
-        self.song = song
-        self.curPage = 2
-        
-        let page = pageViewControllerForIndex(2)
-        setViewControllers([page!], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: nil)
-    }
-    
-    func youtubeSong() -> String! {
-        let result = song
-        song = nil
-        return result
+        setUIFields()
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -162,60 +147,129 @@ class GigDetailsController :    UIPageViewController,
     }
     
     func editGig() {
-        mode = .Edit
+        setEditable(true)
         createNavigationButtons()
+    }
+    
+    @IBAction func pickStartChanged(sender: UIDatePicker) {
+        gig.startDate = DateUtils.join(startDatePicker.date, time: startTimePicker.date)
+        updateStartLabels()
+        validateForm()
+    }
+    
+    @IBAction func pickDurationChanged(sender: TimeIntervalPicker) {
+        gig.endDate = DateUtils.add(gig.startDate, interval: durationPicker.timeInterval)
+        updateEndLabels()
+        validateForm()
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
+    // UITextFieldDelegate
+    //
+    
+    func textFieldDidEndEditing(textField: UITextField) {
         
-        for page in pages {
-            if let page = page {
-                page.setEditableControls(true)
+        if textField == textCountry {
+            gig.editCountry = textField.text!
+        } else if textField == textCity {
+            gig.editCity = textField.text!
+        } else if textField == textVenue {
+            gig.editVenue = textField.text!
+        } else if textField == textStage {
+            gig.stage = textField.text!
+        } else if textField == textComments {
+            gig.comments = textField.text!
+        }
+        
+        validateForm()
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
+    // RatingControlDelegate
+    //
+    
+    func ratingDidChange(ratingControl: RatingControl, newRating: Float, oldRating: Float) {
+        gig.rating = Int(newRating * 10)
+        validateForm()
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
+    // UITableViewDelegate
+    //
+    
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        
+        if indexPath.section == SECTION_DATES {
+            if let index = datePickerRows.indexOf(indexPath.row) {
+                return self.datePickerEditing[index] ? datePickerHeight : 0
             }
-        }
-    }
-    
-    ///////////////////////////////////////////////////////////////////////////////////
-    //
-    // UIPageViewControllerDataSource
-    //
-    
-    func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
-        let pageIndex = self.pageIDs.indexOf(viewController.restorationIdentifier!)!
-        
-        if pageIndex <= 0 {
-            return nil
+        } else if indexPath.section == SECTION_LINKS && editable {
+            return 0
         }
         
-        return pageViewControllerForIndex(pageIndex - 1)
+        return self.tableView.rowHeight
     }
     
-    func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
-        let pageIndex = self.pageIDs.indexOf(viewController.restorationIdentifier!)!
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        if pageIndex >= pageIDs.count {
-            return nil
-        }
+        var doReload = false
         
-        return pageViewControllerForIndex(pageIndex + 1)
-    }
-    
-    func presentationCountForPageViewController(pageViewController: UIPageViewController) -> Int {
-        return pageIDs.count
-    }
-    
-    func presentationIndexForPageViewController(pageViewController: UIPageViewController) -> Int {
-        return curPage
-    }
-    
-    ///////////////////////////////////////////////////////////////////////////////////
-    //
-    // UIPageViewControllerDelegate
-    //
-    
-    func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-        if !completed {
+        if !editable && indexPath.section != SECTION_LINKS {
+            tableView.deselectRowAtIndexPath(indexPath, animated: false)
             return
         }
-       
-        curPage = (pageViewController.viewControllers?[0].view.tag)!
+        
+        if indexPath.section == SECTION_DATES {
+            if let index = datePickerRows.indexOf(indexPath.row + 1) {
+                togglePicker(index)
+                tableView.deselectRowAtIndexPath(indexPath, animated: true)
+                doReload = true
+            }
+        }
+        else if indexPath.section == SECTION_META && indexPath.row == ROW_COUNTRY {
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            
+            let countrySelect = ListSelectionController.create(CountrySelectionDelegate(initialFilter: gig.editCountry) { name in
+                self.gig.editCountry = name
+                self.gig.country     = dataContext().countryByName(name, context: self.gig.managedObjectContext!)
+                })
+            
+            navigationController?.pushViewController(countrySelect, animated: true)
+        } else if indexPath.section == SECTION_META && indexPath.row == ROW_CITY {
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            
+            let citySelect = ListSelectionController.create(CitySelectionDelegate(initialFilter: gig.editCity, countryCode: gig.country.code) { name in
+                self.gig.editCity = name
+                })
+            
+            navigationController?.pushViewController(citySelect, animated: true)
+        } else if indexPath.section == SECTION_META && indexPath.row == ROW_VENUE {
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            
+            let venueSelect = ListSelectionController.create(VenueSelectionDelegate(initialFilter: gig.editVenue, countryCode: gig.country.code, city: gig.editCity) { name in
+                self.gig.editVenue = name
+                })
+            
+            navigationController?.pushViewController(venueSelect, animated: true)
+        } else if indexPath.section == SECTION_LINKS && indexPath.row == ROW_SETLIST {
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+         
+            let vc = GigDetailsSetlistController.create(gig)
+            navigationController?.pushViewController(vc, animated: true)
+        } else if indexPath.section == SECTION_LINKS && indexPath.row == ROW_YOUTUBE {
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+         
+            let vc = GigDetailsYoutubeController.create(gig)
+            navigationController?.pushViewController(vc, animated: true)
+        }
+        
+        if doReload {
+            tableView.beginUpdates()
+            tableView.endUpdates()
+        }
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -223,44 +277,76 @@ class GigDetailsController :    UIPageViewController,
     // helper functions
     //
     
-    func pageViewControllerForIndex(index : Int) -> UIViewController? {
-       
-        if index < 0 || index >= self.pageIDs.count {
-            return nil
+    func createNavigationButtons() {
+        if editable {
+            let buttonSave = UIBarButtonItem(title: "Save", style: .Plain, target: self, action: "saveGig")
+            self.navigationItem.setRightBarButtonItems([buttonSave], animated: false)
+            validateForm()
+        } else {
+            let buttonEdit = UIBarButtonItem(title: "Edit", style: .Plain, target: self, action: "editGig")
+            self.navigationItem.setRightBarButtonItems([buttonEdit], animated: false)
         }
-        
-        if let page = pages[index] {
-            return page as? UIViewController
-        }
-        
-        let vc = self.storyboard?.instantiateViewControllerWithIdentifier(pageIDs[index])
-        
-        var page = vc as! GigDetailsSubView
-        page.gig = gig
-        page.delegate = self
-        page.setEditableControls(self.mode! != .View)
-        vc!.view.tag = index
-        
-        pages[index] = page
-        
-        return vc
     }
     
-    func createNavigationButtons() {
-        switch (self.mode!) {
-            case .Create :
-                let buttonSave = UIBarButtonItem(title: "Add", style: .Plain, target: self, action: "saveGig")
-                buttonSave.enabled = false
-                self.navigationItem.setRightBarButtonItems([buttonSave], animated: false)
-                
-            case .View :
-                let buttonEdit = UIBarButtonItem(title: "Edit", style: .Plain, target: self, action: "editGig")
-                self.navigationItem.setRightBarButtonItems([buttonEdit], animated: false)
-                
-            case .Edit :
-                let buttonSave = UIBarButtonItem(title: "Save", style: .Plain, target: self, action: "saveGig")
-                self.navigationItem.setRightBarButtonItems([buttonSave], animated: false)
+    
+    private func setUIFields() {
+        startDatePicker.date = gig.startDate
+        startTimePicker.date = gig.startDate
+        updateStartLabels()
+        
+        durationPicker.timeInterval = DateUtils.diff(gig.endDate, dateBegin: gig.startDate)
+        updateEndLabels()
+        
+        textCountry.text = gig.editCountry
+        textCity.text    = gig.editCity
+        textVenue.text   = gig.editVenue
+        textStage.text   = gig.stage
+        
+        ratingControl.rating = gig.rating.floatValue / 10
+        
+        switchSupportAct.on = gig.supportAct
+        
+        validateForm()
+    }
+    
+    private func updateStartLabels() {
+        dateLabels[START_DATE].text = DateUtils.toDateStringMedium(gig.startDate)
+        dateLabels[START_TIME].text = DateUtils.toTimeStringShort(gig.startDate)
+    }
+    
+    private func updateEndLabels() {
+        if durationPicker.timeInterval > 0 {
+            dateLabels[DURATION].text = durationPicker.formattedString
+        } else {
+            dateLabels[DURATION].text = "not set"
         }
+    }
+    
+    private func togglePicker(picker : Int) {
+        
+        for var idx = 0; idx < datePickerEditing.count; ++idx {
+            datePickerEditing[idx]  = (picker == idx) ? !datePickerEditing[idx] : false
+            
+            datePickers[idx].hidden     = !datePickerEditing[idx]
+            dateLabels[idx].textColor   = datePickerEditing[idx] ? UIColor.redColor() : UIColor.blackColor()
+        }
+        
+    }
+    
+    private func validateForm() {
+         var isValid : Bool = true
+        
+        // country moet ingevuld zijn
+        if gig.editCountry.isEmpty {
+            isValid = false
+        }
+     
+        navigationItem.rightBarButtonItem?.enabled = isValid
+    }
+    
+    private func setEditable(editable : Bool) {
+        self.editable = editable
+        self.tableView.reloadData()
     }
     
 }

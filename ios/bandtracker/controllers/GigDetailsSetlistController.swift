@@ -11,19 +11,17 @@ import UIKit
 
 class GigDetailsSetlistController : UIViewController ,
                                     UITableViewDataSource,
-                                    UITableViewDelegate,
-                                    GigDetailsSubView {
+                                    UITableViewDelegate {
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
     // variables
     //
     
-    var gig         : Gig!
-    var delegate    : GigDetailsSubViewDelegate!
+    private var gig         : Gig!
     
-    var set : [SetlistFmClient.SetPart] = []
-    var urlString : String?
+    private var set : [SetlistFmClient.SetPart] = []
+    private var urlString : String?
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
@@ -35,10 +33,17 @@ class GigDetailsSetlistController : UIViewController ,
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
-    // GigDetailsSubView
+    // static interface
     //
     
-    func setEditableControls(edit: Bool) {
+    class func create(gig : Gig) -> GigDetailsSetlistController {
+        
+        let storyboard = UIStoryboard(name: "Gigs", bundle: nil)
+        
+        let newVC = storyboard.instantiateViewControllerWithIdentifier("GigDetailsSetlistController") as! GigDetailsSetlistController
+        newVC.gig = gig
+        
+        return newVC
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -63,8 +68,10 @@ class GigDetailsSetlistController : UIViewController ,
             // XXX display error
             
             if let setlist = setlist {
-                self.set = setlist
-                self.tableView.reloadData()
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.set = setlist
+                    self.tableView.reloadData()
+                }
             }
             
             if let setlistUrl = setlistUrl {
@@ -118,10 +125,9 @@ class GigDetailsSetlistController : UIViewController ,
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: false)
         
-        if let delegate = delegate {
-            let song = set[indexPath.section].songs[indexPath.row]
-            delegate.switchToYoutubePage(song)
-        }
+        let song = set[indexPath.section].songs[indexPath.row]
+        let vc = GigDetailsYoutubeController.create(gig, song: song)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
 }

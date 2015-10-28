@@ -11,19 +11,17 @@ import UIKit
 
 class GigDetailsYoutubeController : UIViewController,
                                     UITableViewDataSource,
-                                    UITableViewDelegate,
-                                    GigDetailsSubView {
-    
+                                    UITableViewDelegate {
+
     ///////////////////////////////////////////////////////////////////////////////////
     //
     // variables
     //
     
-    var gig         : Gig!
-    var song        : String!
+    private var gig         : Gig!
+    private var song        : String!
     
-    var delegate    : GigDetailsSubViewDelegate!
-    var videos      : [YoutubeDataClient.Video] = []
+    private var videos      : [YoutubeDataClient.Video] = []
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
@@ -34,10 +32,18 @@ class GigDetailsYoutubeController : UIViewController,
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
-    // GigDetailsSubView
+    // static interface
     //
     
-    func setEditableControls(edit: Bool) {
+    class func create(gig : Gig, song : String? = nil) -> GigDetailsYoutubeController {
+        
+        let storyboard = UIStoryboard(name: "Gigs", bundle: nil)
+        
+        let newVC = storyboard.instantiateViewControllerWithIdentifier("GigDetailsYoutubeController") as! GigDetailsYoutubeController
+        newVC.gig = gig
+        newVC.song = song
+        
+        return newVC
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -57,15 +63,7 @@ class GigDetailsYoutubeController : UIViewController,
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-       
-        guard let delegate = delegate else { return }
         
-        // check if list has to be refreshed
-        let newSong = delegate.youtubeSong()
-        if song != newSong {
-            song = newSong
-            searchForVideos()
-        }
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -110,8 +108,10 @@ class GigDetailsYoutubeController : UIViewController,
     func searchForVideos() {
         youtubeDataClient().searchVideosForGig(gig, song: song, maxResults: 10) { videos, error in
             if let videos = videos {
-                self.videos = videos
-                self.tableView.reloadData()
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.videos = videos
+                    self.tableView.reloadData()
+                }
             }
         }
     }

@@ -7,51 +7,11 @@
     </dependencies>
     <scenes>
         <!--Gig Details Controller-->
-        <scene sceneID="OE0-D0-dIM">
-            <objects>
-                <pageViewController storyboardIdentifier="GigDetailsController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="mT9-GV-Rj1" customClass="GigDetailsController" customModule="bandtracker" customModuleProvider="target" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="euA-cG-d9F" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="406" y="340"/>
-        </scene>
-        <!--Gig Details Data Container-->
-        <scene sceneID="4fu-sE-XpA">
-            <objects>
-                <viewController storyboardIdentifier="GigDetailsDataContainer" useStoryboardIdentifierAsRestorationIdentifier="YES" id="qhl-uC-ISI" customClass="GigDetailsDataContainer" customModule="bandtracker" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Rap-Ei-0Jf"/>
-                        <viewControllerLayoutGuide type="bottom" id="L0U-i1-hRB"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="AhN-dw-jT7">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K0E-P8-zXt">
-                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
-                                <connections>
-                                    <segue destination="NrK-HV-StL" kind="embed" identifier="embedGigDetailsData" id="7VI-Qn-UEM"/>
-                                </connections>
-                            </containerView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="K0E-P8-zXt" firstAttribute="top" secondItem="Rap-Ei-0Jf" secondAttribute="bottom" id="27l-uf-yTs"/>
-                            <constraint firstAttribute="trailing" secondItem="K0E-P8-zXt" secondAttribute="trailing" id="92B-QF-6Qn"/>
-                            <constraint firstItem="K0E-P8-zXt" firstAttribute="leading" secondItem="AhN-dw-jT7" secondAttribute="leading" id="F8i-Ir-83a"/>
-                            <constraint firstItem="L0U-i1-hRB" firstAttribute="top" secondItem="K0E-P8-zXt" secondAttribute="bottom" id="tDD-5i-ejg"/>
-                        </constraints>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="kmL-bH-bD1" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1033" y="338"/>
-        </scene>
-        <!--Gig Details Data Controller-->
         <scene sceneID="EHj-xV-Lgl">
             <objects>
-                <tableViewController storyboardIdentifier="GigDetailsDataController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="NrK-HV-StL" customClass="GigDetailsDataController" customModule="bandtracker" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="GigDetailsController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="NrK-HV-StL" customClass="GigDetailsController" customModule="bandtracker" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="9o7-qe-oMC">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="580"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <sections>
@@ -391,6 +351,50 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection id="Xu9-U0-aQw">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="n1Z-x8-oDo">
+                                        <rect key="frame" x="0.0" y="1201" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="n1Z-x8-oDo" id="TpP-6C-wKw">
+                                            <rect key="frame" x="0.0" y="0.0" width="567" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="View set list of this gig" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gtf-qx-VlD">
+                                                    <rect key="frame" x="16" y="11" width="172" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="leadingMargin" secondItem="Gtf-qx-VlD" secondAttribute="leading" constant="-8" id="Anx-4w-jqL"/>
+                                                <constraint firstItem="Gtf-qx-VlD" firstAttribute="centerY" secondItem="TpP-6C-wKw" secondAttribute="centerY" id="m6u-h3-lvq"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="AQC-le-Oxs">
+                                        <rect key="frame" x="0.0" y="1245" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="AQC-le-Oxs" id="ML7-TY-jYY">
+                                            <rect key="frame" x="0.0" y="0.0" width="567" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search for videos on Youtube" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DDz-1S-Gpb">
+                                                    <rect key="frame" x="16" y="11" width="225" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="DDz-1S-Gpb" firstAttribute="leading" secondItem="ML7-TY-jYY" secondAttribute="leadingMargin" constant="8" id="3ex-AY-Nca"/>
+                                                <constraint firstItem="DDz-1S-Gpb" firstAttribute="centerY" secondItem="ML7-TY-jYY" secondAttribute="centerY" id="Wfz-2n-Z8z"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                         </sections>
                         <connections>
                             <outlet property="dataSource" destination="NrK-HV-StL" id="5Zf-Il-DZ5"/>
@@ -419,7 +423,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e6W-gm-goI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1739" y="340"/>
+            <point key="canvasLocation" x="575" y="334"/>
         </scene>
         <!--List Selection Controller-->
         <scene sceneID="Zzf-de-phG">
@@ -480,7 +484,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PvY-zP-ghX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2407" y="350"/>
+            <point key="canvasLocation" x="1242" y="334"/>
         </scene>
         <!--Gig Details Setlist Controller-->
         <scene sceneID="N27-Ij-2fM">
@@ -563,12 +567,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sES-Fp-uS5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1033" y="1008"/>
+            <point key="canvasLocation" x="575" y="999"/>
         </scene>
         <!--Gig Details Youtube Controller-->
         <scene sceneID="ct6-BM-bqw">
             <objects>
-                <viewController storyboardIdentifier="GigDetailsYoutubeController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="nlj-WO-snE" customClass="GigDetailsYoutubeController" customModule="bandtracker" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="GigDetailsYoutubeController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="nlj-WO-snE" customClass="GigDetailsYoutubeController" customModule="bandtracker" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="j3u-EM-YYe"/>
                         <viewControllerLayoutGuide type="bottom" id="vvM-gs-bpI"/>
@@ -578,7 +582,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="200" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="WtH-yi-FTB">
-                                <rect key="frame" x="0.0" y="28" width="600" height="572"/>
+                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="YoutubeCell" id="Wqr-l8-UIV" customClass="YoutubeTableViewCell" customModule="bandtracker" customModuleProvider="target">
@@ -619,7 +623,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="vvM-gs-bpI" firstAttribute="top" secondItem="WtH-yi-FTB" secondAttribute="bottom" id="fwh-60-UDp"/>
-                            <constraint firstItem="WtH-yi-FTB" firstAttribute="top" secondItem="j3u-EM-YYe" secondAttribute="bottom" constant="8" id="ibN-8s-SNm"/>
+                            <constraint firstItem="WtH-yi-FTB" firstAttribute="top" secondItem="j3u-EM-YYe" secondAttribute="bottom" id="ibN-8s-SNm"/>
                             <constraint firstItem="WtH-yi-FTB" firstAttribute="leading" secondItem="nhz-k6-sKp" secondAttribute="leading" id="rx2-Kz-zxx"/>
                             <constraint firstAttribute="trailing" secondItem="WtH-yi-FTB" secondAttribute="trailing" id="uhO-AS-h9k"/>
                         </constraints>
@@ -630,7 +634,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g6e-J8-7wx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1033" y="1676"/>
+            <point key="canvasLocation" x="575" y="1669"/>
         </scene>
         <!--Youtube Player Controller-->
         <scene sceneID="9GA-fz-7AF">
