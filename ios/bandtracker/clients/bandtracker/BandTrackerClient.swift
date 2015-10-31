@@ -12,6 +12,34 @@ class BandTrackerClient : WebApiClient {
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
+    // nested types
+    //
+    
+    class TourDate {
+        
+        var bandId : String
+        var startDate : NSDate
+        var endDate : NSDate
+        var stage : String
+        var venue : String
+        var city : String
+        var countryCode : String
+        var supportAct : Bool
+    
+        init (values : [String : AnyObject]) {
+            bandId      = values["bandId"]      as? String ?? ""
+            startDate   = DateUtils.dateFromStringISO(values["startDate"] as? String ?? "")
+            endDate     = DateUtils.dateFromStringISO(values["endDate"] as? String ?? "")
+            stage       = values["stage"]       as? String ?? ""
+            venue       = values["venue"]       as? String ?? ""
+            city        = values["city"]        as? String ?? ""
+            countryCode = values["countryCode"] as? String ?? ""
+            supportAct  = values["supportAct"]  as? Bool   ?? false
+        }
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
     // configuration
     //
     
@@ -166,6 +194,56 @@ class BandTrackerClient : WebApiClient {
             } else {
                 let postResult = result as! [String]
                 completionHandler(venues : postResult, error : nil)
+            }
+        }
+    }
+    
+    func tourDateFind(bandMBID : String, dateFrom : NSDate?, dateTo : NSDate?, countryCode : String?, location : String?, completionHandler : (tourDates : [BandTrackerClient.TourDate]?, error : String?) -> Void) {
+       
+        guard let token = apiToken else {
+            return login() { self.tourDateFind(bandMBID, dateFrom: dateFrom, dateTo: dateTo, countryCode: countryCode, location: location, completionHandler: completionHandler) }
+        }
+                        
+        // configure request
+        var parameters : [String : AnyObject] = [
+            "band" : bandMBID
+        ]
+                        
+        if let dateFrom = dateFrom {
+            parameters["start"] = DateUtils.format(dateFrom, format: "yyyy-MM-dd")
+        }
+        
+        if let dateTo = dateTo {
+            parameters["end"] = DateUtils.format(dateTo, format: "yyyy-MM-dd")
+        }
+        
+        if let countryCode = countryCode {
+            parameters["country"] = countryCode
+        }
+        
+        if let location = location {
+            parameters["location"] = location
+        }
+        
+        let extraHeaders : [String : String] = [
+            "x-access-token" : token
+        ]
+        
+        // execute request
+        startTaskGET(BandTrackerClient.BASE_URL, method: "tourdate/find", parameters: parameters, extraHeaders: extraHeaders) { result, error in
+            if let basicError = error as? NSError {
+                completionHandler(tourDates: nil, error: BandTrackerClient.formatBasicError(basicError))
+            } else if let httpError = error as? NSHTTPURLResponse {
+                completionHandler(tourDates: nil, error: BandTrackerClient.formatHttpError(httpError))
+            } else {
+                let postResult = result as! [AnyObject];
+                var tourDates : [TourDate] = []
+                
+                for dateDictionary in postResult {
+                    tourDates.append(TourDate(values: dateDictionary as! [String : AnyObject]))
+                }
+                
+                completionHandler(tourDates: tourDates, error : nil)
             }
         }
     }

@@ -54,6 +54,20 @@ class DataContext {
     // gig management
     //
     
+    func gigFromTourDate(band : Band, tourDate : BandTrackerClient.TourDate) -> Gig {
+        
+        let gig = Gig(band: band, context: coreDataStackManager().managedObjectContext!)
+        gig.startDate   = tourDate.startDate
+        gig.endDate     = tourDate.endDate
+        gig.stage       = tourDate.stage
+        gig.supportAct  = tourDate.supportAct
+        gig.country     = countryByCode(tourDate.countryCode, context: gig.managedObjectContext!)
+        gig.city        = cityByName(tourDate.city, context: gig.managedObjectContext!)
+        gig.venue       = venueByName(tourDate.venue, context: gig.managedObjectContext!)
+        
+        return gig
+    }
+    
     func totalRatingOfGigs(band : Band) -> Int {
         
         let sumExpDesc = NSExpressionDescription()
@@ -99,6 +113,27 @@ class DataContext {
         return results
     }
     
+    func countryByCode(countryCode : String, context : NSManagedObjectContext = coreDataStackManager().managedObjectContext!) -> Country {
+        // try to fetch an existing record
+        let fetchRequest        = NSFetchRequest(entityName: "Country")
+        fetchRequest.predicate  = NSPredicate(format: "code == %@", countryCode)
+        
+        do {
+            let results = try context.executeFetchRequest(fetchRequest) as! [Country]
+            
+            if results.count > 0 {
+                return results[0]
+            }
+            
+        } catch let error as NSError {
+            NSLog("Unresolved error \(error), \(error.userInfo)")
+        }
+        
+        // create a new record (XXX this makes no sense ...)
+        let country = Country(code: countryCode, name: countryCode, context: context)
+        return country
+    }
+    
     func countryByName(countryName : String, context : NSManagedObjectContext = coreDataStackManager().managedObjectContext!) -> Country {
         
         // try to fetch an existing record
@@ -134,6 +169,7 @@ class DataContext {
             return []
         }
     }
+    
     
     ////////////////////////////////////////////////////////////////////////////////
     //

@@ -85,7 +85,7 @@ class BandDetailsController :   UIViewController,
     //
     
     @IBAction func addGig(sender: AnyObject) {
-        let newVC = GigDetailsController.createNewGig(band)
+        let newVC = GigGuidedCreationController.create(band!)
         navigationController?.pushViewController(newVC, animated: true)
     }
     
