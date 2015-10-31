@@ -374,22 +374,84 @@
             </objects>
             <point key="canvasLocation" x="1855" y="91"/>
         </scene>
-        <!--Events-->
+        <!--Timeline-->
         <scene sceneID="cAs-9T-v4o">
             <objects>
-                <tableViewController id="U3r-an-699" customClass="EventsSeenController" customModule="bandtracker" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="U3r-an-699" customClass="TimelineController" customModule="bandtracker" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="FKy-Ai-LkJ">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SeenEventCell" id="3Nl-nm-RbO">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TimelineCell" id="3Nl-nm-RbO" customClass="TimelineTableViewCell" customModule="bandtracker" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="92" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3Nl-nm-RbO" id="cZd-J5-5SA">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="UgE-gF-LQv">
+                                            <rect key="frame" x="16" y="2" width="434" height="22"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tWA-nr-l3R" customClass="RatingControl" customModule="bandtracker" customModuleProvider="target">
+                                            <rect key="frame" x="458" y="22" width="120" height="21"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="strokeColor">
+                                                    <color key="value" red="0.0" green="0.0" blue="0.38937069949999997" alpha="1" colorSpace="calibratedRGB"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="numberOfStars">
+                                                    <integer key="value" value="5"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="gapBetweenStars">
+                                                    <real key="value" value="3"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="fillColor">
+                                                    <color key="value" red="0.0" green="0.00015125612389999999" blue="0.49410116790000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="rating">
+                                                    <real key="value" value="3"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="enabled" value="NO"/>
+                                            </userDefinedRuntimeAttributes>
+                                        </view>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VTK-PC-FeD">
+                                            <rect key="frame" x="504" y="6" width="29" height="14"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="11" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oby-UQ-4K5">
+                                            <rect key="frame" x="32" y="23" width="418" height="18"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="tWA-nr-l3R" firstAttribute="width" secondItem="cZd-J5-5SA" secondAttribute="width" multiplier="0.2" id="2Tc-2i-klU"/>
+                                        <constraint firstAttribute="trailing" secondItem="tWA-nr-l3R" secondAttribute="trailing" constant="22" id="CCL-aR-Tpi"/>
+                                        <constraint firstItem="tWA-nr-l3R" firstAttribute="leading" secondItem="oby-UQ-4K5" secondAttribute="trailing" constant="8" id="JdE-ZJ-5QG"/>
+                                        <constraint firstItem="VTK-PC-FeD" firstAttribute="centerX" secondItem="tWA-nr-l3R" secondAttribute="centerX" id="Q2m-1q-GmA"/>
+                                        <constraint firstItem="tWA-nr-l3R" firstAttribute="height" secondItem="cZd-J5-5SA" secondAttribute="height" multiplier="0.5" id="U3b-q2-fdV"/>
+                                        <constraint firstItem="VTK-PC-FeD" firstAttribute="top" secondItem="cZd-J5-5SA" secondAttribute="topMargin" constant="-2" id="alG-d0-fdh"/>
+                                        <constraint firstItem="UgE-gF-LQv" firstAttribute="top" secondItem="cZd-J5-5SA" secondAttribute="topMargin" constant="-6" id="czW-6P-A2w"/>
+                                        <constraint firstItem="oby-UQ-4K5" firstAttribute="leading" secondItem="cZd-J5-5SA" secondAttribute="leadingMargin" constant="24" id="d4W-80-9ll"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="oby-UQ-4K5" secondAttribute="bottom" constant="-6" id="dsb-Lp-Qd1"/>
+                                        <constraint firstItem="tWA-nr-l3R" firstAttribute="leading" secondItem="UgE-gF-LQv" secondAttribute="trailing" constant="8" id="eiV-75-xSO"/>
+                                        <constraint firstItem="UgE-gF-LQv" firstAttribute="leading" secondItem="cZd-J5-5SA" secondAttribute="leadingMargin" constant="8" id="ua9-WW-f0p"/>
+                                        <constraint firstAttribute="bottom" secondItem="tWA-nr-l3R" secondAttribute="bottom" id="uao-om-6du"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="bandLabel" destination="UgE-gF-LQv" id="LYg-UJ-7LD"/>
+                                    <outlet property="dateLabel" destination="VTK-PC-FeD" id="gJH-C8-TVG"/>
+                                    <outlet property="locationLabel" destination="oby-UQ-4K5" id="g0J-ke-RAs"/>
+                                    <outlet property="ratingControl" destination="tWA-nr-l3R" id="izs-fL-M86"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -397,7 +459,7 @@
                             <outlet property="delegate" destination="U3r-an-699" id="y87-CS-buj"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Events" id="Uhv-CM-mkt"/>
+                    <tabBarItem key="tabBarItem" title="Timeline" id="Uhv-CM-mkt"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EHo-Eq-ZXJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

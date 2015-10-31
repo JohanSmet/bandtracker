@@ -20,7 +20,7 @@
 		040C12E01BC45214001BFE78 /* DataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040C12DF1BC45214001BFE78 /* DataLoader.swift */; settings = {ASSET_TAGS = (); }; };
 		040C12E21BC4594A001BFE78 /* ServerCountry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040C12E11BC4594A001BFE78 /* ServerCountry.swift */; settings = {ASSET_TAGS = (); }; };
 		040CCE831BE018DF00E8E1B2 /* GigSelectionDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040CCE821BE018DF00E8E1B2 /* GigSelectionDelegates.swift */; settings = {ASSET_TAGS = (); }; };
-		040D68C51BB0A46F000068EA /* EventsSeenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040D68C41BB0A46F000068EA /* EventsSeenController.swift */; settings = {ASSET_TAGS = (); }; };
+		040D68C51BB0A46F000068EA /* TimelineController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040D68C41BB0A46F000068EA /* TimelineController.swift */; settings = {ASSET_TAGS = (); }; };
 		040E31131BBC7C9E00275449 /* Gigs.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 040E31121BBC7C9E00275449 /* Gigs.storyboard */; settings = {ASSET_TAGS = (); }; };
 		040E31151BBC843D00275449 /* GigDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040E31141BBC843D00275449 /* GigDetailsController.swift */; settings = {ASSET_TAGS = (); }; };
 		040F32421BCC5033006E46E1 /* SetlistFmClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040F32411BCC5033006E46E1 /* SetlistFmClient.swift */; settings = {ASSET_TAGS = (); }; };
@@ -33,6 +33,7 @@
 		041A127D1BB5E0F4005DDB8E /* CoreDataStackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041A127C1BB5E0F4005DDB8E /* CoreDataStackManager.swift */; settings = {ASSET_TAGS = (); }; };
 		041A12801BB5E308005DDB8E /* AlertPopups.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041A127F1BB5E308005DDB8E /* AlertPopups.swift */; settings = {ASSET_TAGS = (); }; };
 		041A12821BB5E41E005DDB8E /* DataContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041A12811BB5E41E005DDB8E /* DataContext.swift */; settings = {ASSET_TAGS = (); }; };
+		041E408A1BE55FEF0090CF66 /* TimelineTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041E40891BE55FEF0090CF66 /* TimelineTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 		042805E41BAF4CCA0019120F /* BandsSeenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042805E31BAF4CCA0019120F /* BandsSeenController.swift */; settings = {ASSET_TAGS = (); }; };
 		046DCCC81BD6CDE2008B01A1 /* TimeIntervalPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046DCCC71BD6CDE2008B01A1 /* TimeIntervalPicker.swift */; settings = {ASSET_TAGS = (); }; };
 		0472C76B1BE521D100528927 /* GigGuidedCreationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0472C76A1BE521D100528927 /* GigGuidedCreationCell.swift */; settings = {ASSET_TAGS = (); }; };
@@ -67,7 +68,7 @@
 		040C12DF1BC45214001BFE78 /* DataLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataLoader.swift; sourceTree = "<group>"; };
 		040C12E11BC4594A001BFE78 /* ServerCountry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerCountry.swift; sourceTree = "<group>"; };
 		040CCE821BE018DF00E8E1B2 /* GigSelectionDelegates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GigSelectionDelegates.swift; sourceTree = "<group>"; };
-		040D68C41BB0A46F000068EA /* EventsSeenController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsSeenController.swift; sourceTree = "<group>"; };
+		040D68C41BB0A46F000068EA /* TimelineController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelineController.swift; sourceTree = "<group>"; };
 		040E31121BBC7C9E00275449 /* Gigs.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Gigs.storyboard; sourceTree = "<group>"; };
 		040E31141BBC843D00275449 /* GigDetailsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GigDetailsController.swift; sourceTree = "<group>"; };
 		040F32411BCC5033006E46E1 /* SetlistFmClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetlistFmClient.swift; sourceTree = "<group>"; };
@@ -80,6 +81,7 @@
 		041A127C1BB5E0F4005DDB8E /* CoreDataStackManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStackManager.swift; sourceTree = "<group>"; };
 		041A127F1BB5E308005DDB8E /* AlertPopups.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertPopups.swift; sourceTree = "<group>"; };
 		041A12811BB5E41E005DDB8E /* DataContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataContext.swift; sourceTree = "<group>"; };
+		041E40891BE55FEF0090CF66 /* TimelineTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelineTableViewCell.swift; sourceTree = "<group>"; };
 		042805E31BAF4CCA0019120F /* BandsSeenController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BandsSeenController.swift; sourceTree = "<group>"; };
 		046DCCC71BD6CDE2008B01A1 /* TimeIntervalPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeIntervalPicker.swift; sourceTree = "<group>"; };
 		0472C76A1BE521D100528927 /* GigGuidedCreationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GigGuidedCreationCell.swift; sourceTree = "<group>"; };
@@ -171,6 +173,7 @@
 				046DCCC71BD6CDE2008B01A1 /* TimeIntervalPicker.swift */,
 				0410CE611BD8299A001151C5 /* SeenGigTableViewCell.swift */,
 				0472C76A1BE521D100528927 /* GigGuidedCreationCell.swift */,
+				041E40891BE55FEF0090CF66 /* TimelineTableViewCell.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -248,7 +251,7 @@
 				04098D471BB6ED38008AEDF7 /* BandDetailsController.swift */,
 				042805E31BAF4CCA0019120F /* BandsSeenController.swift */,
 				0410EE441BB1F330006B1FAB /* BandSearchController.swift */,
-				040D68C41BB0A46F000068EA /* EventsSeenController.swift */,
+				040D68C41BB0A46F000068EA /* TimelineController.swift */,
 				040E31141BBC843D00275449 /* GigDetailsController.swift */,
 				0409603D1BBDB918001F2907 /* GigDetailsSetlistController.swift */,
 				04B275901BBFF04400FAD5B6 /* GigDetailsYoutubeController.swift */,
@@ -336,7 +339,7 @@
 				040B80FA1BCA81F200545877 /* RatingControl.swift in Sources */,
 				042805E41BAF4CCA0019120F /* BandsSeenController.swift in Sources */,
 				040E31151BBC843D00275449 /* GigDetailsController.swift in Sources */,
-				040D68C51BB0A46F000068EA /* EventsSeenController.swift in Sources */,
+				040D68C51BB0A46F000068EA /* TimelineController.swift in Sources */,
 				04BE340E1BC5B2200027137F /* DateUtils.swift in Sources */,
 				040CCE831BE018DF00E8E1B2 /* GigSelectionDelegates.swift in Sources */,
 				046DCCC81BD6CDE2008B01A1 /* TimeIntervalPicker.swift in Sources */,
@@ -365,6 +368,7 @@
 				040B69BF1BD03033006633AB /* YoutubePlayerController.swift in Sources */,
 				04098D481BB6ED38008AEDF7 /* BandDetailsController.swift in Sources */,
 				0474A17A1BC70A4C0047070A /* ListSelectionController.swift in Sources */,
+				041E408A1BE55FEF0090CF66 /* TimelineTableViewCell.swift in Sources */,
 				0410EE451BB1F330006B1FAB /* BandSearchController.swift in Sources */,
 				040C12E01BC45214001BFE78 /* DataLoader.swift in Sources */,
 				0410CE621BD8299A001151C5 /* SeenGigTableViewCell.swift in Sources */,

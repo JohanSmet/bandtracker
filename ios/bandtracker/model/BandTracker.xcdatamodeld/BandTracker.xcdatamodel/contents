@@ -27,6 +27,7 @@
         <attribute name="stage" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="startDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="supportAct" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="year" transient="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <relationship name="band" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Band" inverseName="gigs" inverseEntity="Band" syncable="YES"/>
         <relationship name="city" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="City" inverseName="gigs" inverseEntity="City" syncable="YES"/>
         <relationship name="country" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Country" inverseName="gigs" inverseEntity="Country" syncable="YES"/>
@@ -42,7 +43,7 @@
         <element name="Band" positionX="-513" positionY="18" width="128" height="150"/>
         <element name="City" positionX="-38" positionY="-231" width="128" height="103"/>
         <element name="Country" positionX="-2" positionY="-90" width="128" height="88"/>
-        <element name="Gig" positionX="-317" positionY="18" width="128" height="193"/>
+        <element name="Gig" positionX="-317" positionY="18" width="128" height="210"/>
         <element name="Venue" positionX="16" positionY="27" width="128" height="103"/>
     </elements>
 </model>

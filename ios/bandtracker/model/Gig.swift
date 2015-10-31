@@ -25,6 +25,10 @@ class Gig : NSManagedObject {
     @NSManaged var city         : City?
     @NSManaged var venue        : Venue?
     
+    var year : NSNumber {
+        return NSCalendar.currentCalendar().component(.Year, fromDate: startDate)
+    }
+    
     var editCountry             : String = ""
     var editCity                : String = ""
     var editVenue               : String = ""
