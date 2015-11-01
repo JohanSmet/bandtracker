@@ -329,7 +329,7 @@
                             <outlet property="delegate" destination="xyX-fB-UPd" id="VNX-8c-135"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Bands" id="Uqd-ek-Ov4"/>
+                    <tabBarItem key="tabBarItem" title="Bands" image="iconSinger" id="Uqd-ek-Ov4"/>
                     <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -459,11 +459,15 @@
                             <outlet property="delegate" destination="U3r-an-699" id="y87-CS-buj"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Timeline" id="Uhv-CM-mkt"/>
+                    <tabBarItem key="tabBarItem" title="Timeline" image="iconTimeline" id="Uhv-CM-mkt"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EHo-Eq-ZXJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1164" y="768"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="iconSinger" width="22" height="22"/>
+        <image name="iconTimeline" width="22" height="22"/>
+    </resources>
 </document>
