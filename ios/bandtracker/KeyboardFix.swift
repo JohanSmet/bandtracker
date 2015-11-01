@@ -49,13 +49,10 @@ class KeyboardFix : NSObject {
             tapRecognizer = UITapGestureRecognizer(target: self, action : "handleTap")
             tapRecognizer?.numberOfTapsRequired = 1
         }
-        
-        viewController.view.addGestureRecognizer(tapRecognizer!)
     }
     
     func deactivate() {
         unsubscribeFromKeyboardNotifications()
-        viewController.view.removeGestureRecognizer(tapRecognizer!)
     }
     
     func setActiveControl(control : UIView?) {
@@ -68,17 +65,13 @@ class KeyboardFix : NSObject {
     //
     
     private func subscribeToKeyboardNotifications() {
-        if let _ = scrollView {
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
-        }
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
     }
     
     private func unsubscribeFromKeyboardNotifications() {
-        if let _ = scrollView {
-            NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
-            NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
-        }
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
     }
     
     func keyboardWillShow(notification: NSNotification) {
@@ -87,27 +80,37 @@ class KeyboardFix : NSObject {
         let kbHeight = getKeyboardHeight(notification)
         
         // update the insets of the scroll view
-        let contentInsets:UIEdgeInsets  = UIEdgeInsetsMake(0.0, 0.0, kbHeight, 0.0)
-        scrollView.contentInset = contentInsets
-        scrollView.scrollIndicatorInsets = contentInsets
+        if let scrollView = scrollView {
+            let contentInsets:UIEdgeInsets   = UIEdgeInsetsMake(0.0, 0.0, kbHeight, 0.0)
+            scrollView.contentInset          = contentInsets
+            scrollView.scrollIndicatorInsets = contentInsets
         
-        // check if the current control is outside the view or not
-        if let activeControl = self.activeControl {
-            
-            var aRect: CGRect = viewController.view.frame
-            aRect.size.height -= kbHeight
-            
-            if (!CGRectContainsPoint(aRect, activeControl.frame.origin) ) {
-                let scrollPoint:CGPoint = CGPointMake(0.0, activeControl.frame.origin.y - kbHeight)
-                scrollView.setContentOffset(scrollPoint, animated: true)
+            // check if the current control is outside the view or not
+            if let activeControl = self.activeControl {
+                
+                var aRect: CGRect = viewController.view.frame
+                aRect.size.height -= kbHeight
+                
+                if (!CGRectContainsPoint(aRect, activeControl.frame.origin) ) {
+                    let scrollPoint:CGPoint = CGPointMake(0.0, activeControl.frame.origin.y - kbHeight)
+                    scrollView.setContentOffset(scrollPoint, animated: true)
+                }
             }
         }
+        
+        // hide keyboard when the view is tapped
+        viewController.view.addGestureRecognizer(tapRecognizer!)
     }
     
     func keyboardWillHide(notification: NSNotification) {
-        let contentInsets:UIEdgeInsets = UIEdgeInsetsZero
-        scrollView.contentInset = contentInsets
-        scrollView.scrollIndicatorInsets = contentInsets
+        viewController.view.removeGestureRecognizer(tapRecognizer!)
+        
+        // reset insets
+        if let scrollView = scrollView {
+            let contentInsets:UIEdgeInsets = UIEdgeInsetsZero
+            scrollView.contentInset = contentInsets
+            scrollView.scrollIndicatorInsets = contentInsets
+        }
     }
     
     private func getKeyboardHeight(notification : NSNotification) -> CGFloat {
