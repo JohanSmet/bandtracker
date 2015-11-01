@@ -72,6 +72,19 @@ class TimelineController:   UITableViewController,
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
+    // UITableViewDelegate
+    //
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
+        let gig     = fetchedResultsController.objectAtIndexPath(indexPath) as! Gig
+        let newVC   = GigDetailsController.displayGig(gig)
+        navigationController?.pushViewController(newVC, animated: true)
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
     // MainTabSheet
     //
     
