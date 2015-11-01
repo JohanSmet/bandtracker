@@ -32,6 +32,8 @@ class BandsSeenController:  UITableViewController,
         return fetchedResultsController
     }()
     
+    var keyboardFix : KeyboardFix?
+    
     ///////////////////////////////////////////////////////////////////////////////////
     //
     // UIViewController overrides
@@ -39,7 +41,25 @@ class BandsSeenController:  UITableViewController,
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        keyboardFix = KeyboardFix(viewController: self)
         updateSearchResults("")
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // handle keyboard properly
+        if let keyboardFix = self.keyboardFix {
+            keyboardFix.activate()
+        }
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if let keyboardFix = self.keyboardFix {
+            keyboardFix.deactivate()
+        }
     }
     
     ///////////////////////////////////////////////////////////////////////////////////

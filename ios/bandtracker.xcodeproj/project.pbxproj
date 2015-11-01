@@ -19,6 +19,7 @@
 		040BEB101BE2B23800C22DAB /* GigGuidedCreationFilterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040BEB0F1BE2B23800C22DAB /* GigGuidedCreationFilterController.swift */; settings = {ASSET_TAGS = (); }; };
 		040C12E01BC45214001BFE78 /* DataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040C12DF1BC45214001BFE78 /* DataLoader.swift */; settings = {ASSET_TAGS = (); }; };
 		040C12E21BC4594A001BFE78 /* ServerCountry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040C12E11BC4594A001BFE78 /* ServerCountry.swift */; settings = {ASSET_TAGS = (); }; };
+		040C3E381BE63B83008B44DA /* KeyboardFix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040C3E371BE63B83008B44DA /* KeyboardFix.swift */; settings = {ASSET_TAGS = (); }; };
 		040CCE831BE018DF00E8E1B2 /* GigSelectionDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040CCE821BE018DF00E8E1B2 /* GigSelectionDelegates.swift */; settings = {ASSET_TAGS = (); }; };
 		040D68C51BB0A46F000068EA /* TimelineController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040D68C41BB0A46F000068EA /* TimelineController.swift */; settings = {ASSET_TAGS = (); }; };
 		040E31131BBC7C9E00275449 /* Gigs.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 040E31121BBC7C9E00275449 /* Gigs.storyboard */; settings = {ASSET_TAGS = (); }; };
@@ -67,6 +68,7 @@
 		040BEB0F1BE2B23800C22DAB /* GigGuidedCreationFilterController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GigGuidedCreationFilterController.swift; sourceTree = "<group>"; };
 		040C12DF1BC45214001BFE78 /* DataLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataLoader.swift; sourceTree = "<group>"; };
 		040C12E11BC4594A001BFE78 /* ServerCountry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerCountry.swift; sourceTree = "<group>"; };
+		040C3E371BE63B83008B44DA /* KeyboardFix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardFix.swift; sourceTree = "<group>"; };
 		040CCE821BE018DF00E8E1B2 /* GigSelectionDelegates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GigSelectionDelegates.swift; sourceTree = "<group>"; };
 		040D68C41BB0A46F000068EA /* TimelineController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelineController.swift; sourceTree = "<group>"; };
 		040E31121BBC7C9E00275449 /* Gigs.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Gigs.storyboard; sourceTree = "<group>"; };
@@ -206,6 +208,7 @@
 		04BE340C1BC5B2050027137F /* utils */ = {
 			isa = PBXGroup;
 			children = (
+				040C3E371BE63B83008B44DA /* KeyboardFix.swift */,
 				04BE340D1BC5B2200027137F /* DateUtils.swift */,
 			);
 			name = utils;
@@ -370,6 +373,7 @@
 				0474A17A1BC70A4C0047070A /* ListSelectionController.swift in Sources */,
 				041E408A1BE55FEF0090CF66 /* TimelineTableViewCell.swift in Sources */,
 				0410EE451BB1F330006B1FAB /* BandSearchController.swift in Sources */,
+				040C3E381BE63B83008B44DA /* KeyboardFix.swift in Sources */,
 				040C12E01BC45214001BFE78 /* DataLoader.swift in Sources */,
 				0410CE621BD8299A001151C5 /* SeenGigTableViewCell.swift in Sources */,
 				040B69BC1BD02FF5006633AB /* YouTubePlayer.swift in Sources */,
