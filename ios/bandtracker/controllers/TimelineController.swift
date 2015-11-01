@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 
 class TimelineController:   UITableViewController,
+                            NSFetchedResultsControllerDelegate,
                             MainTabSheet {
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -26,6 +27,7 @@ class TimelineController:   UITableViewController,
             managedObjectContext: coreDataStackManager().managedObjectContext!,
             sectionNameKeyPath: "year",
             cacheName: nil)
+        fetchedResultsController.delegate = self
         return fetchedResultsController
     }()
     
@@ -102,6 +104,34 @@ class TimelineController:   UITableViewController,
         let gig     = fetchedResultsController.objectAtIndexPath(indexPath) as! Gig
         let newVC   = GigDetailsController.displayGig(gig)
         navigationController?.pushViewController(newVC, animated: true)
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
+    // NSFetchedResultsControllerDelegate
+    //
+    
+    func controllerWillChangeContent(controller: NSFetchedResultsController) {
+        tableView.beginUpdates()
+    }
+    
+    func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?,
+        forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
+            switch (type) {
+            case .Insert :
+                tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
+            case .Delete :
+                tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
+            case .Update :
+                configureCell(tableView.cellForRowAtIndexPath(indexPath!) as! TimelineTableViewCell, indexPath: indexPath!)
+            case .Move :
+                tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
+                tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
+            }
+    }
+    
+    func controllerDidChangeContent(controller: NSFetchedResultsController) {
+        tableView.endUpdates()
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
