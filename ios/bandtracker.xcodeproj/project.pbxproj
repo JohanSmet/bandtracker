@@ -251,7 +251,6 @@
 				04098D471BB6ED38008AEDF7 /* BandDetailsController.swift */,
 				042805E31BAF4CCA0019120F /* BandsSeenController.swift */,
 				0410EE441BB1F330006B1FAB /* BandSearchController.swift */,
-				040D68C41BB0A46F000068EA /* TimelineController.swift */,
 				040E31141BBC843D00275449 /* GigDetailsController.swift */,
 				0409603D1BBDB918001F2907 /* GigDetailsSetlistController.swift */,
 				04B275901BBFF04400FAD5B6 /* GigDetailsYoutubeController.swift */,
@@ -259,6 +258,7 @@
 				040BEB0F1BE2B23800C22DAB /* GigGuidedCreationFilterController.swift */,
 				040CCE821BE018DF00E8E1B2 /* GigSelectionDelegates.swift */,
 				0474A1791BC70A4C0047070A /* ListSelectionController.swift */,
+				040D68C41BB0A46F000068EA /* TimelineController.swift */,
 				040B69BE1BD03033006633AB /* YoutubePlayerController.swift */,
 			);
 			path = controllers;

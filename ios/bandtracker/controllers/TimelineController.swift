@@ -26,7 +26,6 @@ class TimelineController:   UITableViewController,
             managedObjectContext: coreDataStackManager().managedObjectContext!,
             sectionNameKeyPath: "year",
             cacheName: nil)
-        // fetchedResultsController.delegate = self
         return fetchedResultsController
     }()
     
@@ -37,15 +36,7 @@ class TimelineController:   UITableViewController,
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // execute the query
-        do {
-            try fetchedResultsController.performFetch()
-        } catch let error as NSError {
-            NSLog("Unresolved error \(error), \(error.userInfo)")
-        }
-        
-        tableView.reloadData()
+            updateSearchResults("")
     }
 
     ///////////////////////////////////////////////////////////////////////////////////
@@ -85,13 +76,28 @@ class TimelineController:   UITableViewController,
     //
     
     func updateSearchResults(searchText : String) {
+        // update the predicate to correspond to the filter string
+        if searchText.characters.count > 0 {
+            fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "band.name CONTAINS[cd] %@", searchText)
+        } else {
+            fetchedResultsController.fetchRequest.predicate = nil
+        }
         
+        // execute the query again
+        do {
+            try fetchedResultsController.performFetch()
+        } catch let error as NSError {
+            NSLog("Unresolved error \(error), \(error.userInfo)")
+        }
+        
+        tableView.reloadData()
     }
     
     func addNewItem() {
+        // not needed here
     }
     
     var searchBarVisible : Bool { return true }
-    var addButtonVisible : Bool { return true }
+    var addButtonVisible : Bool { return false }
 
 }
