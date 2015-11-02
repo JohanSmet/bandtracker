@@ -22,6 +22,7 @@
 		040C3E381BE63B83008B44DA /* KeyboardFix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040C3E371BE63B83008B44DA /* KeyboardFix.swift */; settings = {ASSET_TAGS = (); }; };
 		040CCE831BE018DF00E8E1B2 /* GigSelectionDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040CCE821BE018DF00E8E1B2 /* GigSelectionDelegates.swift */; settings = {ASSET_TAGS = (); }; };
 		040D68C51BB0A46F000068EA /* TimelineController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040D68C41BB0A46F000068EA /* TimelineController.swift */; settings = {ASSET_TAGS = (); }; };
+		040E06F71BE6BE0200C10931 /* FanartTvClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040E06F61BE6BE0200C10931 /* FanartTvClient.swift */; settings = {ASSET_TAGS = (); }; };
 		040E31131BBC7C9E00275449 /* Gigs.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 040E31121BBC7C9E00275449 /* Gigs.storyboard */; settings = {ASSET_TAGS = (); }; };
 		040E31151BBC843D00275449 /* GigDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040E31141BBC843D00275449 /* GigDetailsController.swift */; settings = {ASSET_TAGS = (); }; };
 		040F32421BCC5033006E46E1 /* SetlistFmClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040F32411BCC5033006E46E1 /* SetlistFmClient.swift */; settings = {ASSET_TAGS = (); }; };
@@ -71,6 +72,7 @@
 		040C3E371BE63B83008B44DA /* KeyboardFix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardFix.swift; sourceTree = "<group>"; };
 		040CCE821BE018DF00E8E1B2 /* GigSelectionDelegates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GigSelectionDelegates.swift; sourceTree = "<group>"; };
 		040D68C41BB0A46F000068EA /* TimelineController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelineController.swift; sourceTree = "<group>"; };
+		040E06F61BE6BE0200C10931 /* FanartTvClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FanartTvClient.swift; sourceTree = "<group>"; };
 		040E31121BBC7C9E00275449 /* Gigs.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Gigs.storyboard; sourceTree = "<group>"; };
 		040E31141BBC843D00275449 /* GigDetailsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GigDetailsController.swift; sourceTree = "<group>"; };
 		040F32411BCC5033006E46E1 /* SetlistFmClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetlistFmClient.swift; sourceTree = "<group>"; };
@@ -125,6 +127,14 @@
 			path = services;
 			sourceTree = "<group>";
 		};
+		040E06F51BE6BDC800C10931 /* fanart.tv */ = {
+			isa = PBXGroup;
+			children = (
+				040E06F61BE6BE0200C10931 /* FanartTvClient.swift */,
+			);
+			path = fanart.tv;
+			sourceTree = "<group>";
+		};
 		040E31111BBC7C2500275449 /* storyboards */ = {
 			isa = PBXGroup;
 			children = (
@@ -147,6 +157,7 @@
 			isa = PBXGroup;
 			children = (
 				04A5B4821BB339DF002D7E4B /* bandtracker */,
+				040E06F51BE6BDC800C10931 /* fanart.tv */,
 				040F32401BCC5007006E46E1 /* setlist.fm */,
 				041506CE1BCEBB7400627433 /* youtube */,
 				04A5B4801BB336CD002D7E4B /* WebApiClient.swift */,
@@ -341,6 +352,7 @@
 			files = (
 				040B80FA1BCA81F200545877 /* RatingControl.swift in Sources */,
 				042805E41BAF4CCA0019120F /* BandsSeenController.swift in Sources */,
+				040E06F71BE6BE0200C10931 /* FanartTvClient.swift in Sources */,
 				040E31151BBC843D00275449 /* GigDetailsController.swift in Sources */,
 				040D68C51BB0A46F000068EA /* TimelineController.swift in Sources */,
 				04BE340E1BC5B2200027137F /* DateUtils.swift in Sources */,

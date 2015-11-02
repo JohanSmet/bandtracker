@@ -91,7 +91,7 @@ class BandsSeenController:  UITableViewController,
         cell.ratingControl.rating   = band.rating()
         cell.bandImage.image        = nil
         
-        UrlFetcher.loadImageFromUrl(band.imageUrl) { image in
+        UrlFetcher.loadImageFromUrl(band.getImageUrl()) { image in
             cell.bandImage.image = image
         }
     }

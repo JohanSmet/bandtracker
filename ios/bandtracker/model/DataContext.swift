@@ -27,6 +27,15 @@ class DataContext {
         // save all changes
         coreDataStackManager().saveContext()
         
+        // fetch extra data
+        fanartTvClient().getBandFanart(band.bandMBID) { fanart, error in
+            if let fanart = fanart {
+                band.fanartThumbUrl = fanart.bandThumbnailUrl
+                band.fanartLogoUrl  = fanart.bandLogoUrl
+                coreDataStackManager().saveContext()
+            }
+        }
+        
         return band
     }
     

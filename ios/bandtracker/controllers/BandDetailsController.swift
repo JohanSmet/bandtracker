@@ -185,7 +185,7 @@ class BandDetailsController :   UIViewController,
         ratingControl.rating    = band.rating()
         gigTitle.text           = "You have been to \(band.gigs.count) gigs :"
         
-        UrlFetcher.loadImageFromUrl(band.imageUrl) { image in
+        UrlFetcher.loadImageFromUrl(band.getImageUrl()) { image in
             self.bandImage.image = image
         }
     }
