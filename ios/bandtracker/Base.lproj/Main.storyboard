@@ -250,12 +250,12 @@
             <objects>
                 <tableViewController id="xyX-fB-UPd" customClass="BandsSeenController" customModule="bandtracker" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="jP3-Db-IVE">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="492"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="SeenBandCell" id="gXV-vl-m7K" customClass="SeenBandTableViewCell" customModule="bandtracker" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gXV-vl-m7K" id="Sz0-OM-GKK">
                                     <rect key="frame" x="0.0" y="0.0" width="567" height="43"/>
@@ -329,6 +329,7 @@
                             <outlet property="delegate" destination="xyX-fB-UPd" id="VNX-8c-135"/>
                         </connections>
                     </tableView>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <tabBarItem key="tabBarItem" title="Bands" image="iconSinger" id="Uqd-ek-Ov4"/>
                     <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
@@ -379,12 +380,12 @@
             <objects>
                 <tableViewController id="U3r-an-699" customClass="TimelineController" customModule="bandtracker" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="FKy-Ai-LkJ">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="487"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TimelineCell" id="3Nl-nm-RbO" customClass="TimelineTableViewCell" customModule="bandtracker" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3Nl-nm-RbO" id="cZd-J5-5SA">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
@@ -459,6 +460,7 @@
                             <outlet property="delegate" destination="U3r-an-699" id="y87-CS-buj"/>
                         </connections>
                     </tableView>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <tabBarItem key="tabBarItem" title="Timeline" image="iconTimeline" id="Uhv-CM-mkt"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EHo-Eq-ZXJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
