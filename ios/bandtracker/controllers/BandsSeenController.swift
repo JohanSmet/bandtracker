@@ -94,6 +94,10 @@ class BandsSeenController:  UITableViewController,
         UrlFetcher.loadImageFromUrl(band.getImageUrl()) { image in
             cell.bandImage.image = image
         }
+        
+        UrlFetcher.loadImageFromUrl(band.fanartLogoUrl ?? "") { image in
+            cell.bandLogo.image = image
+        }
     }
     
     ///////////////////////////////////////////////////////////////////////////////////

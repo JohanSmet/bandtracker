@@ -12,6 +12,7 @@ import UIKit
 class SeenBandTableViewCell : UITableViewCell {
     
     @IBOutlet weak var bandImage: UIImageView!
+    @IBOutlet weak var bandLogo: UIImageView!
     @IBOutlet weak var bandName: UILabel!
     @IBOutlet weak var numberOfGigs: UILabel!
     @IBOutlet weak var ratingControl: RatingControl!
