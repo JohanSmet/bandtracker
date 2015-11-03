@@ -61,7 +61,6 @@ class GigGuidedCreationController : UIViewController,
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         filterContainerHeight.constant = filterController.tableView.contentSize.height + 0
-        filterController.tableView.contentOffset.y = 0
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

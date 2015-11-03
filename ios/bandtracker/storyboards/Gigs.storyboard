@@ -428,7 +428,7 @@
         <!--Gig Guided Creation Controller-->
         <scene sceneID="Uh9-7A-QLc">
             <objects>
-                <viewController storyboardIdentifier="GigGuidedCreationController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="2wE-L0-Dzk" customClass="GigGuidedCreationController" customModule="bandtracker" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="GigGuidedCreationController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="2wE-L0-Dzk" customClass="GigGuidedCreationController" customModule="bandtracker" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="mre-U4-HZA"/>
                         <viewControllerLayoutGuide type="bottom" id="5uP-kl-AQS"/>
@@ -588,12 +588,18 @@
                             <outlet property="delegate" destination="5yl-D9-kWN" id="la3-xi-XW1"/>
                         </connections>
                     </tableView>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <connections>
                         <outlet property="textCountry" destination="ksv-VQ-6d3" id="GeC-1h-c2M"/>
                         <outlet property="yearPicker" destination="RgY-Xm-qFW" id="7gW-6k-uN6"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zOK-5F-asr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="9Ux-rj-uAw">
+                    <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
             </objects>
             <point key="canvasLocation" x="1222" y="1015"/>
         </scene>

@@ -27,7 +27,8 @@
         <!--Main Controller-->
         <scene sceneID="xhe-Vm-kMp">
             <objects>
-                <tabBarController id="MWG-Pt-wm4" customClass="MainController" customModule="bandtracker" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="MWG-Pt-wm4" customClass="MainController" customModule="bandtracker" customModuleProvider="target" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" id="Ptm-Rt-CIv">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="TEA-KJ-ZYm">
                             <connections>
@@ -386,7 +387,7 @@
         <!--Timeline-->
         <scene sceneID="cAs-9T-v4o">
             <objects>
-                <tableViewController id="U3r-an-699" customClass="TimelineController" customModule="bandtracker" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController automaticallyAdjustsScrollViewInsets="NO" id="U3r-an-699" customClass="TimelineController" customModule="bandtracker" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="FKy-Ai-LkJ">
                         <rect key="frame" x="0.0" y="64" width="600" height="487"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
