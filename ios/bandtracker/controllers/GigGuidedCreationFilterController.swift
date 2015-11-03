@@ -25,7 +25,7 @@ class GigGuidedCreationFilterController : UITableViewController,
     private let ROW_YEAR_PICKER = 1
     private let ROW_COUNTRY     = 0
     
-    private let HEIGHT_YEAR_PICKER : CGFloat = 80
+    private let HEIGHT_YEAR_PICKER : CGFloat = 162
     private let YEAR_PICKER_START = 1970
     private let YEAR_PICKER_COUNT = 100
     
