@@ -22,7 +22,11 @@ class RatingControl : UIView {
     @IBInspectable var fillColor : UIColor = UIColor.yellowColor()
     
     @IBInspectable var enabled : Bool = true
-    @IBInspectable var rating : Float = 5
+    @IBInspectable var rating : Float = 5 {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
     
     private var starSize : CGFloat = 0
     var delegate : RatingControlDelegate?
