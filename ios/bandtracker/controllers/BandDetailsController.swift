@@ -141,7 +141,9 @@ class BandDetailsController :   UIViewController,
         forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
             switch (type) {
             case .Insert :
-                tableGigs.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
+                if indexPath == nil {       // Swift 2.0 BUG with running 8.4
+                    tableGigs.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
+                }
             case .Delete :
                 tableGigs.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
             case .Update :

@@ -116,10 +116,12 @@ class TimelineController:   UITableViewController,
     }
     
     func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?,
-        forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
-            switch (type) {
+                    forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
+       switch (type) {
             case .Insert :
-                tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
+                if indexPath == nil {       // Swift 2.0 BUG with running 8.4
+                    tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
+                }
             case .Delete :
                 tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
             case .Update :
@@ -128,6 +130,17 @@ class TimelineController:   UITableViewController,
                 tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
                 tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
             }
+    }
+    
+    func controller(controller: NSFetchedResultsController, didChangeSection sectionInfo: NSFetchedResultsSectionInfo, atIndex sectionIndex: Int, forChangeType type: NSFetchedResultsChangeType) {
+        switch (type) {
+            case .Insert :
+                tableView.insertSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
+            case .Delete :
+                tableView.deleteSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
+            default :
+                false
+        }
     }
     
     func controllerDidChangeContent(controller: NSFetchedResultsController) {

@@ -132,14 +132,20 @@ class BandsSeenController:  UITableViewController,
                     forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
         switch (type) {
             case .Insert :
-                tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
+                if indexPath == nil {               // Swift 2.0 BUG with running 8.4
+                    tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
+                }
             case .Delete :
                 tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
             case .Update :
                 configureCell(tableView.cellForRowAtIndexPath(indexPath!) as! SeenBandTableViewCell, indexPath: indexPath!)
             case .Move :
-                tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
-                tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
+                if indexPath != newIndexPath {      // potential iOS 9 swift 2.0 with running 8.4
+                    tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
+                    tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
+                } else {
+                    configureCell(tableView.cellForRowAtIndexPath(indexPath!) as! SeenBandTableViewCell, indexPath: indexPath!)
+                }
         }
     }
     
