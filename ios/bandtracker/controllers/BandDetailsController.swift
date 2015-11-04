@@ -47,7 +47,6 @@ class BandDetailsController :   UIViewController,
     @IBOutlet weak var tableGigs: UITableView!
     @IBOutlet weak var ratingControl: RatingControl!
     @IBOutlet weak var gigTitle: UILabel!
-    @IBOutlet weak var htmlBiography: UIWebView!
     
     @IBOutlet weak var biography: UITextView!
     
@@ -86,6 +85,7 @@ class BandDetailsController :   UIViewController,
         biography.setContentOffset(CGPointMake(0,0), animated: false)
         biography.scrollEnabled = true
         
+        setGigTitle()
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -199,10 +199,18 @@ class BandDetailsController :   UIViewController,
             biography.text = ""
         }
         ratingControl.rating    = band.rating()
-        gigTitle.text           = "You have been to \(band.gigs.count) gigs :"
+        setGigTitle()
         
         UrlFetcher.loadImageFromUrl(band.getImageUrl()) { image in
             self.bandImage.image = image
+        }
+    }
+    
+    private func setGigTitle() {
+        if !band.gigs.isEmpty {
+            gigTitle.text = "You have been to \(band.gigs.count) gigs :"
+        } else {
+            gigTitle.text = "You have been to any gigs yet."
         }
     }
 }
