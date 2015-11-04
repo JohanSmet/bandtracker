@@ -132,7 +132,11 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DPZ-eu-c5i">
-                                        <rect key="frame" x="522" y="1" width="30" height="30"/>
+                                        <rect key="frame" x="508" y="-6" width="44" height="44"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="44" id="Aq7-Jv-4dg"/>
+                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="IUl-9E-mZv"/>
+                                        </constraints>
                                         <state key="normal" title="Add"/>
                                         <connections>
                                             <action selector="addGig:" destination="RNd-a9-GBz" eventType="touchUpInside" id="BJK-Tw-9VV"/>
