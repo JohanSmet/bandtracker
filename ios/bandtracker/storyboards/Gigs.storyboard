@@ -383,7 +383,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search for videos on Youtube" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DDz-1S-Gpb">
                                                     <rect key="frame" x="16" y="11" width="225" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -532,8 +532,35 @@
                         <sections>
                             <tableViewSection footerTitle="Results" id="AOe-T9-aM7">
                                 <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="163" id="mbw-lf-OV5">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="163"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mbw-lf-OV5" id="VJe-zj-51X">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="162"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Filter on year" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dD5-Kg-YQH">
+                                                    <rect key="frame" x="16" y="70" width="99" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RgY-Xm-qFW">
+                                                    <rect key="frame" x="131" y="0.0" width="461" height="162"/>
+                                                </pickerView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="dD5-Kg-YQH" firstAttribute="centerY" secondItem="VJe-zj-51X" secondAttribute="centerY" id="32Y-1F-Ajg"/>
+                                                <constraint firstItem="RgY-Xm-qFW" firstAttribute="leading" secondItem="VJe-zj-51X" secondAttribute="leadingMargin" constant="123" id="7xP-ws-a25"/>
+                                                <constraint firstItem="RgY-Xm-qFW" firstAttribute="top" secondItem="VJe-zj-51X" secondAttribute="top" id="JLx-en-qoL"/>
+                                                <constraint firstAttribute="bottom" secondItem="RgY-Xm-qFW" secondAttribute="bottom" id="OwY-Kk-55B"/>
+                                                <constraint firstAttribute="trailing" secondItem="RgY-Xm-qFW" secondAttribute="trailing" constant="8" id="TR5-cU-KjD"/>
+                                                <constraint firstItem="dD5-Kg-YQH" firstAttribute="leading" secondItem="VJe-zj-51X" secondAttribute="leadingMargin" constant="8" id="m3z-x6-zLi"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="U3p-q2-KtV">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="163" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="U3p-q2-KtV" id="0E9-lG-abb">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
@@ -550,33 +577,6 @@
                                                 <constraint firstItem="ksv-VQ-6d3" firstAttribute="trailing" secondItem="0E9-lG-abb" secondAttribute="trailingMargin" id="a7O-tl-JAL"/>
                                                 <constraint firstItem="ksv-VQ-6d3" firstAttribute="bottom" secondItem="0E9-lG-abb" secondAttribute="bottomMargin" id="s3M-aV-bTR"/>
                                                 <constraint firstItem="ksv-VQ-6d3" firstAttribute="top" secondItem="0E9-lG-abb" secondAttribute="topMargin" id="sgC-td-QxF"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="163" id="mbw-lf-OV5">
-                                        <rect key="frame" x="0.0" y="44" width="600" height="163"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mbw-lf-OV5" id="VJe-zj-51X">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="162"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Filter on year" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dD5-Kg-YQH">
-                                                    <rect key="frame" x="16" y="70" width="99" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RgY-Xm-qFW">
-                                                    <rect key="frame" x="131" y="0.0" width="461" height="162"/>
-                                                </pickerView>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="dD5-Kg-YQH" firstAttribute="centerY" secondItem="VJe-zj-51X" secondAttribute="centerY" id="32Y-1F-Ajg"/>
-                                                <constraint firstItem="RgY-Xm-qFW" firstAttribute="leading" secondItem="VJe-zj-51X" secondAttribute="leadingMargin" constant="123" id="7xP-ws-a25"/>
-                                                <constraint firstItem="RgY-Xm-qFW" firstAttribute="top" secondItem="VJe-zj-51X" secondAttribute="top" id="JLx-en-qoL"/>
-                                                <constraint firstAttribute="bottom" secondItem="RgY-Xm-qFW" secondAttribute="bottom" id="OwY-Kk-55B"/>
-                                                <constraint firstAttribute="trailing" secondItem="RgY-Xm-qFW" secondAttribute="trailing" constant="8" id="TR5-cU-KjD"/>
-                                                <constraint firstItem="dD5-Kg-YQH" firstAttribute="leading" secondItem="VJe-zj-51X" secondAttribute="leadingMargin" constant="8" id="m3z-x6-zLi"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
