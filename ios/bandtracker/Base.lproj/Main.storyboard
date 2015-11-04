@@ -380,9 +380,6 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="4Fp-hx-q6Z"/>
-                    <connections>
-                        <outlet property="tableBands" destination="dPt-hX-Ji3" id="6ov-WL-sRm"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iLj-bl-Guh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

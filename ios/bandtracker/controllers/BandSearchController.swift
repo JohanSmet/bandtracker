@@ -24,13 +24,6 @@ class BandSearchController: UITableViewController,
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
-    // outlets
-    //
-    
-    @IBOutlet weak var tableBands: UITableView!
-    
-    ///////////////////////////////////////////////////////////////////////////////////
-    //
     // UIViewController overrides
     //
     
@@ -64,6 +57,9 @@ class BandSearchController: UITableViewController,
         
         // check minimum length of the search pattern
         if searchText.characters.count < 2 {
+            existingBandList.removeAll()
+            newBandList.removeAll()
+            tableView.reloadData()
             return
         }
         
@@ -82,7 +78,7 @@ class BandSearchController: UITableViewController,
             }
            
             dispatch_sync(dispatch_get_main_queue()) {
-                self.tableBands.reloadData()
+                self.tableView.reloadData()
             }
         }
     }
