@@ -20,7 +20,8 @@ class BandDetailsController :   UIViewController,
     // variables
     //
     
-    var band : Band!
+    var band            : Band!
+    var tourDateYears   : [Int] = []
     
     lazy var gigFetchedResultsController: NSFetchedResultsController = {
         let fetchRequest = NSFetchRequest(entityName: "Gig")
@@ -49,6 +50,7 @@ class BandDetailsController :   UIViewController,
     @IBOutlet weak var htmlBiography: UIWebView!
     
     @IBOutlet weak var biography: UITextView!
+    
     ///////////////////////////////////////////////////////////////////////////////////
     //
     // UIViewController overrides
@@ -68,6 +70,13 @@ class BandDetailsController :   UIViewController,
             NSLog("Unresolved error \(error), \(error.userInfo)")
         }
         
+        // see what years are available on the server
+        bandTrackerClient().tourDateYears(band.bandMBID) { years, error in
+            if let years = years {
+                self.tourDateYears = years
+            }
+        }
+        
         setUIFields()
     }
     
@@ -85,8 +94,13 @@ class BandDetailsController :   UIViewController,
     //
     
     @IBAction func addGig(sender: AnyObject) {
-        let newVC = GigGuidedCreationController.create(band!)
-        navigationController?.pushViewController(newVC, animated: true)
+        if !tourDateYears.isEmpty {
+            let newVC = GigGuidedCreationController.create(band!, tourDateYears: tourDateYears)
+            navigationController?.pushViewController(newVC, animated: true)
+        } else {
+            let newVC = GigDetailsController.createNewGig(band!)
+            navigationController?.pushViewController(newVC, animated: true)
+        }
     }
     
     ///////////////////////////////////////////////////////////////////////////////////

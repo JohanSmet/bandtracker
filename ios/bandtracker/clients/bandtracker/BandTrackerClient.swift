@@ -200,6 +200,7 @@ class BandTrackerClient : WebApiClient {
     
     func tourDateFind(bandMBID : String, dateFrom : NSDate?, dateTo : NSDate?, countryCode : String?, location : String?, completionHandler : (tourDates : [BandTrackerClient.TourDate]?, error : String?) -> Void) {
        
+        // make sure to login first
         guard let token = apiToken else {
             return login() { self.tourDateFind(bandMBID, dateFrom: dateFrom, dateTo: dateTo, countryCode: countryCode, location: location, completionHandler: completionHandler) }
         }
@@ -246,6 +247,35 @@ class BandTrackerClient : WebApiClient {
                 completionHandler(tourDates: tourDates, error : nil)
             }
         }
+    }
+    
+    func tourDateYears(bandMBID : String, completionHandler : (years : [Int]?, error : String?) -> Void) {
+        // make sure to login first
+        guard let token = apiToken else {
+            return login() { self.tourDateYears(bandMBID, completionHandler: completionHandler) }
+        }
+        
+        // configure request
+        let parameters : [String : AnyObject] = [
+            "band": bandMBID
+        ]
+        
+        let extraHeaders : [String : String] = [
+            "x-access-token" : token
+        ]
+        
+        // execute request
+        startTaskGET(BandTrackerClient.BASE_URL, method: "tourdate/band-years", parameters: parameters, extraHeaders: extraHeaders) { result, error in
+            if let basicError = error as? NSError {
+                completionHandler(years: nil, error: BandTrackerClient.formatBasicError(basicError))
+            } else if let httpError = error as? NSHTTPURLResponse {
+                completionHandler(years: nil, error: BandTrackerClient.formatHttpError(httpError))
+            } else {
+                let postResult = result as! [Int]
+                completionHandler(years: postResult, error: nil)
+            }
+        }
+        
     }
     
     func countrySync(syncId : Int, completionHandler : (syncId : Int, countries : [ServerCountry]?, error : String?) -> Void) {

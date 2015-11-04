@@ -26,8 +26,6 @@ class GigGuidedCreationFilterController : UITableViewController,
     private let ROW_COUNTRY     = 0
     
     private let HEIGHT_YEAR_PICKER : CGFloat = 162
-    private let YEAR_PICKER_START = 1970
-    private let YEAR_PICKER_COUNT = 100
     
     ////////////////////////////////////////////////////////////////////////////////
     //
@@ -35,6 +33,15 @@ class GigGuidedCreationFilterController : UITableViewController,
     //
     
     var selYear   : Int = 0
+    var years     : [Int] = [] {
+        didSet {
+            guard let picker = self.yearPicker else { return }
+            
+            picker.reloadComponent(0)
+            setDefaultYear()
+        }
+    }
+    
     var startDate : NSDate!
     var endDate   : NSDate!
     var country   : Country!
@@ -56,13 +63,12 @@ class GigGuidedCreationFilterController : UITableViewController,
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // init delegates
         yearPicker.dataSource = self
         yearPicker.delegate   = self
         
-        // init values
-        selYear = NSCalendar.currentCalendar().component(.Year, fromDate: NSDate())
-        yearPicker.selectRow(selYear - YEAR_PICKER_START, inComponent: 0, animated: false)
-        recomputeYearLimits()
+        // set defaults
+        setDefaultYear()
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -105,7 +111,7 @@ class GigGuidedCreationFilterController : UITableViewController,
     }
     
     func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return YEAR_PICKER_COUNT
+        return years.count
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -114,11 +120,11 @@ class GigGuidedCreationFilterController : UITableViewController,
     //
     
     func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return "\(row + YEAR_PICKER_START)"
+        return "\(years[row])"
     }
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        selYear = row + YEAR_PICKER_START
+        selYear = years[row]
         recomputeYearLimits()
         delegateValueChanged()
     }
@@ -127,6 +133,15 @@ class GigGuidedCreationFilterController : UITableViewController,
     //
     // helper functions
     //
+    
+    private func setDefaultYear() {
+        if !years.isEmpty {
+            yearPicker.selectRow(years.count - 1, inComponent: 0, animated: false)
+            selYear = years.last!
+            recomputeYearLimits()
+            delegateValueChanged()
+        }
+    }
     
     private func recomputeYearLimits() {
         startDate = computeStartDate(selYear)

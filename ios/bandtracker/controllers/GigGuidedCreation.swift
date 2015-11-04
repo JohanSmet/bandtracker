@@ -20,6 +20,7 @@ class GigGuidedCreationController : UIViewController,
     //
    
     private var band             : Band!
+    private var years            : [Int] = []
     private var filterController : GigGuidedCreationFilterController!
     private var tourDates        : [BandTrackerClient.TourDate] = []
     
@@ -37,11 +38,12 @@ class GigGuidedCreationController : UIViewController,
     // class functions
     //
     
-    class func create(band : Band) -> GigGuidedCreationController {
+    class func create(band : Band, tourDateYears : [Int]) -> GigGuidedCreationController {
         let storyboard = UIStoryboard(name: "Gigs", bundle: nil)
         
         let newVC = storyboard.instantiateViewControllerWithIdentifier("GigGuidedCreationController") as! GigGuidedCreationController
-        newVC.band = band
+        newVC.band  = band
+        newVC.years = tourDateYears
         return newVC
     }
     
@@ -52,10 +54,13 @@ class GigGuidedCreationController : UIViewController,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        
+        // setup delegates
         tableView.dataSource = self
         tableView.delegate   = self
         filterController.delegate = self
+        
+        refreshData()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -66,8 +71,8 @@ class GigGuidedCreationController : UIViewController,
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "SegueEmbedGuidedFilter" {
             filterController = segue.destinationViewController as! GigGuidedCreationFilterController
+            filterController.years = years
         }
-        
     }
     
     ////////////////////////////////////////////////////////////////////////////////
@@ -75,7 +80,7 @@ class GigGuidedCreationController : UIViewController,
     // actions
     //
     
-    @IBAction func createGigManually(sender: UIButton) {
+    @IBAction func createGigManually() {
         let newVC = GigDetailsController.createNewGig(band!)
         replaceViewController(newVC)
     }
