@@ -41,6 +41,7 @@ class DataContext {
     
     func deleteBand(band : Band) {
         coreDataStackManager().managedObjectContext?.deleteObject(band)
+        coreDataStackManager().saveContext()
     }
     
     func bandList(nameFilter : String) -> [Band] {
@@ -62,6 +63,11 @@ class DataContext {
     //
     // gig management
     //
+    
+    func deleteGig(gig : Gig) {
+        coreDataStackManager().managedObjectContext?.deleteObject(gig)
+        coreDataStackManager().saveContext()
+    }
     
     func gigFromTourDate(band : Band, tourDate : BandTrackerClient.TourDate) -> Gig {
         

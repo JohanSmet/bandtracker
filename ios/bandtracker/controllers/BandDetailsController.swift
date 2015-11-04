@@ -142,6 +142,13 @@ class BandDetailsController :   UIViewController,
         navigationController?.pushViewController(newVC, animated: true)
     }
     
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == .Delete {
+            let gig = gigFetchedResultsController.objectAtIndexPath(indexPath) as! Gig
+            dataContext().deleteGig(gig)
+        }
+    }
+    
     ///////////////////////////////////////////////////////////////////////////////////
     //
     // NSFetchedResultsControllerDelegate
