@@ -69,9 +69,9 @@ class DataContext {
         coreDataStackManager().saveContext()
     }
     
-    func gigFromTourDate(band : Band, tourDate : BandTrackerClient.TourDate) -> Gig {
+    func gigFromTourDate(band : Band, tourDate : BandTrackerClient.TourDate, context : NSManagedObjectContext = coreDataStackManager().managedObjectContext!) -> Gig {
         
-        let gig = Gig(band: band, context: coreDataStackManager().managedObjectContext!)
+        let gig = Gig(band: band, context: context)
         gig.startDate   = tourDate.startDate
         gig.endDate     = tourDate.endDate
         gig.stage       = tourDate.stage

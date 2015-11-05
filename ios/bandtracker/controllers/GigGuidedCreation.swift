@@ -123,10 +123,10 @@ class GigGuidedCreationController : UIViewController,
     //
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let gig = dataContext().gigFromTourDate(band!, tourDate: tourDates[indexPath.row])
-        coreDataStackManager().saveContext()
+        // let gig = dataContext().gigFromTourDate(band!, tourDate: tourDates[indexPath.row])
+        // coreDataStackManager().saveContext()
         
-        let newVC = GigDetailsController.displayGig(gig)
+        let newVC = GigDetailsController.createNewGig(band!, tourDate: tourDates[indexPath.row])
         replaceViewController(newVC)
     }
     

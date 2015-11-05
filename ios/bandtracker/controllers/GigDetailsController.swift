@@ -85,6 +85,16 @@ class GigDetailsController :    UITableViewController,
         return newVC
     }
     
+    class func createNewGig(band : Band, tourDate : BandTrackerClient.TourDate) -> GigDetailsController {
+        let storyboard = UIStoryboard(name: "Gigs", bundle: nil)
+        
+        let newVC = storyboard.instantiateViewControllerWithIdentifier("GigDetailsController") as! GigDetailsController
+        newVC.editable  = true
+        newVC.gig       = dataContext().gigFromTourDate(newVC.scratchContext.objectWithID(band.objectID) as! Band, tourDate: tourDate, context: newVC.scratchContext)
+        
+        return newVC
+    }
+    
     class func displayGig(gig : Gig) -> GigDetailsController {
         let storyboard = UIStoryboard(name: "Gigs", bundle: nil)
         
