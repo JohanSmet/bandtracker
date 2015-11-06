@@ -7,12 +7,20 @@
 //
 
 import Foundation
+import UIKit
 
 class WebApiClient {
+    
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
+    // variables
+    //
     
     // shared session
     var urlSession : NSURLSession
     var dataOffset : Int = 0
+    
+    static var runningTasks = 0
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
@@ -120,8 +128,12 @@ class WebApiClient {
                 request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             }
             
+            WebApiClient.startingTask()
+            
             // submit the request
             let task = urlSession.dataTaskWithRequest(request) { data, response, urlError in
+                
+                defer { WebApiClient.endingTask() }
                 
                 // check for basic connectivity errors
                 if let error = urlError {
@@ -189,5 +201,22 @@ class WebApiClient {
         return statusCode >= 400
         
     }
+    
+    private class func startingTask() {
+        
+        dispatch_async(dispatch_get_main_queue()) {
+            ++runningTasks
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        }
+    }
+    
+    private class func endingTask() {
+        
+        dispatch_async(dispatch_get_main_queue()) {
+            --runningTasks
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = runningTasks > 0
+        }
+    }
+    
     
 }
