@@ -86,6 +86,7 @@ class BandDetailsController :   UIViewController,
         biography.scrollEnabled = true
         
         setGigTitle()
+        ratingControl.rating    = band.rating()
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -215,7 +216,7 @@ class BandDetailsController :   UIViewController,
         if !band.gigs.isEmpty {
             gigTitle.text = "You have been to \(band.gigs.count) gigs :"
         } else {
-            gigTitle.text = "You have been to any gigs yet."
+            gigTitle.text = "You have not been to any gigs yet."
         }
     }
 }

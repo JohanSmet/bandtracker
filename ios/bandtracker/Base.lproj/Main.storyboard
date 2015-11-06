@@ -125,12 +125,6 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8lP-yA-x2N" userLabel="TableHeader">
                                 <rect key="frame" x="20" y="260" width="560" height="32"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gigs you have been to :" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gsd-aw-azE">
-                                        <rect key="frame" x="8" y="5" width="179" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DPZ-eu-c5i">
                                         <rect key="frame" x="508" y="-6" width="44" height="44"/>
                                         <constraints>
@@ -142,6 +136,12 @@
                                             <action selector="addGig:" destination="RNd-a9-GBz" eventType="touchUpInside" id="BJK-Tw-9VV"/>
                                         </connections>
                                     </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gigs you have been to :" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Gsd-aw-azE">
+                                        <rect key="frame" x="8" y="5" width="492" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -150,6 +150,7 @@
                                     <constraint firstItem="Gsd-aw-azE" firstAttribute="leading" secondItem="8lP-yA-x2N" secondAttribute="leading" constant="8" id="J4F-sE-hOv"/>
                                     <constraint firstAttribute="height" constant="32" id="Ju0-dy-qs7"/>
                                     <constraint firstItem="DPZ-eu-c5i" firstAttribute="centerY" secondItem="8lP-yA-x2N" secondAttribute="centerY" id="Kpe-g5-WzR"/>
+                                    <constraint firstAttribute="trailing" secondItem="Gsd-aw-azE" secondAttribute="trailing" constant="60" id="dVp-7Y-KaE"/>
                                     <constraint firstAttribute="trailing" secondItem="DPZ-eu-c5i" secondAttribute="trailing" constant="8" id="lQS-5U-vEv"/>
                                 </constraints>
                             </view>

@@ -151,6 +151,7 @@ class GigDetailsController :    UITableViewController,
             coreDataStackManager().saveContext()
             
             gig.band.totalRating = dataContext().totalRatingOfGigs(gig.band)
+            coreDataStackManager().saveChildContext(scratchContext)
             coreDataStackManager().saveContext()
             
             navigationController?.popViewControllerAnimated(true)
