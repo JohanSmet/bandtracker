@@ -15,11 +15,12 @@ protocol ListSelectionControllerDelegate {
     var enableCustomValue   : Bool   { get }
     var filterPlaceHolder   : String { get }
     var filterInitialValue  : String { get }
+    var cellType            : String { get }
     
     func numberOfSections(listSelectionController : ListSelectionController) -> Int
     func titleForSection(listSelectionController : ListSelectionController, section : Int) -> String?
     func dataForSection(listSelectionController : ListSelectionController, section : Int, filterText : String, completionHandler : (data  : [AnyObject]?) -> Void)
-    func labelForItem(listSelectionController : ListSelectionController, section : Int, item : AnyObject) -> String
+    func configureCellForItem(listSelectionController : ListSelectionController, cell : UITableViewCell, section : Int, item : AnyObject)
     
     func didSelectItem(listSelectionController : ListSelectionController, custom : Bool, section : Int, item : AnyObject)
     
@@ -118,13 +119,13 @@ class ListSelectionController : UIViewController,
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("SelectionCell", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier(delegate.cellType, forIndexPath: indexPath)
         
         if delegate.enableCustomValue && indexPath.section == 0 {
             cell.textLabel?.text = filterText.text
         } else {
             let delta = delegate.enableCustomValue ? 1 : 0
-            cell.textLabel?.text = delegate.labelForItem(self, section: indexPath.section - delta, item: itemForIndexPath(indexPath))
+            delegate.configureCellForItem(self, cell: cell, section: indexPath.section - delta, item: itemForIndexPath(indexPath))
         }
         
         return cell

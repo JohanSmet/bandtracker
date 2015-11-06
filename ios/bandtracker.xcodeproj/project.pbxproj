@@ -28,6 +28,7 @@
 		040F32421BCC5033006E46E1 /* SetlistFmClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040F32411BCC5033006E46E1 /* SetlistFmClient.swift */; settings = {ASSET_TAGS = (); }; };
 		0410CE621BD8299A001151C5 /* SeenGigTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0410CE611BD8299A001151C5 /* SeenGigTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 		0410EE451BB1F330006B1FAB /* BandSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0410EE441BB1F330006B1FAB /* BandSearchController.swift */; settings = {ASSET_TAGS = (); }; };
+		041420371BED466A007842DF /* SelectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041420361BED466A007842DF /* SelectionTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 		041506D01BCEBBC000627433 /* YoutubeDataClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041506CF1BCEBBC000627433 /* YoutubeDataClient.swift */; settings = {ASSET_TAGS = (); }; };
 		041506D21BCEF47D00627433 /* YoutubeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041506D11BCEF47D00627433 /* YoutubeTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 		041A12791BB5DEC2005DDB8E /* BandTracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 041A12771BB5DEC2005DDB8E /* BandTracker.xcdatamodeld */; settings = {ASSET_TAGS = (); }; };
@@ -78,6 +79,7 @@
 		040F32411BCC5033006E46E1 /* SetlistFmClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetlistFmClient.swift; sourceTree = "<group>"; };
 		0410CE611BD8299A001151C5 /* SeenGigTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeenGigTableViewCell.swift; sourceTree = "<group>"; };
 		0410EE441BB1F330006B1FAB /* BandSearchController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BandSearchController.swift; sourceTree = "<group>"; };
+		041420361BED466A007842DF /* SelectionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionTableViewCell.swift; sourceTree = "<group>"; };
 		041506CF1BCEBBC000627433 /* YoutubeDataClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YoutubeDataClient.swift; sourceTree = "<group>"; };
 		041506D11BCEF47D00627433 /* YoutubeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YoutubeTableViewCell.swift; sourceTree = "<group>"; };
 		041A12781BB5DEC2005DDB8E /* BandTracker.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BandTracker.xcdatamodel; sourceTree = "<group>"; };
@@ -187,6 +189,7 @@
 				0410CE611BD8299A001151C5 /* SeenGigTableViewCell.swift */,
 				0472C76A1BE521D100528927 /* GigGuidedCreationCell.swift */,
 				041E40891BE55FEF0090CF66 /* TimelineTableViewCell.swift */,
+				041420361BED466A007842DF /* SelectionTableViewCell.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -375,6 +378,7 @@
 				04A5B4841BB33A2F002D7E4B /* BandTrackerClient.swift in Sources */,
 				04F963051BAF175200ABCE80 /* AppDelegate.swift in Sources */,
 				040BEB101BE2B23800C22DAB /* GigGuidedCreationFilterController.swift in Sources */,
+				041420371BED466A007842DF /* SelectionTableViewCell.swift in Sources */,
 				04A5B4811BB336CD002D7E4B /* WebApiClient.swift in Sources */,
 				04B275991BBFFA3F00FAD5B6 /* Venue.swift in Sources */,
 				041A12821BB5E41E005DDB8E /* DataContext.swift in Sources */,

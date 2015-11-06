@@ -4,6 +4,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Gig Details Controller-->
@@ -634,7 +635,7 @@
                                 <rect key="frame" x="0.0" y="66" width="600" height="534"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SelectionCell" textLabel="UJv-Zr-JdL" style="IBUITableViewCellStyleDefault" id="WLE-xD-KnW">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SelectionCellBasic" textLabel="UJv-Zr-JdL" style="IBUITableViewCellStyleDefault" id="WLE-xD-KnW">
                                         <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="WLE-xD-KnW" id="y6S-Mn-66U">
@@ -650,6 +651,37 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SelectionCellImage" id="zEB-eX-JCK" customClass="SelectionImageTableViewCell" customModule="bandtracker" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="72" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zEB-eX-JCK" id="ccI-GO-zgP">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" alpha="0.90000000000000002" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ALv-EG-YrT">
+                                                    <rect key="frame" x="16" y="4" width="90" height="35"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="koL-1p-PIZ">
+                                                    <rect key="frame" x="122" y="11" width="42" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="ALv-EG-YrT" firstAttribute="leading" secondItem="ccI-GO-zgP" secondAttribute="leading" constant="16" id="F7m-fR-8Sp"/>
+                                                <constraint firstAttribute="bottom" secondItem="ALv-EG-YrT" secondAttribute="bottom" constant="4" id="PcV-8T-LjJ"/>
+                                                <constraint firstItem="ALv-EG-YrT" firstAttribute="width" secondItem="ccI-GO-zgP" secondAttribute="width" multiplier="0.15" id="eVq-7g-bJJ"/>
+                                                <constraint firstItem="ALv-EG-YrT" firstAttribute="top" secondItem="ccI-GO-zgP" secondAttribute="top" constant="4" id="hbL-Xo-6xu"/>
+                                                <constraint firstItem="koL-1p-PIZ" firstAttribute="centerY" secondItem="ccI-GO-zgP" secondAttribute="centerY" id="nY9-17-dcM"/>
+                                                <constraint firstItem="koL-1p-PIZ" firstAttribute="leading" secondItem="ALv-EG-YrT" secondAttribute="trailing" constant="16" id="pmT-No-oLW"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="img" destination="ALv-EG-YrT" id="vmo-f1-zoZ"/>
+                                            <outlet property="title" destination="koL-1p-PIZ" id="BcA-bd-gyR"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>

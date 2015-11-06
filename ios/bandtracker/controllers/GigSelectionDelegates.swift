@@ -7,12 +7,14 @@
 //
 
 import Foundation
+import UIKit
 
 class CountrySelectionDelegate : ListSelectionControllerDelegate {
     
     let enableFilter        : Bool   = true
     let enableCustomValue   : Bool   = false
     let filterPlaceHolder   : String = "Enter country"
+    let cellType            : String = "SelectionCellImage"
     let filterInitialValue  : String
     let completionHandler   : (name : String) -> Void
     
@@ -33,9 +35,13 @@ class CountrySelectionDelegate : ListSelectionControllerDelegate {
         completionHandler(data: dataContext().countryList(filterText))
     }
     
-    func labelForItem(listSelectionController : ListSelectionController, section : Int, item : AnyObject) -> String {
-        return (item as? Country)!.name
+    func configureCellForItem(listSelectionController : ListSelectionController, cell : UITableViewCell, section : Int, item : AnyObject) {
+        guard let country = item as? Country else { return }
+        guard let imgCell = cell as? SelectionImageTableViewCell else { return }
+        imgCell.title!.text = country.name
+        imgCell.img!.image = UIImage(data: country.flag)
     }
+    
     
     func didSelectItem(listSelectionController : ListSelectionController, custom : Bool, section : Int, item : AnyObject) {
         if let country = item as? Country {
@@ -49,6 +55,7 @@ class CitySelectionDelegate : ListSelectionControllerDelegate {
     let enableFilter        : Bool   = true
     let enableCustomValue   : Bool   = true
     let filterPlaceHolder   : String = "Enter city"
+    let cellType            : String = "SelectionCellBasic"
     let filterInitialValue  : String
     let countryCode         : String?
     let completionHandler   : (name : String) -> Void
@@ -89,13 +96,13 @@ class CitySelectionDelegate : ListSelectionControllerDelegate {
         }
     }
     
-    func labelForItem(listSelectionController : ListSelectionController, section : Int, item : AnyObject) -> String {
+    func configureCellForItem(listSelectionController : ListSelectionController, cell : UITableViewCell, section : Int, item : AnyObject) {
         if let city = item as? City {
-            return city.name
+            cell.textLabel?.text =  city.name
         } else if let city = item as? String {
-            return city
+            cell.textLabel?.text =  city
         } else {
-            return ""
+            cell.textLabel?.text =  ""
         }
     }
     
@@ -114,6 +121,7 @@ class VenueSelectionDelegate : ListSelectionControllerDelegate {
     let enableFilter        : Bool   = true
     let enableCustomValue   : Bool   = true
     let filterPlaceHolder   : String = "Enter venue"
+    let cellType            : String = "SelectionCellBasic"
     let filterInitialValue  : String
     let countryCode         : String?
     let city                : String?
@@ -156,13 +164,13 @@ class VenueSelectionDelegate : ListSelectionControllerDelegate {
         }
     }
     
-    func labelForItem(listSelectionController : ListSelectionController, section : Int, item : AnyObject) -> String {
+    func configureCellForItem(listSelectionController : ListSelectionController, cell : UITableViewCell, section : Int, item : AnyObject) {
         if let venue = item as? Venue {
-            return venue.name
+            cell.textLabel?.text = venue.name
         } else if let venue = item as? String {
-            return venue
+            cell.textLabel?.text = venue
         } else {
-            return ""
+            cell.textLabel?.text = ""
         }
     }
     
