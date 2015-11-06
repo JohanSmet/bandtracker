@@ -126,9 +126,7 @@ class BandDetailsController :   UIViewController,
     func configureCell(cell : SeenGigTableViewCell, indexPath : NSIndexPath) {
         let gig = gigFetchedResultsController.objectAtIndexPath(indexPath) as! Gig
         
-        cell.setLocation(gig)
-        cell.dateLabel.text = DateUtils.toDateStringMedium(gig.startDate)
-        cell.ratingControl.rating = gig.rating.floatValue / 10
+        cell.setFields(gig)
     }
     
     ///////////////////////////////////////////////////////////////////////////////////

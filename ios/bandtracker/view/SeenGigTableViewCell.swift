@@ -14,14 +14,27 @@ class SeenGigTableViewCell : UITableViewCell {
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var ratingControl: RatingControl!
+    @IBOutlet weak var countryImage: UIImageView!
+    
+    func setFields(gig : Gig) {
+        
+        dateLabel.text = DateUtils.toDateStringMedium(gig.startDate)
+        ratingControl.rating = gig.rating.floatValue / 10
+        countryImage.image = UIImage(data: gig.country.flag)
+        
+        setLocation(gig)
+        
+    }
     
     func setLocation(gig : Gig) {
         var location  : String = ""
         var separator : String = ""
+        var venueSet  : Bool   = false
         
         if let venue = gig.venue {
             location += separator + venue.name
             separator = ", "
+            venueSet  = true
         }
         
         if let city = gig.city {
@@ -29,7 +42,10 @@ class SeenGigTableViewCell : UITableViewCell {
             separator = ", "
         }
         
-        location += separator + gig.country.name
+        if !venueSet {
+            location += separator + gig.country.name
+        }
+        
         locationLabel.text = location
     }
     

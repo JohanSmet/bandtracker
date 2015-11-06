@@ -15,13 +15,15 @@ class TimelineTableViewCell : UITableViewCell {
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var ratingControl: RatingControl!
+    @IBOutlet weak var countryImage: UIImageView!
     
     
     func setFields(gig : Gig) {
     
         bandLabel.text      = gig.band.name
-        dateLabel.text = DateUtils.toDateStringMedium(gig.startDate)
+        dateLabel.text      = DateUtils.toDateStringMedium(gig.startDate)
         ratingControl.rating = gig.rating.floatValue / 10
+        countryImage.image   = UIImage(data: gig.country.flag)
         
         setLocation(gig)
         

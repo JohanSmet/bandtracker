@@ -69,6 +69,7 @@ class GigDetailsController :    UITableViewController,
     
     @IBOutlet weak var textComments: UITextField!
     
+    @IBOutlet weak var countryImage: UIImageView!
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
@@ -315,6 +316,8 @@ class GigDetailsController :    UITableViewController,
         ratingControl.rating = gig.rating.floatValue / 10
         
         switchSupportAct.on = gig.supportAct
+        
+        countryImage.image = UIImage(data: gig.country.flag)
         
         validateForm()
     }

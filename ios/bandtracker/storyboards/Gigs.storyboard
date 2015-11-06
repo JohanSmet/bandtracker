@@ -178,15 +178,24 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Country" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="x0d-G0-KyC">
-                                                    <rect key="frame" x="16" y="8" width="576" height="27"/>
+                                                    <rect key="frame" x="16" y="8" width="508" height="27"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2uZ-GA-bAB">
+                                                    <rect key="frame" x="532" y="8" width="60" height="27"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="60" id="MeY-1o-B6Y"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailingMargin" secondItem="x0d-G0-KyC" secondAttribute="trailing" id="0N2-HF-YjA"/>
+                                                <constraint firstItem="2uZ-GA-bAB" firstAttribute="top" secondItem="RSN-HD-nga" secondAttribute="top" constant="8" id="2cy-nB-J8X"/>
+                                                <constraint firstAttribute="trailing" secondItem="2uZ-GA-bAB" secondAttribute="trailing" constant="8" id="K8p-gC-pcm"/>
+                                                <constraint firstItem="2uZ-GA-bAB" firstAttribute="leading" secondItem="x0d-G0-KyC" secondAttribute="trailing" constant="8" id="M1r-l1-gnd"/>
                                                 <constraint firstItem="x0d-G0-KyC" firstAttribute="leading" secondItem="RSN-HD-nga" secondAttribute="leadingMargin" constant="8" id="Nc3-Ff-9DL"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="x0d-G0-KyC" secondAttribute="bottom" id="Sfw-Hc-zIu"/>
+                                                <constraint firstAttribute="bottom" secondItem="2uZ-GA-bAB" secondAttribute="bottom" constant="8" id="e3e-CQ-8jf"/>
                                                 <constraint firstItem="x0d-G0-KyC" firstAttribute="top" secondItem="RSN-HD-nga" secondAttribute="topMargin" id="kvm-ab-78A"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -403,6 +412,7 @@
                     </tableView>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <connections>
+                        <outlet property="countryImage" destination="2uZ-GA-bAB" id="toP-ow-Fex"/>
                         <outlet property="durationPicker" destination="fWq-62-Tl4" id="hS3-4C-nWE"/>
                         <outlet property="ratingControl" destination="RMA-H4-SoG" id="jqP-1b-OgH"/>
                         <outlet property="startDatePicker" destination="1SF-bL-1h4" id="3LJ-d9-Jub"/>
