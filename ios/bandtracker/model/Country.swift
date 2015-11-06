@@ -15,6 +15,8 @@ class Country : NSManagedObject {
     
     @NSManaged var code         : String
     @NSManaged var name         : String
+    @NSManaged var flag         : NSData!
+    
     @NSManaged var gigs         : [Gig]
     
     ////////////////////////////////////////////////////////////////////////////////

@@ -19,6 +19,7 @@
     </entity>
     <entity name="Country" representedClassName="Country" syncable="YES">
         <attribute name="code" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="flag" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
         <relationship name="gigs" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Gig" inverseName="country" inverseEntity="Gig" syncable="YES"/>
     </entity>
@@ -44,7 +45,7 @@
     <elements>
         <element name="Band" positionX="-513" positionY="18" width="128" height="180"/>
         <element name="City" positionX="-38" positionY="-231" width="128" height="103"/>
-        <element name="Country" positionX="-2" positionY="-90" width="128" height="88"/>
+        <element name="Country" positionX="-2" positionY="-90" width="128" height="105"/>
         <element name="Gig" positionX="-317" positionY="18" width="128" height="210"/>
         <element name="Venue" positionX="16" positionY="27" width="128" height="103"/>
     </elements>

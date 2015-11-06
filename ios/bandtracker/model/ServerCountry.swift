@@ -11,6 +11,7 @@ import Foundation
 struct ServerCountry {
     var code : String
     var name : String
+    var flag : String
     
     ////////////////////////////////////////////////////////////////////////////////
     //
@@ -20,5 +21,6 @@ struct ServerCountry {
     init(values : [ String : AnyObject ]) {
         self.code = values["code"] as! String
         self.name = values["name"] as! String
+        self.flag = values["smallFlag"] as? String ?? ""
     }
 }

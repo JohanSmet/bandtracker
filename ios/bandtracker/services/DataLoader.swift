@@ -40,8 +40,10 @@ class DataLoader {
                 for serverCountry in serverCountries! {
                     if let oldCountry = countries[serverCountry.code] {
                         oldCountry.name = serverCountry.name
+                        oldCountry.flag = NSData(base64EncodedString: serverCountry.flag, options: .IgnoreUnknownCharacters)
                     } else {
-                        _ = Country(code: serverCountry.code, name: serverCountry.name, context: coreDataStackManager().managedObjectContext!)
+                        let country = Country(code: serverCountry.code, name: serverCountry.name, context: coreDataStackManager().managedObjectContext!)
+                        country.flag = NSData(base64EncodedString: serverCountry.flag, options: .IgnoreUnknownCharacters)
                     }
                 }
                 
