@@ -30,6 +30,14 @@ class GigDetailsYoutubeController : UIViewController,
     
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var bandLogo: UIImageView!
+    @IBOutlet weak var locationLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var searchLabel: UILabel!
+    
+    @IBOutlet weak var errorView: UIView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
     ///////////////////////////////////////////////////////////////////////////////////
     //
     // static interface
@@ -54,6 +62,10 @@ class GigDetailsYoutubeController : UIViewController,
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // init header
+        setHeaderFields()
+        
+        // init table view
         tableView.dataSource = self
         tableView.delegate   = self
         
@@ -72,6 +84,8 @@ class GigDetailsYoutubeController : UIViewController,
     //
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
         let vc = YoutubePlayerController.createForVideo(videos[indexPath.row])
         navigationController?.pushViewController(vc, animated: true)
@@ -92,10 +106,7 @@ class GigDetailsYoutubeController : UIViewController,
         let video = self.videos[indexPath.row]
         
         cell.videoTitle!.text = video.title
-        
-        UrlFetcher.loadImageFromUrl(video.thumbUrl) { image in
-            cell.thumbnail.image = image
-        }
+        cell.videoPlayer.loadVideoID(video.id)
         
         return cell
     }
@@ -107,12 +118,39 @@ class GigDetailsYoutubeController : UIViewController,
     
     func searchForVideos() {
         youtubeDataClient().searchVideosForGig(gig, song: song, maxResults: 10) { videos, error in
-            if let videos = videos {
+            if videos != nil && videos!.count > 0 {
                 dispatch_async(dispatch_get_main_queue()) {
-                    self.videos = videos
+                    self.videos = videos!
+                    
+                    self.activityIndicator.stopAnimating()
+                    self.tableView.hidden = false
                     self.tableView.reloadData()
                 }
+            } else {
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.activityIndicator.stopAnimating()
+                    self.errorView.hidden = false
+                }
             }
+        }
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
+    // helper functions
+    //
+    
+    private func setHeaderFields() {
+        
+        if let song = song {
+            searchLabel.text = "(searched YouTube for \"\(song)\")"
+        }
+        
+        locationLabel.text =  gig.formatLocation()
+        dateLabel.text = DateUtils.toDateStringMedium(gig.startDate)
+        
+        UrlFetcher.loadImageFromUrl(gig.band.fanartLogoUrl ?? "") { image in
+            self.bandLogo.image = image
         }
     }
     

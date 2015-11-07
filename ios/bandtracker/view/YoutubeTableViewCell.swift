@@ -10,6 +10,6 @@ import Foundation
 import UIKit
 
 class YoutubeTableViewCell : UITableViewCell {
-    @IBOutlet weak var thumbnail: UIImageView!
     @IBOutlet weak var videoTitle: UILabel!
+    @IBOutlet weak var videoPlayer: YouTubePlayerView!
 }
