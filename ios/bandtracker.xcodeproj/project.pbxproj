@@ -13,7 +13,6 @@
 		040B3AF91BCAFAF80017D7A0 /* UrlFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040B3AF81BCAFAF80017D7A0 /* UrlFetcher.swift */; settings = {ASSET_TAGS = (); }; };
 		040B69BC1BD02FF5006633AB /* YouTubePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040B69BA1BD02FF5006633AB /* YouTubePlayer.swift */; settings = {ASSET_TAGS = (); }; };
 		040B69BD1BD02FF5006633AB /* YTPlayer.html in Resources */ = {isa = PBXBuildFile; fileRef = 040B69BB1BD02FF5006633AB /* YTPlayer.html */; settings = {ASSET_TAGS = (); }; };
-		040B69BF1BD03033006633AB /* YoutubePlayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040B69BE1BD03033006633AB /* YoutubePlayerController.swift */; settings = {ASSET_TAGS = (); }; };
 		040B80FA1BCA81F200545877 /* RatingControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040B80F91BCA81F200545877 /* RatingControl.swift */; settings = {ASSET_TAGS = (); }; };
 		040BEB0E1BE2B08700C22DAB /* GigGuidedCreation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040BEB0D1BE2B08700C22DAB /* GigGuidedCreation.swift */; settings = {ASSET_TAGS = (); }; };
 		040BEB101BE2B23800C22DAB /* GigGuidedCreationFilterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040BEB0F1BE2B23800C22DAB /* GigGuidedCreationFilterController.swift */; settings = {ASSET_TAGS = (); }; };
@@ -64,7 +63,6 @@
 		040B3AF81BCAFAF80017D7A0 /* UrlFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UrlFetcher.swift; sourceTree = "<group>"; };
 		040B69BA1BD02FF5006633AB /* YouTubePlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YouTubePlayer.swift; sourceTree = "<group>"; };
 		040B69BB1BD02FF5006633AB /* YTPlayer.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = YTPlayer.html; sourceTree = "<group>"; };
-		040B69BE1BD03033006633AB /* YoutubePlayerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YoutubePlayerController.swift; sourceTree = "<group>"; };
 		040B80F91BCA81F200545877 /* RatingControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingControl.swift; sourceTree = "<group>"; };
 		040BEB0D1BE2B08700C22DAB /* GigGuidedCreation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GigGuidedCreation.swift; sourceTree = "<group>"; };
 		040BEB0F1BE2B23800C22DAB /* GigGuidedCreationFilterController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GigGuidedCreationFilterController.swift; sourceTree = "<group>"; };
@@ -276,7 +274,6 @@
 				040CCE821BE018DF00E8E1B2 /* GigSelectionDelegates.swift */,
 				0474A1791BC70A4C0047070A /* ListSelectionController.swift */,
 				040D68C41BB0A46F000068EA /* TimelineController.swift */,
-				040B69BE1BD03033006633AB /* YoutubePlayerController.swift */,
 			);
 			path = controllers;
 			sourceTree = "<group>";
@@ -384,7 +381,6 @@
 				041A12821BB5E41E005DDB8E /* DataContext.swift in Sources */,
 				040F32421BCC5033006E46E1 /* SetlistFmClient.swift in Sources */,
 				041506D01BCEBBC000627433 /* YoutubeDataClient.swift in Sources */,
-				040B69BF1BD03033006633AB /* YoutubePlayerController.swift in Sources */,
 				04098D481BB6ED38008AEDF7 /* BandDetailsController.swift in Sources */,
 				0474A17A1BC70A4C0047070A /* ListSelectionController.swift in Sources */,
 				041E408A1BE55FEF0090CF66 /* TimelineTableViewCell.swift in Sources */,

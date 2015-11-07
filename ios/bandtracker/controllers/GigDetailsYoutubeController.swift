@@ -87,9 +87,6 @@ class GigDetailsYoutubeController : UIViewController,
         
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
-        let vc = YoutubePlayerController.createForVideo(videos[indexPath.row])
-        navigationController?.pushViewController(vc, animated: true)
-        
     }
     
     ///////////////////////////////////////////////////////////////////////////////////

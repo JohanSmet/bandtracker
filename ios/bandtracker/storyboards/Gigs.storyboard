@@ -1033,38 +1033,5 @@
             </objects>
             <point key="canvasLocation" x="1874" y="334"/>
         </scene>
-        <!--Youtube Player Controller-->
-        <scene sceneID="9GA-fz-7AF">
-            <objects>
-                <viewController storyboardIdentifier="YoutubePlayerController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Fh0-hA-jBw" customClass="YoutubePlayerController" customModule="bandtracker" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Utp-As-o7K"/>
-                        <viewControllerLayoutGuide type="bottom" id="qy6-LM-PWa"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="SN9-lp-yaz">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="weY-qp-g9l" customClass="YouTubePlayerView" customModule="bandtracker" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="600" height="572"/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="weY-qp-g9l" secondAttribute="trailing" id="3Yv-sD-bik"/>
-                            <constraint firstItem="weY-qp-g9l" firstAttribute="top" secondItem="Utp-As-o7K" secondAttribute="bottom" constant="8" id="H3y-0y-IMm"/>
-                            <constraint firstItem="weY-qp-g9l" firstAttribute="leading" secondItem="SN9-lp-yaz" secondAttribute="leading" id="pdu-a9-a2X"/>
-                            <constraint firstItem="qy6-LM-PWa" firstAttribute="top" secondItem="weY-qp-g9l" secondAttribute="bottom" id="zvu-jT-IsB"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="youtubePlayer" destination="weY-qp-g9l" id="ivN-V6-xCE"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="LuA-mr-3xO" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1874" y="1034"/>
-        </scene>
     </scenes>
 </document>
