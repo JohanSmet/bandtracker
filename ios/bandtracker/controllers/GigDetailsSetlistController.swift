@@ -31,6 +31,14 @@ class GigDetailsSetlistController : UIViewController ,
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var labelWebsite: UILabel!
     
+    // header
+    @IBOutlet weak var bandLogo: UIImageView!
+    @IBOutlet weak var locationLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
+    @IBOutlet weak var errorView: UIView!
+    
     ///////////////////////////////////////////////////////////////////////////////////
     //
     // static interface
@@ -54,6 +62,9 @@ class GigDetailsSetlistController : UIViewController ,
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // init header
+        setHeaderFields()
+        
         // init tableview
         tableView.dataSource = self
         tableView.delegate   = self
@@ -65,17 +76,25 @@ class GigDetailsSetlistController : UIViewController ,
         
         // load the setlist
         setlistFmClient().searchSetlist(gig) { setlist, setlistUrl, error in
-            // XXX display error
             
-            if let setlist = setlist {
+            if setlist != nil && setlist!.count > 0 {
+                
                 dispatch_async(dispatch_get_main_queue()) {
-                    self.set = setlist
+                    self.activityIndicator.stopAnimating()
+                    self.set = setlist!
+                    
+                    self.tableView.hidden = false
                     self.tableView.reloadData()
+                    
+                    if let setlistUrl = setlistUrl {
+                        self.urlString = setlistUrl
+                    }
                 }
-            }
-            
-            if let setlistUrl = setlistUrl {
-                self.urlString = setlistUrl
+            } else {
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.activityIndicator.stopAnimating()
+                    self.errorView.hidden = false
+                }
             }
         }
     }
@@ -130,4 +149,18 @@ class GigDetailsSetlistController : UIViewController ,
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
+    // helper functions
+    //
+    
+    private func setHeaderFields() {
+        
+        locationLabel.text =  gig.formatLocation()
+        dateLabel.text = DateUtils.toDateStringMedium(gig.startDate)
+        
+        UrlFetcher.loadImageFromUrl(gig.band.fanartLogoUrl ?? "") { image in
+            self.bandLogo.image = image
+        }
+    }
 }

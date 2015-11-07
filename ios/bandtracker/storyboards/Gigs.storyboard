@@ -665,7 +665,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="koL-1p-PIZ">
                                                     <rect key="frame" x="122" y="11" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -706,10 +706,10 @@
             </objects>
             <point key="canvasLocation" x="575" y="1701"/>
         </scene>
-        <!--Gig Details Setlist Controller-->
+        <!--Setlist-->
         <scene sceneID="N27-Ij-2fM">
             <objects>
-                <viewController restorationIdentifier="GigDetailsSetlistController" storyboardIdentifier="GigDetailsSetlistController" id="eDq-rF-Yir" customClass="GigDetailsSetlistController" customModule="bandtracker" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="GigDetailsSetlistController" storyboardIdentifier="GigDetailsSetlistController" title="Setlist" id="eDq-rF-Yir" customClass="GigDetailsSetlistController" customModule="bandtracker" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="d6J-WY-57L"/>
                         <viewControllerLayoutGuide type="bottom" id="DvX-ZV-vEa"/>
@@ -718,20 +718,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Om-yE-llB">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Om-yE-llB" userLabel="Footer">
                                 <rect key="frame" x="0.0" y="562" width="600" height="38"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Set list courtesy of setlist.fm" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2lc-SP-nVY">
-                                        <rect key="frame" x="191" y="2" width="218" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <rect key="frame" x="197" y="2" width="207" height="20"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <color key="textColor" red="0.058823529409999999" green="0.1843137255" blue="0.36470588240000001" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(click here to view this setlist on the setlist.fm website)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="7" translatesAutoresizingMaskIntoConstraints="NO" id="i2a-Lp-FtA">
                                         <rect key="frame" x="0.0" y="22" width="600" height="16"/>
                                         <gestureRecognizers/>
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="0.058823529409999999" green="0.1843137255" blue="0.36470588240000001" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -745,8 +745,8 @@
                                     <constraint firstAttribute="bottom" secondItem="i2a-Lp-FtA" secondAttribute="bottom" id="gHp-EP-Gd2"/>
                                 </constraints>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="YF4-l9-wa9">
-                                <rect key="frame" x="20" y="20" width="560" height="540"/>
+                            <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="YF4-l9-wa9">
+                                <rect key="frame" x="20" y="84" width="560" height="476"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SetListCell" textLabel="ODG-Ag-mM9" style="IBUITableViewCellStyleDefault" id="nMB-58-Vnf">
@@ -768,20 +768,107 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ftt-pq-CGB" userLabel="Header">
+                                <rect key="frame" x="0.0" y="20" width="600" height="64"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" alpha="0.25" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="77a-OH-W5X">
+                                        <rect key="frame" x="196" y="4" width="396" height="56"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Venue / City" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1qE-RD-ydk">
+                                        <rect key="frame" x="8" y="8" width="584" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.058823529409999999" green="0.1843137255" blue="0.36470588240000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FTE-uW-eyS">
+                                        <rect key="frame" x="16" y="29" width="29" height="16"/>
+                                        <fontDescription key="fontDescription" type="italicSystem" pointSize="13"/>
+                                        <color key="textColor" red="0.058823529409999999" green="0.1843137255" blue="0.36470588240000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(tap on a song to search for related videos on YouTube)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Inr-2D-cKT">
+                                        <rect key="frame" x="8" y="45" width="584" height="15"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <color key="textColor" red="0.31764705879999999" green="0.53725490200000003" blue="0.70588235290000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.85098039219999999" green="0.85098039219999999" blue="0.83529411760000005" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="Inr-2D-cKT" firstAttribute="leading" secondItem="Ftt-pq-CGB" secondAttribute="leading" constant="8" id="3IG-sL-fuc"/>
+                                    <constraint firstAttribute="trailing" secondItem="77a-OH-W5X" secondAttribute="trailing" constant="8" id="90v-Xq-ENJ"/>
+                                    <constraint firstItem="1qE-RD-ydk" firstAttribute="top" secondItem="Ftt-pq-CGB" secondAttribute="topMargin" id="9vT-YT-voS"/>
+                                    <constraint firstItem="77a-OH-W5X" firstAttribute="width" secondItem="Ftt-pq-CGB" secondAttribute="width" multiplier="0.66" id="Alx-xo-1pf"/>
+                                    <constraint firstItem="1qE-RD-ydk" firstAttribute="leading" secondItem="Ftt-pq-CGB" secondAttribute="leadingMargin" id="T9g-C4-ilP"/>
+                                    <constraint firstItem="FTE-uW-eyS" firstAttribute="top" secondItem="1qE-RD-ydk" secondAttribute="bottom" id="XS6-48-gN1"/>
+                                    <constraint firstItem="1qE-RD-ydk" firstAttribute="trailing" secondItem="Ftt-pq-CGB" secondAttribute="trailingMargin" id="aHv-bM-XxB"/>
+                                    <constraint firstAttribute="trailing" secondItem="Inr-2D-cKT" secondAttribute="trailing" constant="8" id="akE-X7-8AE"/>
+                                    <constraint firstItem="77a-OH-W5X" firstAttribute="top" secondItem="Ftt-pq-CGB" secondAttribute="top" constant="4" id="bkq-YY-AaS"/>
+                                    <constraint firstItem="FTE-uW-eyS" firstAttribute="leading" secondItem="Ftt-pq-CGB" secondAttribute="leading" constant="16" id="djs-CN-H5v"/>
+                                    <constraint firstAttribute="height" constant="64" id="eEb-bt-8wN"/>
+                                    <constraint firstAttribute="bottom" secondItem="Inr-2D-cKT" secondAttribute="bottom" constant="4" id="oyw-iY-0e7"/>
+                                    <constraint firstAttribute="bottom" secondItem="77a-OH-W5X" secondAttribute="bottom" constant="4" id="yia-q4-cji"/>
+                                </constraints>
+                            </view>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="QYs-Wr-N6q">
+                                <rect key="frame" x="281" y="282" width="37" height="37"/>
+                                <color key="color" red="0.31764705879999999" green="0.53725490200000003" blue="0.70588235290000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2F2-tS-XRF" userLabel="Error">
+                                <rect key="frame" x="36" y="267" width="528" height="66"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sorry, something went wrong." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Tn-qq-xyh">
+                                        <rect key="frame" x="8" y="8" width="512" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unable to retrieve setlist." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Xv-vf-IqY">
+                                        <rect key="frame" x="8" y="37" width="512" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="7Xv-vf-IqY" firstAttribute="top" secondItem="2Tn-qq-xyh" secondAttribute="bottom" constant="8" id="7Bf-fB-Dzh"/>
+                                    <constraint firstAttribute="trailing" secondItem="7Xv-vf-IqY" secondAttribute="trailing" constant="8" id="EtO-Ew-NA7"/>
+                                    <constraint firstItem="2Tn-qq-xyh" firstAttribute="leading" secondItem="2F2-tS-XRF" secondAttribute="leading" constant="8" id="IBt-MI-voG"/>
+                                    <constraint firstAttribute="trailing" secondItem="2Tn-qq-xyh" secondAttribute="trailing" constant="8" id="N1e-oS-3lP"/>
+                                    <constraint firstItem="7Xv-vf-IqY" firstAttribute="leading" secondItem="2F2-tS-XRF" secondAttribute="leading" constant="8" id="X6O-u8-OEh"/>
+                                    <constraint firstAttribute="height" constant="66" id="jyk-mx-gg5"/>
+                                    <constraint firstItem="2Tn-qq-xyh" firstAttribute="top" secondItem="2F2-tS-XRF" secondAttribute="top" constant="8" id="rB5-yJ-JMQ"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="5Om-yE-llB" firstAttribute="leading" secondItem="faI-Wf-Oaj" secondAttribute="leading" id="4UN-Nj-wTw"/>
+                            <constraint firstItem="YF4-l9-wa9" firstAttribute="top" secondItem="Ftt-pq-CGB" secondAttribute="bottom" id="4z5-Vz-xAb"/>
+                            <constraint firstAttribute="trailing" secondItem="Ftt-pq-CGB" secondAttribute="trailing" id="6jE-PD-Gyy"/>
+                            <constraint firstItem="QYs-Wr-N6q" firstAttribute="centerX" secondItem="faI-Wf-Oaj" secondAttribute="centerX" id="7QJ-gT-s0C"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="2F2-tS-XRF" secondAttribute="trailing" constant="16" id="J2t-aw-yjA"/>
                             <constraint firstItem="DvX-ZV-vEa" firstAttribute="top" secondItem="5Om-yE-llB" secondAttribute="bottom" id="Nm7-H0-xCG"/>
+                            <constraint firstItem="2F2-tS-XRF" firstAttribute="centerX" secondItem="faI-Wf-Oaj" secondAttribute="centerX" id="UOp-6w-yHD"/>
+                            <constraint firstItem="2F2-tS-XRF" firstAttribute="leading" secondItem="faI-Wf-Oaj" secondAttribute="leadingMargin" constant="16" id="ZhQ-nb-8L8"/>
                             <constraint firstAttribute="trailingMargin" secondItem="YF4-l9-wa9" secondAttribute="trailing" id="caF-1O-MkJ"/>
-                            <constraint firstItem="YF4-l9-wa9" firstAttribute="top" secondItem="d6J-WY-57L" secondAttribute="bottom" id="duy-GP-e5H"/>
+                            <constraint firstItem="Ftt-pq-CGB" firstAttribute="leading" secondItem="faI-Wf-Oaj" secondAttribute="leading" id="fGc-fP-Flf"/>
                             <constraint firstAttribute="leadingMargin" secondItem="YF4-l9-wa9" secondAttribute="leading" id="mPI-T0-D3T"/>
+                            <constraint firstItem="QYs-Wr-N6q" firstAttribute="centerY" secondItem="faI-Wf-Oaj" secondAttribute="centerY" id="pH0-je-iVp"/>
+                            <constraint firstItem="2F2-tS-XRF" firstAttribute="centerY" secondItem="faI-Wf-Oaj" secondAttribute="centerY" id="qJp-CV-CCX"/>
                             <constraint firstAttribute="trailing" secondItem="5Om-yE-llB" secondAttribute="trailing" id="rDZ-LX-PnH"/>
                             <constraint firstItem="5Om-yE-llB" firstAttribute="top" secondItem="YF4-l9-wa9" secondAttribute="bottom" constant="2" id="rhQ-oa-24d"/>
+                            <constraint firstItem="Ftt-pq-CGB" firstAttribute="top" secondItem="d6J-WY-57L" secondAttribute="bottom" id="y1L-17-QVA"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="QYs-Wr-N6q" id="Pgb-Qc-gXe"/>
+                        <outlet property="bandLogo" destination="77a-OH-W5X" id="x7Y-OZ-Mbo"/>
+                        <outlet property="dateLabel" destination="FTE-uW-eyS" id="bzF-0w-Hbz"/>
+                        <outlet property="errorView" destination="2F2-tS-XRF" id="czI-Kb-ZYH"/>
                         <outlet property="labelWebsite" destination="i2a-Lp-FtA" id="kOL-AP-Rdf"/>
+                        <outlet property="locationLabel" destination="1qE-RD-ydk" id="TQE-fn-i3j"/>
                         <outlet property="tableView" destination="YF4-l9-wa9" id="LFj-O1-oBV"/>
                     </connections>
                 </viewController>

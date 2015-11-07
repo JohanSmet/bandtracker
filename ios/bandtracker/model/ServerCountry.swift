@@ -21,6 +21,6 @@ struct ServerCountry {
     init(values : [ String : AnyObject ]) {
         self.code = values["code"] as! String
         self.name = values["name"] as! String
-        self.flag = values["smallFlag"] as? String ?? ""
+        self.flag = values["flag"] as? String ?? ""
     }
 }

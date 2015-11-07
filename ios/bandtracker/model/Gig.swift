@@ -56,6 +56,34 @@ class Gig : NSManagedObject {
     
     ////////////////////////////////////////////////////////////////////////////////
     //
+    // convience functions
+    //
+    
+    func formatLocation() -> String {
+        var location  : String = ""
+        var separator : String = ""
+        var venueSet  : Bool   = false
+        
+        if let venue = venue {
+            location += separator + venue.name
+            separator = ", "
+            venueSet  = true
+        }
+        
+        if let city = city {
+            location += separator + city.name
+            separator = ", "
+        }
+        
+        if !venueSet {
+            location += separator + country.name
+        }
+        
+        return location
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////////
+    //
     // edit functions
     //
     
