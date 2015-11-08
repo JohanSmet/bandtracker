@@ -35,6 +35,37 @@ class MainController:   UITabBarController,
     //
     
     @IBOutlet var buttonAdd: UIBarButtonItem!
+    @IBOutlet var buttonMore: UIBarButtonItem!
+    
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
+    // outlets
+    //
+    
+    @IBAction func actionMore(sender: AnyObject) {
+       
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+        
+        let helpAction = UIAlertAction(title: "Help", style: .Default) { action in
+            let vc = WebViewController.create(forString: "<html><body>Help</body></html>")
+            self.navigationController?.pushViewController(vc, animated: false)
+        }
+        
+        let licenseAction = UIAlertAction(title: "View licenses", style: .Default) { action in
+            let vc = WebViewController.create(forResource: "licenses")
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) {action in
+        }
+        
+        alertController.addAction(helpAction)
+        alertController.addAction(licenseAction)
+        alertController.addAction(cancelAction)
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
+        
+    }
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
@@ -74,7 +105,14 @@ class MainController:   UITabBarController,
     func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
         if let tab = viewController as? MainTabSheet {
             searchController.searchBar.hidden = !tab.searchBarVisible
-            navigationItem.rightBarButtonItem = (tab.addButtonVisible) ? buttonAdd : nil
+            
+            var rightBarItems : [UIBarButtonItem] = [buttonMore]
+            
+            if (tab.addButtonVisible) {
+                rightBarItems.append(buttonAdd)
+            }
+            
+            navigationItem.setRightBarButtonItems(rightBarItems, animated: false)
         }
     }
     
