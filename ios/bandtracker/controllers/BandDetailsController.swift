@@ -187,7 +187,7 @@ class BandDetailsController :   UIViewController,
         pageTitle.title         = band.name
         
         do {
-            let font = UIFont(name: "Arial", size: 10)!
+            let font = UIFont(name: "Lato", size: 10)!
             let bio = "<style type='text/css'>"
                 + " html { "
                 + "    line-height:80%; "

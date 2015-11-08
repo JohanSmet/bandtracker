@@ -19,6 +19,10 @@
 		040C12E01BC45214001BFE78 /* DataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040C12DF1BC45214001BFE78 /* DataLoader.swift */; settings = {ASSET_TAGS = (); }; };
 		040C12E21BC4594A001BFE78 /* ServerCountry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040C12E11BC4594A001BFE78 /* ServerCountry.swift */; settings = {ASSET_TAGS = (); }; };
 		040C3E381BE63B83008B44DA /* KeyboardFix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040C3E371BE63B83008B44DA /* KeyboardFix.swift */; settings = {ASSET_TAGS = (); }; };
+		040CBE621BEFF2C300306895 /* Lato-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 040CBE5E1BEFF2C300306895 /* Lato-Bold.ttf */; settings = {ASSET_TAGS = (); }; };
+		040CBE631BEFF2C300306895 /* Lato-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 040CBE5F1BEFF2C300306895 /* Lato-BoldItalic.ttf */; settings = {ASSET_TAGS = (); }; };
+		040CBE641BEFF2C300306895 /* Lato-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 040CBE601BEFF2C300306895 /* Lato-Italic.ttf */; settings = {ASSET_TAGS = (); }; };
+		040CBE651BEFF2C300306895 /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 040CBE611BEFF2C300306895 /* Lato-Regular.ttf */; settings = {ASSET_TAGS = (); }; };
 		040CCE831BE018DF00E8E1B2 /* GigSelectionDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040CCE821BE018DF00E8E1B2 /* GigSelectionDelegates.swift */; settings = {ASSET_TAGS = (); }; };
 		040D68C51BB0A46F000068EA /* TimelineController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040D68C41BB0A46F000068EA /* TimelineController.swift */; settings = {ASSET_TAGS = (); }; };
 		040E06F71BE6BE0200C10931 /* FanartTvClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040E06F61BE6BE0200C10931 /* FanartTvClient.swift */; settings = {ASSET_TAGS = (); }; };
@@ -71,6 +75,10 @@
 		040C12DF1BC45214001BFE78 /* DataLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataLoader.swift; sourceTree = "<group>"; };
 		040C12E11BC4594A001BFE78 /* ServerCountry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerCountry.swift; sourceTree = "<group>"; };
 		040C3E371BE63B83008B44DA /* KeyboardFix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardFix.swift; sourceTree = "<group>"; };
+		040CBE5E1BEFF2C300306895 /* Lato-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Bold.ttf"; sourceTree = "<group>"; };
+		040CBE5F1BEFF2C300306895 /* Lato-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-BoldItalic.ttf"; sourceTree = "<group>"; };
+		040CBE601BEFF2C300306895 /* Lato-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Italic.ttf"; sourceTree = "<group>"; };
+		040CBE611BEFF2C300306895 /* Lato-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Regular.ttf"; sourceTree = "<group>"; };
 		040CCE821BE018DF00E8E1B2 /* GigSelectionDelegates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GigSelectionDelegates.swift; sourceTree = "<group>"; };
 		040D68C41BB0A46F000068EA /* TimelineController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelineController.swift; sourceTree = "<group>"; };
 		040E06F61BE6BE0200C10931 /* FanartTvClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FanartTvClient.swift; sourceTree = "<group>"; };
@@ -129,6 +137,17 @@
 				040C12DF1BC45214001BFE78 /* DataLoader.swift */,
 			);
 			path = services;
+			sourceTree = "<group>";
+		};
+		040CBE5D1BEFF28E00306895 /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				040CBE5E1BEFF2C300306895 /* Lato-Bold.ttf */,
+				040CBE5F1BEFF2C300306895 /* Lato-BoldItalic.ttf */,
+				040CBE601BEFF2C300306895 /* Lato-Italic.ttf */,
+				040CBE611BEFF2C300306895 /* Lato-Regular.ttf */,
+			);
+			path = fonts;
 			sourceTree = "<group>";
 		};
 		040E06F51BE6BDC800C10931 /* fanart.tv */ = {
@@ -233,6 +252,7 @@
 		04C982BA1BEFB03900272943 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				040CBE5D1BEFF28E00306895 /* fonts */,
 				04C982BB1BEFB0B600272943 /* licenses.html */,
 			);
 			path = resources;
@@ -349,11 +369,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				040CBE621BEFF2C300306895 /* Lato-Bold.ttf in Resources */,
 				04C982BC1BEFB0B600272943 /* licenses.html in Resources */,
 				040E31131BBC7C9E00275449 /* Gigs.storyboard in Resources */,
+				040CBE631BEFF2C300306895 /* Lato-BoldItalic.ttf in Resources */,
 				04F9630F1BAF175200ABCE80 /* LaunchScreen.storyboard in Resources */,
 				040B69BD1BD02FF5006633AB /* YTPlayer.html in Resources */,
 				04F9630C1BAF175200ABCE80 /* Assets.xcassets in Resources */,
+				040CBE651BEFF2C300306895 /* Lato-Regular.ttf in Resources */,
+				040CBE641BEFF2C300306895 /* Lato-Italic.ttf in Resources */,
 				04F9630A1BAF175200ABCE80 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
