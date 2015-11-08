@@ -178,6 +178,12 @@ class ListSelectionController : UIViewController,
         return false
     }
     
+    func textFieldShouldClear(textField: UITextField) -> Bool {
+        refilterData("")
+        tableView.reloadData()
+        return true
+    }
+    
     ///////////////////////////////////////////////////////////////////////////////////
     //
     // helper functions
