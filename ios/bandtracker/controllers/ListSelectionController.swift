@@ -40,6 +40,8 @@ class ListSelectionController : UIViewController,
     private var delegate        : ListSelectionControllerDelegate!
     private var numSections     : Int = 0
     private var selectionData   : [[AnyObject]] = []
+    
+    private var keyboardFix     : KeyboardFix?
    
     ///////////////////////////////////////////////////////////////////////////////////
     //
@@ -59,6 +61,7 @@ class ListSelectionController : UIViewController,
         let storyboard = UIStoryboard(name: "Gigs", bundle: nil)
         let vc = storyboard.instantiateViewControllerWithIdentifier("ListSelectionController") as! ListSelectionController
         vc.delegate = delegate
+        
         
         return vc
     }
@@ -92,13 +95,29 @@ class ListSelectionController : UIViewController,
         // tableview
         tableView.dataSource = self
         tableView.delegate   = self
+        
+        keyboardFix = KeyboardFix(viewController: self, scrollView: tableView)
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
         refilterData(filterText.text!)
+        
+        // handle keyboard properly
+        if let keyboardFix = self.keyboardFix {
+            keyboardFix.activate()
+        }
     }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if let keyboardFix = self.keyboardFix {
+            keyboardFix.deactivate()
+        }
+    }
+    
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
