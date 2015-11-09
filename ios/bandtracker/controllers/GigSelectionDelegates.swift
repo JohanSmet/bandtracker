@@ -53,7 +53,10 @@ class CountrySelectionDelegate : ListSelectionControllerDelegate {
         guard let country = item as? Country else { return }
         guard let imgCell = cell as? SelectionImageTableViewCell else { return }
         imgCell.title!.text = country.name
-        imgCell.img!.image = UIImage(data: country.flag)
+        
+        if let flag = country.flag {
+            imgCell.img!.image = UIImage(data: flag)
+        }
     }
     
     

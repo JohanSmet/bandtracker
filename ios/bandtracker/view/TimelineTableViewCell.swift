@@ -23,7 +23,9 @@ class TimelineTableViewCell : UITableViewCell {
         bandLabel.text      = gig.band.name
         dateLabel.text      = DateUtils.toDateStringMedium(gig.startDate)
         ratingControl.rating = gig.rating.floatValue / 10
-        countryImage.image   = UIImage(data: gig.country.flag)
+        if let flag = gig.country.flag {
+            countryImage.image   = UIImage(data: flag)
+        }
         
         setLocation(gig)
         
