@@ -47,6 +47,8 @@ class GigDetailsController :    UITableViewController,
     
     var editable            : Bool = false
     
+    private var keyboardFix     : KeyboardFix?
+    
     ///////////////////////////////////////////////////////////////////////////////////
     //
     // outlets
@@ -131,11 +133,27 @@ class GigDetailsController :    UITableViewController,
         
         // configure navigation controller
         createNavigationButtons()
+        
+        keyboardFix = KeyboardFix(viewController: self)
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
         setUIFields()
+        
+        // handle keyboard properly
+        if let keyboardFix = self.keyboardFix {
+            keyboardFix.activate()
+        }
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if let keyboardFix = self.keyboardFix {
+            keyboardFix.deactivate()
+        }
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -179,6 +197,10 @@ class GigDetailsController :    UITableViewController,
     //
     // UITextFieldDelegate
     //
+    
+    func textFieldDidBeginEditing(textField: UITextField) {
+        tableView.scrollRectToVisible(textField.convertRect(textField.frame, toView: tableView), animated: true)
+    }
     
     func textFieldDidEndEditing(textField: UITextField) {
         
