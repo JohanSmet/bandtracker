@@ -128,6 +128,10 @@ class GigDetailsController :    UITableViewController,
         textComments.delegate   = self
         ratingControl.delegate  = self
         
+        textStage.enabled       = editable
+        textComments.enabled    = editable
+        ratingControl.enabled   = editable
+        
         // initialize gig-record
         gig.prepareForEdit()
         
@@ -384,6 +388,9 @@ class GigDetailsController :    UITableViewController,
     
     private func setEditable(editable : Bool) {
         self.editable = editable
+        textStage.enabled       = editable
+        textComments.enabled    = editable
+        ratingControl.enabled   = editable
         self.tableView.reloadData()
     }
     
