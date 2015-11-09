@@ -24,15 +24,29 @@ class CountrySelectionDelegate : ListSelectionControllerDelegate {
     }
     
     func numberOfSections(listSelectionController : ListSelectionController) -> Int {
-        return 1
+        return 2
     }
     
     func titleForSection(listSelectionController : ListSelectionController, section : Int) -> String? {
+        if section == 1 {
+            return "Most popular countries"
+        }
         return nil
     }
     
     func dataForSection(listSelectionController : ListSelectionController, section : Int, filterText : String, completionHandler : (data: [AnyObject]?) -> Void) {
-        completionHandler(data: dataContext().countryList(filterText))
+        if filterText.isEmpty && section != 1 {
+            return completionHandler(data: nil)
+        }
+        
+        switch (section) {
+            case 0 :
+                completionHandler(data: dataContext().countryList(filterText))
+            case 1 :
+                completionHandler(data: dataContext().gigsTop5Countries())
+            default :
+                completionHandler(data: nil)
+        }
     }
     
     func configureCellForItem(listSelectionController : ListSelectionController, cell : UITableViewCell, section : Int, item : AnyObject) {

@@ -107,6 +107,36 @@ class DataContext {
         return 0
     }
     
+    func gigsTop5Countries() -> [Country] {
+     
+        let countExpDesc = NSExpressionDescription()
+        countExpDesc.name = "count"
+        countExpDesc.expression = NSExpression(forFunction: "count:", arguments: [NSExpression(forKeyPath: "startDate")])
+        countExpDesc.expressionResultType = .Integer32AttributeType
+        
+        let fetchRequest = NSFetchRequest(entityName: "Gig")
+        fetchRequest.resultType         = .DictionaryResultType
+        fetchRequest.propertiesToFetch  = ["country", countExpDesc]
+        fetchRequest.propertiesToGroupBy = ["country"]
+        
+        var topCountries : [Country] = []
+        
+        do {
+            if let results = try coreDataStackManager().managedObjectContext?.executeFetchRequest(fetchRequest) {
+                let ordered = results.sort({$0["count"] as! Int > $1["count"] as! Int})
+                
+                for result in ordered {
+                    let objectId = (result as! NSDictionary)["country"] as! NSManagedObjectID
+                    topCountries.append(coreDataStackManager().managedObjectContext?.objectWithID(objectId) as! Country)
+                }
+            }
+        } catch let error as NSError {
+            NSLog("Unresolved error \(error), \(error.userInfo)")
+        }
+        
+        return topCountries
+    }
+    
     ////////////////////////////////////////////////////////////////////////////////
     //
     // country
