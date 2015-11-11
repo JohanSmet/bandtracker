@@ -498,7 +498,7 @@
                                 </constraints>
                                 <state key="normal" title="Manually create a gig"/>
                                 <connections>
-                                    <action selector="createGigManually:" destination="2wE-L0-Dzk" eventType="touchUpInside" id="qZi-jn-tuJ"/>
+                                    <action selector="createGigManually" destination="2wE-L0-Dzk" eventType="touchUpInside" id="cel-e2-feu"/>
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="1wT-0c-yXN">
