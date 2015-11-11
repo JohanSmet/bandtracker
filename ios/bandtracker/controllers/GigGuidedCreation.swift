@@ -82,7 +82,7 @@ class GigGuidedCreationController : UIViewController,
     
     @IBAction func createGigManually() {
         let newVC = GigDetailsController.createNewGig(band!)
-        replaceViewController(newVC)
+        NavigationUtils.replaceViewController(navigationController!, newViewController: newVC)
     }
     
     ////////////////////////////////////////////////////////////////////////////////
@@ -123,11 +123,8 @@ class GigGuidedCreationController : UIViewController,
     //
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        // let gig = dataContext().gigFromTourDate(band!, tourDate: tourDates[indexPath.row])
-        // coreDataStackManager().saveContext()
-        
         let newVC = GigDetailsController.createNewGig(band!, tourDate: tourDates[indexPath.row])
-        replaceViewController(newVC)
+        NavigationUtils.replaceViewController(navigationController!, newViewController: newVC)
     }
     
     ////////////////////////////////////////////////////////////////////////////////
@@ -149,13 +146,4 @@ class GigGuidedCreationController : UIViewController,
             }
         }
     }
-    
-    func replaceViewController(newVC : UIViewController) {
-        // replace the current controller with the new controller
-        var controllerStack = navigationController!.viewControllers
-        controllerStack.removeAtIndex(controllerStack.count - 1)
-        controllerStack.append(newVC)
-        navigationController?.setViewControllers(controllerStack, animated: true)
-    }
-    
 }

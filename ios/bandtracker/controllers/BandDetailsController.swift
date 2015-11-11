@@ -52,6 +52,20 @@ class BandDetailsController :   UIViewController,
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
+    // class functions
+    //
+    
+    class func create(band : Band) -> BandDetailsController {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        let newVc = storyboard.instantiateViewControllerWithIdentifier("BandDetailsController") as! BandDetailsController
+        newVc.band = band
+        
+        return newVc
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
     // UIViewController overrides
     //
     

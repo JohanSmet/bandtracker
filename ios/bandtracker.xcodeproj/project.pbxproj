@@ -40,6 +40,7 @@
 		041A12801BB5E308005DDB8E /* AlertPopups.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041A127F1BB5E308005DDB8E /* AlertPopups.swift */; settings = {ASSET_TAGS = (); }; };
 		041A12821BB5E41E005DDB8E /* DataContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041A12811BB5E41E005DDB8E /* DataContext.swift */; settings = {ASSET_TAGS = (); }; };
 		041BB6BC1BF3726300A86B83 /* ListSelectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041BB6BB1BF3726300A86B83 /* ListSelectionController.swift */; settings = {ASSET_TAGS = (); }; };
+		041BB6BE1BF3A4B200A86B83 /* NavigationUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041BB6BD1BF3A4B200A86B83 /* NavigationUtils.swift */; settings = {ASSET_TAGS = (); }; };
 		041E408A1BE55FEF0090CF66 /* TimelineTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041E40891BE55FEF0090CF66 /* TimelineTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 		042805E41BAF4CCA0019120F /* BandsSeenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042805E31BAF4CCA0019120F /* BandsSeenController.swift */; settings = {ASSET_TAGS = (); }; };
 		046DCCC81BD6CDE2008B01A1 /* TimeIntervalPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046DCCC71BD6CDE2008B01A1 /* TimeIntervalPicker.swift */; settings = {ASSET_TAGS = (); }; };
@@ -96,6 +97,7 @@
 		041A127F1BB5E308005DDB8E /* AlertPopups.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertPopups.swift; sourceTree = "<group>"; };
 		041A12811BB5E41E005DDB8E /* DataContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataContext.swift; sourceTree = "<group>"; };
 		041BB6BB1BF3726300A86B83 /* ListSelectionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListSelectionController.swift; sourceTree = "<group>"; };
+		041BB6BD1BF3A4B200A86B83 /* NavigationUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationUtils.swift; sourceTree = "<group>"; };
 		041E40891BE55FEF0090CF66 /* TimelineTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelineTableViewCell.swift; sourceTree = "<group>"; };
 		042805E31BAF4CCA0019120F /* BandsSeenController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BandsSeenController.swift; sourceTree = "<group>"; };
 		046DCCC71BD6CDE2008B01A1 /* TimeIntervalPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeIntervalPicker.swift; sourceTree = "<group>"; };
@@ -245,6 +247,7 @@
 			children = (
 				040C3E371BE63B83008B44DA /* KeyboardFix.swift */,
 				04BE340D1BC5B2200027137F /* DateUtils.swift */,
+				041BB6BD1BF3A4B200A86B83 /* NavigationUtils.swift */,
 			);
 			name = utils;
 			sourceTree = "<group>";
@@ -392,6 +395,7 @@
 				040B80FA1BCA81F200545877 /* RatingControl.swift in Sources */,
 				042805E41BAF4CCA0019120F /* BandsSeenController.swift in Sources */,
 				040E06F71BE6BE0200C10931 /* FanartTvClient.swift in Sources */,
+				041BB6BE1BF3A4B200A86B83 /* NavigationUtils.swift in Sources */,
 				040E31151BBC843D00275449 /* GigDetailsController.swift in Sources */,
 				040D68C51BB0A46F000068EA /* TimelineController.swift in Sources */,
 				04BE340E1BC5B2200027137F /* DateUtils.swift in Sources */,

@@ -128,14 +128,20 @@ class BandSearchController: UITableViewController,
     //
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        let band : Band!
+        
         // add the band to core data (if it's a new one)
         if indexPath.section == 0 {
-            let band = newBandList[indexPath.row]
-            dataContext().createBand(band)
+            let serverBand = newBandList[indexPath.row]
+            band = dataContext().createBand(serverBand)
+        } else {
+            band = existingBandList[indexPath.row]
         }
         
         // go to the detail page of the selected band
-        self.navigationController?.popViewControllerAnimated(true)
+        let newVC = BandDetailsController.create(band);
+        NavigationUtils.replaceViewController(self.navigationController!, newViewController: newVC)
     }
     
 }
