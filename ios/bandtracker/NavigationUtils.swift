@@ -16,6 +16,6 @@ class NavigationUtils {
         var controllerStack = navigationController.viewControllers
         controllerStack.removeAtIndex(controllerStack.count - 1)
         controllerStack.append(newVC)
-        navigationController.setViewControllers(controllerStack, animated: true)
+        navigationController.setViewControllers(controllerStack, animated: false)
     }
 }
