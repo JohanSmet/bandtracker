@@ -66,6 +66,11 @@ class RatingControl : UIView {
         }
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        setNeedsDisplay()
+    }
+    
     ////////////////////////////////////////////////////////////////////////////////
     //
     // handle input
