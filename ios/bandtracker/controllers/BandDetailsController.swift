@@ -13,7 +13,8 @@ import CoreData
 class BandDetailsController :   UIViewController,
                                 UITableViewDataSource,
                                 UITableViewDelegate,
-                                NSFetchedResultsControllerDelegate {
+                                NSFetchedResultsControllerDelegate,
+                                CoreDataObserverDelegate {
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
@@ -36,6 +37,8 @@ class BandDetailsController :   UIViewController,
         fetchedResultsController.delegate = self
         return fetchedResultsController
     }()
+    
+    private var coreDataObserver : CoreDataObserver!
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
@@ -72,6 +75,11 @@ class BandDetailsController :   UIViewController,
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // track any changes to the band record
+        coreDataObserver = CoreDataObserver(context: band.managedObjectContext!)
+        coreDataObserver.delegate = self
+        
+        // init tableview
         tableGigs.dataSource = self
         tableGigs.delegate = self
         
@@ -99,8 +107,18 @@ class BandDetailsController :   UIViewController,
         biography.setContentOffset(CGPointMake(0,0), animated: false)
         biography.scrollEnabled = true
         
+        coreDataObserver.startObservingObject(band)
+        
         setGigTitle()
+        setBandimage()
         ratingControl.rating    = band.rating()
+        
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        coreDataObserver.stopObservingObject(band)
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -194,6 +212,17 @@ class BandDetailsController :   UIViewController,
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
+    // class functions
+    //
+    
+    func coreDataObserver(coreDataObserver : CoreDataObserver, didChange object : NSManagedObject) {
+        dispatch_async(dispatch_get_main_queue()) {
+            self.setBandimage()
+        }
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
     // helper functions
     //
     
@@ -219,11 +248,9 @@ class BandDetailsController :   UIViewController,
             biography.text = ""
         }
         ratingControl.rating    = band.rating()
-        setGigTitle()
         
-        UrlFetcher.loadImageFromUrl(band.getImageUrl()) { image in
-            self.bandImage.image = image
-        }
+        setGigTitle()
+        setBandimage()
     }
     
     private func setGigTitle() {
@@ -231,6 +258,12 @@ class BandDetailsController :   UIViewController,
             gigTitle.text = "You have been to \(band.gigs.count) gigs :"
         } else {
             gigTitle.text = "You have not been to any gigs yet."
+        }
+    }
+    
+    private func setBandimage() {
+        UrlFetcher.loadImageFromUrl(band.getImageUrl()) { image in
+            self.bandImage.image = image
         }
     }
 }
