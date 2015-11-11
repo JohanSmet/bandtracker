@@ -20,7 +20,8 @@ protocol MainTabSheet {
 class MainController:   UITabBarController,
                         UITabBarControllerDelegate,
                         UISearchResultsUpdating,
-                        UISearchControllerDelegate {
+                        UISearchControllerDelegate,
+                        UISearchBarDelegate {
    
     ///////////////////////////////////////////////////////////////////////////////////
     //
@@ -64,7 +65,6 @@ class MainController:   UITabBarController,
         alertController.addAction(cancelAction)
         
         self.presentViewController(alertController, animated: true, completion: nil)
-        
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -93,9 +93,11 @@ class MainController:   UITabBarController,
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.sizeToFit()
         searchController.searchBar.placeholder = "Filter"
+        searchController.searchBar.delegate = self
         navigationItem.titleView = searchController.searchBar
         
         self.delegate = self
+        self.definesPresentationContext = true
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -136,6 +138,11 @@ class MainController:   UITabBarController,
         searchController.searchBar.showsCancelButton = false
     }
     
+    func searchBarShouldEndEditing(searchBar: UISearchBar) -> Bool {
+        searchController.active = false
+        return true
+    }
+    
     ///////////////////////////////////////////////////////////////////////////////////
     //
     // actions
@@ -146,5 +153,6 @@ class MainController:   UITabBarController,
             tab.addNewItem()
         }
     }
+    
 }
 
