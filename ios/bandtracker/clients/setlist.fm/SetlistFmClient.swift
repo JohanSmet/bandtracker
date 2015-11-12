@@ -97,6 +97,8 @@ class SetlistFmClient : WebApiClient {
         
         if (response.statusCode == 403) {
             return NSLocalizedString("cliInvalidCredentials", comment:"Invalid username or password")
+        } else if (response.statusCode == 404) {
+            return NSLocalizedString("cliSelListNotFound", comment:"No setlist found for the request date.")
         } else {
             return "HTTP-error \(response.statusCode)"
         }

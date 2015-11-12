@@ -36,6 +36,7 @@ class GigDetailsYoutubeController : UIViewController,
     @IBOutlet weak var searchLabel: UILabel!
     
     @IBOutlet weak var errorView: UIView!
+    @IBOutlet weak var errorMsg: UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -126,6 +127,11 @@ class GigDetailsYoutubeController : UIViewController,
             } else {
                 dispatch_async(dispatch_get_main_queue()) {
                     self.activityIndicator.stopAnimating()
+                    if let error = error {
+                        self.errorMsg.text = error
+                    } else if videos?.count == 0 {
+                        self.errorMsg.text = NSLocalizedString("conNoYoutubeVideos", comment: "No videos found for this request.")
+                    }
                     self.errorView.hidden = false
                 }
             }

@@ -37,7 +37,9 @@ class GigDetailsSetlistController : UIViewController ,
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
+    @IBOutlet weak var footerView: UIView!
     @IBOutlet weak var errorView: UIView!
+    @IBOutlet weak var errorMsg: UILabel!
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
@@ -93,7 +95,12 @@ class GigDetailsSetlistController : UIViewController ,
             } else {
                 dispatch_async(dispatch_get_main_queue()) {
                     self.activityIndicator.stopAnimating()
+                    
+                    if let error = error {
+                        self.errorMsg.text = error
+                    }
                     self.errorView.hidden = false
+                    self.footerView.hidden = true
                 }
             }
         }
