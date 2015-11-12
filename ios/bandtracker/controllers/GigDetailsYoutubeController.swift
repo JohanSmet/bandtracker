@@ -146,7 +146,7 @@ class GigDetailsYoutubeController : UIViewController,
     private func setHeaderFields() {
         
         if let song = song {
-            searchLabel.text = "(searched YouTube for \"\(song)\")"
+            searchLabel.text = String(format: NSLocalizedString("conYoutubeSearch", comment: "(searched YouTube for \"%0$@\")"), arguments: [song])
         }
         
         locationLabel.text =  gig.formatLocation()

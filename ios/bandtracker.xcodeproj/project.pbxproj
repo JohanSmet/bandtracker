@@ -16,6 +16,9 @@
 		040BB5821BF52B2E00AE0DF1 /* GigDetailsSetlistController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040BB5811BF52B2E00AE0DF1 /* GigDetailsSetlistController.swift */; settings = {ASSET_TAGS = (); }; };
 		040BB5861BF52E2800AE0DF1 /* GigDetailsYoutubeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040BB5851BF52E2800AE0DF1 /* GigDetailsYoutubeController.swift */; settings = {ASSET_TAGS = (); }; };
 		040BB5881BF5300300AE0DF1 /* BandTrackerTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040BB5871BF5300300AE0DF1 /* BandTrackerTypes.swift */; settings = {ASSET_TAGS = (); }; };
+		040BB58F1BF533A100AE0DF1 /* Gigs.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 040BB5911BF533A100AE0DF1 /* Gigs.storyboard */; };
+		040BB5981BF5341900AE0DF1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 040BB59A1BF5341900AE0DF1 /* Localizable.strings */; };
+		040BB59E1BF53E0400AE0DF1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 040BB5A01BF53E0400AE0DF1 /* InfoPlist.strings */; };
 		040BEB0E1BE2B08700C22DAB /* GigGuidedCreation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040BEB0D1BE2B08700C22DAB /* GigGuidedCreation.swift */; settings = {ASSET_TAGS = (); }; };
 		040BEB101BE2B23800C22DAB /* GigGuidedCreationFilterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040BEB0F1BE2B23800C22DAB /* GigGuidedCreationFilterController.swift */; settings = {ASSET_TAGS = (); }; };
 		040C12E01BC45214001BFE78 /* DataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040C12DF1BC45214001BFE78 /* DataLoader.swift */; settings = {ASSET_TAGS = (); }; };
@@ -27,7 +30,6 @@
 		040CCE831BE018DF00E8E1B2 /* GigSelectionDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040CCE821BE018DF00E8E1B2 /* GigSelectionDelegates.swift */; settings = {ASSET_TAGS = (); }; };
 		040D68C51BB0A46F000068EA /* TimelineController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040D68C41BB0A46F000068EA /* TimelineController.swift */; settings = {ASSET_TAGS = (); }; };
 		040E06F71BE6BE0200C10931 /* FanartTvClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040E06F61BE6BE0200C10931 /* FanartTvClient.swift */; settings = {ASSET_TAGS = (); }; };
-		040E31131BBC7C9E00275449 /* Gigs.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 040E31121BBC7C9E00275449 /* Gigs.storyboard */; settings = {ASSET_TAGS = (); }; };
 		040E31151BBC843D00275449 /* GigDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040E31141BBC843D00275449 /* GigDetailsController.swift */; settings = {ASSET_TAGS = (); }; };
 		040F32421BCC5033006E46E1 /* SetlistFmClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040F32411BCC5033006E46E1 /* SetlistFmClient.swift */; settings = {ASSET_TAGS = (); }; };
 		0410CE621BD8299A001151C5 /* SeenGigTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0410CE611BD8299A001151C5 /* SeenGigTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
@@ -73,6 +75,17 @@
 		040BB5811BF52B2E00AE0DF1 /* GigDetailsSetlistController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GigDetailsSetlistController.swift; sourceTree = "<group>"; };
 		040BB5851BF52E2800AE0DF1 /* GigDetailsYoutubeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GigDetailsYoutubeController.swift; sourceTree = "<group>"; };
 		040BB5871BF5300300AE0DF1 /* BandTrackerTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BandTrackerTypes.swift; sourceTree = "<group>"; };
+		040BB5891BF5332300AE0DF1 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		040BB58A1BF5332300AE0DF1 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Main.strings; sourceTree = "<group>"; };
+		040BB58C1BF5333000AE0DF1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		040BB58E1BF5337300AE0DF1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
+		040BB5901BF533A100AE0DF1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Gigs.storyboard; sourceTree = "<group>"; };
+		040BB5931BF533A500AE0DF1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Gigs.strings; sourceTree = "<group>"; };
+		040BB5951BF533AE00AE0DF1 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Gigs.strings; sourceTree = "<group>"; };
+		040BB5991BF5341900AE0DF1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		040BB59B1BF5341B00AE0DF1 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		040BB59F1BF53E0400AE0DF1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		040BB5A11BF5419600AE0DF1 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		040BEB0D1BE2B08700C22DAB /* GigGuidedCreation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GigGuidedCreation.swift; sourceTree = "<group>"; };
 		040BEB0F1BE2B23800C22DAB /* GigGuidedCreationFilterController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GigGuidedCreationFilterController.swift; sourceTree = "<group>"; };
 		040C12DF1BC45214001BFE78 /* DataLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataLoader.swift; sourceTree = "<group>"; };
@@ -84,7 +97,6 @@
 		040CCE821BE018DF00E8E1B2 /* GigSelectionDelegates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GigSelectionDelegates.swift; sourceTree = "<group>"; };
 		040D68C41BB0A46F000068EA /* TimelineController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelineController.swift; sourceTree = "<group>"; };
 		040E06F61BE6BE0200C10931 /* FanartTvClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FanartTvClient.swift; sourceTree = "<group>"; };
-		040E31121BBC7C9E00275449 /* Gigs.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Gigs.storyboard; sourceTree = "<group>"; };
 		040E31141BBC843D00275449 /* GigDetailsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GigDetailsController.swift; sourceTree = "<group>"; };
 		040F32411BCC5033006E46E1 /* SetlistFmClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetlistFmClient.swift; sourceTree = "<group>"; };
 		0410CE611BD8299A001151C5 /* SeenGigTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeenGigTableViewCell.swift; sourceTree = "<group>"; };
@@ -164,7 +176,7 @@
 			isa = PBXGroup;
 			children = (
 				04F9630D1BAF175200ABCE80 /* LaunchScreen.storyboard */,
-				040E31121BBC7C9E00275449 /* Gigs.storyboard */,
+				040BB5911BF533A100AE0DF1 /* Gigs.storyboard */,
 				04F963081BAF175200ABCE80 /* Main.storyboard */,
 			);
 			path = storyboards;
@@ -257,6 +269,7 @@
 			children = (
 				040CBE5D1BEFF28E00306895 /* fonts */,
 				04C982BB1BEFB0B600272943 /* licenses.html */,
+				040BB59A1BF5341900AE0DF1 /* Localizable.strings */,
 			);
 			path = resources;
 			sourceTree = "<group>";
@@ -280,6 +293,7 @@
 		04F963031BAF175200ABCE80 /* bandtracker */ = {
 			isa = PBXGroup;
 			children = (
+				040BB5A01BF53E0400AE0DF1 /* InfoPlist.strings */,
 				0410EE461BB1F92B006B1FAB /* clients */,
 				04F963321BAF48EE00ABCE80 /* controllers */,
 				04A5B4851BB33D88002D7E4B /* model */,
@@ -356,6 +370,7 @@
 			knownRegions = (
 				en,
 				Base,
+				nl,
 			);
 			mainGroup = 04F962F81BAF175200ABCE80;
 			productRefGroup = 04F963021BAF175200ABCE80 /* Products */;
@@ -373,8 +388,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				040CBE621BEFF2C300306895 /* Lato-Bold.ttf in Resources */,
+				040BB59E1BF53E0400AE0DF1 /* InfoPlist.strings in Resources */,
 				04C982BC1BEFB0B600272943 /* licenses.html in Resources */,
-				040E31131BBC7C9E00275449 /* Gigs.storyboard in Resources */,
+				040BB5981BF5341900AE0DF1 /* Localizable.strings in Resources */,
+				040BB58F1BF533A100AE0DF1 /* Gigs.storyboard in Resources */,
 				040CBE631BEFF2C300306895 /* Lato-BoldItalic.ttf in Resources */,
 				04F9630F1BAF175200ABCE80 /* LaunchScreen.storyboard in Resources */,
 				040B69BD1BD02FF5006633AB /* YTPlayer.html in Resources */,
@@ -442,10 +459,40 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		040BB5911BF533A100AE0DF1 /* Gigs.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				040BB5901BF533A100AE0DF1 /* Base */,
+				040BB5931BF533A500AE0DF1 /* en */,
+				040BB5951BF533AE00AE0DF1 /* nl */,
+			);
+			name = Gigs.storyboard;
+			sourceTree = "<group>";
+		};
+		040BB59A1BF5341900AE0DF1 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				040BB5991BF5341900AE0DF1 /* en */,
+				040BB59B1BF5341B00AE0DF1 /* nl */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		040BB5A01BF53E0400AE0DF1 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				040BB59F1BF53E0400AE0DF1 /* en */,
+				040BB5A11BF5419600AE0DF1 /* nl */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		04F963081BAF175200ABCE80 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				04F963091BAF175200ABCE80 /* Base */,
+				040BB58A1BF5332300AE0DF1 /* nl */,
+				040BB58E1BF5337300AE0DF1 /* en */,
 			);
 			name = Main.storyboard;
 			path = ..;
@@ -455,6 +502,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				04F9630E1BAF175200ABCE80 /* Base */,
+				040BB5891BF5332300AE0DF1 /* nl */,
+				040BB58C1BF5333000AE0DF1 /* en */,
 			);
 			name = LaunchScreen.storyboard;
 			path = ..;

@@ -47,17 +47,17 @@ class MainController:   UITabBarController,
        
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
         
-        let helpAction = UIAlertAction(title: "Help", style: .Default) { action in
+        let helpAction = UIAlertAction(title: NSLocalizedString("conHelp", comment: "Help"), style: .Default) { action in
             let vc = WebViewController.create(forString: "<html><body>Help</body></html>")
             self.navigationController?.pushViewController(vc, animated: false)
         }
         
-        let licenseAction = UIAlertAction(title: "View licenses", style: .Default) { action in
+        let licenseAction = UIAlertAction(title: NSLocalizedString("conLicense", comment: "View licenses"), style: .Default) { action in
             let vc = WebViewController.create(forResource: "licenses")
             self.navigationController?.pushViewController(vc, animated: true)
         }
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) {action in
+        let cancelAction = UIAlertAction(title: NSLocalizedString("conCancel", comment: "Cancel"), style: .Cancel) {action in
         }
         
         alertController.addAction(helpAction)
@@ -92,7 +92,7 @@ class MainController:   UITabBarController,
         searchController.dimsBackgroundDuringPresentation = false
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.sizeToFit()
-        searchController.searchBar.placeholder = "Filter"
+        searchController.searchBar.placeholder = NSLocalizedString("conFilter", comment: "Filter")
         searchController.searchBar.delegate = self
         navigationItem.titleView = searchController.searchBar
         

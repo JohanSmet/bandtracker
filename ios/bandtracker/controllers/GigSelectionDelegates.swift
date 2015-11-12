@@ -13,7 +13,7 @@ class CountrySelectionDelegate : ListSelectionControllerDelegate {
     
     let enableFilter        : Bool   = true
     let enableCustomValue   : Bool   = false
-    let filterPlaceHolder   : String = "Enter country"
+    let filterPlaceHolder   : String = NSLocalizedString("conCountryPlaceholder", comment: "Enter country")
     let cellType            : String = "SelectionCellImage"
     let filterInitialValue  : String
     let completionHandler   : (name : String) -> Void
@@ -29,7 +29,7 @@ class CountrySelectionDelegate : ListSelectionControllerDelegate {
     
     func titleForSection(listSelectionController : ListSelectionController, section : Int) -> String? {
         if section == 1 {
-            return "Most popular countries"
+            return NSLocalizedString("conCountryPopular", comment: "Most popular countries")
         }
         return nil
     }
@@ -71,7 +71,7 @@ class CitySelectionDelegate : ListSelectionControllerDelegate {
     
     let enableFilter        : Bool   = true
     let enableCustomValue   : Bool   = true
-    let filterPlaceHolder   : String = "Enter city"
+    let filterPlaceHolder   : String = NSLocalizedString("conCityPlaceholder", comment: "Enter city")
     let cellType            : String = "SelectionCellBasic"
     let filterInitialValue  : String
     let countryCode         : String?
@@ -89,9 +89,9 @@ class CitySelectionDelegate : ListSelectionControllerDelegate {
     
     func titleForSection(listSelectionController : ListSelectionController, section : Int) -> String? {
         switch (section) {
-        case 0 : return "Previously used"
-        case 1 : return "New"
-        default : return nil
+            case 0 : return NSLocalizedString("conResultsPrevious", comment: "Previously used")
+            case 1 : return NSLocalizedString("conResultsNew", comment: "New")
+            default : return nil
         }
     }
     
@@ -137,7 +137,7 @@ class VenueSelectionDelegate : ListSelectionControllerDelegate {
     
     let enableFilter        : Bool   = true
     let enableCustomValue   : Bool   = true
-    let filterPlaceHolder   : String = "Enter venue"
+    let filterPlaceHolder   : String = NSLocalizedString("conVenuePlaceholder", comment: "Enter venue")
     let cellType            : String = "SelectionCellBasic"
     let filterInitialValue  : String
     let countryCode         : String?
@@ -157,9 +157,9 @@ class VenueSelectionDelegate : ListSelectionControllerDelegate {
     
     func titleForSection(listSelectionController : ListSelectionController, section : Int) -> String? {
         switch (section) {
-        case 0 : return "Previously used"
-        case 1 : return "New"
-        default : return nil
+            case 0 : return NSLocalizedString("conResultsPrevious", comment: "Previously used")
+            case 1 : return NSLocalizedString("conResultsNew", comment: "New")
+            default : return nil
         }
     }
     

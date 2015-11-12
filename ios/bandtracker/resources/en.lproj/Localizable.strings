@@ -1,0 +1,78 @@
+/* Internal error : invalid jsonBody (error: %s) */
+"cliInternalJsonError" = "Internal error : invalid jsonBody (error: %s)";
+
+/* Invalid username or password */
+"cliInvalidCredentials" = "Invalid username or password";
+
+/* No setlist found for the request date. */
+"cliSelListNotFound" = "No setlist found for the request date.";
+
+/* Already added bands */
+"conAlreadyAddedBands" = "Already added bands";
+
+/* Cancel */
+"conCancel" = "Cancel";
+
+/* Enter city */
+"conCityPlaceholder" = "Enter city";
+
+/* Unable to initalize CoreData-backend */
+"conCoreDataError" = "Unable to initialize CoreData-backend";
+
+/* Enter country */
+"conCountryPlaceholder" = "Enter country";
+
+/* Most popular countries */
+"conCountryPopular" = "Most popular countries";
+
+/* Edit */
+"conEdit" = "Edit";
+
+/* Filter */
+"conFilter" = "Filter";
+
+/* (%1$d gigs) */
+"conGigCount" = "(%1$d gigs)";
+
+/* You have been to %1$d gigs: */
+"conGigListTitleMultiple" = "You have been to %1$d gigs:";
+
+/* You have not been to any gigs yet. */
+"conGigListTitleNone" = "You have not been to any gigs yet.";
+
+/* You have been to one gig : */
+"conGigListTitleOne" = "You have been to one gig :";
+
+/* Help */
+"conHelp" = "Help";
+
+/* not set */
+"conIntervalNotSet" = "not set";
+
+/* View licenses */
+"conLicense" = "View licenses";
+
+/* No videos found for this request. */
+"conNoYoutubeVideos" = " No videos found for this request.";
+
+/* New */
+"conResultsNew" = "New";
+
+/* Previously used */
+"conResultsPrevious" = "Previously used";
+
+/* Save */
+"conSave" = "Save";
+
+/* Enter venue */
+"conVenuePlaceholder" = "Enter venue";
+
+/* (searched YouTube for \"%1$@\") */
+"conYoutubeSearch" = "(searched YouTube for \"%1$@\")";
+
+/* Attention */
+"viewAttention" = "Attention";
+
+/* OK */
+"viewOk" = "OK";
+

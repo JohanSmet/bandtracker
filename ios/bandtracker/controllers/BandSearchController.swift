@@ -94,7 +94,7 @@ class BandSearchController: UITableViewController,
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 1 {
-            return "Already added bands"
+            return NSLocalizedString("conAlreadyAddedBands", comment: "Already added bands")
         } else {
             return nil
         }

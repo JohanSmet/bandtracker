@@ -254,10 +254,12 @@ class BandDetailsController :   UIViewController,
     }
     
     private func setGigTitle() {
-        if !band.gigs.isEmpty {
-            gigTitle.text = "You have been to \(band.gigs.count) gigs :"
+        if band.gigs.count > 1 {
+            gigTitle.text = String(format: NSLocalizedString("conGigListTitleMultiple", comment: "You have been to %0$d gigs:"), arguments: [band.gigs.count])
+        } else if band.gigs.count == 1 {
+            gigTitle.text = NSLocalizedString("conGigListTitleOne", comment: "You have been to one gig :")
         } else {
-            gigTitle.text = "You have not been to any gigs yet."
+            gigTitle.text = NSLocalizedString("conGigListTitleNone", comment: "You have not been to any gigs yet.")
         }
     }
     

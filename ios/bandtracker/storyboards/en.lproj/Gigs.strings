@@ -1,0 +1,114 @@
+/* Class = "UILabel"; text = "Starts"; ObjectID = "0Pk-dg-ItH"; */
+"0Pk-dg-ItH.text" = "Starts";
+
+/* Class = "UILabel"; text = "Unable to retrieve videos."; ObjectID = "0fp-25-fEs"; */
+"0fp-25-fEs.text" = "Unable to retrieve videos.";
+
+/* Class = "UILabel"; text = "Venue / City"; ObjectID = "1qE-RD-ydk"; */
+"1qE-RD-ydk.text" = "Venue / City";
+
+/* Class = "UILabel"; text = "Sorry, something went wrong."; ObjectID = "2Tn-qq-xyh"; */
+"2Tn-qq-xyh.text" = "Sorry, something went wrong.";
+
+/* Class = "UILabel"; text = "Set list courtesy of setlist.fm"; ObjectID = "2lc-SP-nVY"; */
+"2lc-SP-nVY.text" = "Set list courtesy of setlist.fm";
+
+/* Class = "UILabel"; text = "Unable to retrieve setlist."; ObjectID = "7Xv-vf-IqY"; */
+"7Xv-vf-IqY.text" = "Unable to retrieve setlist.";
+
+/* Class = "UITableViewSection"; footerTitle = "Results"; ObjectID = "AOe-T9-aM7"; */
+"AOe-T9-aM7.footerTitle" = "Results";
+
+/* Class = "UITextField"; placeholder = "Stage"; ObjectID = "B7X-NA-PaM"; */
+"B7X-NA-PaM.placeholder" = "Stage";
+
+/* Class = "UILabel"; text = "Search for videos on Youtube"; ObjectID = "DDz-1S-Gpb"; */
+"DDz-1S-Gpb.text" = "Search for videos on Youtube";
+
+/* Class = "UILabel"; text = "Date"; ObjectID = "FTE-uW-eyS"; */
+"FTE-uW-eyS.text" = "Date";
+
+/* Class = "UIButton"; normalTitle = "Manually create a gig"; ObjectID = "G95-tV-XB1"; */
+"G95-tV-XB1.normalTitle" = "Manually create a gig";
+
+/* Class = "UILabel"; text = "View set list of this gig"; ObjectID = "Gtf-qx-VlD"; */
+"Gtf-qx-VlD.text" = "View set list of this gig";
+
+/* Class = "UILabel"; text = "(tap on a song to search for related videos on YouTube)"; ObjectID = "Inr-2D-cKT"; */
+"Inr-2D-cKT.text" = "(tap on a song to search for related videos on YouTube)";
+
+/* Class = "UILabel"; text = "(searched YouTube for videos of the entire gig)"; ObjectID = "KLG-kc-Pz9"; */
+"KLG-kc-Pz9.text" = "(searched YouTube for videos of the entire gig)";
+
+/* Class = "UILabel"; text = "Oct 1, 2015"; ObjectID = "Kod-fx-Pdf"; */
+"Kod-fx-Pdf.text" = "Oct 1, 2015";
+
+/* Class = "UILabel"; text = "Sorry, something went wrong."; ObjectID = "Nds-xR-itc"; */
+"Nds-xR-itc.text" = " Sorry, something went wrong.";
+
+/* Class = "UILabel"; text = "Duration"; ObjectID = "O5t-a4-VQP"; */
+"O5t-a4-VQP.text" = "Duration";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "ODG-Ag-mM9"; */
+"ODG-Ag-mM9.text" = "Title";
+
+/* Class = "UITextField"; placeholder = "City"; ObjectID = "PmU-1O-7K6"; */
+"PmU-1O-7K6.placeholder" = "City";
+
+/* Class = "UILabel"; text = "Venue / City"; ObjectID = "QRy-fY-wni"; */
+"QRy-fY-wni.text" = "Venue / City";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "UJv-Zr-JdL"; */
+"UJv-Zr-JdL.text" = "Title";
+
+/* Class = "UILabel"; text = "Support Act"; ObjectID = "YLi-Zq-rjx"; */
+"YLi-Zq-rjx.text" = "Support Act";
+
+/* Class = "UILabel"; text = "Rating"; ObjectID = "YaS-I9-b1b"; */
+"YaS-I9-b1b.text" = "Rating";
+
+/* Class = "UILabel"; text = "Venue / City / Country"; ObjectID = "c4h-UQ-24w"; */
+"c4h-UQ-24w.text" = "Venue / City / Country";
+
+/* Class = "UILabel"; text = "Filter on year"; ObjectID = "dD5-Kg-YQH"; */
+"dD5-Kg-YQH.text" = "Filter on year";
+
+/* Class = "UIViewController"; title = "Setlist"; ObjectID = "eDq-rF-Yir"; */
+"eDq-rF-Yir.title" = "Setlist";
+
+/* Class = "UILabel"; text = "(click here to view this setlist on the setlist.fm website)"; ObjectID = "i2a-Lp-FtA"; */
+"i2a-Lp-FtA.text" = "(click here to view this setlist on the setlist.fm website)";
+
+/* Class = "UILabel"; text = "Irrelevant"; ObjectID = "jJB-Rc-go6"; */
+"jJB-Rc-go6.text" = " Irrelevant";
+
+/* Class = "UITextField"; placeholder = "Venue"; ObjectID = "jka-Ch-dhj"; */
+"jka-Ch-dhj.placeholder" = "Venue";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "koL-1p-PIZ"; */
+"koL-1p-PIZ.text" = "Label";
+
+/* Class = "UITextField"; placeholder = "Filter on country"; ObjectID = "ksv-VQ-6d3"; */
+"ksv-VQ-6d3.placeholder" = "Filter on country";
+
+/* Class = "UIViewController"; title = "YouTube"; ObjectID = "nlj-WO-snE"; */
+"nlj-WO-snE.title" = "YouTube";
+
+/* Class = "UILabel"; text = "Date"; ObjectID = "oeY-v2-a56"; */
+"oeY-v2-a56.text" = "Date";
+
+/* Class = "UILabel"; text = "Date"; ObjectID = "ovK-mV-3sW"; */
+"ovK-mV-3sW.text" = "Date";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "sOG-XC-cQT"; */
+"sOG-XC-cQT.text" = "Date";
+
+/* Class = "UILabel"; text = "9:00 PM"; ObjectID = "tIk-SQ-VFZ"; */
+"tIk-SQ-VFZ.text" = "9:00 PM";
+
+/* Class = "UITextField"; placeholder = "Country"; ObjectID = "x0d-G0-KyC"; */
+"x0d-G0-KyC.placeholder" = "Country";
+
+/* Class = "UITextField"; placeholder = "Comments"; ObjectID = "x8N-aI-W7q"; */
+"x8N-aI-W7q.placeholder" = "Comments";
+

@@ -317,15 +317,14 @@ class GigDetailsController :    UITableViewController,
     
     func createNavigationButtons() {
         if editable {
-            let buttonSave = UIBarButtonItem(title: "Save", style: .Plain, target: self, action: "saveGig")
+            let buttonSave = UIBarButtonItem(title: NSLocalizedString("conSave", comment: "Save"), style: .Plain, target: self, action: "saveGig")
             self.navigationItem.setRightBarButtonItems([buttonSave], animated: false)
             validateForm()
         } else {
-            let buttonEdit = UIBarButtonItem(title: "Edit", style: .Plain, target: self, action: "editGig")
+            let buttonEdit = UIBarButtonItem(title: NSLocalizedString("conEdit", comment: "Edit"), style: .Plain, target: self, action: "editGig")
             self.navigationItem.setRightBarButtonItems([buttonEdit], animated: false)
         }
     }
-    
     
     private func setUIFields() {
         startDatePicker.date = gig.startDate
@@ -360,7 +359,7 @@ class GigDetailsController :    UITableViewController,
         if durationPicker.timeInterval > 0 {
             dateLabels[DURATION].text = durationPicker.formattedString
         } else {
-            dateLabels[DURATION].text = "not set"
+            dateLabels[DURATION].text = NSLocalizedString("conIntervalNotSet", comment: "not set")
         }
     }
     

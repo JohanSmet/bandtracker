@@ -1,0 +1,42 @@
+/* Class = "UILabel"; text = "Label"; ObjectID = "4Y3-Lz-ssx"; */
+"4Y3-Lz-ssx.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = "Add"; ObjectID = "DPZ-eu-c5i"; */
+"DPZ-eu-c5i.normalTitle" = "Add";
+
+/* Class = "UILabel"; text = "Date"; ObjectID = "EWd-bz-lZX"; */
+"EWd-bz-lZX.text" = "Date";
+
+/* Class = "UILabel"; text = "Gigs you have been to :"; ObjectID = "Gsd-aw-azE"; */
+"Gsd-aw-azE.text" = "Gigs you have been to :";
+
+/* Class = "UILabel"; text = "Venue / City / Country"; ObjectID = "MjF-sU-Izb"; */
+"MjF-sU-Izb.text" = "Venue / City / Country";
+
+/* Class = "UINavigationItem"; title = "Title"; ObjectID = "PiV-8K-VXG"; */
+"PiV-8K-VXG.title" = "Title";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "UgE-gF-LQv"; */
+"UgE-gF-LQv.text" = "Label";
+
+/* Class = "UITabBarItem"; title = "Timeline"; ObjectID = "Uhv-CM-mkt"; */
+"Uhv-CM-mkt.title" = "Timeline";
+
+/* Class = "UITabBarItem"; title = "Bands"; ObjectID = "Uqd-ek-Ov4"; */
+"Uqd-ek-Ov4.title" = "Bands";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "VTK-PC-FeD"; */
+"VTK-PC-FeD.text" = "Label";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "bCv-rk-F80"; */
+"bCv-rk-F80.text" = "Title";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "bzw-xb-MbK"; */
+"bzw-xb-MbK.text" = "Label";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "oby-UQ-4K5"; */
+"oby-UQ-4K5.text" = "Label";
+
+/* Class = "UITabBarItem"; title = "Item"; ObjectID = "xzP-gu-bI8"; */
+"xzP-gu-bI8.title" = "Item";
+

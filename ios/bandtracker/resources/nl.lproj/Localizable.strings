@@ -1,0 +1,78 @@
+/* Internal error : invalid jsonBody (error: %s) */
+"cliInternalJsonError" = "Interne fout: ongeldige JSON (fout: %s)";
+
+/* Invalid username or password */
+"cliInvalidCredentials" = "Ongeldige gebruikersnaam of wachtwoord";
+
+/* No setlist found for the request date. */
+"cliSelListNotFound" = "Geen setlist gevonden voor de gevraagde datum.";
+
+/* Already added bands */
+"conAlreadyAddedBands" = "Reeds gebruikte bands";
+
+/* Cancel */
+"conCancel" = "Annuleren";
+
+/* Enter city */
+"conCityPlaceholder" = "Geef Stad in";
+
+/* Unable to initalize CoreData-backend */
+"conCoreDataError" = "Kan CoreData-backend niet initialiseren";
+
+/* Enter country */
+"conCountryPlaceholder" = "Geef Land in";
+
+/* Most popular countries */
+"conCountryPopular" = "Meest gebruikte landen";
+
+/* Edit */
+"conEdit" = "Bewerken";
+
+/* Filter */
+"conFilter" = "Filteren";
+
+/* (%0$d gigs) */
+"conGigCount" = "(%1$d optredens)";
+
+/* You have been to %0$d gigs: */
+"conGigListTitleMultiple" = "Je hebt reeds %1$d optredens gezien:";
+
+/* You have not been to any gigs yet. */
+"conGigListTitleNone" = "Je hebt nog geen optreden gezien";
+
+/* You have been to one gig : */
+"conGigListTitleOne" = "Je hebt reeds één optreden gezien";
+
+/* Help */
+"conHelp" = "Help";
+
+/* not set */
+"conIntervalNotSet" = "niet gekend";
+
+/* View licenses */
+"conLicense" = "Bekijk licenties";
+
+/* No videos found for this request. */
+"conNoYoutubeVideos" = "Geen filmpjes gevonden voor deze zoekopdracht.";
+
+/* New */
+"conResultsNew" = "Nieuw";
+
+/* Previously used */
+"conResultsPrevious" = "Reeds gebruikt";
+
+/* Save */
+"conSave" = "Opslaan";
+
+/* Enter venue */
+"conVenuePlaceholder" = "Geef Zaal in";
+
+/* (searched YouTube for \"%0$@\") */
+"conYoutubeSearch" = "(op Youtube gezocht naar \"%1$@\")";
+
+/* Attention */
+"viewAttention" = "Opgelet";
+
+/* OK */
+"viewOk" = "Ok";
+

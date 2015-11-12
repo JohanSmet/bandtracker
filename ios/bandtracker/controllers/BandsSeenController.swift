@@ -87,7 +87,7 @@ class BandsSeenController:  UITableViewController,
         let band = fetchedResultsController.objectAtIndexPath(indexPath) as! Band
         
         cell.bandName.text          = band.name
-        cell.numberOfGigs.text      = "(\(band.gigs.count) gigs)"
+        cell.numberOfGigs.text      = String(format: NSLocalizedString("conGigCount", comment: "(%0$d gigs)"), arguments: [band.gigs.count])
         cell.ratingControl.rating   = band.rating()
         cell.bandImage.image        = nil
         
