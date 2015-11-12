@@ -20,7 +20,7 @@ class DataContext {
     // band management
     //
     
-    func createBand(bandTemplate : ServerBand) -> Band {
+    func createBand(bandTemplate : BandTrackerClient.Band) -> Band {
         // create band
         let band = Band(bandTemplate: bandTemplate, context: coreDataStackManager().managedObjectContext!)
         

@@ -9,35 +9,7 @@
 import Foundation
 
 class BandTrackerClient : WebApiClient {
-    
-    ///////////////////////////////////////////////////////////////////////////////////
-    //
-    // nested types
-    //
-    
-    class TourDate {
-        
-        var bandId : String
-        var startDate : NSDate
-        var endDate : NSDate
-        var stage : String
-        var venue : String
-        var city : String
-        var countryCode : String
-        var supportAct : Bool
-    
-        init (values : [String : AnyObject]) {
-            bandId      = values["bandId"]      as? String ?? ""
-            startDate   = DateUtils.dateFromStringISO(values["startDate"] as? String ?? "")
-            endDate     = DateUtils.dateFromStringISO(values["endDate"] as? String ?? "")
-            stage       = values["stage"]       as? String ?? ""
-            venue       = values["venue"]       as? String ?? ""
-            city        = values["city"]        as? String ?? ""
-            countryCode = values["countryCode"] as? String ?? ""
-            supportAct  = values["supportAct"]  as? Bool   ?? false
-        }
-    }
-    
+   
     ///////////////////////////////////////////////////////////////////////////////////
     //
     // configuration
@@ -87,7 +59,7 @@ class BandTrackerClient : WebApiClient {
         
     }
     
-    func bandsFindByName(pattern : String, completionHandler: (bands : [ServerBand]?, error : String?) -> Void) {
+    func bandsFindByName(pattern : String, completionHandler: (bands : [BandTrackerClient.Band]?, error : String?) -> Void) {
        
         // make sure to login first
         guard let token = apiToken else {
@@ -111,10 +83,10 @@ class BandTrackerClient : WebApiClient {
                 completionHandler(bands: nil, error: BandTrackerClient.formatHttpError(httpError))
             } else {
                 let postResult = result as! [AnyObject];
-                var bands : [ServerBand] = []
+                var bands : [BandTrackerClient.Band] = []
                 
                 for bandDictionary in postResult {
-                    bands.append(ServerBand(values: bandDictionary as! [String : AnyObject]))
+                    bands.append(BandTrackerClient.Band(values: bandDictionary as! [String : AnyObject]))
                 }
                 
                 completionHandler(bands : bands, error : nil)
@@ -278,7 +250,7 @@ class BandTrackerClient : WebApiClient {
         
     }
     
-    func countrySync(syncId : Int, completionHandler : (syncId : Int, countries : [ServerCountry]?, error : String?) -> Void) {
+    func countrySync(syncId : Int, completionHandler : (syncId : Int, countries : [BandTrackerClient.Country]?, error : String?) -> Void) {
         
         // make sure to login first
         guard let token = apiToken else {
@@ -302,10 +274,10 @@ class BandTrackerClient : WebApiClient {
                 completionHandler(syncId: 0, countries : nil, error: BandTrackerClient.formatHttpError(httpError))
             } else {
                 let postResult = result as! NSDictionary
-                var countries :  [ServerCountry] = []
+                var countries :  [BandTrackerClient.Country] = []
                 
                 for country in postResult.valueForKey("countries") as! [[String : AnyObject]] {
-                    countries.append(ServerCountry(values: country))
+                    countries.append(BandTrackerClient.Country(values: country))
                 }
                 
                 completionHandler(syncId: postResult["sync"] as! Int, countries: countries, error: nil);

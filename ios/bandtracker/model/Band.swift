@@ -34,7 +34,7 @@ class Band : NSManagedObject {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
     }
     
-    init(bandTemplate : ServerBand, context: NSManagedObjectContext) {
+    init(bandTemplate : BandTrackerClient.Band, context: NSManagedObjectContext) {
         
         // Core Data
         let entity =  NSEntityDescription.entityForName("Band", inManagedObjectContext: context)!

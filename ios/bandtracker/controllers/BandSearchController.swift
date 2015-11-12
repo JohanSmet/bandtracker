@@ -19,7 +19,7 @@ class BandSearchController: UITableViewController,
     
     var searchController : UISearchController! = nil
     
-    var newBandList      : [ServerBand] = []
+    var newBandList      : [BandTrackerClient.Band] = []
     var existingBandList : [Band] = []
     
     ///////////////////////////////////////////////////////////////////////////////////
