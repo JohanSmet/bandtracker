@@ -48,7 +48,7 @@ class MainController:   UITabBarController,
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
         
         let helpAction = UIAlertAction(title: NSLocalizedString("conHelp", comment: "Help"), style: .Default) { action in
-            let vc = WebViewController.create(forString: "<html><body>Help</body></html>")
+            let vc = WebViewController.create(forResource: "help")
             self.navigationController?.pushViewController(vc, animated: false)
         }
         
