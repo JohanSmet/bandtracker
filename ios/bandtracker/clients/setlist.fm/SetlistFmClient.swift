@@ -61,26 +61,25 @@ class SetlistFmClient : WebApiClient {
             // parse the results
             guard let postResult = result as? NSDictionary else { return }
             guard let fmSetlist = (postResult["setlists"] as? NSDictionary)?["setlist"] as? NSDictionary else { return }
-            guard let fmSets = (fmSetlist["sets"] as? NSDictionary)?["set"] as? [[String : AnyObject]] else { return }
-            
             setUrl = fmSetlist["url"] as? String ?? ""
+            
+            guard let fmSetsObject = (fmSetlist["sets"] as? NSDictionary)?["set"] else { return }
            
-            for fmSet in fmSets {
-                var set = SetPart()
-                
-                if let name = fmSet["name"] as? String {
-                    set.name = name
-                } else if let encore = fmSet["@encore"] as? String {
-                    set.name = "Encore \(encore)"
+            // fmSetsObject can be an array of objects or just an object
+            if let fmSets = fmSetsObject as? [[String : AnyObject]] {
+                for fmSet in fmSets {
+                    if let set = self.parseSet(fmSet) {
+                        setList.append(set)
+                    }
                 }
-                
-                guard let songs = fmSet["song"] as? [[String : AnyObject]] else { break }
-                for song in songs {
-                    set.songs.append(song["@name"] as! String)
-                }
-                
-                setList.append(set)
             }
+            
+            if let fmSet = fmSetsObject as? [String : AnyObject] {
+                if let set = self.parseSet(fmSet) {
+                    setList.append(set)
+                }
+            }
+            
         }
     }
     
@@ -102,6 +101,24 @@ class SetlistFmClient : WebApiClient {
         } else {
             return "HTTP-error \(response.statusCode)"
         }
+    }
+    
+    private func parseSet(fmSet :  [String : AnyObject]) -> SetPart? {
+        var set = SetPart()
+        
+        if let name = fmSet["name"] as? String {
+            set.name = name
+        } else if let encore = fmSet["@encore"] as? String {
+            set.name = "Encore \(encore)"
+        }
+        
+        guard let songs = fmSet["song"] as? [[String : AnyObject]] else { return nil }
+        
+        for song in songs {
+            set.songs.append(song["@name"] as! String)
+        }
+        
+        return set
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
