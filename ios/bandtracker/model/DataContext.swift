@@ -96,8 +96,8 @@ class DataContext {
     func gigFromTourDate(band : Band, tourDate : BandTrackerClient.TourDate, context : NSManagedObjectContext = coreDataStackManager().managedObjectContext!) -> Gig {
         
         let gig = Gig(band: band, context: context)
-        gig.startDate   = tourDate.startDate
-        gig.endDate     = tourDate.endDate
+        gig.startDate   = DateUtils.stripTime(tourDate.startDate)
+        gig.endDate     = DateUtils.stripTime(tourDate.endDate)
         gig.stage       = tourDate.stage
         gig.supportAct  = tourDate.supportAct
         gig.country     = countryByCode(tourDate.countryCode, context: gig.managedObjectContext!)
