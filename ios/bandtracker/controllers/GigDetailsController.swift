@@ -167,6 +167,7 @@ class GigDetailsController :    UITableViewController,
     
     func saveGig() {
         if let gig = gig {
+            gig.supportAct = switchSupportAct.on
             gig.processEdit()
             
             coreDataStackManager().saveChildContext(scratchContext)
