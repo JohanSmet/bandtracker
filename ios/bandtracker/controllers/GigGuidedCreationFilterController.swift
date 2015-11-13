@@ -42,6 +42,8 @@ class GigGuidedCreationFilterController : UITableViewController,
         }
     }
     
+    var band      : Band!
+    
     var startDate : NSDate!
     var endDate   : NSDate!
     var country   : Country!
@@ -68,7 +70,9 @@ class GigGuidedCreationFilterController : UITableViewController,
         yearPicker.delegate   = self
         
         // set defaults
-        setDefaultYear()
+        if !loadDefaults() {
+            setDefaultYear()
+        }
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -94,6 +98,7 @@ class GigGuidedCreationFilterController : UITableViewController,
             let countrySelect = ListSelectionController.create(CountrySelectionDelegate(initialFilter: textCountry.text!) { name in
                 self.textCountry.text! = name
                 self.country = dataContext().countryByName(name)
+                self.saveDefaults()
                 self.delegateValueChanged()
             })
             
@@ -126,6 +131,7 @@ class GigGuidedCreationFilterController : UITableViewController,
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         selYear = years[row]
         recomputeYearLimits()
+        saveDefaults()
         delegateValueChanged()
     }
  
@@ -166,6 +172,50 @@ class GigGuidedCreationFilterController : UITableViewController,
     private func delegateValueChanged() {
         if let delegate = delegate {
             delegate.filterValueChanged(self)
+        }
+    }
+    
+    private func loadDefaults() -> Bool {
+        let defaults = NSUserDefaults.standardUserDefaults();
+        
+        // load defaults if band is still the same as last time
+        guard let bandId = defaults.stringForKey("guidedGigBand") else { return false }
+        
+        if bandId != band.bandMBID {
+            return false
+        }
+        
+        let defYear     = defaults.integerForKey("guidedGigYear")
+        let defCountry  = defaults.stringForKey("guidedGigCountry") ?? ""
+        
+        for (idx, year) in years.enumerate() {
+            if year >= defYear {
+                yearPicker.selectRow(idx, inComponent: 0, animated: false)
+                selYear = year
+                recomputeYearLimits()
+                break
+            }
+        }
+        
+        if !defCountry.isEmpty {
+            country = dataContext().countryByCode(defCountry)
+            textCountry.text = country.name
+        }
+        
+        delegateValueChanged()
+        return true
+    }
+    
+    private func saveDefaults() {
+        let defaults = NSUserDefaults.standardUserDefaults();
+        
+        defaults.setObject(band.bandMBID,   forKey: "guidedGigBand")
+        defaults.setInteger(selYear,        forKey: "guidedGigYear")
+        
+        if let country = country {
+            defaults.setObject(country.code, forKey: "guidedGigCountry")
+        } else {
+            defaults.setObject("", forKey: "guidedGigCountry")
         }
     }
 }

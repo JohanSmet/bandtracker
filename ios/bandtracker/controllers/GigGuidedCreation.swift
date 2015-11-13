@@ -71,6 +71,7 @@ class GigGuidedCreationController : UIViewController,
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "SegueEmbedGuidedFilter" {
             filterController = segue.destinationViewController as! GigGuidedCreationFilterController
+            filterController.band  = band
             filterController.years = years
         }
     }
