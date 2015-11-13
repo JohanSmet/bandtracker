@@ -70,6 +70,9 @@
 /* (searched YouTube for \"%0$@\") */
 "conYoutubeSearch" = "(op Youtube gezocht naar \"%1$@\")";
 
+/* DEMO - delete all data */
+"conDemoDelete" = "DEMO - schrap alle data";
+
 /* Attention */
 "viewAttention" = "Opgelet";
 

@@ -23,11 +23,22 @@ class CoreDataStackManager {
         // create the coordinator with the model
         let coordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
         
-        // create the persistent store
-        let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
-        let storeUrl = urls[urls.count-1].URLByAppendingPathComponent(SQLITE_FILE_NAME)
+        // build the path to the database file
+        let fileManager = NSFileManager.defaultManager()
+        let urls = fileManager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
+        let storeUrl = urls.first!.URLByAppendingPathComponent(SQLITE_FILE_NAME)
+        
         
         do {
+            
+            // deploy pre-populated database on first run
+            if !storeUrl.checkResourceIsReachableAndReturnError(nil) {
+                if let bundleUrl = NSBundle.mainBundle().URLForResource(MODEL_NAME, withExtension: "sqlite") {
+                    try fileManager.copyItemAtURL(bundleUrl, toURL: storeUrl)
+                }
+            }
+            
+            // create the persistent store
             try coordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: storeUrl, options: nil)
             
             // finally, create the managed object context

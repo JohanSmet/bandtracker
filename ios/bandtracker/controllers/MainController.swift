@@ -57,11 +57,16 @@ class MainController:   UITabBarController,
             self.navigationController?.pushViewController(vc, animated: true)
         }
         
+        let deleteAction = UIAlertAction(title: NSLocalizedString("conDemoDelete", comment: "DEMO - delete all data"), style: .Destructive) { action in
+            dataContext().deleteAllData()
+        }
+        
         let cancelAction = UIAlertAction(title: NSLocalizedString("conCancel", comment: "Cancel"), style: .Cancel) {action in
         }
         
         alertController.addAction(helpAction)
         alertController.addAction(licenseAction)
+        alertController.addAction(deleteAction)
         alertController.addAction(cancelAction)
         
         self.presentViewController(alertController, animated: true, completion: nil)

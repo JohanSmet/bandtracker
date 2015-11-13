@@ -12,8 +12,30 @@ class DataContext {
     
     ////////////////////////////////////////////////////////////////////////////////
     //
-    // variables
+    // database management
     //
+    
+    func deleteAllData() {
+        
+        do {
+            try deleteResults(NSFetchRequest(entityName: "Gig"))
+            try deleteResults(NSFetchRequest(entityName: "Band"))
+            try deleteResults(NSFetchRequest(entityName: "Venue"))
+            try deleteResults(NSFetchRequest(entityName: "City"))
+            try deleteResults(NSFetchRequest(entityName: "Country"))
+            coreDataStackManager().saveContext()
+        } catch let error as NSError {
+            NSLog("Unresolved error \(error), \(error.userInfo)")
+        }
+    }
+    
+    func deleteResults(fetchRequest : NSFetchRequest) throws {
+        guard let context = coreDataStackManager().managedObjectContext else { return }
+        
+        for obj in try context.executeFetchRequest(fetchRequest) {
+            context.deleteObject(obj as! NSManagedObject)
+        }
+    }
     
     ////////////////////////////////////////////////////////////////////////////////
     //
