@@ -22,7 +22,6 @@ class DataContext {
             try deleteResults(NSFetchRequest(entityName: "Band"))
             try deleteResults(NSFetchRequest(entityName: "Venue"))
             try deleteResults(NSFetchRequest(entityName: "City"))
-            try deleteResults(NSFetchRequest(entityName: "Country"))
             coreDataStackManager().saveContext()
         } catch let error as NSError {
             NSLog("Unresolved error \(error), \(error.userInfo)")
