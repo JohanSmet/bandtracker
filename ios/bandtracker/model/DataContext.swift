@@ -33,6 +33,9 @@ class DataContext {
                 band.fanartThumbUrl = fanart.bandThumbnailUrl
                 band.fanartLogoUrl  = fanart.bandLogoUrl
                 coreDataStackManager().saveContext()
+            } else {
+                band.fanartThumbUrl = band.imageUrl;
+                coreDataStackManager().saveContext()
             }
         }
         
