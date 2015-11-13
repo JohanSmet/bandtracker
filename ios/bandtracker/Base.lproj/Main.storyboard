@@ -189,7 +189,7 @@
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="44" id="Aq7-Jv-4dg"/>
                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="IUl-9E-mZv"/>
                                         </constraints>
-                                        <state key="normal" title="Add"/>
+                                        <state key="normal" image="iconAdd"/>
                                         <connections>
                                             <action selector="addGig:" destination="RNd-a9-GBz" eventType="touchUpInside" id="BJK-Tw-9VV"/>
                                         </connections>
@@ -563,6 +563,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="iconAdd" width="22" height="22"/>
         <image name="iconMore" width="22" height="22"/>
         <image name="iconSinger" width="22" height="22"/>
         <image name="iconTimeline" width="22" height="22"/>
