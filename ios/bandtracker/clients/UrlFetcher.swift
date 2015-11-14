@@ -11,16 +11,15 @@ import UIKit
 
 class UrlFetcher {
     
-    static var urlSession : NSURLSession?
+    static private var urlSession : NSURLSession?
+    
+    
    
     static func loadImageFromUrl(urlString : String, completionHandlerUI : (image : UIImage?) -> Void) {
         
         // create session if necessary
         if (urlSession == nil) {
-            let cache = NSURLCache(memoryCapacity: 64 * 1024 * 1024, diskCapacity: 512 * 1024 * 1024, diskPath: "img-cache")
-            
             let sessionConfiguration = NSURLSessionConfiguration.defaultSessionConfiguration()
-            sessionConfiguration.URLCache = cache
             sessionConfiguration.requestCachePolicy = .ReturnCacheDataElseLoad;
             
             urlSession = NSURLSession(configuration: sessionConfiguration)

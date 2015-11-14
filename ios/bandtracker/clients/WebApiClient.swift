@@ -28,11 +28,11 @@ class WebApiClient {
     //
     
     init() {
-        self.urlSession = NSURLSession.sharedSession()
+        self.urlSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
     }
     
     init(dataOffset : Int) {
-        self.urlSession = NSURLSession.sharedSession()
+        self.urlSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
         self.dataOffset = dataOffset
     }
     
