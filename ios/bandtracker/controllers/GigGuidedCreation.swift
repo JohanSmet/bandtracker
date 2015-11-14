@@ -138,8 +138,14 @@ class GigGuidedCreationController : UIViewController,
                                             dateFrom: filterController.startDate, dateTo: filterController.endDate,
                                             countryCode: (filterController.country != nil) ? filterController.country.code : nil,
                                             location: nil) { tourDates, error in
+            self.tourDates = []
+                                                
             if let tourDates = tourDates {
-                self.tourDates = tourDates
+                for tourDate in tourDates {
+                    if !dataContext().gigTourDatePresent(self.band, tourDate: tourDate) {
+                        self.tourDates.append(tourDate)
+                    }
+                }
             }
                                                 
             dispatch_async(dispatch_get_main_queue()) {

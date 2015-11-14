@@ -107,6 +107,25 @@ class DataContext {
         return gig
     }
     
+    func gigTourDatePresent(band : Band, tourDate : BandTrackerClient.TourDate) -> Bool {
+        
+        let fetchRequest = NSFetchRequest(entityName: "Gig")
+        fetchRequest.predicate      = NSPredicate(format: "band.bandMBID == %@ && startDate == %@ && country.code == %@ && city.name == %@",
+                                                    band.bandMBID, DateUtils.stripTime(tourDate.startDate), tourDate.countryCode, tourDate.city);
+        
+        do {
+            if let results = try coreDataStackManager().managedObjectContext?.executeFetchRequest(fetchRequest) {
+                if !results.isEmpty {
+                    return true
+                }
+            }
+        } catch let error as NSError {
+            NSLog("Unresolved error \(error), \(error.userInfo)")
+        }
+        
+        return false
+    }
+    
     func totalRatingOfGigs(band : Band) -> Int {
         
         let sumExpDesc = NSExpressionDescription()
