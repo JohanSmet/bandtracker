@@ -111,7 +111,7 @@ class BandDetailsController :   UIViewController,
         
         setGigTitle()
         setBandimage()
-        ratingControl.rating    = band.rating()
+        ratingControl.rating    = band.avgRating.floatValue
         
     }
     
@@ -248,7 +248,7 @@ class BandDetailsController :   UIViewController,
         } catch {
             biography.text = ""
         }
-        ratingControl.rating    = band.rating()
+        ratingControl.rating    = band.avgRating.floatValue
         
         setGigTitle()
         setBandimage()

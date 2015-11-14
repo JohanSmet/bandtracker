@@ -21,7 +21,7 @@ class BandsSeenController:  UITableViewController,
     
     lazy var fetchedResultsController: NSFetchedResultsController = {
         let fetchRequest = NSFetchRequest(entityName: "Band")
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "totalRating", ascending:false), NSSortDescriptor(key: "name", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "avgRating", ascending:false), NSSortDescriptor(key: "name", ascending: true)]
         
         let fetchedResultsController = NSFetchedResultsController (
                                             fetchRequest: fetchRequest,
@@ -88,7 +88,7 @@ class BandsSeenController:  UITableViewController,
         
         cell.bandName.text          = band.name
         cell.numberOfGigs.text      = String(format: NSLocalizedString("conGigCount", comment: "(%0$d gigs)"), arguments: [band.gigs.count])
-        cell.ratingControl.rating   = band.rating()
+        cell.ratingControl.rating   = band.avgRating.floatValue
         cell.bandImage.image        = nil
         
         UrlFetcher.loadImageFromUrl(band.getImageUrl()) { image in

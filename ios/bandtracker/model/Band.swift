@@ -18,12 +18,14 @@ class Band : NSManagedObject {
     @NSManaged var biography    : String
     @NSManaged var numGigs      : NSNumber
     @NSManaged var totalRating  : NSNumber
+    @NSManaged var avgRating    : NSNumber
     
     @NSManaged var imageUrl         : String
     @NSManaged var fanartThumbUrl   : String?
     @NSManaged var fanartLogoUrl    : String?
     
     @NSManaged var gigs         : [Gig]
+    
     
     ////////////////////////////////////////////////////////////////////////////////
     //
@@ -49,8 +51,17 @@ class Band : NSManagedObject {
         totalRating = 0
     }
     
+    ////////////////////////////////////////////////////////////////////////////////
+    //
+    // convenience functions
+    //
+    
     func rating() -> Float {
-       return totalRating.floatValue / (Float(gigs.count) * 10)
+        if !gigs.isEmpty {
+            return round(totalRating.floatValue / (Float(gigs.count) * 10))
+        } else {
+            return 0
+        }
     }
     
     func getImageUrl() -> String {

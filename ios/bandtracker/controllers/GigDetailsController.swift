@@ -174,6 +174,7 @@ class GigDetailsController :    UITableViewController,
             coreDataStackManager().saveContext()
             
             gig.band.totalRating = dataContext().totalRatingOfGigs(gig.band)
+            gig.band.avgRating   = gig.band.rating()
             coreDataStackManager().saveChildContext(scratchContext)
             coreDataStackManager().saveContext()
             

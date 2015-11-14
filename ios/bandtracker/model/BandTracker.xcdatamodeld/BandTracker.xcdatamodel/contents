@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="8195" systemVersion="14F27" minimumToolsVersion="Xcode 7.0">
     <entity name="Band" representedClassName="Band" syncable="YES">
+        <attribute name="avgRating" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="bandMBID" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="biography" attributeType="String" syncable="YES"/>
         <attribute name="fanartLogoUrl" optional="YES" attributeType="String" syncable="YES"/>
@@ -43,7 +44,7 @@
         <relationship name="gigs" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Gig" inverseName="venue" inverseEntity="Gig" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Band" positionX="-513" positionY="18" width="128" height="180"/>
+        <element name="Band" positionX="-513" positionY="18" width="128" height="195"/>
         <element name="City" positionX="-38" positionY="-231" width="128" height="103"/>
         <element name="Country" positionX="-2" positionY="-90" width="128" height="105"/>
         <element name="Gig" positionX="-317" positionY="18" width="128" height="210"/>
