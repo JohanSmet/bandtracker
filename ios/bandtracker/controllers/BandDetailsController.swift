@@ -168,6 +168,7 @@ class BandDetailsController :   UIViewController,
     //
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
         let gig = gigFetchedResultsController.objectAtIndexPath(indexPath) as! Gig
         let newVC = GigDetailsController.displayGig(gig)
         navigationController?.pushViewController(newVC, animated: true)
