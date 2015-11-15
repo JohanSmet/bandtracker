@@ -28,6 +28,7 @@
 		040CBE641BEFF2C300306895 /* Lato-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 040CBE601BEFF2C300306895 /* Lato-Italic.ttf */; settings = {ASSET_TAGS = (); }; };
 		040CBE651BEFF2C300306895 /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 040CBE611BEFF2C300306895 /* Lato-Regular.ttf */; settings = {ASSET_TAGS = (); }; };
 		040CCE831BE018DF00E8E1B2 /* GigSelectionDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040CCE821BE018DF00E8E1B2 /* GigSelectionDelegates.swift */; settings = {ASSET_TAGS = (); }; };
+		040CDEBC1BF8B0D700C47815 /* BandTracker.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 040CDEBB1BF8B0D700C47815 /* BandTracker.sqlite */; settings = {ASSET_TAGS = (); }; };
 		040D68C51BB0A46F000068EA /* TimelineController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040D68C41BB0A46F000068EA /* TimelineController.swift */; settings = {ASSET_TAGS = (); }; };
 		040E06F71BE6BE0200C10931 /* FanartTvClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040E06F61BE6BE0200C10931 /* FanartTvClient.swift */; settings = {ASSET_TAGS = (); }; };
 		040E31151BBC843D00275449 /* GigDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040E31141BBC843D00275449 /* GigDetailsController.swift */; settings = {ASSET_TAGS = (); }; };
@@ -96,6 +97,7 @@
 		040CBE601BEFF2C300306895 /* Lato-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Italic.ttf"; sourceTree = "<group>"; };
 		040CBE611BEFF2C300306895 /* Lato-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Regular.ttf"; sourceTree = "<group>"; };
 		040CCE821BE018DF00E8E1B2 /* GigSelectionDelegates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GigSelectionDelegates.swift; sourceTree = "<group>"; };
+		040CDEBB1BF8B0D700C47815 /* BandTracker.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = BandTracker.sqlite; sourceTree = "<group>"; };
 		040D68C41BB0A46F000068EA /* TimelineController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelineController.swift; sourceTree = "<group>"; };
 		040E06F61BE6BE0200C10931 /* FanartTvClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FanartTvClient.swift; sourceTree = "<group>"; };
 		040E31141BBC843D00275449 /* GigDetailsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GigDetailsController.swift; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 		040E13BF1BF6464B00FBF712 /* demo */ = {
 			isa = PBXGroup;
 			children = (
+				040CDEBB1BF8B0D700C47815 /* BandTracker.sqlite */,
 			);
 			path = demo;
 			sourceTree = "<group>";
@@ -411,6 +414,7 @@
 				040CBE651BEFF2C300306895 /* Lato-Regular.ttf in Resources */,
 				040CBE641BEFF2C300306895 /* Lato-Italic.ttf in Resources */,
 				04F9630A1BAF175200ABCE80 /* Main.storyboard in Resources */,
+				040CDEBC1BF8B0D700C47815 /* BandTracker.sqlite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
