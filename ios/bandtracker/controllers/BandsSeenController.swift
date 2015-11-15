@@ -90,6 +90,7 @@ class BandsSeenController:  UITableViewController,
         cell.numberOfGigs.text      = String(format: NSLocalizedString("conGigCount", comment: "(%0$d gigs)"), arguments: [band.gigs.count])
         cell.ratingControl.rating   = band.avgRating.floatValue
         cell.bandImage.image        = nil
+        cell.bandLogo.image         = nil
         
         UrlFetcher.loadImageFromUrl(band.getImageUrl()) { image in
             cell.bandImage.image = image
