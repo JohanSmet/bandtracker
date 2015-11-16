@@ -65,19 +65,23 @@ class BandSearchController: UITableViewController,
         
         // search online
         bandTrackerClient().bandsFindByName(searchText) { bands, error in
-            
-            self.existingBandList = dataContext().bandList(searchText)
+           
+            // do not update the class variables from this thread to avoid race conditions
+            let existingBands = dataContext().bandList(searchText)
+            let newBands : [BandTrackerClient.Band]!
             
             if let bands = bands {
-                self.newBandList = bands.filter { (newBand) in
-                    return !self.existingBandList.contains({existingBand in newBand.MBID == existingBand.bandMBID})
+                newBands = bands.filter { (newBand) in
+                    return !existingBands.contains({existingBand in newBand.MBID == existingBand.bandMBID})
                 }
                 
             } else {
-                self.newBandList.removeAll()
+                newBands = []
             }
            
-            dispatch_sync(dispatch_get_main_queue()) {
+            dispatch_async(dispatch_get_main_queue()) {
+                self.existingBandList = existingBands
+                self.newBandList      = newBands
                 self.tableView.reloadData()
             }
         }
@@ -112,6 +116,9 @@ class BandSearchController: UITableViewController,
         // get a cell
         let cell = tableView.dequeueReusableCellWithIdentifier("SearchBandCell")!
         
+        // indexPath should go out of range (anymore - earlier versions had a race condition), but just be safe
+        guard validIndexPath(indexPath) else  { return cell }
+        
         // set the cell data
         if indexPath.section == 0 {
             cell.textLabel?.text = newBandList[indexPath.row].name
@@ -142,6 +149,28 @@ class BandSearchController: UITableViewController,
         // go to the detail page of the selected band
         let newVC = BandDetailsController.create(band);
         NavigationUtils.replaceViewController(self.navigationController!, newViewController: newVC)
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////////////
+    //
+    // helper functions
+    //
+    
+    private func validIndexPath(indexPath : NSIndexPath) -> Bool {
+        
+        // valid section ?
+        if indexPath.section < 0 || indexPath.section > 1 {
+            return false
+        }
+        
+        // valid row ?
+        let size = (indexPath.section == 0) ? newBandList.count : existingBandList.count
+        
+        if indexPath.row < 0 || indexPath.row >= size {
+            return false
+        }
+        
+        return true
     }
     
 }
