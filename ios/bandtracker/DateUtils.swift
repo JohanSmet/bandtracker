@@ -37,6 +37,11 @@ class DateUtils {
         return cal.dateFromComponents(dateComponents)!
     }
     
+    static func currentYear() -> Int {
+        let cal = NSCalendar.currentCalendar()
+        return cal.component(.Year, fromDate: NSDate())
+    }
+    
     static func stripTime(date : NSDate) -> NSDate  {
         let cal = NSCalendar.currentCalendar()
         let dateComponents = cal.components([.Year, .Month, .Day], fromDate: date)

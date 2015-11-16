@@ -94,7 +94,8 @@ class BandDetailsController :   UIViewController,
         // see what years are available on the server
         bandTrackerClient().tourDateYears(band.bandMBID) { years, error in
             if let years = years {
-                self.tourDateYears = years
+                let curYear = DateUtils.currentYear()
+                self.tourDateYears = years.filter() { $0 > 1970 && $0 <= curYear }
             }
         }
         
