@@ -213,7 +213,9 @@ class BandTrackerClient : WebApiClient {
                 var tourDates : [TourDate] = []
                 
                 for dateDictionary in postResult {
-                    tourDates.append(TourDate(values: dateDictionary as! [String : AnyObject]))
+                    if let tourDate = TourDate(values: dateDictionary as! [String : AnyObject]) {
+                        tourDates.append(tourDate)
+                    }
                 }
                 
                 completionHandler(tourDates: tourDates, error : nil)

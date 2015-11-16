@@ -86,10 +86,10 @@ class DateUtils {
         return dateFormatter.stringFromDate(date)
     }
     
-    static func dateFromStringISO(dateString : String) -> NSDate {
+    static func dateFromStringISO(dateString : String) -> NSDate? {
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSz"
-        return dateFormatter.dateFromString(dateString)!
+        return dateFormatter.dateFromString(dateString)
     }
     
 }

@@ -46,7 +46,7 @@ extension BandTrackerClient {
         }
     }
     
-    class TourDate {
+    struct TourDate {
         
         var bandId : String
         var startDate : NSDate
@@ -57,10 +57,14 @@ extension BandTrackerClient {
         var countryCode : String
         var supportAct : Bool
         
-        init (values : [String : AnyObject]) {
+        init? (values : [String : AnyObject]) {
+            guard let gigStart = DateUtils.dateFromStringISO(values["startDate"] as? String ?? "") else { return nil }
+            guard let gigEnd   = DateUtils.dateFromStringISO(values["endDate"]   as? String ?? "") else { return nil }
+            
+            
             bandId      = values["bandId"]      as? String ?? ""
-            startDate   = DateUtils.dateFromStringISO(values["startDate"] as? String ?? "")
-            endDate     = DateUtils.dateFromStringISO(values["endDate"] as? String ?? "")
+            startDate   = gigStart
+            endDate     = gigEnd
             stage       = values["stage"]       as? String ?? ""
             venue       = values["venue"]       as? String ?? ""
             city        = values["city"]        as? String ?? ""
