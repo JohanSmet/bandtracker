@@ -76,6 +76,7 @@ class CitySelectionDelegate : ListSelectionControllerDelegate {
     let filterInitialValue  : String
     let countryCode         : String?
     let completionHandler   : (name : String) -> Void
+    var lastTimeStamp       : NSTimeInterval = 0
     
     init (initialFilter : String, countryCode: String?, completionHandler : (name : String) -> Void) {
         self.filterInitialValue = initialFilter
@@ -105,7 +106,14 @@ class CitySelectionDelegate : ListSelectionControllerDelegate {
         case 0 :
             completionHandler(data: dataContext().cityList(filterText))
         case 1 :
-            bandTrackerClient().cityFind(filterText, countryCode: countryCode) { cities, error in
+            bandTrackerClient().cityFind(filterText, countryCode: countryCode) { cities, error, timestamp in
+                // do not process results of older request than are currently on the screen
+                if timestamp < self.lastTimeStamp {
+                    return
+                }
+                
+                self.lastTimeStamp = timestamp
+                
                 completionHandler(data: cities)
             }
         default :
@@ -143,6 +151,7 @@ class VenueSelectionDelegate : ListSelectionControllerDelegate {
     let countryCode         : String?
     let city                : String?
     let completionHandler   : (name : String) -> Void
+    var lastTimeStamp       : NSTimeInterval = 0
     
     init (initialFilter : String, countryCode: String?, city : String?, completionHandler : (name : String) -> Void) {
         self.filterInitialValue = initialFilter
@@ -173,7 +182,13 @@ class VenueSelectionDelegate : ListSelectionControllerDelegate {
         case 0 :
             completionHandler(data: dataContext().venueList(filterText))
         case 1 :
-            bandTrackerClient().venueFind(filterText, countryCode: countryCode, city : city) { venue, error in
+            bandTrackerClient().venueFind(filterText, countryCode: countryCode, city : city) { venue, error, timestamp in
+                // do not process results of older request than are currently on the screen
+                if timestamp < self.lastTimeStamp {
+                    return
+                }
+                
+                self.lastTimeStamp = timestamp
                 completionHandler(data: venue)
             }
         default :

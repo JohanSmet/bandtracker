@@ -59,7 +59,7 @@ class BandTrackerClient : WebApiClient {
         
     }
     
-    func bandsFindByName(pattern : String, completionHandler: (bands : [BandTrackerClient.Band]?, error : String?) -> Void) {
+    func bandsFindByName(pattern : String, completionHandler: (bands : [BandTrackerClient.Band]?, error : String?, requestTimeStamp : NSTimeInterval) -> Void) {
        
         // make sure to login first
         guard let token = apiToken else {
@@ -75,12 +75,14 @@ class BandTrackerClient : WebApiClient {
             "x-access-token" : token
         ]
         
+        let timeStamp = NSDate.timeIntervalSinceReferenceDate()
+        
         // execute request
         startTaskGET(BandTrackerClient.BASE_URL, method: "bands/find-by-name", parameters: parameters, extraHeaders: extraHeaders) { result, error in
             if let basicError = error as? NSError {
-                completionHandler(bands: nil, error: BandTrackerClient.formatBasicError(basicError))
+                completionHandler(bands: nil, error: BandTrackerClient.formatBasicError(basicError), requestTimeStamp: timeStamp)
             } else if let httpError = error as? NSHTTPURLResponse {
-                completionHandler(bands: nil, error: BandTrackerClient.formatHttpError(httpError))
+                completionHandler(bands: nil, error: BandTrackerClient.formatHttpError(httpError), requestTimeStamp: timeStamp)
             } else {
                 let postResult = result as! [AnyObject];
                 var bands : [BandTrackerClient.Band] = []
@@ -89,12 +91,12 @@ class BandTrackerClient : WebApiClient {
                     bands.append(BandTrackerClient.Band(values: bandDictionary as! [String : AnyObject]))
                 }
                 
-                completionHandler(bands : bands, error : nil)
+                completionHandler(bands : bands, error : nil, requestTimeStamp: timeStamp)
             }
         }
     }
     
-    func cityFind(pattern : String, countryCode : String?, completionHandler : (cities : [String]?, error : String?) -> Void) {
+    func cityFind(pattern : String, countryCode : String?, completionHandler : (cities : [String]?, error : String?, requestTimeStamp : NSTimeInterval) -> Void) {
         
         // make sure to login first
         guard let token = apiToken else {
@@ -116,20 +118,22 @@ class BandTrackerClient : WebApiClient {
             "x-access-token" : token
         ]
         
+        let timeStamp = NSDate.timeIntervalSinceReferenceDate()
+        
         // execute request
         startTaskGET(BandTrackerClient.BASE_URL, method: "city/find", parameters: parameters, extraHeaders: extraHeaders) { result, error in
             if let basicError = error as? NSError {
-                completionHandler(cities: nil, error: BandTrackerClient.formatBasicError(basicError))
+                completionHandler(cities: nil, error: BandTrackerClient.formatBasicError(basicError), requestTimeStamp: timeStamp)
             } else if let httpError = error as? NSHTTPURLResponse {
-                completionHandler(cities: nil, error: BandTrackerClient.formatHttpError(httpError))
+                completionHandler(cities: nil, error: BandTrackerClient.formatHttpError(httpError), requestTimeStamp: timeStamp)
             } else {
                 let postResult = result as! [String]
-                completionHandler(cities : postResult, error : nil)
+                completionHandler(cities : postResult, error : nil, requestTimeStamp: timeStamp)
             }
         }
     }
     
-    func venueFind(pattern : String, countryCode : String?, city : String?, completionHandler : (venues : [String]?, error : String?) -> Void)  {
+    func venueFind(pattern : String, countryCode : String?, city : String?, completionHandler : (venues : [String]?, error : String?, requestTimeStamp : NSTimeInterval) -> Void)  {
         
         // make sure to login first
         guard let token = apiToken else {
@@ -157,20 +161,23 @@ class BandTrackerClient : WebApiClient {
             "x-access-token" : token
         ]
         
+        let timeStamp = NSDate.timeIntervalSinceReferenceDate()
+        
         // execute request
         startTaskGET(BandTrackerClient.BASE_URL, method: "venue/find", parameters: parameters, extraHeaders: extraHeaders) { result, error in
             if let basicError = error as? NSError {
-                completionHandler(venues: nil, error: BandTrackerClient.formatBasicError(basicError))
+                completionHandler(venues: nil, error: BandTrackerClient.formatBasicError(basicError), requestTimeStamp: timeStamp)
             } else if let httpError = error as? NSHTTPURLResponse {
-                completionHandler(venues: nil, error: BandTrackerClient.formatHttpError(httpError))
+                completionHandler(venues: nil, error: BandTrackerClient.formatHttpError(httpError), requestTimeStamp: timeStamp)
             } else {
                 let postResult = result as! [String]
-                completionHandler(venues : postResult, error : nil)
+                completionHandler(venues : postResult, error : nil, requestTimeStamp: timeStamp)
             }
         }
     }
     
-    func tourDateFind(bandMBID : String, dateFrom : NSDate?, dateTo : NSDate?, countryCode : String?, location : String?, completionHandler : (tourDates : [BandTrackerClient.TourDate]?, error : String?) -> Void) {
+    func tourDateFind(bandMBID : String, dateFrom : NSDate?, dateTo : NSDate?, countryCode : String?, location : String?,
+                      completionHandler : (tourDates : [BandTrackerClient.TourDate]?, error : String?, requestTimeStamp : NSTimeInterval) -> Void) {
        
         // make sure to login first
         guard let token = apiToken else {
@@ -202,12 +209,14 @@ class BandTrackerClient : WebApiClient {
             "x-access-token" : token
         ]
         
+        let timeStamp = NSDate.timeIntervalSinceReferenceDate()
+        
         // execute request
         startTaskGET(BandTrackerClient.BASE_URL, method: "tourdate/find", parameters: parameters, extraHeaders: extraHeaders) { result, error in
             if let basicError = error as? NSError {
-                completionHandler(tourDates: nil, error: BandTrackerClient.formatBasicError(basicError))
+                completionHandler(tourDates: nil, error: BandTrackerClient.formatBasicError(basicError), requestTimeStamp: timeStamp)
             } else if let httpError = error as? NSHTTPURLResponse {
-                completionHandler(tourDates: nil, error: BandTrackerClient.formatHttpError(httpError))
+                completionHandler(tourDates: nil, error: BandTrackerClient.formatHttpError(httpError), requestTimeStamp: timeStamp)
             } else {
                 let postResult = result as! [AnyObject];
                 var tourDates : [TourDate] = []
@@ -218,7 +227,7 @@ class BandTrackerClient : WebApiClient {
                     }
                 }
                 
-                completionHandler(tourDates: tourDates, error : nil)
+                completionHandler(tourDates: tourDates, error : nil, requestTimeStamp: timeStamp)
             }
         }
     }

@@ -23,6 +23,7 @@ class GigGuidedCreationController : UIViewController,
     private var years            : [Int] = []
     private var filterController : GigGuidedCreationFilterController!
     private var tourDates        : [BandTrackerClient.TourDate] = []
+    private var lastTimeStamp    : NSTimeInterval = 0
     
     ////////////////////////////////////////////////////////////////////////////////
     //
@@ -137,7 +138,15 @@ class GigGuidedCreationController : UIViewController,
         bandTrackerClient().tourDateFind(   band.bandMBID,
                                             dateFrom: filterController.startDate, dateTo: filterController.endDate,
                                             countryCode: (filterController.country != nil) ? filterController.country.code : nil,
-                                            location: nil) { tourDates, error in
+                                            location: nil) { tourDates, error, timestamp in
+                                                
+            // do not process results of older request than are currently on the screen
+            if timestamp < self.lastTimeStamp {
+                return
+            }
+            
+            self.lastTimeStamp = timestamp
+                                                
             self.tourDates = []
                                                 
             if let tourDates = tourDates {

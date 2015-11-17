@@ -19,6 +19,7 @@ class BandSearchController: UITableViewController,
     
     var searchController : UISearchController! = nil
     
+    var lastTimeStamp    : NSTimeInterval = 0
     var newBandList      : [BandTrackerClient.Band] = []
     var existingBandList : [Band] = []
     
@@ -64,7 +65,14 @@ class BandSearchController: UITableViewController,
         }
         
         // search online
-        bandTrackerClient().bandsFindByName(searchText) { bands, error in
+        bandTrackerClient().bandsFindByName(searchText) { bands, error, timestamp in
+            
+            // do not process results of older request than are currently on the screen
+            if timestamp < self.lastTimeStamp {
+                return
+            }
+            
+            self.lastTimeStamp = timestamp
            
             // do not update the class variables from this thread to avoid race conditions
             let existingBands = dataContext().bandList(searchText)
