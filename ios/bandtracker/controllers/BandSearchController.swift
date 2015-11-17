@@ -17,11 +17,13 @@ class BandSearchController: UITableViewController,
     // variables
     //
     
-    var searchController : UISearchController! = nil
+    private var searchController : UISearchController! = nil
     
-    var lastTimeStamp    : NSTimeInterval = 0
-    var newBandList      : [BandTrackerClient.Band] = []
-    var existingBandList : [Band] = []
+    private var lastTimeStamp    : NSTimeInterval = 0
+    private var lastSearchText   : String = ""
+    
+    private var newBandList      : [BandTrackerClient.Band] = []
+    private var existingBandList : [Band] = []
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
@@ -55,11 +57,22 @@ class BandSearchController: UITableViewController,
     func updateSearchResultsForSearchController(searchController: UISearchController) {
         
         guard let searchText = searchController.searchBar.text else { return }
+        defer { self.lastSearchText = searchText }
         
         // check minimum length of the search pattern
         if searchText.characters.count < 2 {
             existingBandList.removeAll()
             newBandList.removeAll()
+            tableView.reloadData()
+            return
+        }
+        
+        // no need to search online when the new search pattern is the old pattern with an appended suffix
+        if lastSearchText.characters.count >= 2 && searchText.hasPrefix(lastSearchText) {
+            let lcSearchText = searchText.lowercaseString
+            
+            existingBandList = existingBandList.filter() { $0.name.lowercaseString.containsString(lcSearchText)}
+            newBandList = newBandList.filter() { $0.name.lowercaseString.containsString(lcSearchText)}
             tableView.reloadData()
             return
         }
