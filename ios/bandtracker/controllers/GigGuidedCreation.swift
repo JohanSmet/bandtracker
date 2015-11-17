@@ -147,17 +147,18 @@ class GigGuidedCreationController : UIViewController,
             
             self.lastTimeStamp = timestamp
                                                 
-            self.tourDates = []
+            var newTourDates : [BandTrackerClient.TourDate] = []
                                                 
             if let tourDates = tourDates {
                 for tourDate in tourDates {
                     if !dataContext().gigTourDatePresent(self.band, tourDate: tourDate) {
-                        self.tourDates.append(tourDate)
+                        newTourDates.append(tourDate)
                     }
                 }
             }
                                                 
             dispatch_async(dispatch_get_main_queue()) {
+                self.tourDates = newTourDates
                 self.tableView.reloadData()
             }
         }

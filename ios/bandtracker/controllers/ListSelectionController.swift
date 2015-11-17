@@ -212,9 +212,9 @@ class ListSelectionController : UIViewController,
         
         for section in 0 ..< numSections {
             delegate.dataForSection(self, section: section, filterText: filter) { data in
-                self.selectionData[section] = data ?? []
                 
                 dispatch_async(dispatch_get_main_queue()) {
+                    self.selectionData[section] = data ?? []
                     self.tableView.reloadData()
                 }
             }
