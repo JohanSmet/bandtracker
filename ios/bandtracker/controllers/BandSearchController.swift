@@ -57,12 +57,12 @@ class BandSearchController: UITableViewController,
     func updateSearchResultsForSearchController(searchController: UISearchController) {
         
         guard let searchText = searchController.searchBar.text else { return }
-        defer { self.lastSearchText = searchText }
         
         // check minimum length of the search pattern
         if searchText.characters.count < 2 {
             existingBandList.removeAll()
             newBandList.removeAll()
+            lastTimeStamp = NSDate.timeIntervalSinceReferenceDate()
             tableView.reloadData()
             return
         }
@@ -73,6 +73,9 @@ class BandSearchController: UITableViewController,
             
             existingBandList = existingBandList.filter() { $0.name.lowercaseString.containsString(lcSearchText)}
             newBandList = newBandList.filter() { $0.name.lowercaseString.containsString(lcSearchText)}
+            
+            lastSearchText = searchText
+            lastTimeStamp  = NSDate.timeIntervalSinceReferenceDate()
             tableView.reloadData()
             return
         }
@@ -101,6 +104,7 @@ class BandSearchController: UITableViewController,
             }
            
             dispatch_async(dispatch_get_main_queue()) {
+                self.lastSearchText   = searchText
                 self.existingBandList = existingBands
                 self.newBandList      = newBands
                 self.tableView.reloadData()
