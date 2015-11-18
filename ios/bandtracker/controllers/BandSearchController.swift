@@ -28,6 +28,7 @@ class BandSearchController: UITableViewController,
     private var sections         : [Int] = [0, 0]
     private var newBandList      : [BandTrackerClient.Band] = []
     private var existingBandList : [Band] = []
+    private var error            : String = ""
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
@@ -93,6 +94,16 @@ class BandSearchController: UITableViewController,
             }
             
             self.lastTimeStamp = timestamp
+            
+            if let error = error {
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.error = error
+                    self.existingBandList.removeAll()
+                    self.newBandList.removeAll()
+                    self.tableView.reloadData()
+                }
+                return
+            }
            
             // do not update the class variables from this thread to avoid race conditions
             let existingBands = dataContext().bandList(searchText)
@@ -132,7 +143,11 @@ class BandSearchController: UITableViewController,
             self.sections[count++] = SECTION_OLD
         }
         
-        TableViewUtils.messageEmptyTable(tableView, isEmpty: count == 0 && !lastSearchText.isEmpty, message: NSLocalizedString("conNoResults", comment: "No Results"))
+        if error.isEmpty {
+            TableViewUtils.messageEmptyTable(tableView, isEmpty: count == 0 && !lastSearchText.isEmpty, message: NSLocalizedString("conNoResults", comment: "No Results"))
+        } else {
+            TableViewUtils.messageEmptyTable(tableView, isEmpty: true, message: error)
+        }
         
         return count
     }
