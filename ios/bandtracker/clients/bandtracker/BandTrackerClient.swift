@@ -41,7 +41,7 @@ class BandTrackerClient : WebApiClient {
     // request interface
     //
     
-    func login(completionHandler: () -> Void) {
+    func login(completionHandler: (error : String?) -> Void) {
        
         let postBody : [ String : AnyObject] = [
             "name"   : BandTrackerClient.USERNAME,
@@ -51,19 +51,32 @@ class BandTrackerClient : WebApiClient {
         startTaskPOST(BandTrackerClient.BASE_URL, method: "auth/login", parameters: [:], jsonBody: postBody) { result, error in
             if let postResult = result as? NSDictionary {
                 self.apiToken = postResult.valueForKey("token") as? String
-                if let _ = self.apiToken {
-                    completionHandler();
-                }
+            }
+            
+            if let basicError = error as? NSError {
+                completionHandler(error: BandTrackerClient.formatBasicError(basicError))
+            } else if let httpError = error as? NSHTTPURLResponse {
+                completionHandler(error: BandTrackerClient.formatHttpError(httpError))
+            } else {
+                completionHandler(error: nil);
             }
         }
         
     }
     
     func bandsFindByName(pattern : String, completionHandler: (bands : [BandTrackerClient.Band]?, error : String?, requestTimeStamp : NSTimeInterval) -> Void) {
+        
+        let timeStamp = NSDate.timeIntervalSinceReferenceDate()
        
         // make sure to login first
         guard let token = apiToken else {
-            return login() { self.bandsFindByName(pattern, completionHandler: completionHandler); }
+            return login() { error in
+                if let error = error {
+                    completionHandler(bands: nil, error: error, requestTimeStamp: timeStamp)
+                } else {
+                    self.bandsFindByName(pattern, completionHandler: completionHandler);
+                }
+            }
         }
         
         // configure request
@@ -74,8 +87,6 @@ class BandTrackerClient : WebApiClient {
         let extraHeaders : [String : String] = [
             "x-access-token" : token
         ]
-        
-        let timeStamp = NSDate.timeIntervalSinceReferenceDate()
         
         // execute request
         startTaskGET(BandTrackerClient.BASE_URL, method: "bands/find-by-name", parameters: parameters, extraHeaders: extraHeaders) { result, error in
@@ -100,7 +111,13 @@ class BandTrackerClient : WebApiClient {
         
         // make sure to login first
         guard let token = apiToken else {
-            return login() { self.cityFind(pattern, countryCode: countryCode, completionHandler: completionHandler) }
+            return login() { error in
+                if let error = error {
+                    completionHandler(cities: nil, error: error, requestTimeStamp: 0)
+                } else {
+                    self.cityFind(pattern, countryCode: countryCode, completionHandler: completionHandler)
+                }
+            }
         }
         
         // configure request
@@ -137,7 +154,13 @@ class BandTrackerClient : WebApiClient {
         
         // make sure to login first
         guard let token = apiToken else {
-            return login() { self.venueFind(pattern, countryCode: countryCode, city: city, completionHandler: completionHandler) }
+            return login() { error in
+                if let error = error {
+                    completionHandler(venues: nil, error: error, requestTimeStamp: 0)
+                } else {
+                    self.venueFind(pattern, countryCode: countryCode, city: city, completionHandler: completionHandler)
+                }
+            }
         }
         
         // configure request
@@ -181,7 +204,13 @@ class BandTrackerClient : WebApiClient {
        
         // make sure to login first
         guard let token = apiToken else {
-            return login() { self.tourDateFind(bandMBID, dateFrom: dateFrom, dateTo: dateTo, countryCode: countryCode, location: location, completionHandler: completionHandler) }
+            return login() { error in
+                if let error = error {
+                    completionHandler(tourDates: nil, error: error, requestTimeStamp: 0)
+                } else {
+                    self.tourDateFind(bandMBID, dateFrom: dateFrom, dateTo: dateTo, countryCode: countryCode, location: location, completionHandler: completionHandler)
+                }
+            }
         }
                         
         // configure request
@@ -235,7 +264,13 @@ class BandTrackerClient : WebApiClient {
     func tourDateYears(bandMBID : String, completionHandler : (years : [Int]?, error : String?) -> Void) {
         // make sure to login first
         guard let token = apiToken else {
-            return login() { self.tourDateYears(bandMBID, completionHandler: completionHandler) }
+            return login() { error in
+                if let error = error {
+                    completionHandler(years: nil, error: error)
+                } else {
+                    self.tourDateYears(bandMBID, completionHandler: completionHandler)
+                }
+            }
         }
         
         // configure request
@@ -265,7 +300,13 @@ class BandTrackerClient : WebApiClient {
         
         // make sure to login first
         guard let token = apiToken else {
-            return login() { self.countrySync(syncId, completionHandler: completionHandler) }
+            return login() { error in
+                if let error = error {
+                    completionHandler(syncId: 0, countries: nil, error: error)
+                } else {
+                    self.countrySync(syncId, completionHandler: completionHandler)
+                }
+            }
         }
         
         // configure request
