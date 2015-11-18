@@ -14,14 +14,13 @@ protocol RatingControlDelegate {
 }
 
 @IBDesignable
-class RatingControl : UIView {
+class RatingControl : UIControl {
     
     @IBInspectable var numberOfStars : Int = 5
     @IBInspectable var gapBetweenStars : CGFloat = 3
     @IBInspectable var strokeColor : UIColor = UIColor.blackColor()
     @IBInspectable var fillColor : UIColor = UIColor.yellowColor()
     
-    @IBInspectable var enabled : Bool = true
     @IBInspectable var rating : Float = 5 {
         didSet {
             setNeedsDisplay()
