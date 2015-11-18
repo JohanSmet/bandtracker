@@ -15,13 +15,16 @@ class TableViewUtils {
         
         if isEmpty {
             
-            let msgLabel = UILabel(frame: CGRectMake(0, 20, tableView.bounds.width, 20))
+            let msgLabel = UILabel(frame: CGRectMake(16, 20, tableView.bounds.width - 32, 20))
             
             msgLabel.text = message
             msgLabel.textColor = UIColor.grayColor()
             msgLabel.numberOfLines = 0
             msgLabel.textAlignment = .Center
             msgLabel.font = UIFont(name: "Lato", size: 20)
+            msgLabel.lineBreakMode = .ByWordWrapping
+            msgLabel.sizeToFit()
+            msgLabel.frame.origin.x = (tableView.bounds.width - msgLabel.bounds.width) / 2
             
             let msgView = UIView(frame: CGRectMake(0, 0, tableView.bounds.width, tableView.bounds.height))
             msgView.addSubview(msgLabel)
