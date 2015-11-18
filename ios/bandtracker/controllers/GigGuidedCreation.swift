@@ -102,7 +102,10 @@ class GigGuidedCreationController : UIViewController,
     //
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+        
+        TableViewUtils.messageEmptyTable(tableView, isEmpty: self.tourDates.isEmpty, message: NSLocalizedString("conNoResults", comment: "No Results"))
+        
+        return self.tourDates.isEmpty ? 0 : 1
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

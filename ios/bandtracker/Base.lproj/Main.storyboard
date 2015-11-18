@@ -428,12 +428,12 @@
             <objects>
                 <tableViewController storyboardIdentifier="BandSearchController" id="uCk-OG-azI" customClass="BandSearchController" customModule="bandtracker" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="dPt-hX-Ji3">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="492"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SearchBandCell" textLabel="bCv-rk-F80" style="IBUITableViewCellStyleDefault" id="x3I-le-jCa">
-                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="x3I-le-jCa" id="GNg-jz-0VM">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
@@ -455,6 +455,7 @@
                             <outlet property="delegate" destination="uCk-OG-azI" id="LbR-05-qpA"/>
                         </connections>
                     </tableView>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" id="4Fp-hx-q6Z"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iLj-bl-Guh" userLabel="First Responder" sceneMemberID="firstResponder"/>

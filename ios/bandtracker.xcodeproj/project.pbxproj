@@ -29,6 +29,7 @@
 		040CBE651BEFF2C300306895 /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 040CBE611BEFF2C300306895 /* Lato-Regular.ttf */; settings = {ASSET_TAGS = (); }; };
 		040CCE831BE018DF00E8E1B2 /* GigSelectionDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040CCE821BE018DF00E8E1B2 /* GigSelectionDelegates.swift */; settings = {ASSET_TAGS = (); }; };
 		040CDEBC1BF8B0D700C47815 /* BandTracker.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 040CDEBB1BF8B0D700C47815 /* BandTracker.sqlite */; settings = {ASSET_TAGS = (); }; };
+		040D4E831BFCEE3400828FAE /* TableViewUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040D4E821BFCEE3400828FAE /* TableViewUtils.swift */; settings = {ASSET_TAGS = (); }; };
 		040D68C51BB0A46F000068EA /* TimelineController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040D68C41BB0A46F000068EA /* TimelineController.swift */; settings = {ASSET_TAGS = (); }; };
 		040E06F71BE6BE0200C10931 /* FanartTvClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040E06F61BE6BE0200C10931 /* FanartTvClient.swift */; settings = {ASSET_TAGS = (); }; };
 		040E31151BBC843D00275449 /* GigDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040E31141BBC843D00275449 /* GigDetailsController.swift */; settings = {ASSET_TAGS = (); }; };
@@ -98,6 +99,7 @@
 		040CBE611BEFF2C300306895 /* Lato-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Regular.ttf"; sourceTree = "<group>"; };
 		040CCE821BE018DF00E8E1B2 /* GigSelectionDelegates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GigSelectionDelegates.swift; sourceTree = "<group>"; };
 		040CDEBB1BF8B0D700C47815 /* BandTracker.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = BandTracker.sqlite; sourceTree = "<group>"; };
+		040D4E821BFCEE3400828FAE /* TableViewUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewUtils.swift; sourceTree = "<group>"; };
 		040D68C41BB0A46F000068EA /* TimelineController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelineController.swift; sourceTree = "<group>"; };
 		040E06F61BE6BE0200C10931 /* FanartTvClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FanartTvClient.swift; sourceTree = "<group>"; };
 		040E31141BBC843D00275449 /* GigDetailsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GigDetailsController.swift; sourceTree = "<group>"; };
@@ -272,6 +274,7 @@
 				040C3E371BE63B83008B44DA /* KeyboardFix.swift */,
 				04BE340D1BC5B2200027137F /* DateUtils.swift */,
 				041BB6BD1BF3A4B200A86B83 /* NavigationUtils.swift */,
+				040D4E821BFCEE3400828FAE /* TableViewUtils.swift */,
 			);
 			name = utils;
 			sourceTree = "<group>";
@@ -432,6 +435,7 @@
 				040E06F71BE6BE0200C10931 /* FanartTvClient.swift in Sources */,
 				041BB6BE1BF3A4B200A86B83 /* NavigationUtils.swift in Sources */,
 				040E31151BBC843D00275449 /* GigDetailsController.swift in Sources */,
+				040D4E831BFCEE3400828FAE /* TableViewUtils.swift in Sources */,
 				040D68C51BB0A46F000068EA /* TimelineController.swift in Sources */,
 				04BE340E1BC5B2200027137F /* DateUtils.swift in Sources */,
 				040CCE831BE018DF00E8E1B2 /* GigSelectionDelegates.swift in Sources */,

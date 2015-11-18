@@ -73,6 +73,9 @@
 /* DEMO - delete all data */
 "conDemoDelete" = "DEMO - schrap alle data";
 
+/* No results */
+"conNoResults" = "Geen resultaten.";
+
 /* Attention */
 "viewAttention" = "Opgelet";
 

@@ -125,6 +125,8 @@ class ListSelectionController : UIViewController,
     //
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        TableViewUtils.messageEmptyTable(tableView, isEmpty: !filterText.text!.isEmpty && !sectionsHaveData() && !delegate.enableCustomValue,
+                                         message: NSLocalizedString("conNoResults", comment: "No Results"))
         return numSections + (delegate.enableCustomValue ? 1 : 0)
     }
    
@@ -230,6 +232,18 @@ class ListSelectionController : UIViewController,
     private func itemForIndexPath(indexPath : NSIndexPath) -> AnyObject {
         let delta = delegate.enableCustomValue ? 1 : 0
         return selectionData[indexPath.section - delta][indexPath.row]
+    }
+    
+    private func sectionsHaveData() -> Bool {
+       
+        for data in selectionData {
+            if !data.isEmpty {
+                return true
+            }
+        }
+        
+        return false
+        
     }
     
 }

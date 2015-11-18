@@ -17,11 +17,15 @@ class BandSearchController: UITableViewController,
     // variables
     //
     
+    let SECTION_NEW  = 1
+    let SECTION_OLD  = 2
+    
     private var searchController : UISearchController! = nil
     
     private var lastTimeStamp    : NSTimeInterval = 0
     private var lastSearchText   : String = ""
     
+    private var sections         : [Int] = [0, 0]
     private var newBandList      : [BandTrackerClient.Band] = []
     private var existingBandList : [Band] = []
     
@@ -118,11 +122,23 @@ class BandSearchController: UITableViewController,
     //
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return self.existingBandList.count > 0 ? 2 : 1
+        var count = 0
+        
+        if !self.newBandList.isEmpty {
+            self.sections[count++] = SECTION_NEW
+        }
+        
+        if !self.existingBandList.isEmpty {
+            self.sections[count++] = SECTION_OLD
+        }
+        
+        TableViewUtils.messageEmptyTable(tableView, isEmpty: count == 0 && !lastSearchText.isEmpty, message: NSLocalizedString("conNoResults", comment: "No Results"))
+        
+        return count
     }
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 1 {
+        if sections[section] == SECTION_OLD {
             return NSLocalizedString("conAlreadyAddedBands", comment: "Already added bands")
         } else {
             return nil
@@ -130,7 +146,7 @@ class BandSearchController: UITableViewController,
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
+        if sections[section] == SECTION_NEW {
             return self.newBandList.count
         } else {
             return self.existingBandList.count
@@ -141,11 +157,11 @@ class BandSearchController: UITableViewController,
         // get a cell
         let cell = tableView.dequeueReusableCellWithIdentifier("SearchBandCell")!
         
-        // indexPath should go out of range (anymore - earlier versions had a race condition), but just be safe
+        // indexPath should not go out of range (anymore - earlier versions had a race condition), but just be safe
         guard validIndexPath(indexPath) else  { return cell }
         
         // set the cell data
-        if indexPath.section == 0 {
+        if sections[indexPath.section] == SECTION_NEW {
             cell.textLabel?.text = newBandList[indexPath.row].name
         } else {
             cell.textLabel?.text = existingBandList[indexPath.row].name
@@ -164,7 +180,7 @@ class BandSearchController: UITableViewController,
         let band : Band!
         
         // add the band to core data (if it's a new one)
-        if indexPath.section == 0 {
+        if sections[indexPath.section] == SECTION_NEW {
             let serverBand = newBandList[indexPath.row]
             band = dataContext().createBand(serverBand)
         } else {
@@ -189,7 +205,7 @@ class BandSearchController: UITableViewController,
         }
         
         // valid row ?
-        let size = (indexPath.section == 0) ? newBandList.count : existingBandList.count
+        let size = (sections[indexPath.section] == SECTION_NEW) ? newBandList.count : existingBandList.count
         
         if indexPath.row < 0 || indexPath.row >= size {
             return false

@@ -73,6 +73,9 @@
 /* DEMO - delete all data */
 "conDemoDelete" = "DEMO - delete all data";
 
+/* No results */
+"conNoResults" = "No matches found.";
+
 /* Attention */
 "viewAttention" = "Attention";
 
