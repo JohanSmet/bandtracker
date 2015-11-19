@@ -24,6 +24,7 @@ class BandSearchController: UITableViewController,
     
     private var lastTimeStamp    : NSTimeInterval = 0
     private var lastSearchText   : String = ""
+    private var lastBandList     : [BandTrackerClient.Band] = []
     
     private var sections         : [Int] = [0, 0]
     private var newBandList      : [BandTrackerClient.Band] = []
@@ -67,7 +68,9 @@ class BandSearchController: UITableViewController,
         if searchText.characters.count < 2 {
             existingBandList.removeAll()
             newBandList.removeAll()
+            lastBandList.removeAll()
             lastTimeStamp = NSDate.timeIntervalSinceReferenceDate()
+            lastSearchText = ""
             tableView.reloadData()
             return
         }
@@ -76,10 +79,9 @@ class BandSearchController: UITableViewController,
         if lastSearchText.characters.count >= 2 && searchText.hasPrefix(lastSearchText) {
             let lcSearchText = searchText.lowercaseString
             
-            existingBandList = existingBandList.filter() { $0.name.lowercaseString.containsString(lcSearchText)}
-            newBandList = newBandList.filter() { $0.name.lowercaseString.containsString(lcSearchText)}
+            existingBandList = dataContext().bandList(searchText)
+            newBandList = lastBandList.filter() { $0.name.lowercaseString.containsString(lcSearchText)}
             
-            lastSearchText = searchText
             lastTimeStamp  = NSDate.timeIntervalSinceReferenceDate()
             tableView.reloadData()
             return
@@ -93,7 +95,6 @@ class BandSearchController: UITableViewController,
                 return
             }
             
-            self.lastTimeStamp = timestamp
             
             if let error = error {
                 dispatch_async(dispatch_get_main_queue()) {
@@ -119,9 +120,11 @@ class BandSearchController: UITableViewController,
             }
            
             dispatch_async(dispatch_get_main_queue()) {
+                self.lastTimeStamp = timestamp
                 self.lastSearchText   = searchText
                 self.existingBandList = existingBands
                 self.newBandList      = newBands
+                self.lastBandList     = newBands
                 self.tableView.reloadData()
             }
         }
