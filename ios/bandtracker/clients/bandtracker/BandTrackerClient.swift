@@ -25,7 +25,10 @@ class BandTrackerClient : WebApiClient {
     // variables
     //
     
-    var apiToken : String!
+    private var apiToken : String!
+    
+    private let lockQueue = dispatch_queue_create("be.justcode.BandTrackerLockQueue", nil)
+    private var bandSearchTasks : [NSURLSessionTask] = []
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
@@ -88,10 +91,24 @@ class BandTrackerClient : WebApiClient {
             "x-access-token" : token
         ]
         
+        // cancel any bandSearch tasks that haven't started uploading yet
+        dispatch_sync(lockQueue) {
+            for (idx, task) in self.bandSearchTasks.enumerate() {
+                if (task.state == .Running && task.countOfBytesSent == 0) || (task.state == .Completed ) {
+                    task.cancel()
+                    self.bandSearchTasks.removeAtIndex(idx)
+                }
+            }
+        }
+        
         // execute request
-        startTaskGET(BandTrackerClient.BASE_URL, method: "bands/find-by-name", parameters: parameters, extraHeaders: extraHeaders) { result, error in
+        let task = startTaskGET(BandTrackerClient.BASE_URL, method: "bands/find-by-name", parameters: parameters, extraHeaders: extraHeaders) { result, error in
+            
+            // handle result
             if let basicError = error as? NSError {
-                completionHandler(bands: nil, error: BandTrackerClient.formatBasicError(basicError), requestTimeStamp: timeStamp)
+                if basicError.code != NSURLErrorCancelled {
+                    completionHandler(bands: nil, error: BandTrackerClient.formatBasicError(basicError), requestTimeStamp: timeStamp)
+                }
             } else if let httpError = error as? NSHTTPURLResponse {
                 completionHandler(bands: nil, error: BandTrackerClient.formatHttpError(httpError), requestTimeStamp: timeStamp)
             } else {
@@ -103,6 +120,13 @@ class BandTrackerClient : WebApiClient {
                 }
                 
                 completionHandler(bands : bands, error : nil, requestTimeStamp: timeStamp)
+            }
+        }
+        
+        // store the task
+        dispatch_sync(lockQueue) {
+            if let task = task {
+                self.bandSearchTasks.append(task)
             }
         }
     }
