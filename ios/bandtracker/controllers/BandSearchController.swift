@@ -77,10 +77,9 @@ class BandSearchController: UITableViewController,
         
         // no need to search online when the new search pattern is the old pattern with an appended suffix
         if lastSearchText.characters.count >= 2 && searchText.hasPrefix(lastSearchText) {
-            let lcSearchText = searchText.lowercaseString
             
             existingBandList = dataContext().bandList(searchText)
-            newBandList = lastBandList.filter() { $0.name.lowercaseString.containsString(lcSearchText)}
+            localFilterNewBands(searchText)
             
             lastTimeStamp  = NSDate.timeIntervalSinceReferenceDate()
             tableView.reloadData()
@@ -120,11 +119,14 @@ class BandSearchController: UITableViewController,
             }
            
             dispatch_async(dispatch_get_main_queue()) {
-                self.lastTimeStamp = timestamp
+                self.error            = ""
+                self.lastTimeStamp    = timestamp
                 self.lastSearchText   = searchText
+                
                 self.existingBandList = existingBands
-                self.newBandList      = newBands
                 self.lastBandList     = newBands
+                self.localFilterNewBands(searchText)
+                
                 self.tableView.reloadData()
             }
         }
@@ -230,6 +232,11 @@ class BandSearchController: UITableViewController,
         }
         
         return true
+    }
+    
+    private func localFilterNewBands(filterText : String) {
+        let lcSearchText = filterText.lowercaseString
+        newBandList = lastBandList.filter() { $0.name.lowercaseString.containsString(lcSearchText)}
     }
     
 }
