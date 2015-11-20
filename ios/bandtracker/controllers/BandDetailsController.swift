@@ -103,18 +103,21 @@ class BandDetailsController :   UIViewController,
         setUIFields()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        // make sure the biography is shown from the start
+        biography.setContentOffset(CGPointMake(0,0), animated: false)
+    }
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
-        biography.setContentOffset(CGPointMake(0,0), animated: false)
-        biography.scrollEnabled = true
         
         coreDataObserver.startObservingObject(band)
         
         setGigTitle()
         setBandimage()
         ratingControl.rating    = band.avgRating.floatValue
-        
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -246,7 +249,6 @@ class BandDetailsController :   UIViewController,
             let text = try NSMutableAttributedString(  data: bio.dataUsingEncoding(NSUTF8StringEncoding)!,
                 options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType],
                 documentAttributes: nil);
-            biography.scrollEnabled = false
             biography.attributedText = text
         } catch {
             biography.text = ""
