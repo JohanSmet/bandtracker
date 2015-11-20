@@ -21,6 +21,7 @@ class GigDetailsSetlistController : UIViewController ,
     private var gig         : Gig!
     
     private var set : [SetlistFmClient.SetPart] = []
+    private var error : String = ""
     private var urlString : String?
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -38,8 +39,6 @@ class GigDetailsSetlistController : UIViewController ,
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     @IBOutlet weak var footerView: UIView!
-    @IBOutlet weak var errorView: UIView!
-    @IBOutlet weak var errorMsg: UILabel!
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
@@ -70,6 +69,7 @@ class GigDetailsSetlistController : UIViewController ,
         // init tableview
         tableView.dataSource = self
         tableView.delegate   = self
+        tableView.hidden = false
         
         // init website link
         let tapRecognizer = UITapGestureRecognizer(target: self, action : "visitSetlistFm")
@@ -79,28 +79,26 @@ class GigDetailsSetlistController : UIViewController ,
         // load the setlist
         setlistFmClient().searchSetlist(gig) { setlist, setlistUrl, error in
             
-            if setlist != nil && setlist!.count > 0 {
+            dispatch_async(dispatch_get_main_queue()) {
                 
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.activityIndicator.stopAnimating()
-                    self.set = setlist!
-                    
-                    self.tableView.hidden = false
-                    self.tableView.reloadData()
-                    
-                    if let setlistUrl = setlistUrl {
-                        self.urlString = setlistUrl
-                    }
+                if let setlist = setlist {
+                    self.set = setlist
+                } else {
+                    self.set = []
                 }
-            } else {
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.activityIndicator.stopAnimating()
-                    
-                    if let error = error {
-                        self.errorMsg.text = error
-                    }
-                    self.errorView.hidden = false
-                    self.footerView.hidden = true
+                
+                if let error = error {
+                    self.error = error
+                } else {
+                    self.error = ""
+                }
+                
+                self.activityIndicator.stopAnimating()
+                self.tableView.hidden = false
+                self.tableView.reloadData()
+                
+                if let setlistUrl = setlistUrl {
+                    self.urlString = setlistUrl
                 }
             }
         }
@@ -123,6 +121,12 @@ class GigDetailsSetlistController : UIViewController ,
     //
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        if error.isEmpty {
+            TableViewUtils.messageEmptyTable(tableView, isEmpty: set.isEmpty, message: NSLocalizedString("conNoSetlist", comment: "No set list found for this gig."))
+        } else {
+            TableViewUtils.messageEmptyTable(tableView, isEmpty: true, message: error)
+        }
+        
         return set.count
     }
     

@@ -55,6 +55,9 @@
 /* No videos found for this request. */
 "conNoYoutubeVideos" = "Geen filmpjes gevonden voor deze zoekopdracht.";
 
+/* No setlist found for this gig ¨*/
+"conNoSetlist" = " Geen setlist gevonden voor dit optreden.";
+
 /* New */
 "conResultsNew" = "Nieuw";
 

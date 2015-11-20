@@ -5,7 +5,7 @@
 "cliInvalidCredentials" = "Invalid username or password";
 
 /* No setlist found for the request date. */
-"cliSelListNotFound" = "No setlist found for the request date.";
+"cliSelListNotFound" = "No set list found for the request date.";
 
 /* Already added bands */
 "conAlreadyAddedBands" = "Already added bands";
@@ -53,7 +53,10 @@
 "conLicense" = "View licenses";
 
 /* No videos found for this request. */
-"conNoYoutubeVideos" = " No videos found for this request.";
+"conNoYoutubeVideos" = " No videos found for this gig.";
+
+/* No setlist found for this gig ¨*/
+"conNoSetlist" = " No set list found for this gig.";
 
 /* New */
 "conResultsNew" = "New";

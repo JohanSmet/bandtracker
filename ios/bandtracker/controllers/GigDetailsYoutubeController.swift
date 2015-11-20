@@ -133,6 +133,8 @@ class GigDetailsYoutubeController : UIViewController,
                 
                 if let error = error {
                     self.error = error
+                } else {
+                    self.error = ""
                 }
                 
                 self.activityIndicator.stopAnimating()
