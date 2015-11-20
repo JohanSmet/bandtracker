@@ -47,6 +47,7 @@ class BandDetailsController :   UIViewController,
     
     @IBOutlet var pageTitle: UINavigationItem!
     @IBOutlet var bandImage: UIImageView!
+    @IBOutlet weak var imageIndicator: UIActivityIndicatorView!
     @IBOutlet weak var tableGigs: UITableView!
     @IBOutlet weak var ratingControl: RatingControl!
     @IBOutlet weak var gigTitle: UILabel!
@@ -268,6 +269,7 @@ class BandDetailsController :   UIViewController,
     
     private func setBandimage() {
         UrlFetcher.loadImageFromUrl(band.getImageUrl()) { image in
+            self.imageIndicator.stopAnimating()
             self.bandImage.image = image
         }
     }

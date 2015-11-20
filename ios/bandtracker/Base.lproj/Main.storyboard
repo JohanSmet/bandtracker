@@ -165,14 +165,20 @@
                                         </attributedString>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="kRG-2b-DVD">
+                                        <rect key="frame" x="116" y="54" width="37" height="37"/>
+                                        <color key="color" red="0.31764705879999999" green="0.53725490200000003" blue="0.70588235290000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </activityIndicatorView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="GSA-du-OHx" firstAttribute="leading" secondItem="k5h-aH-PsJ" secondAttribute="leading" id="9s1-iy-zBO"/>
+                                    <constraint firstItem="kRG-2b-DVD" firstAttribute="centerX" secondItem="J5T-87-YBd" secondAttribute="centerX" id="In9-qb-C8E"/>
                                     <constraint firstItem="8DX-sw-sjh" firstAttribute="width" secondItem="k5h-aH-PsJ" secondAttribute="width" multiplier="0.48" id="NDQ-4r-J4g"/>
                                     <constraint firstAttribute="bottom" secondItem="8DX-sw-sjh" secondAttribute="bottom" id="O3Z-3R-Xiu"/>
                                     <constraint firstItem="J5T-87-YBd" firstAttribute="top" secondItem="k5h-aH-PsJ" secondAttribute="top" id="TJ3-UL-YJT"/>
                                     <constraint firstItem="8DX-sw-sjh" firstAttribute="top" secondItem="k5h-aH-PsJ" secondAttribute="top" id="WhQ-5w-pG5"/>
                                     <constraint firstItem="GSA-du-OHx" firstAttribute="width" secondItem="k5h-aH-PsJ" secondAttribute="width" multiplier="0.48" id="dQI-f4-kps"/>
+                                    <constraint firstItem="kRG-2b-DVD" firstAttribute="centerY" secondItem="J5T-87-YBd" secondAttribute="centerY" id="egw-B6-PjK"/>
                                     <constraint firstItem="J5T-87-YBd" firstAttribute="width" secondItem="k5h-aH-PsJ" secondAttribute="width" multiplier="0.48" id="ewY-JH-iQr"/>
                                     <constraint firstItem="J5T-87-YBd" firstAttribute="leading" secondItem="k5h-aH-PsJ" secondAttribute="leading" id="f9Q-dF-mTC"/>
                                     <constraint firstAttribute="trailing" secondItem="8DX-sw-sjh" secondAttribute="trailing" id="fwT-tg-q97"/>
@@ -308,6 +314,7 @@
                         <outlet property="bandImage" destination="J5T-87-YBd" id="Kuh-vU-BYh"/>
                         <outlet property="biography" destination="8DX-sw-sjh" id="7FC-Xa-mMd"/>
                         <outlet property="gigTitle" destination="Gsd-aw-azE" id="PKu-Lx-GzN"/>
+                        <outlet property="imageIndicator" destination="kRG-2b-DVD" id="ads-wF-nfX"/>
                         <outlet property="pageTitle" destination="PiV-8K-VXG" id="or3-Yt-SpV"/>
                         <outlet property="ratingControl" destination="GSA-du-OHx" id="eed-jF-zsK"/>
                         <outlet property="tableGigs" destination="UI8-NU-AVy" id="Z93-Om-QoB"/>
