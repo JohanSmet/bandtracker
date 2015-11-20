@@ -157,8 +157,9 @@ class BandDetailsController :   UIViewController,
         return cell
     }
     
-    func configureCell(cell : SeenGigTableViewCell, indexPath : NSIndexPath) {
-        let gig = gigFetchedResultsController.objectAtIndexPath(indexPath) as! Gig
+    func configureCell(cell : SeenGigTableViewCell?, indexPath : NSIndexPath) {
+        guard let cell = cell else { return }
+        guard let gig = gigFetchedResultsController.objectAtIndexPath(indexPath) as? Gig else { return }
         
         cell.setFields(gig)
     }
@@ -201,7 +202,7 @@ class BandDetailsController :   UIViewController,
             case .Delete :
                 tableGigs.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
             case .Update :
-                configureCell(tableGigs.cellForRowAtIndexPath(indexPath!) as! SeenGigTableViewCell, indexPath: indexPath!)
+                configureCell(tableGigs.cellForRowAtIndexPath(indexPath!) as? SeenGigTableViewCell, indexPath: indexPath!)
             case .Move :
                 tableGigs.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
                 tableGigs.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)

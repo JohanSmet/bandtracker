@@ -88,8 +88,9 @@ class TimelineController:   UITableViewController,
         return "\(firstGig.year)"
     }
     
-    private func configureCell(cell : TimelineTableViewCell, indexPath : NSIndexPath) {
-        let gig = fetchedResultsController.objectAtIndexPath(indexPath) as! Gig
+    private func configureCell(cell : TimelineTableViewCell?, indexPath : NSIndexPath) {
+        guard let cell = cell else { return }
+        guard let gig = fetchedResultsController.objectAtIndexPath(indexPath) as? Gig else { return }
         cell.setFields(gig)
     }
     
@@ -125,7 +126,7 @@ class TimelineController:   UITableViewController,
             case .Delete :
                 tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
             case .Update :
-                configureCell(tableView.cellForRowAtIndexPath(indexPath!) as! TimelineTableViewCell, indexPath: indexPath!)
+                configureCell(tableView.cellForRowAtIndexPath(indexPath!) as? TimelineTableViewCell, indexPath: indexPath!)
             case .Move :
                 tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
                 tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)

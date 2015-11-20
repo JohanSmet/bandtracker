@@ -82,9 +82,10 @@ class BandsSeenController:  UITableViewController,
         return cell
     }
     
-    private func configureCell(cell : SeenBandTableViewCell, indexPath : NSIndexPath) {
+    private func configureCell(cell : SeenBandTableViewCell?, indexPath : NSIndexPath) {
         
-        let band = fetchedResultsController.objectAtIndexPath(indexPath) as! Band
+        guard let cell = cell else { return }
+        guard let band = fetchedResultsController.objectAtIndexPath(indexPath) as? Band else { return }
         
         cell.bandName.text          = band.name
         cell.numberOfGigs.text      = String(format: NSLocalizedString("conGigCount", comment: "(%0$d gigs)"), arguments: [band.gigs.count])
@@ -138,13 +139,13 @@ class BandsSeenController:  UITableViewController,
             case .Delete :
                 tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
             case .Update :
-                configureCell(tableView.cellForRowAtIndexPath(indexPath!) as! SeenBandTableViewCell, indexPath: indexPath!)
+                configureCell(tableView.cellForRowAtIndexPath(indexPath!) as? SeenBandTableViewCell, indexPath: indexPath!)
             case .Move :
                 if indexPath != newIndexPath {      // potential iOS 9 swift 2.0 with running 8.4
                     tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
                     tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
                 } else {
-                    configureCell(tableView.cellForRowAtIndexPath(indexPath!) as! SeenBandTableViewCell, indexPath: indexPath!)
+                    configureCell(tableView.cellForRowAtIndexPath(indexPath!) as? SeenBandTableViewCell, indexPath: indexPath!)
                 }
         }
     }
