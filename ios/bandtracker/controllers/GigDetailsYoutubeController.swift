@@ -22,6 +22,7 @@ class GigDetailsYoutubeController : UIViewController,
     private var song        : String!
     
     private var videos      : [YoutubeDataClient.Video] = []
+    private var error       : String = ""
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
@@ -34,9 +35,6 @@ class GigDetailsYoutubeController : UIViewController,
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var searchLabel: UILabel!
-    
-    @IBOutlet weak var errorView: UIView!
-    @IBOutlet weak var errorMsg: UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -69,14 +67,10 @@ class GigDetailsYoutubeController : UIViewController,
         // init table view
         tableView.dataSource = self
         tableView.delegate   = self
+        tableView.hidden     = true
         
         // load the videos
         searchForVideos()
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -94,6 +88,19 @@ class GigDetailsYoutubeController : UIViewController,
     //
     // UITableViewDataSource
     //
+    
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        
+        let numSections = videos.isEmpty ? 0 : 1
+            
+        if error.isEmpty {
+            TableViewUtils.messageEmptyTable(tableView, isEmpty: numSections == 0, message: NSLocalizedString("conNoYoutubeVideos", comment: "No videos found for this request."))
+        } else {
+            TableViewUtils.messageEmptyTable(tableView, isEmpty: true, message: error)
+        }
+        
+        return numSections
+    }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return videos.count
@@ -114,34 +121,26 @@ class GigDetailsYoutubeController : UIViewController,
     // helper functions
     //
     
-    func searchForVideos() {
+    private func searchForVideos() {
         youtubeDataClient().searchVideosForGig(gig, song: song, maxResults: 10) { videos, error in
-            if videos != nil && videos!.count > 0 {
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.videos = videos!
-                    
-                    self.activityIndicator.stopAnimating()
-                    self.tableView.hidden = false
-                    self.tableView.reloadData()
+            dispatch_async(dispatch_get_main_queue()) {
+                
+                if let videos = videos {
+                    self.videos = videos
+                } else {
+                    self.videos = []
                 }
-            } else {
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.activityIndicator.stopAnimating()
-                    if let error = error {
-                        self.errorMsg.text = error
-                    } else if videos?.count == 0 {
-                        self.errorMsg.text = NSLocalizedString("conNoYoutubeVideos", comment: "No videos found for this request.")
-                    }
-                    self.errorView.hidden = false
+                
+                if let error = error {
+                    self.error = error
                 }
+                
+                self.activityIndicator.stopAnimating()
+                self.tableView.hidden = false
+                self.tableView.reloadData()
             }
         }
     }
-    
-    ///////////////////////////////////////////////////////////////////////////////////
-    //
-    // helper functions
-    //
     
     private func setHeaderFields() {
         
