@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">BandTracker</string>
+    <string name="action_band_add">Add</string>
 </resources>
