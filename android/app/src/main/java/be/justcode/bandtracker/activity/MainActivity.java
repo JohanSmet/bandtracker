@@ -1,5 +1,6 @@
 package be.justcode.bandtracker.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
@@ -35,6 +36,8 @@ public class MainActivity extends AppCompatActivity
         switch (item.getItemId())
         {
             case R.id.action_band_add:
+                Intent intent = new Intent(this, BandSearchActivity.class);
+                startActivity(intent);
                 break;
         }
 
