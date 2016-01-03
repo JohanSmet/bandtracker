@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import be.justcode.bandtracker.R;
 
@@ -37,10 +38,21 @@ public class MainActivity extends AppCompatActivity
         {
             case R.id.action_band_add:
                 Intent intent = new Intent(this, BandSearchActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, BandSearchActivity.SELECT_BAND_REQUEST);
                 break;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == BandSearchActivity.SELECT_BAND_REQUEST && resultCode == RESULT_OK) {
+            String bandId = data.getStringExtra("bandId");
+            Toast.makeText(MainActivity.this, bandId, Toast.LENGTH_SHORT).show();
+        }
+
     }
 }
