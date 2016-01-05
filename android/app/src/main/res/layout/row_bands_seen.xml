@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imgBand"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:minHeight="50dp"
+        android:minWidth="50dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Band Name"
+        android:id="@+id/lblBandName"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/imgBand"
+        android:layout_toEndOf="@+id/imgBand"
+        android:layout_marginLeft="4dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="(you have seen n gigs)"
+        android:id="@+id/lblNumGigs"
+        android:layout_below="@+id/lblBandName"
+        android:layout_alignLeft="@+id/lblBandName"
+        android:layout_alignStart="@+id/lblBandName"/>
+</RelativeLayout>

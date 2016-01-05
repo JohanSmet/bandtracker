@@ -27,6 +27,7 @@ import java.util.Collection;
 import be.justcode.bandtracker.R;
 import be.justcode.bandtracker.clients.bandtracker.BandTrackerBand;
 import be.justcode.bandtracker.clients.bandtracker.BandTrackerClient;
+import be.justcode.bandtracker.model.DataContext;
 
 public class BandSearchActivity extends AppCompatActivity {
 
@@ -94,6 +95,7 @@ public class BandSearchActivity extends AppCompatActivity {
     private void handleSelection(BandTrackerBand band) {
 
         // XXX save the band ?
+        DataContext.bandCreate(band);
 
         // send word to the activity that called us
         Intent intent = new Intent();
