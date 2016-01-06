@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -35,10 +36,16 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolBar);
 
         // list view
-        ListView listView = (ListView) findViewById(R.id.listMainBands);
+        final ListView listView = (ListView) findViewById(R.id.listMainBands);
 
         mListAdapter = new BandsSeenAdapter(this, DataContext.bandList(""));
         listView.setAdapter(mListAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                BandDetailsActivity.showBand(MainActivity.this, DataContext.bandFromCursor((Cursor) mListAdapter.getItem(position)));
+            }
+        });
     }
 
     @Override
