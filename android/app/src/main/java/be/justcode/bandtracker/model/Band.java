@@ -1,8 +1,11 @@
 package be.justcode.bandtracker.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import be.justcode.bandtracker.clients.bandtracker.BandTrackerBand;
 
-public class Band
+public class Band implements Parcelable
 {
     // construction
     Band() {
@@ -82,6 +85,43 @@ public class Band
     public void setFanartLogoUrl(String fanartLogoUrl) {
         this.fanartLogoUrl = fanartLogoUrl;
     }
+
+    // parcelable interface
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int flags) {
+        parcel.writeString(MBID);
+        parcel.writeString(name);
+        parcel.writeString(biography);
+        parcel.writeInt(numGigs);
+        parcel.writeInt(totalRating);
+        parcel.writeString(fanartThumbUrl);
+        parcel.writeString(fanartLogoUrl);
+    }
+
+    public Band(Parcel parcel ) {
+        MBID            = parcel.readString();
+        name            = parcel.readString();
+        biography       = parcel.readString();
+        numGigs         = parcel.readInt();
+        totalRating     = parcel.readInt();
+        fanartThumbUrl  = parcel.readString();
+        fanartLogoUrl   = parcel.readString();
+    }
+
+    public static final Parcelable.Creator<Band> CREATOR = new Parcelable.Creator<Band>() {
+        public Band createFromParcel(Parcel in) {
+            return new Band(in);
+        }
+
+        public Band[] newArray(int size) {
+            return new Band[size];
+        }
+    };
 
     // member variables
     private String  MBID;
