@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 import be.justcode.bandtracker.R;
 import be.justcode.bandtracker.model.Band;
 import be.justcode.bandtracker.model.DataContext;
+import be.justcode.bandtracker.utils.BandImageDownloader;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -100,10 +102,14 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void bindView(View view, Context context, Cursor cursor) {
             TextView bandName = (TextView) view.findViewById(R.id.lblBandName);
+            ImageView imgBand = (ImageView) view.findViewById(R.id.imgBand);
 
             Band band = DataContext.bandFromCursor(cursor);
 
-            bandName.setText(band.getName());
+            if (!bandName.getText().equals(band.getName())) {
+                bandName.setText(band.getName());
+                BandImageDownloader.run(band.getMBID(), MainActivity.this, imgBand);
+            }
         }
     }
 

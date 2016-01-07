@@ -2,6 +2,7 @@ package be.justcode.bandtracker.activity;
 
 import be.justcode.bandtracker.R;
 import be.justcode.bandtracker.model.Band;
+import be.justcode.bandtracker.utils.BandImageDownloader;
 
 import android.content.Context;
 import android.content.Intent;
@@ -52,6 +53,7 @@ public class BandDetailsActivity extends AppCompatActivity {
     private void displayBand() {
         txtBiography.setText(Html.fromHtml(mBand.getBiography()));
 
+        BandImageDownloader.run(mBand.getMBID(), this, imgBand);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
