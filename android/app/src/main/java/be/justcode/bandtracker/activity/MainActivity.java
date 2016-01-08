@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import be.justcode.bandtracker.R;
+import be.justcode.bandtracker.clients.DataLoader;
 import be.justcode.bandtracker.model.Band;
 import be.justcode.bandtracker.model.DataContext;
 import be.justcode.bandtracker.utils.BandImageDownloader;
@@ -32,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
 
         // initialize database
         DataContext.initialize(getApplicationContext());
+
+        // data sync
+        DataLoader.downloadDataAsync(getApplicationContext());
 
         // toolbar
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolBar);

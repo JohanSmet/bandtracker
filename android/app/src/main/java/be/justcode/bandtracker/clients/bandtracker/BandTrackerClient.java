@@ -81,6 +81,9 @@ public class BandTrackerClient
 
         @GET("/api/bandImage/{bandId}")
         public Response getBandImage(@Path("bandId") String bandId, @retrofit.http.Header(HEADER_CACHE_CONTROL) String cacheControlValue);
+
+        @GET("/api/country/sync")
+        public CountrySyncResponse countrySync(@Query("syncId") int syncId);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -153,6 +156,24 @@ public class BandTrackerClient
         }
     }
 
+    public CountrySyncResponse countrySync(int syncId) {
+
+        try {
+            // make sure we're logged in before making the request
+            if (authToken == null) {
+                login();
+            }
+
+            return restClient.countrySync(syncId);
+
+        } catch (RetrofitError e) {
+            Log.d(LOG_TAG, "bandImage", e);
+            return null;
+        }
+    }
+
+
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //
     // internal types
@@ -202,6 +223,28 @@ public class BandTrackerClient
         private boolean success;
         private String  error;
         private String  token;
+    }
+
+    public class CountrySyncResponse {
+
+        public int getSync() {
+            return sync;
+        }
+
+        public void setSync(int sync) {
+            this.sync = sync;
+        }
+
+        public Collection<BandTrackerCountry> getCountries() {
+            return countries;
+        }
+
+        public void setCountries(Collection<BandTrackerCountry> countries) {
+            this.countries = countries;
+        }
+
+        private int                             sync;
+        private Collection<BandTrackerCountry>  countries;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

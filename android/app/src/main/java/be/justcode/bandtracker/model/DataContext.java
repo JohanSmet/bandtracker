@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 
 import be.justcode.bandtracker.clients.bandtracker.BandTrackerBand;
+import be.justcode.bandtracker.clients.bandtracker.BandTrackerCountry;
 
 public class DataContext
 {
@@ -25,7 +26,7 @@ public class DataContext
     }
 
     public static void bandDelete(Band band) {
-        mDb.getWritableDatabase().delete(mDb.TABLE_BAND, mDb.COL_BAND_MBID + " = ?", new String[]{ band.getMBID()});
+        mDb.getWritableDatabase().delete(mDb.TABLE_BAND, mDb.COL_BAND_MBID + " = ?", new String[]{band.getMBID()});
     }
 
     public static Cursor bandList(String name) {
@@ -45,6 +46,35 @@ public class DataContext
 
     public static Band bandFromCursor(Cursor c) {
         return mDb.bandFromCursor(c);
+    }
+
+    // countries
+    public static void countryDeleteAll() {
+        mDb.getWritableDatabase().delete(mDb.TABLE_COUNTRY, null, null);
+    }
+
+    public static Country countryCreate(BandTrackerCountry serverCountry) {
+        Country country = new Country(serverCountry);
+        mDb.getWritableDatabase().insert(mDb.TABLE_COUNTRY, null, mDb.countryToContentValues(country));
+        return country;
+    }
+
+    public static Country countryFetch(String code) {
+        // build SQL query
+        String query = "select * from " + mDb.TABLE_COUNTRY + " where " +
+                            mDb.COL_COUNTRY_CODE + " = ?" ;
+
+        // execute
+        Cursor c = mDb.getReadableDatabase().rawQuery(query, new String[] {code});
+
+        // convert
+        if (c != null) {
+            c.moveToFirst();
+            return mDb.countryFromCursor(c);
+        }
+        else
+            return null;
+
     }
 
     // member variables
