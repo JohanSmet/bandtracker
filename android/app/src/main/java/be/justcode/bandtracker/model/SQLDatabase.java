@@ -34,6 +34,14 @@ public class SQLDatabase extends SQLiteOpenHelper {
     public static final String COL_CITY_LONGITUDE      = "longitude";
     public static final String COL_CITY_LATITUDE       = "latitude";
 
+    public static final String TABLE_VENUE             = "VENUE_TBL";
+    public static final String COL_VENUE_PK            = "_id";
+    public static final String COL_VENUE_NAME          = "name";
+    public static final String COL_VENUE_CITY          = "city";
+    public static final String COL_VENUE_COUNTRY_CODE  = "countryCode";
+    public static final String COL_VENUE_LONGITUDE     = "longitude";
+    public static final String COL_VENUE_LATITUDE      = "latitude";
+
     public SQLDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -43,6 +51,7 @@ public class SQLDatabase extends SQLiteOpenHelper {
         bandCreate(db);
         countryCreate(db);
         cityCreate(db);
+        venueCreate(db);
     }
 
     @Override
@@ -79,9 +88,9 @@ public class SQLDatabase extends SQLiteOpenHelper {
         values.put(COL_BAND_NAME,           band.getName());
         values.put(COL_BAND_BIOGRAPHY,      band.getBiography());
         values.put(COL_BAND_NUM_GIGS,       band.getNumGigs());
-        values.put(COL_BAND_TOTAL_RATING,   band.getTotalRating());
-        values.put(COL_BAND_FANART_THUMB,   band.getFanartThumbUrl());
-        values.put(COL_BAND_FANART_LOGO,    band.getFanartLogoUrl());
+        values.put(COL_BAND_TOTAL_RATING, band.getTotalRating());
+        values.put(COL_BAND_FANART_THUMB, band.getFanartThumbUrl());
+        values.put(COL_BAND_FANART_LOGO, band.getFanartLogoUrl());
 
         return values;
     }
@@ -174,5 +183,46 @@ public class SQLDatabase extends SQLiteOpenHelper {
         city.setLatitude(c.getDouble(c.getColumnIndex(COL_CITY_LATITUDE)));
 
         return city;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    // venue
+    //
+
+    private void venueCreate(SQLiteDatabase db) {
+        // create table
+        db.execSQL("create table " + TABLE_VENUE + "(" +
+                COL_VENUE_PK + " integer primary key, " +
+                COL_VENUE_NAME + " text, " +
+                COL_VENUE_CITY + " text, " +
+                COL_VENUE_COUNTRY_CODE + " text, " +
+                COL_VENUE_LONGITUDE + " real, " +
+                COL_VENUE_LATITUDE + " real, " +
+                ")");
+    }
+
+    public ContentValues venueToContentValues(Venue venue) {
+        ContentValues values = new ContentValues();
+
+        values.put(COL_VENUE_NAME,          venue.getName());
+        values.put(COL_VENUE_CITY,          venue.getCity());
+        values.put(COL_VENUE_COUNTRY_CODE,  venue.getCountryCode());
+        values.put(COL_VENUE_LONGITUDE,     venue.getLongitude());
+        values.put(COL_VENUE_LATITUDE,      venue.getLatitude());
+
+        return values;
+    }
+
+    public Venue venueFromCursor(Cursor c) {
+        Venue venue = new Venue();
+
+        venue.setName(c.getString(c.getColumnIndex(COL_VENUE_NAME)));
+        venue.setCity(c.getString(c.getColumnIndex(COL_VENUE_CITY)));
+        venue.setCountryCode(c.getString(c.getColumnIndex(COL_VENUE_COUNTRY_CODE)));
+        venue.setLongitude(c.getDouble(c.getColumnIndex(COL_VENUE_LONGITUDE)));
+        venue.setLatitude(c.getDouble(c.getColumnIndex(COL_VENUE_LATITUDE)));
+
+        return venue;
     }
 }

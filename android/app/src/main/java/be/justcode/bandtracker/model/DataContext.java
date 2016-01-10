@@ -117,6 +117,51 @@ public class DataContext
         return results;
     }
 
+    // venue
+    public static Venue venueCreate(Venue venue) {
+        mDb.getWritableDatabase().insert(mDb.TABLE_VENUE, null, mDb.venueToContentValues(venue));
+        return venue;
+    }
+
+    public static Collection<Venue> venueList(String name, String city, String countryCode) {
+        // build SQL query
+        String query = "select * from " + mDb.TABLE_VENUE;
+        String sepa  = " where";
+
+        if (!name.isEmpty()) {
+            query = query + sepa +  " instr(lower(" + mDb.COL_VENUE_NAME + ")," + name.toLowerCase() + ") <> 0";
+            sepa  = " and";
+        }
+
+        if (!city.isEmpty()) {
+            query = query + sepa + mDb.COL_VENUE_CITY + " = \"" + city+ "\"";
+            sepa  = " and";
+        }
+
+        if (!countryCode.isEmpty()) {
+            query = query + sepa + mDb.COL_VENUE_COUNTRY_CODE + " = \"" + countryCode + "\"";
+            sepa  = " and";
+        }
+
+        query = query + " order by " + mDb.COL_VENUE_NAME;
+
+        // execute
+        ArrayList<Venue> results = new ArrayList<>();
+
+        Cursor c = mDb.getReadableDatabase().rawQuery(query, null);
+        c.moveToFirst();
+
+        while (!c.isAfterLast()) {
+            results.add(mDb.venueFromCursor(c));
+            c.moveToNext();
+        }
+
+        c.close();
+
+        return results;
+    }
+
+
     // member variables
     private static SQLDatabase  mDb;
 }
