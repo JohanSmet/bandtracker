@@ -12,6 +12,7 @@ import java.util.Collection;
 import be.justcode.bandtracker.App;
 import be.justcode.bandtracker.R;
 import be.justcode.bandtracker.clients.OkHttpBuilder;
+import be.justcode.bandtracker.model.City;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -84,6 +85,9 @@ public class BandTrackerClient
 
         @GET("/api/country/sync")
         public CountrySyncResponse countrySync(@Query("syncId") int syncId);
+
+        @GET("/api/city/find")
+        public Collection<City> findCities(@Query("pattern") String name, @Query("country") String country);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -172,6 +176,21 @@ public class BandTrackerClient
         }
     }
 
+    public Collection<City> findCities(String name, String country) {
+        try {
+            // make sure we're logged in before making the request
+            if (authToken == null) {
+                login();
+            }
+
+            // make the request
+            return restClient.findCities(name, country);
+
+        } catch (RetrofitError e) {
+            Log.d(LOG_TAG, "findCities", e);
+            return null;
+        }
+    }
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

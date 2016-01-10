@@ -27,6 +27,13 @@ public class SQLDatabase extends SQLiteOpenHelper {
     public static final String COL_COUNTRY_NAME        = "name";
     public static final String COL_COUNTRY_FLAG        = "flag";
 
+    public static final String TABLE_CITY              = "CITY_TBL";
+    public static final String COL_CITY_PK             = "_id";
+    public static final String COL_CITY_NAME           = "name";
+    public static final String COL_CITY_COUNTRY_CODE   = "countryCode";
+    public static final String COL_CITY_LONGITUDE      = "longitude";
+    public static final String COL_CITY_LATITUDE       = "latitude";
+
     public SQLDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -35,6 +42,7 @@ public class SQLDatabase extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         bandCreate(db);
         countryCreate(db);
+        cityCreate(db);
     }
 
     @Override
@@ -130,4 +138,41 @@ public class SQLDatabase extends SQLiteOpenHelper {
         return country;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    // city
+    //
+
+    private void cityCreate(SQLiteDatabase db) {
+        // create table
+        db.execSQL("create table " + TABLE_CITY + "(" +
+                        COL_CITY_PK + " integer primary key, " +
+                        COL_CITY_NAME + " text, " +
+                        COL_CITY_COUNTRY_CODE + " text, " +
+                        COL_CITY_LONGITUDE + " real, " +
+                        COL_CITY_LATITUDE + " real, " +
+                   ")");
+    }
+
+    public ContentValues cityToContentValues(City city) {
+        ContentValues values = new ContentValues();
+
+        values.put(COL_CITY_NAME,           city.getName());
+        values.put(COL_CITY_COUNTRY_CODE,   city.getCountryCode());
+        values.put(COL_CITY_LONGITUDE,      city.getLongitude());
+        values.put(COL_CITY_LATITUDE, city.getLatitude());
+
+        return values;
+    }
+
+    public City cityFromCursor(Cursor c) {
+        City city = new City();
+
+        city.setName(c.getString(c.getColumnIndex(COL_CITY_NAME)));
+        city.setCountryCode(c.getString(c.getColumnIndex(COL_CITY_COUNTRY_CODE)));
+        city.setLongitude(c.getDouble(c.getColumnIndex(COL_CITY_LONGITUDE)));
+        city.setLatitude(c.getDouble(c.getColumnIndex(COL_CITY_LATITUDE)));
+
+        return city;
+    }
 }

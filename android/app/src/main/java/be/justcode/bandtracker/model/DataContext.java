@@ -3,6 +3,9 @@ package be.justcode.bandtracker.model;
 import android.content.Context;
 import android.database.Cursor;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import be.justcode.bandtracker.clients.bandtracker.BandTrackerBand;
 import be.justcode.bandtracker.clients.bandtracker.BandTrackerCountry;
 
@@ -74,7 +77,44 @@ public class DataContext
         }
         else
             return null;
+    }
 
+    // city
+    public static City cityCreate(City city) {
+        mDb.getWritableDatabase().insert(mDb.TABLE_CITY, null, mDb.cityToContentValues(city));
+        return city;
+    }
+
+    public static Collection<City> cityList(String name, String countryCode) {
+        // build SQL query
+        String query = "select * from " + mDb.TABLE_CITY;
+        String sepa  = " where";
+
+        if (!name.isEmpty()) {
+            query = query + sepa +  " instr(lower(" + mDb.COL_CITY_NAME + ")," + name.toLowerCase() + ") <> 0";
+            sepa  = " and";
+        }
+        if (!countryCode.isEmpty()) {
+            query = query + sepa + mDb.COL_CITY_COUNTRY_CODE + " = \"" + countryCode + "\"";
+            sepa  = " and";
+        }
+
+        query = query + " order by " + mDb.COL_CITY_NAME;
+
+        // execute
+        ArrayList<City> results = new ArrayList<>();
+
+        Cursor c = mDb.getReadableDatabase().rawQuery(query, null);
+        c.moveToFirst();
+
+        while (!c.isAfterLast()) {
+            results.add(mDb.cityFromCursor(c));
+            c.moveToNext();
+        }
+
+        c.close();
+
+        return results;
     }
 
     // member variables
