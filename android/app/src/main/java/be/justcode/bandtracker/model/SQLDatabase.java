@@ -159,7 +159,7 @@ public class SQLDatabase extends SQLiteOpenHelper {
                         COL_CITY_NAME + " text, " +
                         COL_CITY_COUNTRY_CODE + " text, " +
                         COL_CITY_LONGITUDE + " real, " +
-                        COL_CITY_LATITUDE + " real, " +
+                        COL_CITY_LATITUDE + " real " +
                    ")");
     }
 
@@ -198,7 +198,7 @@ public class SQLDatabase extends SQLiteOpenHelper {
                 COL_VENUE_CITY + " text, " +
                 COL_VENUE_COUNTRY_CODE + " text, " +
                 COL_VENUE_LONGITUDE + " real, " +
-                COL_VENUE_LATITUDE + " real, " +
+                COL_VENUE_LATITUDE + " real " +
                 ")");
     }
 
