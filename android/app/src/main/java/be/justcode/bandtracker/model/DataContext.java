@@ -161,6 +161,11 @@ public class DataContext
         return results;
     }
 
+    // gig
+    public static Gig createGig(Gig gig) {
+        mDb.getWritableDatabase().insert(mDb.TABLE_GIG, null, mDb.gigToContentValues(gig));
+        return gig;
+    }
 
     // member variables
     private static SQLDatabase  mDb;

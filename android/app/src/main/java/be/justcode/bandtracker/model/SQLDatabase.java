@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.Date;
+
 public class SQLDatabase extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME       = "BandTracker";
@@ -42,6 +44,19 @@ public class SQLDatabase extends SQLiteOpenHelper {
     public static final String COL_VENUE_LONGITUDE     = "longitude";
     public static final String COL_VENUE_LATITUDE      = "latitude";
 
+    public static final String TABLE_GIG               = "GIG_TBL";
+    public static final String COL_GIG_PK              = "_id";
+    public static final String COL_GIG_BAND            = "bandId";
+    public static final String COL_GIG_START_DATE      = "startDate";
+    public static final String COL_GIG_COUNTRY_CODE    = "countryCode";
+    public static final String COL_GIG_CITY            = "city";
+    public static final String COL_GIG_VENUE           = "venue";
+    public static final String COL_GIG_STAGE           = "stage";
+    public static final String COL_GIG_SUPPORT_ACT     = "supportAct";
+    public static final String COL_GIG_RATING          = "rating";
+    public static final String COL_GIG_COMMENTS        = "comments" ;
+
+
     public SQLDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -52,6 +67,7 @@ public class SQLDatabase extends SQLiteOpenHelper {
         countryCreate(db);
         cityCreate(db);
         venueCreate(db);
+        gigCreate(db);
     }
 
     @Override
@@ -225,4 +241,58 @@ public class SQLDatabase extends SQLiteOpenHelper {
 
         return venue;
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    // gig
+    //
+
+    private void gigCreate(SQLiteDatabase db) {
+        // create table
+        db.execSQL("create table " + TABLE_GIG + "(" +
+                        COL_GIG_PK + " integer primary key, " +
+                        COL_GIG_BAND + " nchar(36), " +
+                        COL_GIG_START_DATE + " integer, " +
+                        COL_GIG_COUNTRY_CODE + " nchar(4), " +
+                        COL_GIG_CITY + " text, " +
+                        COL_GIG_VENUE + " text, " +
+                        COL_GIG_STAGE + " text, " +
+                        COL_GIG_SUPPORT_ACT + " integer, " +
+                        COL_GIG_RATING + " integer, " +
+                        COL_GIG_COMMENTS + " text " +
+                   ")");
+    }
+
+    public ContentValues gigToContentValues(Gig gig) {
+        ContentValues values = new ContentValues();
+
+        values.put(COL_GIG_BAND,        gig.getBandId());
+        values.put(COL_GIG_START_DATE,  gig.getStartDate().getTime());
+        values.put(COL_GIG_COUNTRY_CODE,gig.getCountryCode());
+        values.put(COL_GIG_CITY,        gig.getCity());
+        values.put(COL_GIG_VENUE,       gig.getVenue());
+        values.put(COL_GIG_STAGE,       gig.getStage());
+        values.put(COL_GIG_SUPPORT_ACT, gig.isSupportAct());
+        values.put(COL_GIG_RATING,      gig.getRating());
+        values.put(COL_GIG_COMMENTS,    gig.getComments());
+
+        return values;
+    }
+
+    public Gig gigFromCursor(Cursor c) {
+        Gig gig = new Gig();
+
+        gig.setBandId(c.getString(c.getColumnIndex(COL_GIG_BAND)));
+        gig.setStartDate(new Date(c.getInt(c.getColumnIndex(COL_GIG_START_DATE))));
+        gig.setCountryCode(c.getString(c.getColumnIndex(COL_GIG_COUNTRY_CODE)));
+        gig.setCity(c.getString(c.getColumnIndex(COL_GIG_CITY)));
+        gig.setVenue(c.getString(c.getColumnIndex(COL_GIG_VENUE)));
+        gig.setStage(c.getString(c.getColumnIndex(COL_GIG_STAGE)));
+        gig.setSupportAct(c.getInt(c.getColumnIndex(COL_GIG_SUPPORT_ACT)) == 1);
+        gig.setRating(c.getInt(c.getColumnIndex(COL_GIG_RATING)));
+        gig.setComments(c.getString(c.getColumnIndex(COL_GIG_COMMENTS)));
+
+        return gig;
+    }
+
 }
