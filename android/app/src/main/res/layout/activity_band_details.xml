@@ -85,6 +85,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
+            android:onClick="btnGigAdd_clicked"
             />
 
     </RelativeLayout>

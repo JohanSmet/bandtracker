@@ -3,4 +3,15 @@
     <string name="action_band_add">Add</string>
     <string name="action_band_search">Search</string>
     <string name="band_details_header">You have been to n gigs.</string>
+    <string name="lblStartDate">Starts</string>
+    <string name="lblStarTime"/>
+    <string name="lblSupportAct">Support Act</string>
+    <string name="lblRating">Rating</string>
+    <string name="dummyStartDate">Mon 12th, May 2015</string>
+    <string name="hintCountry">country</string>
+    <string name="hintCity">city</string>
+    <string name="hintVenue">venue</string>
+    <string name="hintStage">stage</string>
+    <string name="dummyStartTime">12h15</string>
+    <string name="hintComments">comments</string>
 </resources>

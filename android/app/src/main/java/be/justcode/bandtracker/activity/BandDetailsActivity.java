@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -54,6 +55,15 @@ public class BandDetailsActivity extends AppCompatActivity {
         txtBiography.setText(Html.fromHtml(mBand.getBiography()));
 
         BandImageDownloader.run(mBand.getMBID(), this, imgBand);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    // button events
+    //
+
+    public void btnGigAdd_clicked(View p_view) {
+        GigDetailsActivity.createNew(this, mBand);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    tools:context="be.justcode.bandtracker.activity.GigDetailsActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/toolBar">
+
+        <TableLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:background="#ccc"
+            >
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                android:layout_marginBottom="1dp"
+                android:clickable="true"
+                android:minHeight="48dp"
+                android:onClick="rowStartDatePicker_clicked">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/lblStartDate"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:layout_toStartOf="@+id/lblStartDate"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:id="@+id/lblStartDate"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="@string/dummyStartDate"
+                        />
+
+                </RelativeLayout>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                android:layout_marginBottom="1dp"
+                android:id="@+id/rowStartDatePicker"
+                >
+
+                <DatePicker
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:calendarViewShown="false"
+                    android:datePickerMode="spinner"
+                    android:layout_gravity="end"
+                    />
+            </TableRow>
+
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                android:layout_marginBottom="1dp"
+                android:clickable="true"
+                android:minHeight="48dp"
+                android:onClick="rowStartTimePicker_clicked">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/lblStarTime"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_toStartOf="@+id/lblStartTime"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:id="@+id/lblStartTime"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:layout_centerVertical="true"
+                        android:text="@string/dummyStartTime"
+                        />
+
+                </RelativeLayout>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                android:layout_marginBottom="1dp"
+                android:id="@+id/rowStartTimePicker"
+                >
+
+                <TimePicker
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:calendarViewShown="false"
+                    android:layout_gravity="end"
+                    android:timePickerMode="spinner"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                android:minHeight="48dp"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="23dp"
+                >
+
+                <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:id="@+id/editCountry"
+                    android:hint="@string/hintCountry"
+                    android:onClick="editText_clicked"
+                    android:focusable="false"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                android:minHeight="48dp"
+                android:layout_marginBottom="1dp"
+                >
+
+                <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:inputType="text"
+                    android:ems="10"
+                    android:id="@+id/editCity"
+                    android:hint="@string/hintCity"
+                    android:onClick="editText_clicked"
+                    android:focusable="false"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                android:minHeight="48dp"
+                android:layout_marginBottom="1dp"
+                >
+
+                <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:inputType="text"
+                    android:ems="10"
+                    android:id="@+id/editVenue"
+                    android:hint="@string/hintVenue"
+                    android:onClick="editText_clicked"
+                    android:focusable="false"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                android:minHeight="48dp"
+                android:layout_marginBottom="1dp"
+                >
+
+                <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:inputType="text"
+                    android:ems="10"
+                    android:id="@+id/editStage"
+                    android:hint="@string/hintStage"
+                    android:onClick="editText_clicked"
+                    android:focusable="false"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                android:minHeight="48dp"
+                android:layout_marginBottom="1dp"
+                >
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/lblSupportAct"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:layout_alignParentStart="true"
+                        android:layout_toStartOf="@+id/toggleSupport"
+                        android:layout_centerVertical="true"
+                        />
+
+                    <Switch
+                        android:id="@+id/toggleSupport"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                    />
+                </RelativeLayout>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="23dp"
+                >
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/lblRating"
+                        android:layout_centerVertical="true"
+                        android:layout_toStartOf="@+id/ratingBar"
+                        android:layout_alignParentStart="true"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        />
+
+                    <RatingBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/ratingBar"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"
+                        android:numStars="5"
+                        android:rating="3"/>
+
+                </RelativeLayout>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                android:minHeight="48dp"
+                android:layout_marginBottom="1dp"
+                >
+
+                <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:inputType="textMultiLine"
+                    android:ems="10"
+                    android:id="@+id/editComments"
+                    android:hint="@string/hintComments"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:editable="false"
+                    android:elegantTextHeight="false"
+                    android:scrollIndicators="right"
+                    android:minLines="4"
+                    android:gravity="top"/>
+
+            </TableRow>
+
+
+        </TableLayout>
+
+
+    </ScrollView>
+</RelativeLayout>
