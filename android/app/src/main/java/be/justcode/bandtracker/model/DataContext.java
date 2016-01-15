@@ -5,6 +5,7 @@ import android.database.Cursor;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import be.justcode.bandtracker.clients.bandtracker.BandTrackerBand;
 import be.justcode.bandtracker.clients.bandtracker.BandTrackerCountry;
@@ -77,6 +78,28 @@ public class DataContext
         }
         else
             return null;
+    }
+
+    public static List<Country> countryList(String pattern) {
+        // build SQL query
+        String query = "select * from " + mDb.TABLE_COUNTRY + " where " +
+                            " instr(lower(" + mDb.COL_COUNTRY_NAME + "), \"" + pattern.toLowerCase() + "\") <> 0 " +
+                       "order by " + mDb.COL_COUNTRY_NAME;
+
+        // execute
+        ArrayList<Country> results = new ArrayList<>();
+
+        Cursor c = mDb.getReadableDatabase().rawQuery(query, null);
+        c.moveToFirst();
+
+        while (!c.isAfterLast()) {
+            results.add(mDb.countryFromCursor(c));
+            c.moveToNext();
+        }
+
+        c.close();
+
+        return results;
     }
 
     // city
