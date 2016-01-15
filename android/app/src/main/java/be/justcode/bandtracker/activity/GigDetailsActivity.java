@@ -60,6 +60,7 @@ public class GigDetailsActivity extends AppCompatActivity {
 
     public void editText_clicked(View view) {
         pickerViewsHideAll();
+        ListSelectionActivity.create(this, ListSelectionCountryDelegate.TYPE);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

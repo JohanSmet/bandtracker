@@ -34,6 +34,8 @@
         </activity>
         <activity android:name=".activity.GigDetailsActivity">
         </activity>
+        <activity android:name=".activity.ListSelectionActivity">
+        </activity>
     </application>
 
 </manifest>
