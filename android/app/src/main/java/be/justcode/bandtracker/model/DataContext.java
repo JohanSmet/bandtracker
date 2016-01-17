@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import be.justcode.bandtracker.clients.bandtracker.BandTrackerBand;
@@ -108,13 +107,13 @@ public class DataContext
         return city;
     }
 
-    public static Collection<City> cityList(String name, String countryCode) {
+    public static List<City> cityList(String name, String countryCode) {
         // build SQL query
         String query = "select * from " + mDb.TABLE_CITY;
         String sepa  = " where";
 
         if (!name.isEmpty()) {
-            query = query + sepa +  " instr(lower(" + mDb.COL_CITY_NAME + ")," + name.toLowerCase() + ") <> 0";
+            query = query + sepa +  " instr(lower(" + mDb.COL_CITY_NAME + "),\"" + name.toLowerCase() + "\") <> 0";
             sepa  = " and";
         }
         if (!countryCode.isEmpty()) {
@@ -146,7 +145,7 @@ public class DataContext
         return venue;
     }
 
-    public static Collection<Venue> venueList(String name, String city, String countryCode) {
+    public static List<Venue> venueList(String name, String city, String countryCode) {
         // build SQL query
         String query = "select * from " + mDb.TABLE_VENUE;
         String sepa  = " where";
