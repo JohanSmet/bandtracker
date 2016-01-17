@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.TextView;
 
 import be.justcode.bandtracker.R;
 import be.justcode.bandtracker.model.Band;
@@ -17,6 +18,9 @@ public class GigDetailsActivity extends AppCompatActivity {
 
     private static final int PICKER_DATE = 0;
     private static final int PICKER_TIME = 1;
+
+    private static final int REQUEST_COUNTRY = 1;
+    private static final int REQUEST_CITY    = 2;
 
     public static void createNew(Context context, Band band) {
         Intent intent = new Intent(context, GigDetailsActivity.class);
@@ -40,9 +44,26 @@ public class GigDetailsActivity extends AppCompatActivity {
         // fields
         mPickerRows[PICKER_DATE] = findViewById(R.id.rowStartDatePicker);
         mPickerRows[PICKER_TIME] = findViewById(R.id.rowStartTimePicker);
+        editCountry              = (TextView) findViewById(R.id.editCountry);
+        editCity                 = (TextView) findViewById(R.id.editCity);
 
         // initial view setup
         pickerViewsHideAll();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode != RESULT_OK)
+            return;
+
+        String selection = data.getStringExtra("result");
+
+        if (requestCode == REQUEST_COUNTRY) {
+            editCountry.setText(selection);
+        } else if (requestCode == REQUEST_CITY)
+            editCity.setText(selection);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -60,7 +81,12 @@ public class GigDetailsActivity extends AppCompatActivity {
 
     public void editText_clicked(View view) {
         pickerViewsHideAll();
-        ListSelectionActivity.create(this, ListSelectionCountryDelegate.TYPE);
+
+        if (view == editCountry) {
+            ListSelectionActivity.create(this, ListSelectionCountryDelegate.TYPE, REQUEST_COUNTRY);
+        } else if (view == editCity) {
+            ListSelectionActivity.create(this, ListSelectionCityDelegate.TYPE, REQUEST_CITY);
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -88,4 +114,6 @@ public class GigDetailsActivity extends AppCompatActivity {
     // member variables
     private View[]      mPickerRows = new View[2];
     private boolean[]   mPickerEditing = new boolean[2];
+    private TextView    editCountry;
+    private TextView    editCity;
 }

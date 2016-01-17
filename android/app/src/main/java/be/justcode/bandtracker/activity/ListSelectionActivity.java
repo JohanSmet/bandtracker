@@ -1,5 +1,6 @@
 package be.justcode.bandtracker.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
@@ -34,13 +35,13 @@ public class ListSelectionActivity extends AppCompatActivity {
         public int      rowLayout();
         public void     configureRowView(View view, int section, int row);
         public void     filterUpdate(BaseAdapter adapter, String newFilter);
-        public boolean  selectedRow(int section, int row);
+        public String   selectedRow(int section, int row);
     }
 
-    public static void create(Context context, String delegateType) {
-        Intent intent = new Intent(context, ListSelectionActivity.class);
+    public static void create(Activity parent, String delegateType, int requestCode) {
+        Intent intent = new Intent(parent, ListSelectionActivity.class);
         intent.putExtra(INTENT_DELEGATE_TYPE, delegateType);
-        context.startActivity(intent);
+        parent.startActivityForResult(intent, requestCode);
     }
 
     @Override
@@ -70,8 +71,10 @@ public class ListSelectionActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 int[] sectionRow = mListAdapter.positionToSectionRow(position);
                 if (mDelegate != null && sectionRow[1] >= 0) {
-                    if (mDelegate.selectedRow(sectionRow[0], sectionRow[1]))
-                        finish();
+                    Intent intent = new Intent();
+                    intent.putExtra("result", mDelegate.selectedRow(sectionRow[0], sectionRow[1]));
+                    setResult(RESULT_OK, intent);
+                    finish();
                 }
             }
         });
@@ -101,6 +104,8 @@ public class ListSelectionActivity extends AppCompatActivity {
     private Delegate delegateFactory(String type) {
         if (type.equals(ListSelectionCountryDelegate.TYPE))
             return new ListSelectionCountryDelegate(this);
+        else if (type.equals(ListSelectionCityDelegate.TYPE))
+            return new ListSelectionCityDelegate(this);
         else
             return null;
     }

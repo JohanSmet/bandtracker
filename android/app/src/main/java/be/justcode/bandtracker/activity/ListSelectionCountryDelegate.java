@@ -73,8 +73,13 @@ public class ListSelectionCountryDelegate implements ListSelectionActivity.Deleg
     }
 
     @Override
-    public boolean selectedRow(int section, int row) {
-        return true;
+    public String selectedRow(int section, int row) {
+
+        if (section == 0) {
+            return mFilteredCountries.get(row).getCode();
+        }
+
+        return null;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
