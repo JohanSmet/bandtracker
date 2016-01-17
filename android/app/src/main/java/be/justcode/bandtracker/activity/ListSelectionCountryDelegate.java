@@ -1,6 +1,7 @@
 package be.justcode.bandtracker.activity;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -58,18 +59,28 @@ public class ListSelectionCountryDelegate implements ListSelectionActivity.Deleg
     }
 
     @Override
-    public void  filterUpdate(BaseAdapter adapter, String newFilter) {
+    public void  filterUpdate(final BaseAdapter adapter, final String newFilter) {
 
-        List<Country> newData = null;
-
-        if (!newFilter.isEmpty()) {
-            newData = DataContext.countryList(newFilter);
-        }
-
-        synchronized (this) {
-            mFilteredCountries = newData;
+        if (newFilter.length() < 2) {
+            synchronized (this) { mFilteredCountries = null; }
             adapter.notifyDataSetChanged();
+            return;
         }
+
+        new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... unused) {
+                List<Country> newData = DataContext.countryList(newFilter);
+                synchronized (this) { mFilteredCountries = newData; }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void unused) {
+                adapter.notifyDataSetChanged();
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     @Override
