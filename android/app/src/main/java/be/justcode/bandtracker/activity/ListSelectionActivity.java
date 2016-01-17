@@ -174,8 +174,10 @@ public class ListSelectionActivity extends AppCompatActivity {
             return !mDelegate.titleForSection(section).isEmpty();
         }
         private int sectionNumRows(int section) {
-            int result = sectionHasHeader(section) ? 1 : 0;
-            result += mDelegate.numRowsForSection(section);
+            int result = mDelegate.numRowsForSection(section);
+            if (result > 0 && sectionHasHeader(section))
+                ++result;
+
             return result;
         }
 
