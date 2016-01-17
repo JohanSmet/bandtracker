@@ -2,6 +2,7 @@ package be.justcode.bandtracker.model;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteQueryBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,15 +37,17 @@ public class DataContext
 
         // build SQL query
         String query = "select * from " + mDb.TABLE_BAND;
+        ArrayList<String> params = new ArrayList<>();
 
         if (!name.isEmpty()) {
-            query = query + " where instr(lower(" + mDb.COL_BAND_NAME + ")," + name.toLowerCase() + ") <> 0";
+            query = query + " where instr(lower(" + mDb.COL_BAND_NAME + "), ?) <> 0";
+            params.add(name.toLowerCase());
         }
 
         query = query + " order by " + mDb.COL_BAND_TOTAL_RATING + " / nullif(" + mDb.COL_BAND_NUM_GIGS + ",0), " + mDb.COL_BAND_NAME;
 
         // execute
-        return mDb.getReadableDatabase().rawQuery(query, null);
+        return mDb.getReadableDatabase().rawQuery(query, params.toArray(new String[params.size()]));
     }
 
     public static Band bandFromCursor(Cursor c) {
@@ -68,7 +71,7 @@ public class DataContext
                             mDb.COL_COUNTRY_CODE + " = ?" ;
 
         // execute
-        Cursor c = mDb.getReadableDatabase().rawQuery(query, new String[] {code});
+        Cursor c = mDb.getReadableDatabase().rawQuery(query, new String[]{code});
 
         // convert
         if (c != null) {
@@ -82,13 +85,13 @@ public class DataContext
     public static List<Country> countryList(String pattern) {
         // build SQL query
         String query = "select * from " + mDb.TABLE_COUNTRY + " where " +
-                            " instr(lower(" + mDb.COL_COUNTRY_NAME + "), \"" + pattern.toLowerCase() + "\") <> 0 " +
+                            " instr(lower(" + mDb.COL_COUNTRY_NAME + "), ?) <> 0 " +
                        "order by " + mDb.COL_COUNTRY_NAME;
 
         // execute
         ArrayList<Country> results = new ArrayList<>();
 
-        Cursor c = mDb.getReadableDatabase().rawQuery(query, null);
+        Cursor c = mDb.getReadableDatabase().rawQuery(query, new String[]{pattern.toLowerCase()});
         c.moveToFirst();
 
         while (!c.isAfterLast()) {
@@ -109,24 +112,28 @@ public class DataContext
 
     public static List<City> cityList(String name, String countryCode) {
         // build SQL query
-        String query = "select * from " + mDb.TABLE_CITY;
-        String sepa  = " where";
+        SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+        String sepa  = "";
+
+        builder.setTables(mDb.TABLE_CITY);
 
         if (!name.isEmpty()) {
-            query = query + sepa +  " instr(lower(" + mDb.COL_CITY_NAME + "),\"" + name.toLowerCase() + "\") <> 0";
-            sepa  = " and";
-        }
-        if (!countryCode.isEmpty()) {
-            query = query + sepa + " " + mDb.COL_CITY_COUNTRY_CODE + " = \"" + countryCode + "\"";
-            sepa  = " and";
+            builder.appendWhere(sepa + "instr(lower(" + mDb.COL_CITY_NAME + "),");
+            builder.appendWhereEscapeString(name.toLowerCase());
+            builder.appendWhere(") <> 0");
+            sepa  = " and ";
         }
 
-        query = query + " order by " + mDb.COL_CITY_NAME;
+        if (!countryCode.isEmpty()) {
+            builder.appendWhere(sepa + mDb.COL_CITY_COUNTRY_CODE + "=");
+            builder.appendWhereEscapeString(countryCode);
+            sepa  = " and ";
+        }
 
         // execute
         ArrayList<City> results = new ArrayList<>();
 
-        Cursor c = mDb.getReadableDatabase().rawQuery(query, null);
+        Cursor c = builder.query(mDb.getReadableDatabase(), null, null, null, null, null, mDb.COL_CITY_NAME);
         c.moveToFirst();
 
         while (!c.isAfterLast()) {
@@ -146,31 +153,35 @@ public class DataContext
     }
 
     public static List<Venue> venueList(String name, String city, String countryCode) {
+
         // build SQL query
-        String query = "select * from " + mDb.TABLE_VENUE;
-        String sepa  = " where ";
+        SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+        String             sepa    = "";
+        builder.setTables(mDb.TABLE_VENUE);
 
         if (!name.isEmpty()) {
-            query = query + sepa +  "instr(lower(" + mDb.COL_VENUE_NAME + "),\"" + name.toLowerCase() + "\") <> 0";
+            builder.appendWhere(sepa + "instr(lower(" + mDb.COL_VENUE_NAME + "),");
+            builder.appendWhereEscapeString(name.toLowerCase());
+            builder.appendWhere(") <> 0");
             sepa  = " and ";
         }
 
         if (!city.isEmpty()) {
-            query = query + sepa + mDb.COL_VENUE_CITY + " = \"" + city+ "\"";
+            builder.appendWhere(sepa + mDb.COL_VENUE_CITY + "=");
+            builder.appendWhereEscapeString(city);
             sepa  = " and ";
         }
 
         if (!countryCode.isEmpty()) {
-            query = query + sepa + mDb.COL_VENUE_COUNTRY_CODE + " = \"" + countryCode + "\"";
+            builder.appendWhere(sepa + mDb.COL_VENUE_COUNTRY_CODE + "=");
+            builder.appendWhereEscapeString(countryCode);
             sepa  = " and ";
         }
-
-        query = query + " order by " + mDb.COL_VENUE_NAME;
 
         // execute
         ArrayList<Venue> results = new ArrayList<>();
 
-        Cursor c = mDb.getReadableDatabase().rawQuery(query, null);
+        Cursor c = builder.query(mDb.getReadableDatabase(), null, null, null, null, null, mDb.COL_VENUE_NAME);
         c.moveToFirst();
 
         while (!c.isAfterLast()) {
