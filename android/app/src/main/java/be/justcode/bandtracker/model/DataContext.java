@@ -117,7 +117,7 @@ public class DataContext
             sepa  = " and";
         }
         if (!countryCode.isEmpty()) {
-            query = query + sepa + mDb.COL_CITY_COUNTRY_CODE + " = \"" + countryCode + "\"";
+            query = query + sepa + " " + mDb.COL_CITY_COUNTRY_CODE + " = \"" + countryCode + "\"";
             sepa  = " and";
         }
 
@@ -148,21 +148,21 @@ public class DataContext
     public static List<Venue> venueList(String name, String city, String countryCode) {
         // build SQL query
         String query = "select * from " + mDb.TABLE_VENUE;
-        String sepa  = " where";
+        String sepa  = " where ";
 
         if (!name.isEmpty()) {
-            query = query + sepa +  " instr(lower(" + mDb.COL_VENUE_NAME + "),\"" + name.toLowerCase() + "\") <> 0";
-            sepa  = " and";
+            query = query + sepa +  "instr(lower(" + mDb.COL_VENUE_NAME + "),\"" + name.toLowerCase() + "\") <> 0";
+            sepa  = " and ";
         }
 
         if (!city.isEmpty()) {
             query = query + sepa + mDb.COL_VENUE_CITY + " = \"" + city+ "\"";
-            sepa  = " and";
+            sepa  = " and ";
         }
 
         if (!countryCode.isEmpty()) {
             query = query + sepa + mDb.COL_VENUE_COUNTRY_CODE + " = \"" + countryCode + "\"";
-            sepa  = " and";
+            sepa  = " and ";
         }
 
         query = query + " order by " + mDb.COL_VENUE_NAME;
