@@ -8,6 +8,7 @@ import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 
 import be.justcode.bandtracker.App;
 import be.justcode.bandtracker.R;
@@ -51,7 +52,7 @@ public class BandTrackerClient
             restClient = new RestAdapter.Builder()
                 .setEndpoint(serverBaseUrl)
                 .setConverter(gsonConverter)
-                .setClient(new OkClient(OkHttpBuilder.getClient(App.getContext(), true)))
+                .setClient(new OkClient(OkHttpBuilder.getUnsafeClient(App.getContext(), true)))
                 .setRequestInterceptor(new RequestInterceptor()
                 {
                     @Override
@@ -88,7 +89,7 @@ public class BandTrackerClient
         public CountrySyncResponse countrySync(@Query("syncId") int syncId);
 
         @GET("/api/city/find")
-        public Collection<City> findCities(@Query("pattern") String name, @Query("country") String country);
+        public List<String> findCities(@Query("pattern") String name, @Query("country") String country);
 
         @GET("/api/venue/find")
         public Collection<Venue> findVenues(@Query("pattern") String name, @Query("city") String city, @Query("country") String country);
@@ -180,7 +181,7 @@ public class BandTrackerClient
         }
     }
 
-    public Collection<City> findCities(String name, String country) {
+    public List<String> findCities(String name, String country) {
         try {
             // make sure we're logged in before making the request
             if (authToken == null) {
@@ -188,7 +189,7 @@ public class BandTrackerClient
             }
 
             // make the request
-            return restClient.findCities(name, country);
+            return restClient.findCities(name, country != null && !country.isEmpty() ? country : null);
 
         } catch (RetrofitError e) {
             Log.d(LOG_TAG, "findCities", e);
@@ -204,7 +205,8 @@ public class BandTrackerClient
             }
 
             // make the request
-            return restClient.findVenues(name, (city != null && !city.isEmpty()) ? city : null, country);
+            return restClient.findVenues(name, city != null && !city.isEmpty() ? city : null,
+                                         country != null && !country.isEmpty() ? country : null);
 
         } catch (RetrofitError e) {
             Log.d(LOG_TAG, "findVenues", e);
