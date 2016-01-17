@@ -92,7 +92,7 @@ public class BandTrackerClient
         public List<String> findCities(@Query("pattern") String name, @Query("country") String country);
 
         @GET("/api/venue/find")
-        public Collection<Venue> findVenues(@Query("pattern") String name, @Query("city") String city, @Query("country") String country);
+        public List<String> findVenues(@Query("pattern") String name, @Query("city") String city, @Query("country") String country);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -197,7 +197,7 @@ public class BandTrackerClient
         }
     }
 
-    public Collection<Venue> findVenues(String name, String city, String country) {
+    public List<String> findVenues(String name, String city, String country) {
         try {
             // make sure we're logged in before making the request
             if (authToken == null) {

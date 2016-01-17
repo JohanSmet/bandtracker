@@ -151,7 +151,7 @@ public class DataContext
         String sepa  = " where";
 
         if (!name.isEmpty()) {
-            query = query + sepa +  " instr(lower(" + mDb.COL_VENUE_NAME + ")," + name.toLowerCase() + ") <> 0";
+            query = query + sepa +  " instr(lower(" + mDb.COL_VENUE_NAME + "),\"" + name.toLowerCase() + "\") <> 0";
             sepa  = " and";
         }
 

@@ -21,6 +21,7 @@ public class GigDetailsActivity extends AppCompatActivity {
 
     private static final int REQUEST_COUNTRY = 1;
     private static final int REQUEST_CITY    = 2;
+    private static final int REQUEST_VENUE   = 3;
 
     public static void createNew(Context context, Band band) {
         Intent intent = new Intent(context, GigDetailsActivity.class);
@@ -46,6 +47,7 @@ public class GigDetailsActivity extends AppCompatActivity {
         mPickerRows[PICKER_TIME] = findViewById(R.id.rowStartTimePicker);
         editCountry              = (TextView) findViewById(R.id.editCountry);
         editCity                 = (TextView) findViewById(R.id.editCity);
+        editVenue                = (TextView) findViewById(R.id.editVenue);
 
         // initial view setup
         pickerViewsHideAll();
@@ -62,8 +64,11 @@ public class GigDetailsActivity extends AppCompatActivity {
 
         if (requestCode == REQUEST_COUNTRY) {
             editCountry.setText(selection);
-        } else if (requestCode == REQUEST_CITY)
+        } else if (requestCode == REQUEST_CITY) {
             editCity.setText(selection);
+        } else if (requestCode == REQUEST_VENUE) {
+            editVenue.setText(selection);
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -86,6 +91,8 @@ public class GigDetailsActivity extends AppCompatActivity {
             ListSelectionActivity.create(this, ListSelectionCountryDelegate.TYPE, REQUEST_COUNTRY);
         } else if (view == editCity) {
             ListSelectionActivity.create(this, ListSelectionCityDelegate.TYPE, REQUEST_CITY);
+        } else if (view == editVenue) {
+            ListSelectionActivity.create(this, ListSelectionVenueDelegate.TYPE, REQUEST_VENUE);
         }
     }
 
@@ -116,4 +123,5 @@ public class GigDetailsActivity extends AppCompatActivity {
     private boolean[]   mPickerEditing = new boolean[2];
     private TextView    editCountry;
     private TextView    editCity;
+    private TextView    editVenue;
 }

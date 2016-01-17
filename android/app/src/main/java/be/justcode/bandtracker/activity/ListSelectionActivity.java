@@ -106,6 +106,8 @@ public class ListSelectionActivity extends AppCompatActivity {
             return new ListSelectionCountryDelegate(this);
         else if (type.equals(ListSelectionCityDelegate.TYPE))
             return new ListSelectionCityDelegate(this);
+        else if (type.equals(ListSelectionVenueDelegate.TYPE))
+            return new ListSelectionVenueDelegate(this);
         else
             return null;
     }
