@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.util.HashMap;
 import java.util.List;
 
 import be.justcode.bandtracker.clients.bandtracker.BandTrackerClient;
@@ -14,10 +15,14 @@ import be.justcode.bandtracker.model.DataContext;
 
 public class ListSelectionCityDelegate implements ListSelectionActivity.Delegate  {
 
-    public static final String TYPE = "city";
+    public static final String TYPE             = "city";
+    public static final String PARAM_COUNTRY    = "param_country";
 
-    ListSelectionCityDelegate(Context context) {
+    ListSelectionCityDelegate(Context context, HashMap<String, String> params) {
         mContext = context;
+
+        if (params != null && params.containsKey(PARAM_COUNTRY))
+            mParamCountry = params.get(PARAM_COUNTRY);
     }
 
     @Override
@@ -87,7 +92,7 @@ public class ListSelectionCityDelegate implements ListSelectionActivity.Delegate
 
             @Override
             protected Void doInBackground(Void... unused) {
-                List<String> cities = BandTrackerClient.getInstance().findCities(newFilter, "");
+                List<String> cities = BandTrackerClient.getInstance().findCities(newFilter, mParamCountry);
                 synchronized (this) { mNewCities = cities; }
                 return null;
             }
@@ -103,7 +108,7 @@ public class ListSelectionCityDelegate implements ListSelectionActivity.Delegate
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... unused) {
-                List<City> newData = DataContext.cityList(newFilter, "");
+                List<City> newData = DataContext.cityList(newFilter, mParamCountry);
                 synchronized (this) { mOldCities = newData; }
                 return null;
             }
@@ -134,6 +139,7 @@ public class ListSelectionCityDelegate implements ListSelectionActivity.Delegate
     //
 
     private Context         mContext;
+    private String          mParamCountry = "";
     private String          mManualInput = "";
     private List<City>      mOldCities;
     private List<String>    mNewCities;

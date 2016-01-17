@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.HashMap;
 import java.util.List;
 
 import be.justcode.bandtracker.R;
@@ -26,7 +27,8 @@ import be.justcode.bandtracker.utils.CountryCache;
 
 public class ListSelectionActivity extends AppCompatActivity {
 
-    private static final String INTENT_DELEGATE_TYPE = "param_delegate_type";
+    private static final String INTENT_DELEGATE_TYPE = "intent_delegate_type";
+    private static final String INTENT_PARAMS        = "intent_params";
 
     public interface Delegate {
         public int      numberOfSections();
@@ -38,9 +40,10 @@ public class ListSelectionActivity extends AppCompatActivity {
         public String   selectedRow(int section, int row);
     }
 
-    public static void create(Activity parent, String delegateType, int requestCode) {
+    public static void create(Activity parent, String delegateType, int requestCode, HashMap<String, String> params) {
         Intent intent = new Intent(parent, ListSelectionActivity.class);
         intent.putExtra(INTENT_DELEGATE_TYPE, delegateType);
+        intent.putExtra(INTENT_PARAMS, params);
         parent.startActivityForResult(intent, requestCode);
     }
 
@@ -51,7 +54,7 @@ public class ListSelectionActivity extends AppCompatActivity {
 
         // read params
         Bundle bundle = getIntent().getExtras();
-        mDelegate = delegateFactory(bundle.getString(INTENT_DELEGATE_TYPE));
+        mDelegate = delegateFactory(bundle.getString(INTENT_DELEGATE_TYPE),(HashMap<String, String>) bundle.getSerializable(INTENT_PARAMS));
 
         // toolbar
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolBar);
@@ -101,13 +104,13 @@ public class ListSelectionActivity extends AppCompatActivity {
         mDelegate.filterUpdate(mListAdapter, editFilter.getText().toString());
     }
 
-    private Delegate delegateFactory(String type) {
+    private Delegate delegateFactory(String type, HashMap<String, String> params) {
         if (type.equals(ListSelectionCountryDelegate.TYPE))
-            return new ListSelectionCountryDelegate(this);
+            return new ListSelectionCountryDelegate(this, params);
         else if (type.equals(ListSelectionCityDelegate.TYPE))
-            return new ListSelectionCityDelegate(this);
+            return new ListSelectionCityDelegate(this, params);
         else if (type.equals(ListSelectionVenueDelegate.TYPE))
-            return new ListSelectionVenueDelegate(this);
+            return new ListSelectionVenueDelegate(this, params);
         else
             return null;
     }

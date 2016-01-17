@@ -9,6 +9,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.HashMap;
+
 import be.justcode.bandtracker.R;
 import be.justcode.bandtracker.model.Band;
 
@@ -88,11 +90,16 @@ public class GigDetailsActivity extends AppCompatActivity {
         pickerViewsHideAll();
 
         if (view == editCountry) {
-            ListSelectionActivity.create(this, ListSelectionCountryDelegate.TYPE, REQUEST_COUNTRY);
+            ListSelectionActivity.create(this, ListSelectionCountryDelegate.TYPE, REQUEST_COUNTRY, null);
         } else if (view == editCity) {
-            ListSelectionActivity.create(this, ListSelectionCityDelegate.TYPE, REQUEST_CITY);
+            ListSelectionActivity.create(this, ListSelectionCityDelegate.TYPE, REQUEST_CITY, new HashMap<String,String>() {{
+                put(ListSelectionCityDelegate.PARAM_COUNTRY, editCountry.getText().toString());
+            }});
         } else if (view == editVenue) {
-            ListSelectionActivity.create(this, ListSelectionVenueDelegate.TYPE, REQUEST_VENUE);
+            ListSelectionActivity.create(this, ListSelectionVenueDelegate.TYPE, REQUEST_VENUE, new HashMap<String,String>() {{
+                put(ListSelectionVenueDelegate.PARAM_COUNTRY, editCountry.getText().toString());
+                put(ListSelectionVenueDelegate.PARAM_CITY, editCity.getText().toString());
+            }});
         }
     }
 

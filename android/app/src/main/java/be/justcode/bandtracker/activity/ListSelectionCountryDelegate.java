@@ -7,6 +7,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.HashMap;
 import java.util.List;
 
 import be.justcode.bandtracker.R;
@@ -18,7 +19,7 @@ public class ListSelectionCountryDelegate implements ListSelectionActivity.Deleg
 
     public static final String TYPE = "country";
 
-    ListSelectionCountryDelegate(Context context) {
+    ListSelectionCountryDelegate(Context context, HashMap<String, String> params) {
         mContext = context;
     }
 

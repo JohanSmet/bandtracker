@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.util.HashMap;
 import java.util.List;
 
 import be.justcode.bandtracker.clients.bandtracker.BandTrackerClient;
@@ -16,8 +17,16 @@ public class ListSelectionVenueDelegate implements ListSelectionActivity.Delegat
 
     public static final String TYPE = "venue";
 
-    ListSelectionVenueDelegate(Context context) {
+    public static final String PARAM_COUNTRY    = "param_country";
+    public static final String PARAM_CITY       = "param_city";
+
+    ListSelectionVenueDelegate(Context context, HashMap<String, String> params) {
         mContext = context;
+
+        if (params != null && params.containsKey(PARAM_COUNTRY))
+            mParamCountry = params.get(PARAM_COUNTRY);
+        if (params != null && params.containsKey(PARAM_CITY))
+            mParamCity = params.get(PARAM_CITY);
     }
 
     @Override
@@ -87,7 +96,7 @@ public class ListSelectionVenueDelegate implements ListSelectionActivity.Delegat
 
             @Override
             protected Void doInBackground(Void... unused) {
-                List<String> venues = BandTrackerClient.getInstance().findVenues(newFilter, "", "");
+                List<String> venues = BandTrackerClient.getInstance().findVenues(newFilter, mParamCity, mParamCountry);
                 synchronized (this) { mNewVenues = venues; }
                 return null;
             }
@@ -103,7 +112,7 @@ public class ListSelectionVenueDelegate implements ListSelectionActivity.Delegat
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... unused) {
-                List<Venue> newData = DataContext.venueList(newFilter, "", "");
+                List<Venue> newData = DataContext.venueList(newFilter, mParamCity, mParamCountry);
                 synchronized (this) { mOldVenues = newData; }
                 return null;
             }
@@ -134,6 +143,8 @@ public class ListSelectionVenueDelegate implements ListSelectionActivity.Delegat
     //
 
     private Context         mContext;
+    private String          mParamCountry= "";
+    private String          mParamCity   = "";
     private String          mManualInput = "";
     private List<Venue>     mOldVenues;
     private List<String>    mNewVenues;
