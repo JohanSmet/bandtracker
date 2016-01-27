@@ -6,17 +6,30 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.DatePicker;
+import android.widget.RatingBar;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 import be.justcode.bandtracker.R;
 import be.justcode.bandtracker.model.Band;
+import be.justcode.bandtracker.model.DataContext;
+import be.justcode.bandtracker.model.Gig;
 
 public class GigDetailsActivity extends AppCompatActivity {
 
     private static final String INTENT_BAND_PARAMETER = "param_band";
+    private static final String INTENT_MODE_PARAMETER = "param_mode";
+    private static final String INTENT_GIG_PARAMETER  = "param_gig";
 
     private static final int PICKER_DATE = 0;
     private static final int PICKER_TIME = 1;
@@ -25,9 +38,14 @@ public class GigDetailsActivity extends AppCompatActivity {
     private static final int REQUEST_CITY    = 2;
     private static final int REQUEST_VENUE   = 3;
 
+    private static final int MODE_VIEW      = 1;
+    private static final int MODE_CREATE    = 2;
+    private static final int MODE_EDIT      = 3;
+
     public static void createNew(Context context, Band band) {
         Intent intent = new Intent(context, GigDetailsActivity.class);
         intent.putExtra(INTENT_BAND_PARAMETER, band);
+        intent.putExtra(INTENT_MODE_PARAMETER, MODE_CREATE);
         context.startActivity(intent);
     }
 
@@ -44,15 +62,65 @@ public class GigDetailsActivity extends AppCompatActivity {
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
 
+        // read params
+        Bundle bundle = getIntent().getExtras();
+        mMode = bundle.getInt(INTENT_MODE_PARAMETER);
+        mBand = bundle.getParcelable(INTENT_BAND_PARAMETER);
+
+        // init gig to be shown / edited
+        if (mMode == MODE_CREATE) {
+            initNewGig();
+        } else {
+            mGig = bundle.getParcelable(INTENT_GIG_PARAMETER);
+        }
+
         // fields
         mPickerRows[PICKER_DATE] = findViewById(R.id.rowStartDatePicker);
         mPickerRows[PICKER_TIME] = findViewById(R.id.rowStartTimePicker);
+        lblStartDate             = (TextView) findViewById(R.id.lblStartDate);
+        lblStartTime             = (TextView) findViewById(R.id.lblStartTime);
+        pickStartDate            = (DatePicker) findViewById(R.id.pickStartDate);
+        pickStartTime            = (TimePicker) findViewById(R.id.pickStartTime);
         editCountry              = (TextView) findViewById(R.id.editCountry);
         editCity                 = (TextView) findViewById(R.id.editCity);
         editVenue                = (TextView) findViewById(R.id.editVenue);
+        editStage                = (TextView) findViewById(R.id.editStage);
+        toggleSupport            = (Switch) findViewById(R.id.toggleSupport);
+        ratingBar                = (RatingBar) findViewById(R.id.ratingBar);
+        editComments             = (TextView) findViewById(R.id.editComments);
+
+        initDatePicker(pickStartDate, lblStartDate, mGig.getStartDate());
+        initTimePicker(pickStartTime, lblStartTime, mGig.getStartDate());
 
         // initial view setup
         pickerViewsHideAll();
+        gigToFields();
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_gigdetails_toolbar, menu);
+        menuGigEdit = menu.findItem(R.id.action_gig_edit);
+        menuGigSave = menu.findItem(R.id.action_gig_save);
+        uiMenuSetMode(mMode != MODE_VIEW);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.action_gig_edit:
+                break;
+
+            case R.id.action_gig_save:
+                saveToDatabase();
+                finish();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -125,10 +193,98 @@ public class GigDetailsActivity extends AppCompatActivity {
         }
     }
 
+    private void uiMenuSetMode(boolean editMode) {
+        menuGigEdit.setVisible(!editMode);
+        menuGigSave.setVisible(editMode);
+    }
+
+    private void initNewGig() {
+        mGig = new Gig();
+        mGig.setBandId(mBand.getMBID());
+        mGig.setStartDate(new Date());
+    }
+
+    private void saveToDatabase() {
+        fieldsToGig();
+        // DataContext.createGig(mGig);
+    }
+
+    private void gigToFields() {
+        editCountry.setText(mGig.getCountryCode());
+        editCity.setText(mGig.getCity());
+        editVenue.setText(mGig.getVenue());
+        editStage.setText(mGig.getStage());
+        toggleSupport.setChecked(mGig.isSupportAct());
+        ratingBar.setRating(mGig.getRating() / 10.0f);
+        editComments.setText(mGig.getComments());
+    }
+
+    private void fieldsToGig() {
+        mGig.setStartDate(dateFromComponents(pickStartDate.getYear(), pickStartDate.getMonth(), pickStartDate.getDayOfMonth(), pickStartTime.getCurrentHour(), pickStartTime.getCurrentMinute()));
+        mGig.setCountryCode(editCountry.getText().toString());
+        mGig.setCity(editCity.getText().toString());
+        mGig.setVenue(editVenue.getText().toString());
+        mGig.setStage(editStage.getText().toString());
+        mGig.setSupportAct(toggleSupport.isChecked());
+        mGig.setRating(Math.round(ratingBar.getRating() * 10.0f));
+        mGig.setComments(editComments.getText().toString());
+    }
+
+    private void initDatePicker(DatePicker pickStartDate, final TextView lblStartDate, Date date) {
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        lblStartDate.setText(DateFormat.getDateInstance(DateFormat.FULL).format(cal.getTime()));
+
+        pickStartDate.init(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), new DatePicker.OnDateChangedListener() {
+            @Override
+            public void onDateChanged(DatePicker datePicker, int year, int month, int day) {
+                lblStartDate.setText(DateFormat.getDateInstance(DateFormat.FULL).format(dateFromComponents(year, month, day, 0, 0)));
+            }
+        });
+    }
+
+    private void initTimePicker(TimePicker pickStartTime, final TextView lblStartTime, Date date) {
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        lblStartTime.setText(DateFormat.getTimeInstance(DateFormat.SHORT).format(cal.getTime()));
+
+        pickStartTime.setCurrentHour(cal.get(Calendar.HOUR_OF_DAY));
+        pickStartTime.setCurrentMinute(cal.get(Calendar.MINUTE));
+        pickStartTime.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+            @Override
+            public void onTimeChanged(TimePicker timePicker, int hour, int minute) {
+                lblStartTime.setText(DateFormat.getTimeInstance(DateFormat.SHORT).format(dateFromComponents(0, 0, 0, hour, minute)));
+            }
+        });
+    }
+
+    private Date dateFromComponents(int year, int month, int day, int hour, int minute) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(year, month, day, hour, minute);
+        return cal.getTime();
+    }
+
     // member variables
+    int                 mMode;
+    Band                mBand;
+    Gig                 mGig;
+
     private View[]      mPickerRows = new View[2];
     private boolean[]   mPickerEditing = new boolean[2];
+    private TextView    lblStartDate;
+    private TextView    lblStartTime;
+    private DatePicker  pickStartDate;
+    private TimePicker  pickStartTime;
     private TextView    editCountry;
     private TextView    editCity;
     private TextView    editVenue;
+    private TextView    editStage;
+    private Switch      toggleSupport;
+    private RatingBar   ratingBar;
+    private TextView    editComments;
+
+    private MenuItem    menuGigSave;
+    private MenuItem    menuGigEdit;
 }

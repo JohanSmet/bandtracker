@@ -77,6 +77,7 @@
                 >
 
                 <DatePicker
+                    android:id="@+id/pickStartDate"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:calendarViewShown="false"
@@ -135,6 +136,7 @@
                 >
 
                 <TimePicker
+                    android:id="@+id/pickStartTime"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:calendarViewShown="false"

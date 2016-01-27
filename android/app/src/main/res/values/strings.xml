@@ -14,4 +14,6 @@
     <string name="hintStage">stage</string>
     <string name="dummyStartTime">12h15</string>
     <string name="hintComments">comments</string>
+    <string name="action_gig_edit">Edit</string>
+    <string name="action_gig_save">Save</string>
 </resources>
