@@ -7,7 +7,7 @@ import java.util.Date;
 
 public class Gig  implements Parcelable {
 
-    Gig() {
+    public Gig() {
         bandId      = "";
         startDate   = new Date();
         countryCode = "";
