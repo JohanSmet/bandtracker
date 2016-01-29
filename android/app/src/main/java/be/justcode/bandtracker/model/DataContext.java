@@ -200,6 +200,20 @@ public class DataContext
         return gig;
     }
 
+    public static Cursor gigList(String bandId) {
+        // build SQL query
+        String query =  "select * from " + mDb.TABLE_GIG + " where " +
+                            mDb.COL_GIG_BAND + " = ? " +
+                        "order by " + mDb.COL_GIG_START_DATE + " desc";
+
+        // execute
+        return mDb.getReadableDatabase().rawQuery(query, new String[] {bandId});
+    }
+
+    public static Gig gigFromCursor(Cursor c) {
+        return mDb.gigFromCursor(c);
+    }
+
     // member variables
     private static SQLDatabase  mDb;
 }

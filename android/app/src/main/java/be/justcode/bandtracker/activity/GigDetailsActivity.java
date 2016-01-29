@@ -206,7 +206,7 @@ public class GigDetailsActivity extends AppCompatActivity {
 
     private void saveToDatabase() {
         fieldsToGig();
-        // DataContext.createGig(mGig);
+        DataContext.createGig(mGig);
     }
 
     private void gigToFields() {
