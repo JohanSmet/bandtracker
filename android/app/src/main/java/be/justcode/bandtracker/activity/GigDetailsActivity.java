@@ -24,6 +24,7 @@ import be.justcode.bandtracker.R;
 import be.justcode.bandtracker.model.Band;
 import be.justcode.bandtracker.model.DataContext;
 import be.justcode.bandtracker.model.Gig;
+import be.justcode.bandtracker.utils.DateUtils;
 
 public class GigDetailsActivity extends AppCompatActivity {
 
@@ -220,7 +221,7 @@ public class GigDetailsActivity extends AppCompatActivity {
     }
 
     private void fieldsToGig() {
-        mGig.setStartDate(dateFromComponents(pickStartDate.getYear(), pickStartDate.getMonth(), pickStartDate.getDayOfMonth(), pickStartTime.getCurrentHour(), pickStartTime.getCurrentMinute()));
+        mGig.setStartDate(DateUtils.dateFromComponents(pickStartDate.getYear(), pickStartDate.getMonth(), pickStartDate.getDayOfMonth(), pickStartTime.getCurrentHour(), pickStartTime.getCurrentMinute()));
         mGig.setCountryCode(editCountry.getText().toString());
         mGig.setCity(editCity.getText().toString());
         mGig.setVenue(editVenue.getText().toString());
@@ -232,39 +233,31 @@ public class GigDetailsActivity extends AppCompatActivity {
 
     private void initDatePicker(DatePicker pickStartDate, final TextView lblStartDate, Date date) {
 
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        lblStartDate.setText(DateFormat.getDateInstance(DateFormat.FULL).format(cal.getTime()));
+        lblStartDate.setText(DateUtils.dateToString(date));
 
-        pickStartDate.init(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), new DatePicker.OnDateChangedListener() {
+        pickStartDate.init(DateUtils.dateYear(date), DateUtils.dateMonth(date), DateUtils.dateDay(date), new DatePicker.OnDateChangedListener() {
             @Override
             public void onDateChanged(DatePicker datePicker, int year, int month, int day) {
-                lblStartDate.setText(DateFormat.getDateInstance(DateFormat.FULL).format(dateFromComponents(year, month, day, 0, 0)));
+                lblStartDate.setText(DateUtils.dateToString(DateUtils.dateFromComponents(year, month, day, 0, 0)));
             }
         });
     }
 
     private void initTimePicker(TimePicker pickStartTime, final TextView lblStartTime, Date date) {
 
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        lblStartTime.setText(DateFormat.getTimeInstance(DateFormat.SHORT).format(cal.getTime()));
+        lblStartTime.setText(DateUtils.timeToString(date));
 
-        pickStartTime.setCurrentHour(cal.get(Calendar.HOUR_OF_DAY));
-        pickStartTime.setCurrentMinute(cal.get(Calendar.MINUTE));
+        pickStartTime.setCurrentHour(DateUtils.dateHour(date));
+        pickStartTime.setCurrentMinute(DateUtils.dateMinute(date));
         pickStartTime.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
             @Override
             public void onTimeChanged(TimePicker timePicker, int hour, int minute) {
-                lblStartTime.setText(DateFormat.getTimeInstance(DateFormat.SHORT).format(dateFromComponents(0, 0, 0, hour, minute)));
+                lblStartTime.setText(DateUtils.timeToString(DateUtils.dateFromComponents(0, 0, 0, hour, minute)));
             }
         });
     }
 
-    private Date dateFromComponents(int year, int month, int day, int hour, int minute) {
-        Calendar cal = Calendar.getInstance();
-        cal.set(year, month, day, hour, minute);
-        return cal.getTime();
-    }
+
 
     // member variables
     int                 mMode;
