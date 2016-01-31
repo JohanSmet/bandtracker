@@ -283,7 +283,7 @@ public class SQLDatabase extends SQLiteOpenHelper {
         Gig gig = new Gig();
 
         gig.setBandId(c.getString(c.getColumnIndex(COL_GIG_BAND)));
-        gig.setStartDate(new Date(c.getInt(c.getColumnIndex(COL_GIG_START_DATE))));
+        gig.setStartDate(new Date(c.getLong(c.getColumnIndex(COL_GIG_START_DATE))));
         gig.setCountryCode(c.getString(c.getColumnIndex(COL_GIG_COUNTRY_CODE)));
         gig.setCity(c.getString(c.getColumnIndex(COL_GIG_CITY)));
         gig.setVenue(c.getString(c.getColumnIndex(COL_GIG_VENUE)));
