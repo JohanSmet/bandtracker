@@ -50,6 +50,14 @@ public class GigDetailsActivity extends AppCompatActivity {
         context.startActivity(intent);
     }
 
+    public static void viewExisting(Context context, Band band, Gig gig) {
+        Intent intent = new Intent(context, GigDetailsActivity.class);
+        intent.putExtra(INTENT_BAND_PARAMETER, band);
+        intent.putExtra(INTENT_GIG_PARAMETER, gig);
+        intent.putExtra(INTENT_MODE_PARAMETER, MODE_VIEW);
+        context.startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +100,7 @@ public class GigDetailsActivity extends AppCompatActivity {
 
         initDatePicker(pickStartDate, lblStartDate, mGig.getStartDate());
         initTimePicker(pickStartTime, lblStartTime, mGig.getStartDate());
+        uiFieldsSetMode(mMode != MODE_VIEW);
 
         // initial view setup
         pickerViewsHideAll();
@@ -113,6 +122,7 @@ public class GigDetailsActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.action_gig_edit:
+                changeToEditMode();
                 break;
 
             case R.id.action_gig_save:
@@ -148,27 +158,33 @@ public class GigDetailsActivity extends AppCompatActivity {
     //
 
     public void rowStartDatePicker_clicked(View view) {
-        pickerViewsToggle(PICKER_DATE);
+        if (mMode != MODE_VIEW) {
+            pickerViewsToggle(PICKER_DATE);
+        }
     }
 
     public void rowStartTimePicker_clicked(View view) {
-        pickerViewsToggle(PICKER_TIME);
+        if (mMode != MODE_VIEW) {
+            pickerViewsToggle(PICKER_TIME);
+        }
     }
 
     public void editText_clicked(View view) {
         pickerViewsHideAll();
 
-        if (view == editCountry) {
-            ListSelectionActivity.create(this, ListSelectionCountryDelegate.TYPE, REQUEST_COUNTRY, null);
-        } else if (view == editCity) {
-            ListSelectionActivity.create(this, ListSelectionCityDelegate.TYPE, REQUEST_CITY, new HashMap<String,String>() {{
-                put(ListSelectionCityDelegate.PARAM_COUNTRY, editCountry.getText().toString());
-            }});
-        } else if (view == editVenue) {
-            ListSelectionActivity.create(this, ListSelectionVenueDelegate.TYPE, REQUEST_VENUE, new HashMap<String,String>() {{
-                put(ListSelectionVenueDelegate.PARAM_COUNTRY, editCountry.getText().toString());
-                put(ListSelectionVenueDelegate.PARAM_CITY, editCity.getText().toString());
-            }});
+        if (mMode != MODE_VIEW) {
+            if (view == editCountry) {
+                ListSelectionActivity.create(this, ListSelectionCountryDelegate.TYPE, REQUEST_COUNTRY, null);
+            } else if (view == editCity) {
+                ListSelectionActivity.create(this, ListSelectionCityDelegate.TYPE, REQUEST_CITY, new HashMap<String, String>() {{
+                    put(ListSelectionCityDelegate.PARAM_COUNTRY, editCountry.getText().toString());
+                }});
+            } else if (view == editVenue) {
+                ListSelectionActivity.create(this, ListSelectionVenueDelegate.TYPE, REQUEST_VENUE, new HashMap<String, String>() {{
+                    put(ListSelectionVenueDelegate.PARAM_COUNTRY, editCountry.getText().toString());
+                    put(ListSelectionVenueDelegate.PARAM_CITY, editCity.getText().toString());
+                }});
+            }
         }
     }
 
@@ -194,9 +210,22 @@ public class GigDetailsActivity extends AppCompatActivity {
         }
     }
 
+    private void changeToEditMode() {
+        mMode = MODE_EDIT;
+        uiFieldsSetMode(true);
+        uiMenuSetMode(true);
+    }
+
     private void uiMenuSetMode(boolean editMode) {
         menuGigEdit.setVisible(!editMode);
         menuGigSave.setVisible(editMode);
+    }
+
+    private void uiFieldsSetMode(boolean editMode) {
+        editStage.setEnabled(editMode);
+        editComments.setEnabled(editMode);
+        toggleSupport.setEnabled(editMode);
+        ratingBar.setEnabled(editMode);
     }
 
     private void initNewGig() {
@@ -207,7 +236,13 @@ public class GigDetailsActivity extends AppCompatActivity {
 
     private void saveToDatabase() {
         fieldsToGig();
-        DataContext.createGig(mGig);
+
+        if (mMode == MODE_CREATE) {
+            DataContext.createGig(mGig);
+        } else if (mMode == MODE_EDIT) {
+            DataContext.updateGig(mGig);
+        }
+
     }
 
     private void gigToFields() {

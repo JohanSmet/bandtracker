@@ -8,6 +8,7 @@ import java.util.Date;
 public class Gig  implements Parcelable {
 
     public Gig() {
+        id          = 0;
         bandId      = "";
         startDate   = new Date();
         countryCode = "";
@@ -20,6 +21,10 @@ public class Gig  implements Parcelable {
     }
 
     // getters
+    public int getId() {
+        return id;
+    }
+
     public String getBandId() {
         return bandId;
     }
@@ -56,7 +61,12 @@ public class Gig  implements Parcelable {
         return comments;
     }
 
+
     // setters
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public void setBandId(String bandId) {
         this.bandId = bandId;
     }
@@ -101,6 +111,7 @@ public class Gig  implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
+        parcel.writeInt(id);
         parcel.writeString(bandId);
         parcel.writeSerializable(startDate);
         parcel.writeString(countryCode);
@@ -113,6 +124,7 @@ public class Gig  implements Parcelable {
     }
 
     public Gig(Parcel parcel) {
+        id          = parcel.readInt();
         bandId      = parcel.readString();
         startDate   = (Date) parcel.readSerializable();
         countryCode = parcel.readString();
@@ -135,6 +147,7 @@ public class Gig  implements Parcelable {
     };
 
     // member variables
+    private int     id;
     private String  bandId;
     private Date    startDate;
     private String  countryCode;

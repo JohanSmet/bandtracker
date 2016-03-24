@@ -64,6 +64,13 @@ public class BandDetailsActivity extends AppCompatActivity {
 
         mListAdapter = new BandsGigsAdapter(this, DataContext.gigList(mBand.getMBID()));
         listView.setAdapter(mListAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                GigDetailsActivity.viewExisting(BandDetailsActivity.this, mBand,
+                                                DataContext.gigFromCursor((Cursor) mListAdapter.getItem(position)) );
+            }
+        });
     }
 
     private void displayBand() {

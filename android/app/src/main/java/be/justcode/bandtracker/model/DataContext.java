@@ -200,6 +200,11 @@ public class DataContext
         return gig;
     }
 
+    public static void updateGig(Gig gig) {
+        mDb.getWritableDatabase().update(   mDb.TABLE_GIG, mDb.gigToContentValues(gig),
+                                            mDb.COL_GIG_PK + "= ?", new String[] {Integer.toString(gig.getId())});
+    }
+
     public static Cursor gigList(String bandId) {
         // build SQL query
         String query =  "select * from " + mDb.TABLE_GIG + " where " +

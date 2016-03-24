@@ -232,7 +232,6 @@
                     android:id="@+id/editStage"
                     android:hint="@string/hintStage"
                     android:onClick="editText_clicked"
-                    android:focusable="false"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
                     />
