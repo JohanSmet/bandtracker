@@ -15,15 +15,16 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import java.text.DateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
 import be.justcode.bandtracker.R;
 import be.justcode.bandtracker.model.Band;
+import be.justcode.bandtracker.model.City;
+import be.justcode.bandtracker.model.Country;
 import be.justcode.bandtracker.model.DataContext;
 import be.justcode.bandtracker.model.Gig;
+import be.justcode.bandtracker.model.Venue;
 import be.justcode.bandtracker.utils.DateUtils;
 
 public class GigDetailsActivity extends AppCompatActivity {
@@ -141,14 +142,15 @@ public class GigDetailsActivity extends AppCompatActivity {
         if (resultCode != RESULT_OK)
             return;
 
-        String selection = data.getStringExtra("result");
-
         if (requestCode == REQUEST_COUNTRY) {
-            editCountry.setText(selection);
+            mGig.setCountry((Country) data.getParcelableExtra("result"));
+            editCountry.setText(mGig.getCountryName());
         } else if (requestCode == REQUEST_CITY) {
-            editCity.setText(selection);
+            mGig.setCity((City) data.getParcelableExtra("result"));
+            editCity.setText(mGig.getCityName());
         } else if (requestCode == REQUEST_VENUE) {
-            editVenue.setText(selection);
+            mGig.setVenue((Venue) data.getParcelableExtra("result"));
+            editVenue.setText(mGig.getVenueName());
         }
     }
 
@@ -177,12 +179,12 @@ public class GigDetailsActivity extends AppCompatActivity {
                 ListSelectionActivity.create(this, ListSelectionCountryDelegate.TYPE, REQUEST_COUNTRY, null);
             } else if (view == editCity) {
                 ListSelectionActivity.create(this, ListSelectionCityDelegate.TYPE, REQUEST_CITY, new HashMap<String, String>() {{
-                    put(ListSelectionCityDelegate.PARAM_COUNTRY, editCountry.getText().toString());
+                    put(ListSelectionCityDelegate.PARAM_COUNTRY, (mGig.getCountry() != null) ? mGig.getCountry().getCode() : "");
                 }});
             } else if (view == editVenue) {
                 ListSelectionActivity.create(this, ListSelectionVenueDelegate.TYPE, REQUEST_VENUE, new HashMap<String, String>() {{
-                    put(ListSelectionVenueDelegate.PARAM_COUNTRY, editCountry.getText().toString());
-                    put(ListSelectionVenueDelegate.PARAM_CITY, editCity.getText().toString());
+                    put(ListSelectionVenueDelegate.PARAM_COUNTRY, (mGig.getCountry() != null) ? mGig.getCountry().getCode() : "");
+                    put(ListSelectionVenueDelegate.PARAM_CITY, (mGig.getCity() != null) ? Long.toString(mGig.getCity().getId()) : "");
                 }});
             }
         }
@@ -230,36 +232,27 @@ public class GigDetailsActivity extends AppCompatActivity {
 
     private void initNewGig() {
         mGig = new Gig();
-        mGig.setBandId(mBand.getMBID());
+        mGig.setBand(mBand);
         mGig.setStartDate(new Date());
     }
 
     private void saveToDatabase() {
         fieldsToGig();
-
-        if (mMode == MODE_CREATE) {
-            DataContext.createGig(mGig);
-        } else if (mMode == MODE_EDIT) {
-            DataContext.updateGig(mGig);
-        }
-
+        mGig.save();
     }
 
     private void gigToFields() {
-        editCountry.setText(mGig.getCountryCode());
-        editCity.setText(mGig.getCity());
-        editVenue.setText(mGig.getVenue());
+        editCountry.setText(mGig.getCountryName());
+        editCity.setText(mGig.getCityName());
+        editVenue.setText(mGig.getVenueName());
         editStage.setText(mGig.getStage());
-        toggleSupport.setChecked(mGig.isSupportAct());
+        toggleSupport.setChecked(mGig.getSupportAct());
         ratingBar.setRating(mGig.getRating() / 10.0f);
         editComments.setText(mGig.getComments());
     }
 
     private void fieldsToGig() {
         mGig.setStartDate(DateUtils.dateFromComponents(pickStartDate.getYear(), pickStartDate.getMonth(), pickStartDate.getDayOfMonth(), pickStartTime.getCurrentHour(), pickStartTime.getCurrentMinute()));
-        mGig.setCountryCode(editCountry.getText().toString());
-        mGig.setCity(editCity.getText().toString());
-        mGig.setVenue(editVenue.getText().toString());
         mGig.setStage(editStage.getText().toString());
         mGig.setSupportAct(toggleSupport.isChecked());
         mGig.setRating(Math.round(ratingBar.getRating() * 10.0f));

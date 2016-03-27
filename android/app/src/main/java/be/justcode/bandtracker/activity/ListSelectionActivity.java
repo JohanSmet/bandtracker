@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
+import android.os.Parcelable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -31,13 +32,13 @@ public class ListSelectionActivity extends AppCompatActivity {
     private static final String INTENT_PARAMS        = "intent_params";
 
     public interface Delegate {
-        public int      numberOfSections();
-        public String   titleForSection(int section);
-        public int      numRowsForSection(int section);
-        public int      rowLayout();
-        public void     configureRowView(View view, int section, int row);
-        public void     filterUpdate(BaseAdapter adapter, String newFilter);
-        public String   selectedRow(int section, int row);
+        public int          numberOfSections();
+        public String       titleForSection(int section);
+        public int          numRowsForSection(int section);
+        public int          rowLayout();
+        public void         configureRowView(View view, int section, int row);
+        public void         filterUpdate(BaseAdapter adapter, String newFilter);
+        public Parcelable   selectedRow(int section, int row);
     }
 
     public static void create(Activity parent, String delegateType, int requestCode, HashMap<String, String> params) {

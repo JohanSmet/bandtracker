@@ -3,6 +3,8 @@ package be.justcode.bandtracker;
 import android.app.Application;
 import android.content.Context;
 
+import com.raizlabs.android.dbflow.config.FlowManager;
+
 public class App extends Application {
 
     public static Application getApplication() {
@@ -17,6 +19,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         mApplication = this;
+        FlowManager.init(this);
     }
 
     private static Application mApplication;

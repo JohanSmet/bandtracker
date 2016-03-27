@@ -2,6 +2,7 @@ package be.justcode.bandtracker.activity;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -85,10 +86,10 @@ public class ListSelectionCountryDelegate implements ListSelectionActivity.Deleg
     }
 
     @Override
-    public String selectedRow(int section, int row) {
+    public Parcelable selectedRow(int section, int row) {
 
         if (section == 0) {
-            return mFilteredCountries.get(row).getCode();
+            return mFilteredCountries.get(row);
         }
 
         return null;

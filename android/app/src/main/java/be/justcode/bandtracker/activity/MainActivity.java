@@ -12,17 +12,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.raizlabs.android.dbflow.list.FlowCursorList;
+import com.raizlabs.android.dbflow.structure.Model;
 
 import be.justcode.bandtracker.R;
 import be.justcode.bandtracker.clients.DataLoader;
 import be.justcode.bandtracker.model.Band;
 import be.justcode.bandtracker.model.DataContext;
 import be.justcode.bandtracker.utils.BandImageDownloader;
+import be.justcode.bandtracker.utils.FlowCursorAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,12 +48,12 @@ public class MainActivity extends AppCompatActivity {
         // list view
         final ListView listView = (ListView) findViewById(R.id.listMainBands);
 
-        mListAdapter = new BandsSeenAdapter(this, DataContext.bandList(""));
+        mListAdapter = new BandsSeenAdapter(this, "");
         listView.setAdapter(mListAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                BandDetailsActivity.showBand(MainActivity.this, DataContext.bandFromCursor((Cursor) mListAdapter.getItem(position)));
+                BandDetailsActivity.showBand(MainActivity.this, mListAdapter.getItem(position));
             }
         });
     }
@@ -84,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void refreshData() {
-        mListAdapter.changeCursor(DataContext.bandList(""));
+        mListAdapter.changePattern("");
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -92,29 +96,44 @@ public class MainActivity extends AppCompatActivity {
     // nested classes
     //
 
-    private class BandsSeenAdapter extends CursorAdapter {
-        public BandsSeenAdapter(Context context, Cursor cursor) {
-            super(context, cursor, 0);
+    private class BandsSeenAdapter extends FlowCursorAdapter<Band> {
+        public BandsSeenAdapter(Context context, String pattern) {
+            mContext = context;
+            changeCursor(DataContext.bandCursor(pattern));
         }
 
-        @Override
-        public View newView(Context context, Cursor cursor, ViewGroup parent) {
-            View view = LayoutInflater.from(context).inflate(R.layout.row_bands_seen, parent, false);
+        public void changePattern(String pattern) {
+            changeCursor(DataContext.bandCursor(pattern));
+        }
+
+        public View newView(ViewGroup parent) {
+            View view = LayoutInflater.from(mContext).inflate(R.layout.row_bands_seen, parent, false);
+
+            ViewHolder holder = new ViewHolder();
+            holder.bandName = (TextView) view.findViewById(R.id.lblBandName);
+            holder.imgBand  = (ImageView) view.findViewById(R.id.imgBand);
+            view.setTag(holder);
+
             return view;
         }
 
-        @Override
-        public void bindView(View view, Context context, Cursor cursor) {
-            TextView bandName = (TextView) view.findViewById(R.id.lblBandName);
-            ImageView imgBand = (ImageView) view.findViewById(R.id.imgBand);
+        public void bindView(View view, int position) {
 
-            Band band = DataContext.bandFromCursor(cursor);
+            Band band = getItem(position);
+            ViewHolder holder = (ViewHolder) view.getTag();
 
-            if (!bandName.getText().equals(band.getName())) {
-                bandName.setText(band.getName());
-                BandImageDownloader.run(band.getMBID(), MainActivity.this, imgBand);
+            if (!holder.bandName.getText().equals(band.getName())) {
+                holder.bandName.setText(band.getName());
+                BandImageDownloader.run(band.getMBID(), MainActivity.this, holder.imgBand);
             }
         }
+
+        private class ViewHolder {
+            TextView    bandName;
+            ImageView   imgBand;
+        }
+
+        private Context              mContext;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

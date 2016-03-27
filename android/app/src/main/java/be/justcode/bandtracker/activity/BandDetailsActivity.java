@@ -6,6 +6,7 @@ import be.justcode.bandtracker.model.DataContext;
 import be.justcode.bandtracker.model.Gig;
 import be.justcode.bandtracker.utils.BandImageDownloader;
 import be.justcode.bandtracker.utils.DateUtils;
+import be.justcode.bandtracker.utils.FlowCursorAdapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -62,13 +63,14 @@ public class BandDetailsActivity extends AppCompatActivity {
         // list view
         final ListView listView = (ListView) findViewById(R.id.listBandGigs);
 
-        mListAdapter = new BandsGigsAdapter(this, DataContext.gigList(mBand.getMBID()));
+        mListAdapter = new BandsGigsAdapter(this, mBand);
         listView.setAdapter(mListAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                GigDetailsActivity.viewExisting(BandDetailsActivity.this, mBand,
-                                                DataContext.gigFromCursor((Cursor) mListAdapter.getItem(position)) );
+                GigDetailsActivity.viewExisting(BandDetailsActivity.this,
+                                                mBand,
+                                                mListAdapter.getItem(position) );
             }
         });
     }
@@ -94,14 +96,16 @@ public class BandDetailsActivity extends AppCompatActivity {
     // nested classes
     //
 
-    private class BandsGigsAdapter extends CursorAdapter {
-        public BandsGigsAdapter(Context context, Cursor cursor) {
-            super(context, cursor, 0);
+    private class BandsGigsAdapter extends FlowCursorAdapter<Gig> {
+
+        public BandsGigsAdapter(Context context, Band band) {
+            mContext = context;
+            changeCursor(DataContext.gigCursor(band));
         }
 
         @Override
-        public View newView(Context context, Cursor cursor, ViewGroup parent) {
-            View view = LayoutInflater.from(context).inflate(R.layout.row_band_gig, parent, false);
+        public View newView(ViewGroup parent) {
+            View view = LayoutInflater.from(mContext).inflate(R.layout.row_band_gig, parent, false);
 
             // fields
             ViewHolder holder = new ViewHolder();
@@ -114,11 +118,11 @@ public class BandDetailsActivity extends AppCompatActivity {
         }
 
         @Override
-        public void bindView(View view, Context context, Cursor cursor) {
-            Gig gig           = DataContext.gigFromCursor(cursor);
+        public void bindView(View view, int position) {
+            Gig gig           = getItem(position);
             ViewHolder holder = (ViewHolder) view.getTag();
 
-            holder.lblLocation.setText(gig.getCity());
+            holder.lblLocation.setText(gig.getCityName());
             holder.lblDate.setText(DateUtils.dateToString(gig.getStartDate()));
             holder.ratingBar.setRating(gig.getRating() / 10);
         }
@@ -128,6 +132,8 @@ public class BandDetailsActivity extends AppCompatActivity {
             public TextView     lblDate;
             public RatingBar    ratingBar;
         };
+
+        private final Context mContext;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

@@ -2,6 +2,7 @@ package be.justcode.bandtracker.activity;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
@@ -108,7 +109,7 @@ public class ListSelectionCityDelegate implements ListSelectionActivity.Delegate
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... unused) {
-                List<City> newData = DataContext.cityList(newFilter, mParamCountry);
+                List<City> newData = DataContext.cityList(newFilter, DataContext.countryFetch(mParamCountry));
                 synchronized (this) { mOldCities = newData; }
                 return null;
             }
@@ -121,13 +122,13 @@ public class ListSelectionCityDelegate implements ListSelectionActivity.Delegate
     }
 
     @Override
-    public String selectedRow(int section, int row) {
+    public Parcelable selectedRow(int section, int row) {
         if (section == 0) {
-            return mManualInput;
+            return DataContext.cityCreate(mManualInput, DataContext.countryFetch(mParamCountry));
         } else if (section == 1) {
-            return mOldCities.get(row).getName();
+            return mOldCities.get(row);
         } else if (section == 2) {
-            return mNewCities.get(row);
+            return DataContext.cityCreate(mNewCities.get(row), DataContext.countryFetch(mParamCountry));
         }
 
         return null;

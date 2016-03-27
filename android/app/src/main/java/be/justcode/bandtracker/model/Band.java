@@ -3,9 +3,15 @@ package be.justcode.bandtracker.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.raizlabs.android.dbflow.annotation.Column;
+import com.raizlabs.android.dbflow.annotation.PrimaryKey;
+import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.structure.BaseModel;
+
 import be.justcode.bandtracker.clients.bandtracker.BandTrackerBand;
 
-public class Band implements Parcelable
+@Table(database = AppDatabase.class, allFields = true)
+public class Band extends BaseModel implements Parcelable
 {
     // construction
     Band() {
@@ -49,6 +55,10 @@ public class Band implements Parcelable
         return totalRating;
     }
 
+    public double getAvgRating() {
+        return avgRating;
+    }
+
     public String getFanartThumbUrl() {
         return fanartThumbUrl;
     }
@@ -72,10 +82,16 @@ public class Band implements Parcelable
 
     public void setNumGigs(int numGigs) {
         this.numGigs = numGigs;
+        computeAverageRating();
     }
 
     public void setTotalRating(int totalRating) {
         this.totalRating = totalRating;
+        computeAverageRating();
+    }
+
+    public void setAvgRating(double avgRating) {
+        this.avgRating = avgRating;
     }
 
     public void setFanartThumbUrl(String fanartThumbUrl) {
@@ -123,14 +139,23 @@ public class Band implements Parcelable
         }
     };
 
+    // helper functions
+    private void computeAverageRating() {
+        if (numGigs != 0)
+            avgRating = totalRating / numGigs;
+        else
+            avgRating = 0;
+    }
+
     // member variables
+    @PrimaryKey
     private String  MBID;
+
     private String  name;
     private String  biography;
-
     private int     numGigs;
     private int     totalRating;
-
+    private double  avgRating;
     private String  fanartThumbUrl;
     private String  fanartLogoUrl;
 }

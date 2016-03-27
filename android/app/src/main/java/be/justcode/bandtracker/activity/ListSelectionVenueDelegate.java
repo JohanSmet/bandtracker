@@ -2,6 +2,7 @@ package be.justcode.bandtracker.activity;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
@@ -10,6 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import be.justcode.bandtracker.clients.bandtracker.BandTrackerClient;
+import be.justcode.bandtracker.model.City;
+import be.justcode.bandtracker.model.Country;
 import be.justcode.bandtracker.model.DataContext;
 import be.justcode.bandtracker.model.Venue;
 
@@ -112,7 +115,10 @@ public class ListSelectionVenueDelegate implements ListSelectionActivity.Delegat
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... unused) {
-                List<Venue> newData = DataContext.venueList(newFilter, mParamCity, mParamCountry);
+                Country country = (!mParamCountry.isEmpty()) ? DataContext.countryFetch(mParamCountry) : null;
+                City    city    = (!mParamCity.isEmpty()) ? DataContext.cityById(Long.parseLong(mParamCity)) : null;
+
+                List<Venue> newData = DataContext.venueList(newFilter, city, country);
                 synchronized (this) { mOldVenues = newData; }
                 return null;
             }
@@ -125,13 +131,16 @@ public class ListSelectionVenueDelegate implements ListSelectionActivity.Delegat
     }
 
     @Override
-    public String selectedRow(int section, int row) {
+    public Parcelable selectedRow(int section, int row) {
+        Country country = (!mParamCountry.isEmpty()) ? DataContext.countryFetch(mParamCountry) : null;
+        City    city    = (!mParamCity.isEmpty()) ? DataContext.cityById(Long.parseLong(mParamCity)) : null;
+
         if (section == 0) {
-            return mManualInput;
+            return DataContext.venueCreate(mManualInput, city, country);
         } else if (section == 1) {
-            return mOldVenues.get(row).getName();
+            return mOldVenues.get(row);
         } else if (section == 2) {
-            return mNewVenues.get(row);
+            return DataContext.venueCreate(mNewVenues.get(row), city, country);
         }
 
         return null;
