@@ -165,7 +165,7 @@ public class Gig extends BaseModel implements Parcelable {
     };
 
     // member variables
-    @PrimaryKey
+    @PrimaryKey(autoincrement = true)
     private int     id;
 
     @ForeignKey
