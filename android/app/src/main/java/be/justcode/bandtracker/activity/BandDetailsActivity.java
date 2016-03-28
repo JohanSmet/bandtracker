@@ -81,6 +81,12 @@ public class BandDetailsActivity extends AppCompatActivity {
         BandImageDownloader.run(mBand.getMBID(), this, imgBand);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mListAdapter.refresh();
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //
     // button events
@@ -101,6 +107,12 @@ public class BandDetailsActivity extends AppCompatActivity {
         public BandsGigsAdapter(Context context, Band band) {
             mContext = context;
             changeCursor(DataContext.gigCursor(band));
+        }
+
+        @Override
+        public void refresh() {
+            super.refresh();
+            notifyDataSetChanged();
         }
 
         @Override

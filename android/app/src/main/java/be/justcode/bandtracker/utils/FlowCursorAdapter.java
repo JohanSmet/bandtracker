@@ -24,6 +24,10 @@ public class FlowCursorAdapter<T extends Model> extends BaseAdapter {
         return position;
     }
 
+    public void refresh() {
+        mCursor.refresh();
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
