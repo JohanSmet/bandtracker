@@ -10,7 +10,6 @@ import be.justcode.bandtracker.utils.FlowCursorAdapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,7 +19,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
@@ -29,6 +27,7 @@ import android.widget.TextView;
 public class BandDetailsActivity extends AppCompatActivity {
 
     private static final String INTENT_BAND_PARAMETER = "param_band";
+    private static final String STATE_BAND = "state_band";
 
     public static void showBand(Context context, Band band) {
         Intent intent = new Intent(context, BandDetailsActivity.class);
@@ -42,9 +41,13 @@ public class BandDetailsActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_band_details);
 
-        // read params
-        Bundle bundle = getIntent().getExtras();
-        mBand = bundle.getParcelable(INTENT_BAND_PARAMETER);
+        // read state / params
+        if (savedInstanceState != null) {
+            mBand = savedInstanceState.getParcelable(STATE_BAND);
+        } else {
+            Bundle bundle = getIntent().getExtras();
+            mBand = bundle.getParcelable(INTENT_BAND_PARAMETER);
+        }
 
         // toolbar
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolBar);
@@ -73,6 +76,13 @@ public class BandDetailsActivity extends AppCompatActivity {
                                                 mListAdapter.getItem(position) );
             }
         });
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+
+        savedInstanceState.putParcelable(STATE_BAND, mBand);
     }
 
     private void displayBand() {
