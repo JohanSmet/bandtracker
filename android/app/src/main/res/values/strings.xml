@@ -19,4 +19,9 @@
     <string name="action_gig_edit">Edit</string>
     <string name="action_gig_save">Save</string>
     <string name="action_gig_delete">Delete</string>
+    <string name="bandImageDescription">Band Logo</string>
+    <string name="dummyBandName"><![CDATA[<Band Name>]]></string>
+    <string name="band_list_numgigs_multiple">(%1$d gigs)</string>
+    <string name="band_list_numgigs_single">(1 gig)</string>
+    <string name="band_list_numgigs_none">(no gigs)</string>
 </resources>

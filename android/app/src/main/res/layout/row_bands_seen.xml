@@ -8,37 +8,50 @@
         android:layout_height="50dp"
         android:id="@+id/pnlImage"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         >
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/imgBand"
-        android:layout_margin="2dp"
-        android:scaleType="fitCenter"/>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/imgBand"
+            android:layout_margin="2dp"
+            android:scaleType="fitCenter"
+            android:contentDescription="@string/bandImageDescription"/>
     </LinearLayout>
 
     <TextView
+        android:id="@+id/lblBandName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Band Name"
-        android:id="@+id/lblBandName"
+        android:text="@string/dummyBandName"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/pnlImage"
         android:layout_toEndOf="@+id/pnlImage"
-        android:layout_marginLeft="4dp"/>
+        android:layout_marginStart="4dp"/>
 
     <TextView
+        android:id="@+id/lblNumGigs"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="(you have seen n gigs)"
-        android:id="@+id/lblNumGigs"
+        android:text="@string/band_list_numgigs_multiple"
         android:layout_below="@+id/lblBandName"
-        android:layout_alignLeft="@+id/lblBandName"
-        android:layout_alignStart="@+id/lblBandName"/>
+        android:layout_alignStart="@+id/lblBandName"
+        android:textStyle="italic"/>
+
+    <RatingBar
+        android:id="@+id/ratingBar"
+        style = "?android:attr/ratingBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="5"
+        android:rating="3"
+        android:layout_below="@+id/lblBandName"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="8dp"
+        android:progressTint="@color/colorPrimary"
+        />
+
 </RelativeLayout>

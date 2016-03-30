@@ -2,7 +2,6 @@ package be.justcode.bandtracker.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
@@ -12,14 +11,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
-
-import com.raizlabs.android.dbflow.list.FlowCursorList;
-import com.raizlabs.android.dbflow.structure.Model;
 
 import be.justcode.bandtracker.R;
 import be.justcode.bandtracker.clients.DataLoader;
@@ -110,8 +105,10 @@ public class MainActivity extends AppCompatActivity {
             View view = LayoutInflater.from(mContext).inflate(R.layout.row_bands_seen, parent, false);
 
             ViewHolder holder = new ViewHolder();
-            holder.bandName = (TextView) view.findViewById(R.id.lblBandName);
-            holder.imgBand  = (ImageView) view.findViewById(R.id.imgBand);
+            holder.lblBandName = (TextView) view.findViewById(R.id.lblBandName);
+            holder.lblNumGigs  = (TextView) view.findViewById(R.id.lblNumGigs);
+            holder.imgBand     = (ImageView) view.findViewById(R.id.imgBand);
+            holder.ratingBar   = (RatingBar) view.findViewById(R.id.ratingBar);
             view.setTag(holder);
 
             return view;
@@ -122,14 +119,21 @@ public class MainActivity extends AppCompatActivity {
             Band band = getItem(position);
             ViewHolder holder = (ViewHolder) view.getTag();
 
-            if (!holder.bandName.getText().equals(band.getName())) {
-                holder.bandName.setText(band.getName());
+            if (!holder.lblBandName.getText().equals(band.getName())) {
+                holder.lblBandName.setText(band.getName());
                 BandImageDownloader.run(band.getMBID(), MainActivity.this, holder.imgBand);
             }
+
+            holder.ratingBar.setRating((float) band.getAvgRating() / 10.0f);
+
+            int textId = (band.getNumGigs() == 0) ? R.string.band_list_numgigs_none : (band.getNumGigs() == 1 ) ? R.string.band_list_numgigs_single : R.string.band_list_numgigs_multiple;
+            holder.lblNumGigs.setText(String.format(getString(textId), band.getNumGigs()));
         }
 
         private class ViewHolder {
-            TextView    bandName;
+            TextView    lblBandName;
+            TextView    lblNumGigs;
+            RatingBar   ratingBar;
             ImageView   imgBand;
         }
 
