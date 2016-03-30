@@ -113,6 +113,7 @@ public class GigDetailsActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_gigdetails_toolbar, menu);
         menuGigEdit = menu.findItem(R.id.action_gig_edit);
+        menuGigDelete = menu.findItem(R.id.action_gig_delete);
         menuGigSave = menu.findItem(R.id.action_gig_save);
         uiMenuSetMode(mMode != MODE_VIEW);
         return super.onCreateOptionsMenu(menu);
@@ -124,6 +125,11 @@ public class GigDetailsActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_gig_edit:
                 changeToEditMode();
+                break;
+
+            case R.id.action_gig_delete:
+                deleteFromDatabase();
+                finish();
                 break;
 
             case R.id.action_gig_save:
@@ -220,6 +226,7 @@ public class GigDetailsActivity extends AppCompatActivity {
 
     private void uiMenuSetMode(boolean editMode) {
         menuGigEdit.setVisible(!editMode);
+        menuGigDelete.setVisible(!editMode);
         menuGigSave.setVisible(editMode);
     }
 
@@ -239,6 +246,11 @@ public class GigDetailsActivity extends AppCompatActivity {
     private void saveToDatabase() {
         fieldsToGig();
         mGig.save();
+        mBand.save();
+    }
+
+    private void deleteFromDatabase() {
+        mGig.delete();
         mBand.save();
     }
 
@@ -309,4 +321,5 @@ public class GigDetailsActivity extends AppCompatActivity {
 
     private MenuItem    menuGigSave;
     private MenuItem    menuGigEdit;
+    private MenuItem    menuGigDelete;
 }
