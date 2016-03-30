@@ -42,6 +42,10 @@ public class DataContext
         }
     }
 
+    public static Band bandFetch(String mbid) {
+        return SQLite.select().from(Band.class).where(Band_Table.MBID.eq(mbid)).querySingle();
+    }
+
     // countries
     public static void countryDeleteAll() {
         Delete.table(Country.class);

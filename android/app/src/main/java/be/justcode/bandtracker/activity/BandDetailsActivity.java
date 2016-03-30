@@ -112,6 +112,12 @@ public class BandDetailsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        // refresh band information
+        mBand = DataContext.bandFetch(mBand.getMBID());
+        displayBand();
+
+        // refresh gig list
         mListAdapter.refresh();
     }
 
