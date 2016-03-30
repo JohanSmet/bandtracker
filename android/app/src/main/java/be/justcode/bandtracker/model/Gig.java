@@ -7,6 +7,7 @@ import com.raizlabs.android.dbflow.annotation.ForeignKey;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
+import com.raizlabs.android.dbflow.structure.container.ForeignKeyContainer;
 
 import java.util.Date;
 
@@ -170,6 +171,7 @@ public class Gig extends BaseModel implements Parcelable {
 
     @ForeignKey
     private Band    band;
+
     private Date    startDate;
 
     @ForeignKey

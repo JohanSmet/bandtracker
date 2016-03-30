@@ -239,6 +239,7 @@ public class GigDetailsActivity extends AppCompatActivity {
     private void saveToDatabase() {
         fieldsToGig();
         mGig.save();
+        mBand.save();
     }
 
     private void gigToFields() {

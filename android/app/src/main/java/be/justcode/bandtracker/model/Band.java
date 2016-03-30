@@ -4,9 +4,13 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.raizlabs.android.dbflow.annotation.Column;
+import com.raizlabs.android.dbflow.annotation.ColumnIgnore;
+import com.raizlabs.android.dbflow.annotation.OneToMany;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
+
+import java.util.List;
 
 import be.justcode.bandtracker.clients.bandtracker.BandTrackerBand;
 
@@ -32,6 +36,12 @@ public class Band extends BaseModel implements Parcelable
         totalRating     = 0;
         fanartThumbUrl  = "";
         fanartLogoUrl   = "";
+    }
+
+    @Override
+    public void save() {
+        computeTotals();
+        super.save();
     }
 
     // getters
@@ -65,6 +75,15 @@ public class Band extends BaseModel implements Parcelable
 
     public String getFanartLogoUrl() {
         return fanartLogoUrl;
+    }
+
+    public List<Gig> getGigs() {
+
+        if (gigs == null || gigs.isEmpty()) {
+            gigs = DataContext.gigList(this);
+        }
+
+        return gigs;
     }
 
     // setters
@@ -115,6 +134,7 @@ public class Band extends BaseModel implements Parcelable
         parcel.writeString(biography);
         parcel.writeInt(numGigs);
         parcel.writeInt(totalRating);
+        parcel.writeDouble(avgRating);
         parcel.writeString(fanartThumbUrl);
         parcel.writeString(fanartLogoUrl);
     }
@@ -125,6 +145,7 @@ public class Band extends BaseModel implements Parcelable
         biography       = parcel.readString();
         numGigs         = parcel.readInt();
         totalRating     = parcel.readInt();
+        avgRating       = parcel.readDouble();
         fanartThumbUrl  = parcel.readString();
         fanartLogoUrl   = parcel.readString();
     }
@@ -147,6 +168,17 @@ public class Band extends BaseModel implements Parcelable
             avgRating = 0;
     }
 
+    private void computeTotals() {
+        numGigs = getGigs().size();
+        totalRating = 0;
+
+        for (Gig gig : getGigs()) {
+            totalRating += gig.getRating();
+        }
+
+        computeAverageRating();
+    }
+
     // member variables
     @PrimaryKey
     private String  MBID;
@@ -158,4 +190,7 @@ public class Band extends BaseModel implements Parcelable
     private double  avgRating;
     private String  fanartThumbUrl;
     private String  fanartLogoUrl;
+
+    @ColumnIgnore
+    private List<Gig> gigs;
 }

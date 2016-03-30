@@ -106,7 +106,7 @@ public class BandDetailsActivity extends AppCompatActivity {
         }
 
         BandImageDownloader.run(mBand.getMBID(), this, imgBand);
-        bandRating.setRating((float) mBand.getAvgRating());
+        bandRating.setRating((float) mBand.getAvgRating() / 10.0f);
     }
 
     @Override

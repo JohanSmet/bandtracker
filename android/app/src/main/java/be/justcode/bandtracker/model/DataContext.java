@@ -174,5 +174,12 @@ public class DataContext
                                       );
     }
 
+    public static List<Gig> gigList(Band band) {
+        return SQLite.select().from(Gig.class)
+                    .where(Gig_Table.band_MBID.is(band.getMBID()))
+                    .orderBy(Gig_Table.startDate, false)
+                    .queryList();
+    }
+
 }
 
