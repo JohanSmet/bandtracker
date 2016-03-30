@@ -2,7 +2,9 @@
     <string name="app_name">BandTracker</string>
     <string name="action_band_add">Add</string>
     <string name="action_band_search">Search</string>
-    <string name="band_details_header">You have been to n gigs.</string>
+    <string name="band_details_giglist_multiple">You have been to %1$d gigs:</string>
+    <string name="band_details_giglist_single">You have been to one gig:</string>
+    <string name="band_details_giglist_none">You have not been to any gigs yet.</string>
     <string name="lblStartDate">Starts</string>
     <string name="lblStarTime"/>
     <string name="lblSupportAct">Support Act</string>

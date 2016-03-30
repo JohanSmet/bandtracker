@@ -1,14 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="horizontal"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
 
-    <RelativeLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        >
+    <LinearLayout
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:id="@+id/pnlImage"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="32dp"
+        android:layout_alignParentBottom="true" >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/imgCountryFlag"
+            android:layout_margin="2dp"
+            android:scaleType="fitCenter"
+            android:alpha="0.2"
+            />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/lblLocation"
@@ -17,7 +31,6 @@
         android:text="Location"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_marginStart="4dp"
-
         />
 
     <TextView
@@ -26,10 +39,9 @@
         android:layout_height="wrap_content"
         android:text="Date"
         android:layout_below="@+id/lblLocation"
-        android:layout_alignLeft="@+id/lblLocation"
+        android:layout_alignStart="@+id/lblLocation"
+        android:layout_toStartOf="@+id/ratingBar"
         />
-
-    </RelativeLayout>
 
     <RatingBar
         android:id="@+id/ratingBar"
@@ -37,8 +49,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:numStars="5"
-        android:rating="2"
-        android:layout_gravity="center_vertical"
+        android:rating="3"
+        android:layout_below="@+id/lblLocation"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="8dp"
+        android:progressTint="@color/colorPrimary"
         />
 
-</LinearLayout>
+</RelativeLayout>

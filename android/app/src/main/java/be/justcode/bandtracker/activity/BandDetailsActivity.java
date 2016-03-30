@@ -5,11 +5,14 @@ import be.justcode.bandtracker.model.Band;
 import be.justcode.bandtracker.model.DataContext;
 import be.justcode.bandtracker.model.Gig;
 import be.justcode.bandtracker.utils.BandImageDownloader;
+import be.justcode.bandtracker.utils.CountryCache;
 import be.justcode.bandtracker.utils.DateUtils;
 import be.justcode.bandtracker.utils.FlowCursorAdapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
+import android.os.Environment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -59,8 +62,10 @@ public class BandDetailsActivity extends AppCompatActivity {
         ab.setTitle(mBand.getName());
 
         // init fields
-        txtBiography = (TextView)  findViewById(R.id.txtBiography);
-        imgBand      = (ImageView) findViewById(R.id.imgBand);
+        txtBiography     = (TextView)  findViewById(R.id.txtBiography);
+        txtGigListHeader = (TextView)  findViewById(R.id.txtGigListHeader);
+        imgBand          = (ImageView) findViewById(R.id.imgBand);
+        bandRating       = (RatingBar) findViewById(R.id.bandRating);
         displayBand();
 
         // list view
@@ -88,7 +93,20 @@ public class BandDetailsActivity extends AppCompatActivity {
     private void displayBand() {
         txtBiography.setText(Html.fromHtml(mBand.getBiography()));
 
+        switch (mBand.getNumGigs()) {
+            case 0 :
+                txtGigListHeader.setText(getString(R.string.band_details_giglist_none));
+                break;
+            case 1 :
+                txtGigListHeader.setText(getString(R.string.band_details_giglist_single));
+                break;
+            default :
+                String title = getString(R.string.band_details_giglist_multiple);
+                txtGigListHeader.setText(String.format(title, mBand.getNumGigs()));
+        }
+
         BandImageDownloader.run(mBand.getMBID(), this, imgBand);
+        bandRating.setRating((float) mBand.getAvgRating());
     }
 
     @Override
@@ -134,6 +152,7 @@ public class BandDetailsActivity extends AppCompatActivity {
             holder.lblLocation = (TextView) view.findViewById(R.id.lblLocation);
             holder.lblDate     = (TextView) view.findViewById(R.id.lblDate);
             holder.ratingBar   = (RatingBar) view.findViewById(R.id.ratingBar);
+            holder.imgFlag     = (ImageView) view.findViewById(R.id.imgCountryFlag);
             view.setTag(holder);
 
             return view;
@@ -147,12 +166,18 @@ public class BandDetailsActivity extends AppCompatActivity {
             holder.lblLocation.setText(gig.getCityName());
             holder.lblDate.setText(DateUtils.dateToString(gig.getStartDate()));
             holder.ratingBar.setRating(gig.getRating() / 10);
+
+            if (gig.getCountry() != null)
+                holder.imgFlag.setImageDrawable(CountryCache.get(mContext, gig.getCountry().getCode()).getDrawable());
+            else
+                holder.imgFlag.setImageDrawable(null);
         }
 
         private class ViewHolder {
             public TextView     lblLocation;
             public TextView     lblDate;
             public RatingBar    ratingBar;
+            public ImageView    imgFlag;
         };
 
         private final Context mContext;
@@ -166,7 +191,9 @@ public class BandDetailsActivity extends AppCompatActivity {
     private Band        mBand;
 
     private TextView    txtBiography;
+    private TextView    txtGigListHeader;
     private ImageView   imgBand;
+    private RatingBar   bandRating;
 
     private BandsGigsAdapter mListAdapter;
 }
