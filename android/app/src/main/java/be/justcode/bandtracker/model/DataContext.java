@@ -13,6 +13,7 @@ import java.util.List;
 
 import be.justcode.bandtracker.clients.bandtracker.BandTrackerBand;
 import be.justcode.bandtracker.clients.bandtracker.BandTrackerCountry;
+import be.justcode.bandtracker.utils.FanartTvDownloader;
 
 public class DataContext
 {
@@ -23,9 +24,12 @@ public class DataContext
     // bands
     public static Band bandCreate(BandTrackerBand serverBand) {
 
-        // create in memory
+        // create band
         Band band = new Band(serverBand);
         band.save();
+
+        // download extra information about the band
+        FanartTvDownloader.run(band);
 
         return band;
     }

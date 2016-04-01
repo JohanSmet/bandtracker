@@ -41,16 +41,13 @@ public class BandTrackerClient
 
         if (restClient == null) {
 
-            String serverHost    = App.getContext().getString(R.string.bandtracker_host);
-            String serverBaseUrl = App.getContext().getString(R.string.bandtracker_proto) + "://" + serverHost + ":" + App.getContext().getString(R.string.bandtracker_port);
-
             gsonConverter = new GsonConverter(new GsonBuilder()
                     .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
                     .create()
             );
 
             restClient = new RestAdapter.Builder()
-                .setEndpoint(serverBaseUrl)
+                .setEndpoint(serverBaseUrl())
                 .setConverter(gsonConverter)
                 .setClient(new OkClient(OkHttpBuilder.getUnsafeClient(App.getContext(), true)))
                 .setRequestInterceptor(new RequestInterceptor()
@@ -68,6 +65,11 @@ public class BandTrackerClient
                 .create(IBandTracker.class)
             ;
         }
+    }
+
+    private String serverBaseUrl() {
+        String serverHost    = App.getContext().getString(R.string.bandtracker_host);
+        return App.getContext().getString(R.string.bandtracker_proto) + "://" + serverHost + ":" + App.getContext().getString(R.string.bandtracker_port);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -161,6 +163,20 @@ public class BandTrackerClient
             Log.d(LOG_TAG, "bandImage", e);
             return null;
         } catch (IOException e) {
+            return null;
+        }
+    }
+
+    public String bandImageUrl(String bandId) {
+        try {
+            // make sure we're logged in before making the request
+            if (authToken == null) {
+                login();
+            }
+
+            return serverBaseUrl() + "/api/bandImage/" + bandId.trim() + "?access-token=" + authToken;
+        } catch (RetrofitError e) {
+            Log.d(LOG_TAG, "bandImage", e);
             return null;
         }
     }

@@ -108,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
             holder.lblBandName = (TextView) view.findViewById(R.id.lblBandName);
             holder.lblNumGigs  = (TextView) view.findViewById(R.id.lblNumGigs);
             holder.imgBand     = (ImageView) view.findViewById(R.id.imgBand);
+            holder.imgLogo     = (ImageView) view.findViewById(R.id.imgLogo);
             holder.ratingBar   = (RatingBar) view.findViewById(R.id.ratingBar);
             view.setTag(holder);
 
@@ -121,7 +122,8 @@ public class MainActivity extends AppCompatActivity {
 
             if (!holder.lblBandName.getText().equals(band.getName())) {
                 holder.lblBandName.setText(band.getName());
-                BandImageDownloader.run(band.getMBID(), MainActivity.this, holder.imgBand);
+                BandImageDownloader.thumbnail(band, MainActivity.this, holder.imgBand);
+                BandImageDownloader.logo(band, MainActivity.this, holder.imgLogo);
             }
 
             holder.ratingBar.setRating((float) band.getAvgRating() / 10.0f);
@@ -135,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
             TextView    lblNumGigs;
             RatingBar   ratingBar;
             ImageView   imgBand;
+            ImageView   imgLogo;
         }
 
         private Context              mContext;

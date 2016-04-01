@@ -27,7 +27,9 @@ import java.util.Collection;
 import be.justcode.bandtracker.R;
 import be.justcode.bandtracker.clients.bandtracker.BandTrackerBand;
 import be.justcode.bandtracker.clients.bandtracker.BandTrackerClient;
+import be.justcode.bandtracker.model.Band;
 import be.justcode.bandtracker.model.DataContext;
+import be.justcode.bandtracker.utils.FanartTvDownloader;
 
 public class BandSearchActivity extends AppCompatActivity {
 
@@ -94,7 +96,7 @@ public class BandSearchActivity extends AppCompatActivity {
 
     private void handleSelection(BandTrackerBand band) {
 
-        // XXX save the band ?
+        // save the band to the database
         DataContext.bandCreate(band);
 
         // send word to the activity that called us

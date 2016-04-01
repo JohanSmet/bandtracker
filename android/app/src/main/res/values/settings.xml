@@ -4,4 +4,10 @@
     <string name="bandtracker_proto">https</string>
     <string name="bandtracker_host">/bandtracker-justcode.rhcloud.com</string>
     <string name="bandtracker_port">443</string>
+
+    <!-- fanarttv client-->
+    <string name="fanarttv_proto">http</string>
+    <string name="fanarttv_host">/webservice.fanart.tv</string>
+    <string name="fanarttv_port">80</string>
+    <string name="fanarttv_key">ac9abc733f22a965f1a9579d648c1c9b</string>
 </resources>

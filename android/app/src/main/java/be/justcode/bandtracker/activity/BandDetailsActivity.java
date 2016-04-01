@@ -11,8 +11,6 @@ import be.justcode.bandtracker.utils.FlowCursorAdapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
-import android.os.Environment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -105,7 +103,7 @@ public class BandDetailsActivity extends AppCompatActivity {
                 txtGigListHeader.setText(String.format(title, mBand.getNumGigs()));
         }
 
-        BandImageDownloader.run(mBand.getMBID(), this, imgBand);
+        BandImageDownloader.thumbnail(mBand, this, imgBand);
         bandRating.setRating((float) mBand.getAvgRating() / 10.0f);
     }
 
