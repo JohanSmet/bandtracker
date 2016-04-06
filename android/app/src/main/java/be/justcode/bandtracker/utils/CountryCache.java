@@ -24,6 +24,17 @@ public class CountryCache {
         return cd;
     }
 
+    public static Country getCountry(String code) {
+
+        CountryDrawable cd = mCache.get(code);
+
+        if (cd != null) {
+            return cd.getCountry();
+        }
+
+        return null;
+    }
+
     // nested types
     public static class CountryDrawable  {
 

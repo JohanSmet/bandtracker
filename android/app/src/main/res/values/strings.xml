@@ -25,4 +25,8 @@
     <string name="band_list_numgigs_none">(no gigs)</string>
     <string name="bandImageDescription">Band Picture</string>
     <string name="logoImageDescription">Band Logo</string>
+    <string name="title_activity_gig_guided_creation">GigGuidedCreation</string>
+    <string name="filter_country">Filter on country</string>
+    <string name="filter_year">Filter on year:</string>
+    <string name="button_manual_create">Manually create a gig</string>
 </resources>

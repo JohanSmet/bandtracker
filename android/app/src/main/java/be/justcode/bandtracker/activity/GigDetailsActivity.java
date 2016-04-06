@@ -59,6 +59,14 @@ public class GigDetailsActivity extends AppCompatActivity {
         context.startActivity(intent);
     }
 
+    public static void editExisting(Context context, Band band, Gig gig) {
+        Intent intent = new Intent(context, GigDetailsActivity.class);
+        intent.putExtra(INTENT_BAND_PARAMETER, band);
+        intent.putExtra(INTENT_GIG_PARAMETER, gig);
+        intent.putExtra(INTENT_MODE_PARAMETER, MODE_EDIT);
+        context.startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

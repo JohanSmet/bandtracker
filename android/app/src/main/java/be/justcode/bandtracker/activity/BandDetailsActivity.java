@@ -1,6 +1,7 @@
 package be.justcode.bandtracker.activity;
 
 import be.justcode.bandtracker.R;
+import be.justcode.bandtracker.clients.bandtracker.BandTrackerClient;
 import be.justcode.bandtracker.model.Band;
 import be.justcode.bandtracker.model.DataContext;
 import be.justcode.bandtracker.model.Gig;
@@ -11,6 +12,7 @@ import be.justcode.bandtracker.utils.FlowCursorAdapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,6 +26,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BandDetailsActivity extends AppCompatActivity {
 
@@ -79,6 +84,19 @@ public class BandDetailsActivity extends AppCompatActivity {
                                                 mListAdapter.getItem(position) );
             }
         });
+
+        // retrieve the years of the available tourdates
+        AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
+            @Override
+            public void run() {
+                List<Integer> dates = BandTrackerClient.getInstance().tourDateYears(mBand.getMBID());
+
+                if (dates != null)
+                    mTourDateYears = new ArrayList<>(dates);
+                else
+                    mTourDateYears = null;
+            }
+        });
     }
 
     @Override
@@ -125,7 +143,11 @@ public class BandDetailsActivity extends AppCompatActivity {
     //
 
     public void btnGigAdd_clicked(View p_view) {
-        GigDetailsActivity.createNew(this, mBand);
+        if (mTourDateYears != null && !mTourDateYears.isEmpty()) {
+            GigGuidedCreation.run(this, mBand, mTourDateYears);
+        } else {
+            GigDetailsActivity.createNew(this, mBand);
+        }
     }
 
 
@@ -200,4 +222,6 @@ public class BandDetailsActivity extends AppCompatActivity {
     private RatingBar   bandRating;
 
     private BandsGigsAdapter mListAdapter;
+
+    private ArrayList<Integer> mTourDateYears;
 }

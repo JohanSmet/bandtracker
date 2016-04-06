@@ -8,6 +8,7 @@ import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import be.justcode.bandtracker.App;
@@ -95,6 +96,13 @@ public class BandTrackerClient
 
         @GET("/api/venue/find")
         public List<String> findVenues(@Query("pattern") String name, @Query("city") String city, @Query("country") String country);
+
+        @GET("/api/tourdate/find")
+        public List<BandTrackerTourDate> tourDateFind(@Query("band") String bandId, @Query("start") Date dateFrom, @Query("end") Date dateTo, @Query("country") String country, @Query("location") String location);
+
+        @GET("/api/tourdate/band-years")
+        public List<Integer> tourDateYears(@Query("band") String bandId);
+
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -222,10 +230,44 @@ public class BandTrackerClient
 
             // make the request
             return restClient.findVenues(name, city != null && !city.isEmpty() ? city : null,
-                                         country != null && !country.isEmpty() ? country : null);
+                    country != null && !country.isEmpty() ? country : null);
 
         } catch (RetrofitError e) {
             Log.d(LOG_TAG, "findVenues", e);
+            return null;
+        }
+    }
+
+    public List<BandTrackerTourDate> tourDateFind(String bandId, Date dateFrom, Date dateTo, String country, String location) {
+        try {
+            // make sure we're logged in before making the request
+            if (authToken == null) {
+                login();
+            }
+
+            // make the request
+            return restClient.tourDateFind(bandId, dateFrom, dateTo,
+                        country != null && !country.isEmpty() ? country : null,
+                        location != null && !location.isEmpty() ? location : null);
+
+        } catch (RetrofitError e) {
+            Log.d(LOG_TAG, "tourDateFind", e);
+            return null;
+        }
+    }
+
+    public List<Integer> tourDateYears(String bandId) {
+        try {
+            // make sure we're logged in before making the request
+            if (authToken == null) {
+                login();
+            }
+
+            // make the request
+            return restClient.tourDateYears(bandId);
+
+        } catch (RetrofitError e) {
+            Log.d(LOG_TAG, "tourDateYears", e);
             return null;
         }
     }

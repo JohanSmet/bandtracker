@@ -11,6 +11,9 @@ import com.raizlabs.android.dbflow.structure.container.ForeignKeyContainer;
 
 import java.util.Date;
 
+import be.justcode.bandtracker.clients.bandtracker.BandTrackerTourDate;
+import be.justcode.bandtracker.utils.CountryCache;
+
 @Table(database = AppDatabase.class, allFields = true)
 public class Gig extends BaseModel implements Parcelable {
 
@@ -23,6 +26,18 @@ public class Gig extends BaseModel implements Parcelable {
         venue       = null;
         stage       = "";
         supportAct  = false;
+        rating      = 0;
+        comments    = "";
+    }
+
+    public Gig(BandTrackerTourDate tourDate) {
+        band        = DataContext.bandFetch(tourDate.getBandId());
+        startDate   = tourDate.getStartDate();
+        country     = CountryCache.getCountry(tourDate.getCountryCode());
+        city        = DataContext.cityByName(tourDate.getCity(), country);
+        venue       = DataContext.venueByName(tourDate.getVenue(), city, country);
+        stage       = tourDate.getStage();
+        supportAct  = tourDate.isSupportAct();
         rating      = 0;
         comments    = "";
     }
@@ -80,6 +95,28 @@ public class Gig extends BaseModel implements Parcelable {
         return (venue != null) ? venue.getName() : "";
     }
 
+    public String formatLocation() {
+        String location = "";
+        String separator = "";
+        boolean venueSet = false;
+
+        if (venue != null) {
+            location += separator + venue.getName();
+            separator = ",";
+            venueSet  = true;
+        }
+
+        if (city != null) {
+            location += separator + city.getName();
+            separator = ",";
+        }
+
+        if (!venueSet && country != null) {
+            location += separator + country.getName();
+        }
+
+        return location;
+    }
 
     // setters
     public void setId(int id) {
