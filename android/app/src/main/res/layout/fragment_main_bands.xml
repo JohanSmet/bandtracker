@@ -1,0 +1,27 @@
+<android.support.design.widget.CoordinatorLayout
+             xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context="be.justcode.bandtracker.activity.MainBandsFragment">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/listMainBands"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btnBandAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_add_white_24dp"
+        app:layout_anchor="@id/listMainBands"
+        app:layout_anchorGravity="bottom|right|end"
+        app:layout_behavior="be.justcode.bandtracker.utils.ScrollAwareFABBehavior"
+        android:clickable="true"
+        />
+
+</android.support.design.widget.CoordinatorLayout>

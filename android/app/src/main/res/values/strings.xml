@@ -29,4 +29,7 @@
     <string name="filter_country">Filter on country</string>
     <string name="filter_year">Filter on year:</string>
     <string name="button_manual_create">Manually create a gig</string>
+
+    <string name="page_bands">Bands</string>
+
 </resources>
