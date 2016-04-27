@@ -2,6 +2,7 @@ package be.justcode.bandtracker.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.PersistableBundle;
 import android.support.v4.view.MenuItemCompat;
@@ -35,6 +36,9 @@ public class BandSearchActivity extends AppCompatActivity {
 
     public static final int SELECT_BAND_REQUEST = 100;
 
+    private static final String SHARED_PREFERENCES_KEY = "be.justcode.bandtracker.BandSearchActivity";
+    private static final String PREF_SEARCH_STRING = "search_string";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -48,6 +52,7 @@ public class BandSearchActivity extends AppCompatActivity {
         // actionbar
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
+        ab.setTitle(getText(R.string.band_search_title));
 
         // listview
         mListAdapter      = new BandsArrayAdapter(this);
@@ -60,6 +65,10 @@ public class BandSearchActivity extends AppCompatActivity {
                 handleSelection(mListAdapter.getItem(position));
             }
         });
+
+        // load the last used search string
+        SharedPreferences sharedPref = getSharedPreferences(SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
+        mSearchString = sharedPref.getString(PREF_SEARCH_STRING, "");
     }
 
     @Override
@@ -69,29 +78,40 @@ public class BandSearchActivity extends AppCompatActivity {
 
         // configure searchview
         MenuItem searchItem = menu.findItem(R.id.action_band_search);
+        searchItem.expandActionView();
+
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
-        {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query)
-            {
+            public boolean onQueryTextSubmit(String query) {
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                mSearchString = newText;
                 refreshData(newText);
                 return true;
             }
         });
+        searchView.setQuery(mSearchString, true);
 
         return super.onCreateOptionsMenu(menu);
     }
 
+    private void saveSearchString() {
+        SharedPreferences sharedPref = getSharedPreferences(SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(PREF_SEARCH_STRING, mSearchString);
+        editor.commit();
+    }
+
     private void refreshData(String query) {
-        if (query.length() >= 2)
+        if (query.length() >= 2) {
             new BandsRetrieveTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, query);
+            saveSearchString();
+        }
     }
 
     private void handleSelection(BandTrackerBand band) {
@@ -153,6 +173,5 @@ public class BandSearchActivity extends AppCompatActivity {
     //
 
     BandsArrayAdapter   mListAdapter;
-
-
+    String              mSearchString;
 }

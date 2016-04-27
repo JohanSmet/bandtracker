@@ -30,6 +30,8 @@
     <string name="filter_year">Filter on year:</string>
     <string name="button_manual_create">Manually create a gig</string>
 
+    <string name="band_search_title">Add a new band</string>
+
     <string name="page_bands">Bands</string>
     <string name="page_timeline">Timeline</string>
     <string name="dummyLocation"><![CDATA[<Location>]]></string>
