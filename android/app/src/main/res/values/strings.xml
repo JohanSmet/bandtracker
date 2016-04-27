@@ -31,5 +31,8 @@
     <string name="button_manual_create">Manually create a gig</string>
 
     <string name="page_bands">Bands</string>
+    <string name="page_timeline">Timeline</string>
+    <string name="dummyLocation"><![CDATA[<Location>]]></string>
+    <string name="dummyYear"><![CDATA[<Year>]]></string>
 
 </resources>

@@ -182,6 +182,12 @@ public class DataContext
                                       );
     }
 
+    public static FlowCursorList<Gig> gigTimelineCursor() {
+        return new FlowCursorList<Gig>(true, SQLite.select().from(Gig.class)
+                                                .orderBy(Gig_Table.startDate, false)
+                                      );
+    }
+
     public static List<Gig> gigList(Band band) {
         return SQLite.select().from(Gig.class)
                     .where(Gig_Table.band_MBID.is(band.getMBID()))

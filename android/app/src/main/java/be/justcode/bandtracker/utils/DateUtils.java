@@ -10,6 +10,10 @@ public class DateUtils {
         return dateFormatter.format(date);
     }
 
+    public static String dateToShortString(Date date) {
+        return shortDateFormatter.format(date);
+    }
+
     public static String timeToString(Date date) {
         return timeFormatter.format(date);
     }
@@ -46,5 +50,6 @@ public class DateUtils {
 
     private static Calendar   calendar      = Calendar.getInstance();
     private static DateFormat dateFormatter = DateFormat.getDateInstance(DateFormat.FULL);
+    private static DateFormat shortDateFormatter = DateFormat.getDateInstance(DateFormat.MEDIUM);
     private static DateFormat timeFormatter = DateFormat.getTimeInstance(DateFormat.SHORT);
 }

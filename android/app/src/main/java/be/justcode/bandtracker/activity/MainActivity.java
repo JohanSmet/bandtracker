@@ -52,6 +52,10 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
+            if (pages[position] == null) {
+                pages[position] = createFragment(position);
+            }
+
             return pages[position];
         }
 
@@ -60,8 +64,16 @@ public class MainActivity extends AppCompatActivity {
             return pageNames[position];
         }
 
-        private Fragment[]      pages = {MainBandsFragment.newInstance()};
-        private CharSequence[]  pageNames = {getText(R.string.page_bands)};
+        private Fragment createFragment(int position) {
+            if (position == 0) {
+                return MainBandsFragment.newInstance();
+            } else {
+                return MainTimelineFragment.newInstance();
+            }
+        }
+
+        private Fragment[]      pages = {null, null};
+        private CharSequence[]  pageNames = {getText(R.string.page_bands), getText(R.string.page_timeline)};
     }
 
 
