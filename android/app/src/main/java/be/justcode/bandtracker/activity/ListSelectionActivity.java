@@ -3,33 +3,32 @@ package be.justcode.bandtracker.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
+import android.content.SharedPreferences;
 import android.os.Parcelable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.HashMap;
-import java.util.List;
 
 import be.justcode.bandtracker.R;
-import be.justcode.bandtracker.utils.CountryCache;
 
 public class ListSelectionActivity extends AppCompatActivity {
 
     private static final String INTENT_DELEGATE_TYPE = "intent_delegate_type";
     private static final String INTENT_PARAMS        = "intent_params";
+    private static final String PREF_SEARCH_STRING   = "search_pattern";
 
     public interface Delegate {
         public int          numberOfSections();
@@ -39,6 +38,7 @@ public class ListSelectionActivity extends AppCompatActivity {
         public void         configureRowView(View view, int section, int row);
         public void         filterUpdate(BaseAdapter adapter, String newFilter);
         public Parcelable   selectedRow(int section, int row);
+        public String persistenceKey();
     }
 
     public static void create(Activity parent, String delegateType, int requestCode, HashMap<String, String> params) {
@@ -82,27 +82,40 @@ public class ListSelectionActivity extends AppCompatActivity {
                 }
             }
         });
+    }
 
-        // filter
-        editFilter = (TextView)  findViewById(R.id.editFilter);
-        editFilter.addTextChangedListener(new TextWatcher() {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        final SearchView searchView = new SearchView(getSupportActionBar().getThemedContext());
+        final String     defPattern = loadFilterPattern();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
+            public boolean onQueryTextSubmit(String query) {
+                return true;
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
+            public boolean onQueryTextChange(String newText) {
                 if (mDelegate != null) {
-                    mDelegate.filterUpdate(mListAdapter, editable.toString());
+                    mDelegate.filterUpdate(mListAdapter, newText);
+                    saveFilterPattern(newText);
                 }
+                return true;
             }
         });
 
-        mDelegate.filterUpdate(mListAdapter, editFilter.getText().toString());
+        MenuItem item = menu.add("Search")
+                .setIcon(R.drawable.ic_search)
+                .setActionView(searchView);
+        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+        item.expandActionView();
+
+        searchView.setQuery(defPattern, true);
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     private Delegate delegateFactory(String type, HashMap<String, String> params) {
@@ -115,6 +128,27 @@ public class ListSelectionActivity extends AppCompatActivity {
         else
             return null;
     }
+
+    private String loadFilterPattern() {
+
+        if (mDelegate == null || mDelegate.persistenceKey().isEmpty())
+            return "";
+
+        SharedPreferences sharedPref = getSharedPreferences(mDelegate.persistenceKey(), Context.MODE_PRIVATE);
+        return sharedPref.getString(PREF_SEARCH_STRING, "");
+    }
+
+    private void saveFilterPattern(String pattern) {
+
+        if (mDelegate == null || mDelegate.persistenceKey().isEmpty())
+            return;
+
+        SharedPreferences sharedPref = getSharedPreferences(mDelegate.persistenceKey(), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(PREF_SEARCH_STRING, pattern);
+        editor.commit();
+    }
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //
@@ -224,7 +258,6 @@ public class ListSelectionActivity extends AppCompatActivity {
     //
 
     private SelectionListAdapter    mListAdapter;
-    private TextView                editFilter;
     private Delegate                mDelegate;
 
 }

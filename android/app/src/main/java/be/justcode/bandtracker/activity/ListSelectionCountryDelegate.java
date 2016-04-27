@@ -19,6 +19,7 @@ import be.justcode.bandtracker.utils.CountryCache;
 public class ListSelectionCountryDelegate implements ListSelectionActivity.Delegate {
 
     public static final String TYPE = "country";
+    private static final String SHARED_PREFERENCES_KEY = "be.justcode.bandtracker.ListSelectionCountryDelegate";
 
     ListSelectionCountryDelegate(Context context, HashMap<String, String> params) {
         mContext = context;
@@ -93,6 +94,11 @@ public class ListSelectionCountryDelegate implements ListSelectionActivity.Deleg
         }
 
         return null;
+    }
+
+    @Override
+    public String persistenceKey() {
+        return SHARED_PREFERENCES_KEY;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

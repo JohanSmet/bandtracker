@@ -18,6 +18,7 @@ public class ListSelectionCityDelegate implements ListSelectionActivity.Delegate
 
     public static final String TYPE             = "city";
     public static final String PARAM_COUNTRY    = "param_country";
+    private static final String SHARED_PREFERENCES_KEY = "be.justcode.bandtracker.ListSelectionCityDelegate";
 
     ListSelectionCityDelegate(Context context, HashMap<String, String> params) {
         mContext = context;
@@ -132,6 +133,11 @@ public class ListSelectionCityDelegate implements ListSelectionActivity.Delegate
         }
 
         return null;
+    }
+
+    @Override
+    public String persistenceKey() {
+        return SHARED_PREFERENCES_KEY;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

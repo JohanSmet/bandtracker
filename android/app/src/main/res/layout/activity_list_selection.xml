@@ -15,33 +15,11 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         />
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/toolBar"
-        android:background="@android:color/darker_gray"
-        android:id="@+id/headerFilter">
-
-
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/editFilter"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp"
-        android:background="@android:color/white"
-        android:minHeight="32dp"
-        android:inputType="textFilter"/>
-    </LinearLayout>
-
     <ListView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/listSelection"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/headerFilter"/>
+        android:layout_below="@+id/toolBar"/>
 
 </RelativeLayout>
