@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Parcelable;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ public class ListSelectionActivity extends AppCompatActivity {
 
     private static final String INTENT_DELEGATE_TYPE = "intent_delegate_type";
     private static final String INTENT_PARAMS        = "intent_params";
+    private static final String INTENT_PARENT        = "intent_parent";
     private static final String PREF_SEARCH_STRING   = "search_pattern";
 
     public interface Delegate {
@@ -45,6 +47,7 @@ public class ListSelectionActivity extends AppCompatActivity {
         Intent intent = new Intent(parent, ListSelectionActivity.class);
         intent.putExtra(INTENT_DELEGATE_TYPE, delegateType);
         intent.putExtra(INTENT_PARAMS, params);
+        intent.putExtra(INTENT_PARENT, parent.getClass());
         parent.startActivityForResult(intent, requestCode);
     }
 
@@ -55,7 +58,8 @@ public class ListSelectionActivity extends AppCompatActivity {
 
         // read params
         Bundle bundle = getIntent().getExtras();
-        mDelegate = delegateFactory(bundle.getString(INTENT_DELEGATE_TYPE),(HashMap<String, String>) bundle.getSerializable(INTENT_PARAMS));
+        mDelegate       = delegateFactory(bundle.getString(INTENT_DELEGATE_TYPE),(HashMap<String, String>) bundle.getSerializable(INTENT_PARAMS));
+        mParentClass    = (Class<Activity>) bundle.getSerializable(INTENT_PARENT);
 
         // toolbar
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolBar);
@@ -112,10 +116,34 @@ public class ListSelectionActivity extends AppCompatActivity {
                 .setActionView(searchView);
         item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
         item.expandActionView();
+        MenuItemCompat.setOnActionExpandListener(item, new MenuItemCompat.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                finish();
+                return true;
+            }
+        });
 
         searchView.setQuery(defPattern, true);
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public Intent getSupportParentActivityIntent() {
+        return getParentActivityIntent();
+    }
+
+    @Override
+    public Intent getParentActivityIntent() {
+        Intent intent = new Intent(this, mParentClass);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        return intent;
     }
 
     private Delegate delegateFactory(String type, HashMap<String, String> params) {
@@ -259,5 +287,6 @@ public class ListSelectionActivity extends AppCompatActivity {
 
     private SelectionListAdapter    mListAdapter;
     private Delegate                mDelegate;
+    private Class                   mParentClass;
 
 }
