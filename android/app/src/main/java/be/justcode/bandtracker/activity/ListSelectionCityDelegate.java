@@ -7,8 +7,12 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.Predicate;
+
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 import be.justcode.bandtracker.clients.bandtracker.BandTrackerClient;
 import be.justcode.bandtracker.model.City;
@@ -89,29 +93,49 @@ public class ListSelectionCityDelegate implements ListSelectionActivity.Delegate
             return;
         }
 
+        final CountDownLatch latchTask = new CountDownLatch(2);
+
         // ask server
-        new AsyncTask<Void, Void, Void> () {
-
+        AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
             @Override
-            protected Void doInBackground(Void... unused) {
-                List<String> cities = BandTrackerClient.getInstance().findCities(newFilter, mParamCountry);
-                synchronized (this) { mNewCities = cities; }
-                return null;
+            public void run() {
+                mNewCities = BandTrackerClient.getInstance().findCities(newFilter, mParamCountry);
+                latchTask.countDown();
             }
-
-            @Override
-            protected void onPostExecute(Void unused) {
-                adapter.notifyDataSetChanged();
-            }
-
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        });
 
         // local database
+        AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
+            @Override
+            public void run() {
+                mOldCities = DataContext.cityList(newFilter, DataContext.countryFetch(mParamCountry));
+                latchTask.countDown();
+            }
+        });
+
+        // post-process lists
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... unused) {
-                List<City> newData = DataContext.cityList(newFilter, DataContext.countryFetch(mParamCountry));
-                synchronized (this) { mOldCities = newData; }
+                try {
+                    latchTask.await();
+
+                    // remove old cities from the new cities
+                    CollectionUtils.filter(mNewCities, new Predicate<String>() {
+                        @Override
+                        public boolean evaluate(final String newCity) {
+                            return CollectionUtils.find(mOldCities, new Predicate<City>() {
+                                @Override
+                                public boolean evaluate(City oldCity) {
+                                    return oldCity.getName().equals(newCity);
+                                }
+                            }) == null;
+                        }
+                    });
+
+                } catch (InterruptedException e) {
+                }
+
                 return null;
             }
 
