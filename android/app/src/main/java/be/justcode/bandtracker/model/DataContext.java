@@ -46,6 +46,14 @@ public class DataContext
         }
     }
 
+    public static List<Band> bandList(String name) {
+
+        return SQLite.select().from(Band.class)
+                .where(Band_Table.name.like("%" + name + "%"))
+                .orderBy(Band_Table.name, false)
+                .queryList();
+    }
+
     public static Band bandFetch(String mbid) {
         return SQLite.select().from(Band.class).where(Band_Table.MBID.eq(mbid)).querySingle();
     }

@@ -83,7 +83,7 @@ public class BandTrackerClient
         public Response login(@Body LoginBody body);
 
         @GET("/api/bands/find-by-name")
-        public Collection<BandTrackerBand> findBands(@Query("name") String pattern);
+        public List<BandTrackerBand> findBands(@Query("name") String pattern);
 
         @GET("/api/bandImage/{bandId}")
         public Response getBandImage(@Path("bandId") String bandId, @retrofit.http.Header(HEADER_CACHE_CONTROL) String cacheControlValue);
@@ -135,7 +135,7 @@ public class BandTrackerClient
         }
     }
 
-    public Collection<BandTrackerBand> findBands(String p_pattern) {
+    public List<BandTrackerBand> findBands(String p_pattern) {
 
         try {
             // make sure we're logged in before making the request

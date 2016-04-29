@@ -46,4 +46,7 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.7.1'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.7.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
+
+    compile 'org.apache.commons:commons-collections4:4.0'
+
 }

@@ -20,10 +20,13 @@ import com.raizlabs.android.dbflow.list.FlowCursorList;
 import be.justcode.bandtracker.App;
 import be.justcode.bandtracker.R;
 import be.justcode.bandtracker.model.Band;
+import be.justcode.bandtracker.model.Band_Table;
 import be.justcode.bandtracker.model.DataContext;
 import be.justcode.bandtracker.utils.BandImageDownloader;
 
 public class MainBandsFragment extends Fragment {
+
+    private static final int REQUEST_BAND   = 4;
 
     public static MainBandsFragment newInstance() {
         MainBandsFragment fragment = new MainBandsFragment();
@@ -54,8 +57,7 @@ public class MainBandsFragment extends Fragment {
         btnBandAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), BandSearchActivity.class);
-                startActivityForResult(intent, BandSearchActivity.SELECT_BAND_REQUEST);
+                ListSelectionActivity.create(getActivity(), MainBandsFragment.this, ListSelectionBandDelegate.TYPE, REQUEST_BAND, null);
             }
         });
 
@@ -67,8 +69,7 @@ public class MainBandsFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == BandSearchActivity.SELECT_BAND_REQUEST && resultCode == Activity.RESULT_OK) {
-            String bandId = data.getStringExtra("bandId");
+        if (requestCode == REQUEST_BAND && resultCode == Activity.RESULT_OK) {
             mListAdapter.refresh();
         }
     }

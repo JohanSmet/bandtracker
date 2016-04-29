@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Parcelable;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -49,6 +50,14 @@ public class ListSelectionActivity extends AppCompatActivity {
         intent.putExtra(INTENT_PARAMS, params);
         intent.putExtra(INTENT_PARENT, parent.getClass());
         parent.startActivityForResult(intent, requestCode);
+    }
+
+    public static void create(Activity parent, Fragment fragment, String delegateType, int requestCode, HashMap<String, String> params) {
+        Intent intent = new Intent(parent, ListSelectionActivity.class);
+        intent.putExtra(INTENT_DELEGATE_TYPE, delegateType);
+        intent.putExtra(INTENT_PARAMS, params);
+        intent.putExtra(INTENT_PARENT, parent.getClass());
+        fragment.startActivityForResult(intent, requestCode);
     }
 
     @Override
@@ -153,6 +162,8 @@ public class ListSelectionActivity extends AppCompatActivity {
             return new ListSelectionCityDelegate(this, params);
         else if (type.equals(ListSelectionVenueDelegate.TYPE))
             return new ListSelectionVenueDelegate(this, params);
+        else if (type.equals(ListSelectionBandDelegate.TYPE))
+            return new ListSelectionBandDelegate(this, params);
         else
             return null;
     }
