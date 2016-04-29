@@ -7,8 +7,12 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.Predicate;
+
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 import be.justcode.bandtracker.clients.bandtracker.BandTrackerClient;
 import be.justcode.bandtracker.model.City;
@@ -96,32 +100,52 @@ public class ListSelectionVenueDelegate implements ListSelectionActivity.Delegat
             return;
         }
 
+        final CountDownLatch latchTask = new CountDownLatch(2);
+
         // ask server
-        new AsyncTask<Void, Void, Void>() {
-
+        AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
             @Override
-            protected Void doInBackground(Void... unused) {
-                List<String> venues = BandTrackerClient.getInstance().findVenues(newFilter, mParamCity, mParamCountry);
-                synchronized (this) { mNewVenues = venues; }
-                return null;
+            public void run() {
+                mNewVenues = BandTrackerClient.getInstance().findVenues(newFilter, mParamCity, mParamCountry);
+                latchTask.countDown();
             }
-
-            @Override
-            protected void onPostExecute(Void unused) {
-                adapter.notifyDataSetChanged();
-            }
-
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        });
 
         // local database
-        new AsyncTask<Void, Void, Void>() {
+        AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
             @Override
-            protected Void doInBackground(Void... unused) {
+            public void run() {
                 Country country = (!mParamCountry.isEmpty()) ? DataContext.countryFetch(mParamCountry) : null;
                 City    city    = (!mParamCity.isEmpty()) ? DataContext.cityById(Long.parseLong(mParamCity)) : null;
 
-                List<Venue> newData = DataContext.venueList(newFilter, city, country);
-                synchronized (this) { mOldVenues = newData; }
+                mOldVenues = DataContext.venueList(newFilter, city, country);
+                latchTask.countDown();
+            }
+        });
+
+        // post-process lists
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... unused) {
+                try {
+                    latchTask.await();
+
+                    // remove old venues from the new venues
+                    CollectionUtils.filter(mNewVenues, new Predicate<String>() {
+                        @Override
+                        public boolean evaluate(final String newVenue) {
+                            return CollectionUtils.find(mOldVenues, new Predicate<Venue>() {
+                                @Override
+                                public boolean evaluate(Venue oldVenue) {
+                                    return oldVenue.getName().equals(newVenue);
+                                }
+                            }) == null;
+                        }
+                    });
+
+                } catch (InterruptedException e) {
+                }
+
                 return null;
             }
 
@@ -130,6 +154,7 @@ public class ListSelectionVenueDelegate implements ListSelectionActivity.Delegat
                 adapter.notifyDataSetChanged();
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
     }
 
     @Override
