@@ -27,21 +27,26 @@ public class ListSelectionCountryDelegate implements ListSelectionActivity.Deleg
 
     @Override
     public int numberOfSections() {
-        return 1;
+        return 2;
     }
 
     @Override
     public String titleForSection(int section) {
-        return "";
+        if (section == 0) {
+            return mContext.getText(R.string.country_search_popular).toString();
+        } else {
+            return "New";
+        }
     }
 
     @Override
     public int numRowsForSection(int section) {
         synchronized (this) {
-            if (mFilteredCountries == null) {
-                return 0;
-            } else {
-                return mFilteredCountries.size();
+            switch (section) {
+                case 0 :
+                    return mPopularCountries != null ? mPopularCountries.size() : 0;
+                default :
+                    return mFilteredCountries != null ? mFilteredCountries.size() : 0;
             }
         }
     }
@@ -53,9 +58,16 @@ public class ListSelectionCountryDelegate implements ListSelectionActivity.Deleg
 
     @Override
     public void configureRowView(View view, int section, int row) {
-        if (section == 0) {
-            Country country = mFilteredCountries.get(row);
 
+        Country country = null;
+
+        if (section == 1) {
+            country = mFilteredCountries.get(row);
+        } else {
+            country = mPopularCountries.get(row);
+        }
+
+        if (country != null) {
             ((TextView) view.findViewById(R.id.lblCountry)).setText(country.getName());
             ((ImageView) view.findViewById(R.id.imgCountry)).setImageDrawable(CountryCache.get(mContext, country.getCode()).getDrawable());
         }
@@ -63,6 +75,24 @@ public class ListSelectionCountryDelegate implements ListSelectionActivity.Deleg
 
     @Override
     public void  filterUpdate(final BaseAdapter adapter, final String newFilter) {
+
+        if (mPopularCountries == null) {
+
+            new AsyncTask<Void, Void, Void>() {
+
+                @Override
+                protected Void doInBackground(Void... unused) {
+                    List<Country> newData = DataContext.gigTop5Countries();
+                    synchronized (this) { mPopularCountries = newData; }
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Void unused) {
+                    adapter.notifyDataSetChanged();
+                }
+            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
 
         if (newFilter.length() < 2) {
             synchronized (this) { mFilteredCountries = null; }
@@ -90,6 +120,8 @@ public class ListSelectionCountryDelegate implements ListSelectionActivity.Deleg
     public Parcelable selectedRow(int section, int row) {
 
         if (section == 0) {
+            return mPopularCountries.get(row);
+        } else if (section == 1) {
             return mFilteredCountries.get(row);
         }
 
@@ -107,6 +139,7 @@ public class ListSelectionCountryDelegate implements ListSelectionActivity.Deleg
     //
 
     private Context mContext;
+    private List<Country> mPopularCountries;
     private List<Country> mFilteredCountries;
 
 }

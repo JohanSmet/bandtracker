@@ -7,6 +7,7 @@ import com.raizlabs.android.dbflow.sql.language.Delete;
 import com.raizlabs.android.dbflow.sql.language.SQLCondition;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.sql.language.Select;
+import com.raizlabs.android.dbflow.sql.language.property.PropertyFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,8 @@ import java.util.List;
 import be.justcode.bandtracker.clients.bandtracker.BandTrackerBand;
 import be.justcode.bandtracker.clients.bandtracker.BandTrackerCountry;
 import be.justcode.bandtracker.utils.FanartTvDownloader;
+
+import static com.raizlabs.android.dbflow.sql.language.Method.count;
 
 public class DataContext
 {
@@ -201,6 +204,26 @@ public class DataContext
                     .where(Gig_Table.band_MBID.is(band.getMBID()))
                     .orderBy(Gig_Table.startDate, false)
                     .queryList();
+    }
+
+    public static List<Country> gigTop5Countries()
+    {
+        List<Gig> gigCountries = SQLite.select(Gig_Table.country_code, count(Gig_Table.id).as("total"))
+                .from(Gig.class)
+                .groupBy(Gig_Table.country_code)
+                .orderBy(PropertyFactory.from("total"), false)
+                .queryList();
+
+        List<Country> result = new ArrayList<Country>();
+
+        for (Gig gig : gigCountries) {
+            result.add(gig.getCountry());
+
+            if (result.size() >= 5)
+                break;
+        }
+
+        return result;
     }
 
 }

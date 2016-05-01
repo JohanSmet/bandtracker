@@ -31,6 +31,7 @@
     <string name="button_manual_create">Manually create a gig</string>
 
     <string name="band_search_title">Add a new band</string>
+    <string name="country_search_popular">Popular countries</string>
 
     <string name="page_bands">Bands</string>
     <string name="page_timeline">Timeline</string>
