@@ -8,24 +8,26 @@ import be.justcode.bandtracker.model.Gig;
 import be.justcode.bandtracker.utils.BandImageDownloader;
 import be.justcode.bandtracker.utils.CountryCache;
 import be.justcode.bandtracker.utils.DateUtils;
-import be.justcode.bandtracker.utils.FlowCursorAdapter;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+
+import com.raizlabs.android.dbflow.list.FlowCursorList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,17 +73,24 @@ public class BandDetailsActivity extends AppCompatActivity {
         bandRating       = (RatingBar) findViewById(R.id.bandRating);
         displayBand();
 
-        // list view
-        final ListView listView = (ListView) findViewById(R.id.listBandGigs);
+        // recycler view
+        final RecyclerView rvGigs = (RecyclerView) findViewById(R.id.listBandGigs);
 
-        mListAdapter = new BandsGigsAdapter(this, mBand);
-        listView.setAdapter(mListAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mListAdapter = new BandsGigsAdapter();
+        rvGigs.setAdapter(mListAdapter);
+        rvGigs.setLayoutManager(new LinearLayoutManager(this));
+        rvGigs.setHasFixedSize(true);
+
+        // add gig button
+        final FloatingActionButton btnGigAdd = (FloatingActionButton) findViewById(R.id.btnGigAdd);
+        btnGigAdd.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                GigDetailsActivity.viewExisting(BandDetailsActivity.this,
-                                                mBand,
-                                                mListAdapter.getItem(position) );
+            public void onClick(View v) {
+                if (mTourDateYears != null && !mTourDateYears.isEmpty()) {
+                    GigGuidedCreation.run(BandDetailsActivity.this, mBand, mTourDateYears);
+                } else {
+                    GigDetailsActivity.createNew(BandDetailsActivity.this, mBand);
+                }
             }
         });
 
@@ -139,74 +148,76 @@ public class BandDetailsActivity extends AppCompatActivity {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //
-    // button events
-    //
-
-    public void btnGigAdd_clicked(View p_view) {
-        if (mTourDateYears != null && !mTourDateYears.isEmpty()) {
-            GigGuidedCreation.run(this, mBand, mTourDateYears);
-        } else {
-            GigDetailsActivity.createNew(this, mBand);
-        }
-    }
-
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    //
     // nested classes
     //
 
-    private class BandsGigsAdapter extends FlowCursorAdapter<Gig> {
+    private class BandsGigsAdapter  extends RecyclerView.Adapter<BandsGigsAdapter.ViewHolder> {
 
-        public BandsGigsAdapter(Context context, Band band) {
-            mContext = context;
-            changeCursor(DataContext.gigCursor(band));
+        public BandsGigsAdapter() {
+            mCursor  = DataContext.gigCursor(mBand);
         }
 
         @Override
-        public void refresh() {
-            super.refresh();
-            notifyDataSetChanged();
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+            View rowView = inflater.inflate(R.layout.row_band_gig, parent, false);
+            return new ViewHolder(rowView);
         }
 
         @Override
-        public View newView(ViewGroup parent) {
-            View view = LayoutInflater.from(mContext).inflate(R.layout.row_band_gig, parent, false);
-
-            // fields
-            ViewHolder holder = new ViewHolder();
-            holder.lblLocation = (TextView) view.findViewById(R.id.lblLocation);
-            holder.lblDate     = (TextView) view.findViewById(R.id.lblDate);
-            holder.ratingBar   = (RatingBar) view.findViewById(R.id.ratingBar);
-            holder.imgFlag     = (ImageView) view.findViewById(R.id.imgCountryFlag);
-            view.setTag(holder);
-
-            return view;
-        }
-
-        @Override
-        public void bindView(View view, int position) {
-            Gig gig           = getItem(position);
-            ViewHolder holder = (ViewHolder) view.getTag();
+        public void onBindViewHolder(ViewHolder holder, int position) {
+            Gig gig = mCursor.getItem(position);
 
             holder.lblLocation.setText(gig.getCityName());
             holder.lblDate.setText(DateUtils.dateToString(gig.getStartDate()));
             holder.ratingBar.setRating(gig.getRating() / 10);
 
             if (gig.getCountry() != null)
-                holder.imgFlag.setImageDrawable(CountryCache.get(mContext, gig.getCountry().getCode()).getDrawable());
+                holder.imgFlag.setImageDrawable(CountryCache.get(BandDetailsActivity.this, gig.getCountry().getCode()).getDrawable());
             else
                 holder.imgFlag.setImageDrawable(null);
         }
 
-        private class ViewHolder {
-            public TextView     lblLocation;
-            public TextView     lblDate;
-            public RatingBar    ratingBar;
-            public ImageView    imgFlag;
+        @Override
+        public int getItemCount() {
+            return mCursor.getCount();
+        }
+
+        public void rowClicked(int position) {
+            GigDetailsActivity.viewExisting(BandDetailsActivity.this, mBand, mCursor.getItem(position) );
+        }
+
+        public void refresh() {
+            mCursor  = DataContext.gigCursor(mBand);
+            notifyDataSetChanged();
+        }
+
+        // view holder
+        public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+            public ViewHolder(View view) {
+                super(view);
+                lblLocation = (TextView)  view.findViewById(R.id.lblLocation);
+                lblDate     = (TextView)  view.findViewById(R.id.lblDate);
+                ratingBar   = (RatingBar) view.findViewById(R.id.ratingBar);
+                imgFlag     = (ImageView) view.findViewById(R.id.imgCountryFlag);
+                view.setOnClickListener(this);
+            }
+
+            @Override
+            public void onClick(View v) {
+                rowClicked(getAdapterPosition());
+            }
+
+            // member variables
+            TextView     lblLocation;
+            TextView     lblDate;
+            RatingBar    ratingBar;
+            ImageView    imgFlag;
         };
 
-        private final Context mContext;
+        // member variables
+        private FlowCursorList<Gig> mCursor;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

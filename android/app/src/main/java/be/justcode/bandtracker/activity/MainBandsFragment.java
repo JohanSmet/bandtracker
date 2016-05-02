@@ -51,7 +51,6 @@ public class MainBandsFragment extends Fragment {
         rvBands.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvBands.setHasFixedSize(true);
 
-
         // add band button
         final FloatingActionButton btnBandAdd = (FloatingActionButton) view.findViewById(R.id.btnBandAdd);
         btnBandAdd.setOnClickListener(new View.OnClickListener() {
