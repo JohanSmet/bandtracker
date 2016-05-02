@@ -20,6 +20,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import be.justcode.bandtracker.R;
@@ -142,8 +143,8 @@ public class GigGuidedCreation extends AppCompatActivity {
             @Override
             protected List<BandTrackerTourDate> doInBackground(Void... params) {
                 return BandTrackerClient.getInstance().tourDateFind(mBand.getMBID(),
-                                                                    DateUtils.dateFromComponents(mFilterYear, 1, 1, 0, 0),
-                                                                    DateUtils.dateFromComponents(mFilterYear, 12, 31, 0, 0),
+                                                                    DateUtils.dateFromComponents(mFilterYear, Calendar.JANUARY, 1, 0, 0),
+                                                                    DateUtils.dateFromComponents(mFilterYear, Calendar.DECEMBER, 31, 0, 0),
                                                                     (mFilterCountry != null) ? mFilterCountry.getCode() : null,
                                                                     null);
             }
