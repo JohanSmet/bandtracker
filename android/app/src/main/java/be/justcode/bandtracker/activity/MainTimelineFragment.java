@@ -49,6 +49,12 @@ public class MainTimelineFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mListAdapter.refresh();
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //
     // nested classes
@@ -98,6 +104,10 @@ public class MainTimelineFragment extends Fragment {
 
         public Gig getItem(int position) {
             return mCursor.getItem(position);
+        }
+
+        public void refresh() {
+            mCursor.refresh();
         }
 
         public void rowClicked(int position) {
