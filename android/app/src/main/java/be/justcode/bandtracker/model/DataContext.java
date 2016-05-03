@@ -10,6 +10,7 @@ import com.raizlabs.android.dbflow.sql.language.Select;
 import com.raizlabs.android.dbflow.sql.language.property.PropertyFactory;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import be.justcode.bandtracker.clients.bandtracker.BandTrackerBand;
@@ -204,6 +205,16 @@ public class DataContext
                     .where(Gig_Table.band_MBID.is(band.getMBID()))
                     .orderBy(Gig_Table.startDate, false)
                     .queryList();
+    }
+
+    public static List<Gig> gigListDateInterval(Band band, Date dateFrom, Date dateTo) {
+
+        return SQLite.select().from(Gig.class)
+                .where(Gig_Table.band_MBID.is(band.getMBID()))
+                    .and(Gig_Table.startDate.between(dateFrom).and(dateTo))
+                .orderBy(Gig_Table.startDate, false)
+                .queryList();
+
     }
 
     public static List<Country> gigTop5Countries()

@@ -19,15 +19,20 @@ import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.Predicate;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 import be.justcode.bandtracker.R;
 import be.justcode.bandtracker.clients.bandtracker.BandTrackerClient;
 import be.justcode.bandtracker.clients.bandtracker.BandTrackerTourDate;
 import be.justcode.bandtracker.model.Band;
 import be.justcode.bandtracker.model.Country;
+import be.justcode.bandtracker.model.DataContext;
 import be.justcode.bandtracker.model.Gig;
 import be.justcode.bandtracker.utils.CountryCache;
 import be.justcode.bandtracker.utils.DateUtils;
@@ -138,15 +143,60 @@ public class GigGuidedCreation extends AppCompatActivity {
 
     public void updateFilter() {
 
+        final List<BandTrackerTourDate> newTourDates = new ArrayList<>();
+        final List<Gig>                 existingGigs = new ArrayList<>();
+        final CountDownLatch            latchTask = new CountDownLatch(2);
+
+        // retrieve all known gigs for a year from the server
+        AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
+            @Override
+            public void run() {
+                newTourDates.addAll(BandTrackerClient.getInstance().tourDateFind(
+                                        mBand.getMBID(),
+                                        DateUtils.dateFromComponents(mFilterYear, Calendar.JANUARY, 1, 0, 0),
+                                        DateUtils.dateFromComponents(mFilterYear, Calendar.DECEMBER, 31, 0, 0),
+                                        (mFilterCountry != null) ? mFilterCountry.getCode() : null,
+                                        null));
+                latchTask.countDown();
+            }
+        });
+
+        // retrieve the gigs that were already added to the database
+        AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
+            @Override
+            public void run() {
+                existingGigs.addAll(DataContext.gigListDateInterval(mBand,
+                                    DateUtils.dateFromComponents(mFilterYear, Calendar.JANUARY, 1, 0, 0),
+                                    DateUtils.dateFromComponents(mFilterYear, Calendar.DECEMBER, 31, 0, 0)));
+                latchTask.countDown();
+            }
+        });
+
+        // compute the difference between the two lists and display those
         new AsyncTask<Void, Integer, List<BandTrackerTourDate>>() {
 
             @Override
             protected List<BandTrackerTourDate> doInBackground(Void... params) {
-                return BandTrackerClient.getInstance().tourDateFind(mBand.getMBID(),
-                                                                    DateUtils.dateFromComponents(mFilterYear, Calendar.JANUARY, 1, 0, 0),
-                                                                    DateUtils.dateFromComponents(mFilterYear, Calendar.DECEMBER, 31, 0, 0),
-                                                                    (mFilterCountry != null) ? mFilterCountry.getCode() : null,
-                                                                    null);
+                try {
+                    latchTask.await();
+
+                    CollectionUtils.filter(newTourDates, new Predicate<BandTrackerTourDate>() {
+                        @Override
+                        public boolean evaluate(final BandTrackerTourDate newTourDate) {
+                            return CollectionUtils.find(existingGigs, new Predicate<Gig>() {
+                                @Override
+                                public boolean evaluate(Gig existingGig) {
+                                    return newTourDate.getStartDate().equals(existingGig.getStartDate());
+                                }
+                            }) == null;
+                        }
+                    });
+
+                    return newTourDates;
+
+                } catch (InterruptedException e) {
+                    return null;
+                }
             }
 
             @Override
