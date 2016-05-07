@@ -55,7 +55,7 @@ public class MainBandsFragment extends Fragment {
         btnBandAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ListSelectionActivity.create(getActivity(), MainBandsFragment.this, ListSelectionBandDelegate.TYPE, REQUEST_BAND, null);
+                ListSelectionActivity.create(getActivity(), MainBandsFragment.this, ListSelectionBandDelegate.TYPE, REQUEST_BAND, "", null);
             }
         });
 

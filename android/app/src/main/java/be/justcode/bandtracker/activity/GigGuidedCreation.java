@@ -127,7 +127,7 @@ public class GigGuidedCreation extends AppCompatActivity {
 
     public void editText_clicked(View view) {
         if (view == editCountry) {
-            ListSelectionActivity.create(this, ListSelectionCountryDelegate.TYPE, REQUEST_COUNTRY, null);
+            ListSelectionActivity.create(this, ListSelectionCountryDelegate.TYPE, REQUEST_COUNTRY, editCountry.getText().toString(), null);
         }
     }
 

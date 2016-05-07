@@ -193,13 +193,13 @@ public class GigDetailsActivity extends AppCompatActivity {
 
         if (mMode != MODE_VIEW) {
             if (view == editCountry) {
-                ListSelectionActivity.create(this, ListSelectionCountryDelegate.TYPE, REQUEST_COUNTRY, null);
+                ListSelectionActivity.create(this, ListSelectionCountryDelegate.TYPE, REQUEST_COUNTRY, editCountry.getText().toString(), null);
             } else if (view == editCity) {
-                ListSelectionActivity.create(this, ListSelectionCityDelegate.TYPE, REQUEST_CITY, new HashMap<String, String>() {{
+                ListSelectionActivity.create(this, ListSelectionCityDelegate.TYPE, REQUEST_CITY, editCity.getText().toString(), new HashMap<String, String>() {{
                     put(ListSelectionCityDelegate.PARAM_COUNTRY, (mGig.getCountry() != null) ? mGig.getCountry().getCode() : "");
                 }});
             } else if (view == editVenue) {
-                ListSelectionActivity.create(this, ListSelectionVenueDelegate.TYPE, REQUEST_VENUE, new HashMap<String, String>() {{
+                ListSelectionActivity.create(this, ListSelectionVenueDelegate.TYPE, REQUEST_VENUE, editVenue.getText().toString(), new HashMap<String, String>() {{
                     put(ListSelectionVenueDelegate.PARAM_COUNTRY, (mGig.getCountry() != null) ? mGig.getCountry().getCode() : "");
                     put(ListSelectionVenueDelegate.PARAM_CITY, (mGig.getCity() != null) ? Long.toString(mGig.getCity().getId()) : "");
                 }});

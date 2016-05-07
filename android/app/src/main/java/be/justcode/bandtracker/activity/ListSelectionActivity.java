@@ -31,6 +31,7 @@ public class ListSelectionActivity extends AppCompatActivity {
     private static final String INTENT_DELEGATE_TYPE = "intent_delegate_type";
     private static final String INTENT_PARAMS        = "intent_params";
     private static final String INTENT_PARENT        = "intent_parent";
+    private static final String INTENT_DEFAULT       = "intent_default";
     private static final String PREF_SEARCH_STRING   = "search_pattern";
 
     public interface Delegate {
@@ -44,19 +45,21 @@ public class ListSelectionActivity extends AppCompatActivity {
         public String persistenceKey();
     }
 
-    public static void create(Activity parent, String delegateType, int requestCode, HashMap<String, String> params) {
+    public static void create(Activity parent, String delegateType, int requestCode, String defaultPattern, HashMap<String, String> params) {
         Intent intent = new Intent(parent, ListSelectionActivity.class);
         intent.putExtra(INTENT_DELEGATE_TYPE, delegateType);
         intent.putExtra(INTENT_PARAMS, params);
         intent.putExtra(INTENT_PARENT, parent.getClass());
+        intent.putExtra(INTENT_DEFAULT, defaultPattern);
         parent.startActivityForResult(intent, requestCode);
     }
 
-    public static void create(Activity parent, Fragment fragment, String delegateType, int requestCode, HashMap<String, String> params) {
+    public static void create(Activity parent, Fragment fragment, String delegateType, int requestCode, String defaultPattern, HashMap<String, String> params) {
         Intent intent = new Intent(parent, ListSelectionActivity.class);
         intent.putExtra(INTENT_DELEGATE_TYPE, delegateType);
         intent.putExtra(INTENT_PARAMS, params);
         intent.putExtra(INTENT_PARENT, parent.getClass());
+        intent.putExtra(INTENT_DEFAULT, defaultPattern);
         fragment.startActivityForResult(intent, requestCode);
     }
 
@@ -69,6 +72,7 @@ public class ListSelectionActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         mDelegate       = delegateFactory(bundle.getString(INTENT_DELEGATE_TYPE),(HashMap<String, String>) bundle.getSerializable(INTENT_PARAMS));
         mParentClass    = (Class<Activity>) bundle.getSerializable(INTENT_PARENT);
+        mDefaultPattern = bundle.getString(INTENT_DEFAULT);
 
         // toolbar
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolBar);
@@ -101,7 +105,10 @@ public class ListSelectionActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         final SearchView searchView = new SearchView(getSupportActionBar().getThemedContext());
-        final String     defPattern = loadFilterPattern();
+
+        if (mDefaultPattern.isEmpty()) {
+            mDefaultPattern = loadFilterPattern();
+        }
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
@@ -138,7 +145,7 @@ public class ListSelectionActivity extends AppCompatActivity {
             }
         });
 
-        searchView.setQuery(defPattern, true);
+        searchView.setQuery(mDefaultPattern, true);
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -299,5 +306,6 @@ public class ListSelectionActivity extends AppCompatActivity {
     private SelectionListAdapter    mListAdapter;
     private Delegate                mDelegate;
     private Class                   mParentClass;
+    private String                  mDefaultPattern;
 
 }
