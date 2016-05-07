@@ -103,6 +103,8 @@ public class BandTrackerClient
         @GET("/api/tourdate/band-years")
         public List<Integer> tourDateYears(@Query("band") String bandId);
 
+        @GET("/api/tourdate/band-years-count")
+        public List<BandTrackerTourDateYear> tourDateYearsCount(@Query("band") String bandId);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -247,8 +249,8 @@ public class BandTrackerClient
 
             // make the request
             return restClient.tourDateFind(bandId, dateFrom, dateTo,
-                        country != null && !country.isEmpty() ? country : null,
-                        location != null && !location.isEmpty() ? location : null);
+                    country != null && !country.isEmpty() ? country : null,
+                    location != null && !location.isEmpty() ? location : null);
 
         } catch (RetrofitError e) {
             Log.d(LOG_TAG, "tourDateFind", e);
@@ -268,6 +270,22 @@ public class BandTrackerClient
 
         } catch (RetrofitError e) {
             Log.d(LOG_TAG, "tourDateYears", e);
+            return null;
+        }
+    }
+
+    public List<BandTrackerTourDateYear> tourDateYearsCount(String bandId) {
+        try {
+            // make sure we're logged in before making the request
+            if (authToken == null) {
+                login();
+            }
+
+            // make the request
+            return restClient.tourDateYearsCount(bandId);
+
+        } catch (RetrofitError e) {
+            Log.d(LOG_TAG, "tourDateYearsCount", e);
             return null;
         }
     }
