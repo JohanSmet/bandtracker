@@ -1,21 +1,21 @@
 package be.justcode.bandtracker.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.raizlabs.android.dbflow.annotation.ForeignKey;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
-import com.raizlabs.android.dbflow.structure.container.ForeignKeyContainer;
 
 import java.util.Date;
 
 import be.justcode.bandtracker.clients.bandtracker.BandTrackerTourDate;
 import be.justcode.bandtracker.utils.CountryCache;
 
+import org.parceler.Parcel;
+import org.parceler.Parcel.Serialization;
+
 @Table(database = AppDatabase.class, allFields = true)
-public class Gig extends BaseModel implements Parcelable {
+@Parcel(Serialization.BEAN)
+public class Gig extends BaseModel {
 
     public Gig() {
         id          = 0;
@@ -158,49 +158,6 @@ public class Gig extends BaseModel implements Parcelable {
     public void setComments(String comments) {
         this.comments = comments;
     }
-
-    // parcelable interface
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int flags) {
-        parcel.writeInt(id);
-        parcel.writeParcelable(band, flags);
-        parcel.writeSerializable(startDate);
-        parcel.writeParcelable(country, flags);
-        parcel.writeParcelable(city, flags);
-        parcel.writeParcelable(venue, flags);
-        parcel.writeString(stage);
-        parcel.writeInt(supportAct ? 1 : 0);
-        parcel.writeInt(rating);
-        parcel.writeString(comments);
-    }
-
-    public Gig(Parcel parcel) {
-        id          = parcel.readInt();
-        band        = parcel.readParcelable(Band.class.getClassLoader());
-        startDate   = (Date) parcel.readSerializable();
-        country     = parcel.readParcelable(Country.class.getClassLoader());
-        city        = parcel.readParcelable(City.class.getClassLoader());
-        venue       = parcel.readParcelable(Venue.class.getClassLoader());
-        stage       = parcel.readString();
-        supportAct  = parcel.readInt() == 1;
-        rating      = parcel.readInt();
-        comments    = parcel.readString();
-    }
-
-    public static final Parcelable.Creator<Gig> CREATOR = new Parcelable.Creator<Gig>() {
-        public Gig createFromParcel(Parcel in) {
-            return new Gig(in);
-        }
-
-        public Gig[] newArray(int size) {
-            return new Gig[size];
-        }
-    };
 
     // member variables
     @PrimaryKey(autoincrement = true)

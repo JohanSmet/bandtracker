@@ -3,20 +3,17 @@ package be.justcode.bandtracker.activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Parcelable;
-import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.IteratorUtils;
 import org.apache.commons.collections4.Predicate;
+import org.parceler.Parcels;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutionException;
 
 import be.justcode.bandtracker.clients.bandtracker.BandTrackerBand;
 import be.justcode.bandtracker.clients.bandtracker.BandTrackerClient;
@@ -146,9 +143,9 @@ public class ListSelectionBandDelegate implements ListSelectionActivity.Delegate
     @Override
     public Parcelable selectedRow(int section, int row) {
         if (section == 0) {
-            return DataContext.bandCreate(mNewBands.get(row));
+            return Parcels.wrap(DataContext.bandCreate(mNewBands.get(row)));
         } else if (section == 1) {
-            return mOldBands.get(row);
+            return Parcels.wrap(mOldBands.get(row));
         }
 
         return null;

@@ -15,6 +15,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import org.parceler.Parcels;
+
 import java.util.Date;
 import java.util.HashMap;
 
@@ -46,23 +48,23 @@ public class GigDetailsActivity extends AppCompatActivity {
 
     public static void createNew(Context context, Band band) {
         Intent intent = new Intent(context, GigDetailsActivity.class);
-        intent.putExtra(INTENT_BAND_PARAMETER, band);
+        intent.putExtra(INTENT_BAND_PARAMETER, Parcels.wrap(band));
         intent.putExtra(INTENT_MODE_PARAMETER, MODE_CREATE);
         context.startActivity(intent);
     }
 
     public static void viewExisting(Context context, Band band, Gig gig) {
         Intent intent = new Intent(context, GigDetailsActivity.class);
-        intent.putExtra(INTENT_BAND_PARAMETER, band);
-        intent.putExtra(INTENT_GIG_PARAMETER, gig);
+        intent.putExtra(INTENT_BAND_PARAMETER, Parcels.wrap(band));
+        intent.putExtra(INTENT_GIG_PARAMETER,  Parcels.wrap(gig));
         intent.putExtra(INTENT_MODE_PARAMETER, MODE_VIEW);
         context.startActivity(intent);
     }
 
     public static void editExisting(Context context, Band band, Gig gig) {
         Intent intent = new Intent(context, GigDetailsActivity.class);
-        intent.putExtra(INTENT_BAND_PARAMETER, band);
-        intent.putExtra(INTENT_GIG_PARAMETER, gig);
+        intent.putExtra(INTENT_BAND_PARAMETER, Parcels.wrap(band));
+        intent.putExtra(INTENT_GIG_PARAMETER,  Parcels.wrap(gig));
         intent.putExtra(INTENT_MODE_PARAMETER, MODE_EDIT);
         context.startActivity(intent);
     }
@@ -83,13 +85,13 @@ public class GigDetailsActivity extends AppCompatActivity {
         // read params
         Bundle bundle = getIntent().getExtras();
         mMode = bundle.getInt(INTENT_MODE_PARAMETER);
-        mBand = bundle.getParcelable(INTENT_BAND_PARAMETER);
+        mBand = Parcels.unwrap(bundle.getParcelable(INTENT_BAND_PARAMETER));
 
         // init gig to be shown / edited
         if (mMode == MODE_CREATE) {
             initNewGig();
         } else {
-            mGig = bundle.getParcelable(INTENT_GIG_PARAMETER);
+            mGig = Parcels.unwrap(bundle.getParcelable(INTENT_GIG_PARAMETER));
         }
 
         // fields
@@ -157,13 +159,13 @@ public class GigDetailsActivity extends AppCompatActivity {
             return;
 
         if (requestCode == REQUEST_COUNTRY) {
-            mGig.setCountry((Country) data.getParcelableExtra("result"));
+            mGig.setCountry((Country) Parcels.unwrap(data.getParcelableExtra("result")));
             editCountry.setText(mGig.getCountryName());
         } else if (requestCode == REQUEST_CITY) {
-            mGig.setCity((City) data.getParcelableExtra("result"));
+            mGig.setCity((City) Parcels.unwrap(data.getParcelableExtra("result")));
             editCity.setText(mGig.getCityName());
         } else if (requestCode == REQUEST_VENUE) {
-            mGig.setVenue((Venue) data.getParcelableExtra("result"));
+            mGig.setVenue((Venue) Parcels.unwrap(data.getParcelableExtra("result")));
             editVenue.setText(mGig.getVenueName());
         }
     }

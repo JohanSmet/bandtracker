@@ -20,7 +20,6 @@ import com.raizlabs.android.dbflow.list.FlowCursorList;
 import be.justcode.bandtracker.App;
 import be.justcode.bandtracker.R;
 import be.justcode.bandtracker.model.Band;
-import be.justcode.bandtracker.model.Band_Table;
 import be.justcode.bandtracker.model.DataContext;
 import be.justcode.bandtracker.utils.BandImageDownloader;
 

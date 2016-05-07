@@ -30,6 +30,8 @@ import android.widget.TextView;
 
 import com.raizlabs.android.dbflow.list.FlowCursorList;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +42,7 @@ public class BandDetailsActivity extends AppCompatActivity {
 
     public static void showBand(Context context, Band band) {
         Intent intent = new Intent(context, BandDetailsActivity.class);
-        intent.putExtra(INTENT_BAND_PARAMETER, band);
+        intent.putExtra(INTENT_BAND_PARAMETER, Parcels.wrap(band));
         context.startActivity(intent);
     }
 
@@ -52,10 +54,10 @@ public class BandDetailsActivity extends AppCompatActivity {
 
         // read state / params
         if (savedInstanceState != null) {
-            mBand = savedInstanceState.getParcelable(STATE_BAND);
+            mBand = Parcels.unwrap(savedInstanceState.getParcelable(STATE_BAND));
         } else {
             Bundle bundle = getIntent().getExtras();
-            mBand = bundle.getParcelable(INTENT_BAND_PARAMETER);
+            mBand = Parcels.unwrap(bundle.getParcelable(INTENT_BAND_PARAMETER));
         }
 
         // toolbar
@@ -113,7 +115,7 @@ public class BandDetailsActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
 
-        savedInstanceState.putParcelable(STATE_BAND, mBand);
+        savedInstanceState.putParcelable(STATE_BAND, Parcels.wrap(mBand));
     }
 
     private void displayBand() {

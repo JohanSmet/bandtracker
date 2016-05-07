@@ -49,7 +49,7 @@ public class GigGuidedCreation extends AppCompatActivity {
 
     public static void run(Context context, Band band, ArrayList<BandTrackerTourDateYear> years) {
         Intent intent = new Intent(context, GigGuidedCreation.class);
-        intent.putExtra(INTENT_BAND_PARAMETER, band);
+        intent.putExtra(INTENT_BAND_PARAMETER,  Parcels.wrap(band));
         intent.putExtra(INTENT_YEARS_PARAMETER, Parcels.wrap(years));
         context.startActivity(intent);
     }
@@ -69,7 +69,7 @@ public class GigGuidedCreation extends AppCompatActivity {
 
         // read params
         Bundle bundle = getIntent().getExtras();
-        mBand  = bundle.getParcelable(INTENT_BAND_PARAMETER);
+        mBand  = Parcels.unwrap(bundle.getParcelable(INTENT_BAND_PARAMETER));
         mYears = Parcels.unwrap(bundle.getParcelable(INTENT_YEARS_PARAMETER));
 
         setTitle(mBand.getName());
@@ -113,7 +113,7 @@ public class GigGuidedCreation extends AppCompatActivity {
             return;
 
         if (requestCode == REQUEST_COUNTRY) {
-            mFilterCountry = data.getParcelableExtra("result");
+            mFilterCountry = Parcels.unwrap(data.getParcelableExtra("result"));
             editCountry.setText(mFilterCountry.getName());
             imgCountry.setImageDrawable(CountryCache.get(this, mFilterCountry.getCode()).getDrawable());
             updateFilter();

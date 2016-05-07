@@ -1,15 +1,16 @@
 package be.justcode.bandtracker.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.raizlabs.android.dbflow.annotation.ForeignKey;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
+import org.parceler.Parcel;
+import org.parceler.Parcel.Serialization;
+
 @Table(database = AppDatabase.class, allFields = true)
-public class Venue extends BaseModel implements Parcelable {
+@Parcel(Serialization.BEAN)
+public class Venue extends BaseModel {
 
     // construction
     public Venue() {
@@ -78,40 +79,6 @@ public class Venue extends BaseModel implements Parcelable {
     public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
-
-    // parcelable interface
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int flags) {
-        parcel.writeLong(id);
-        parcel.writeString(name);
-        parcel.writeParcelable(city, flags);
-        parcel.writeParcelable(country, flags);
-        parcel.writeDouble(longitude);
-        parcel.writeDouble(latitude);
-    }
-
-    public Venue(Parcel parcel) {
-        id          = parcel.readLong();
-        name        = parcel.readString();
-        city        = parcel.readParcelable(City.class.getClassLoader());
-        country     = parcel.readParcelable(Country.class.getClassLoader());
-        longitude   = parcel.readDouble();
-        latitude    = parcel.readDouble();
-    }
-
-    public static final Parcelable.Creator<Venue> CREATOR = new Parcelable.Creator<Venue>() {
-        public Venue createFromParcel(Parcel in) {
-            return new Venue(in);
-        }
-
-        @Override
-        public Venue[] newArray(int size) { return new Venue[size]; }
-    };
 
     // member variables
     @PrimaryKey(autoincrement = true)

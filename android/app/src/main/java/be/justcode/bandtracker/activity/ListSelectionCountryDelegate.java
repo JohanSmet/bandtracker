@@ -8,6 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.parceler.Parcels;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -120,9 +122,9 @@ public class ListSelectionCountryDelegate implements ListSelectionActivity.Deleg
     public Parcelable selectedRow(int section, int row) {
 
         if (section == 0) {
-            return mPopularCountries.get(row);
+            return Parcels.wrap(mPopularCountries.get(row));
         } else if (section == 1) {
-            return mFilteredCountries.get(row);
+            return Parcels.wrap(mFilteredCountries.get(row));
         }
 
         return null;

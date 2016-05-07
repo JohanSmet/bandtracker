@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.Predicate;
+import org.parceler.Parcels;
 
 import java.util.HashMap;
 import java.util.List;
@@ -163,11 +164,11 @@ public class ListSelectionVenueDelegate implements ListSelectionActivity.Delegat
         City    city    = (!mParamCity.isEmpty()) ? DataContext.cityById(Long.parseLong(mParamCity)) : null;
 
         if (section == 0) {
-            return DataContext.venueCreate(mManualInput, city, country);
+            return Parcels.wrap(DataContext.venueCreate(mManualInput, city, country));
         } else if (section == 1) {
-            return mOldVenues.get(row);
+            return Parcels.wrap(mOldVenues.get(row));
         } else if (section == 2) {
-            return DataContext.venueCreate(mNewVenues.get(row), city, country);
+            return Parcels.wrap(DataContext.venueCreate(mNewVenues.get(row), city, country));
         }
 
         return null;

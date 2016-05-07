@@ -1,8 +1,5 @@
 package be.justcode.bandtracker.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.ColumnIgnore;
 import com.raizlabs.android.dbflow.annotation.OneToMany;
@@ -14,8 +11,12 @@ import java.util.List;
 
 import be.justcode.bandtracker.clients.bandtracker.BandTrackerBand;
 
+import org.parceler.Parcel;
+import org.parceler.Parcel.Serialization;
+
 @Table(database = AppDatabase.class, allFields = true)
-public class Band extends BaseModel implements Parcelable
+@Parcel(Serialization.BEAN)
+public class Band extends BaseModel
 {
     // construction
     Band() {
@@ -120,45 +121,6 @@ public class Band extends BaseModel implements Parcelable
     public void setFanartLogoUrl(String fanartLogoUrl) {
         this.fanartLogoUrl = fanartLogoUrl;
     }
-
-    // parcelable interface
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int flags) {
-        parcel.writeString(MBID);
-        parcel.writeString(name);
-        parcel.writeString(biography);
-        parcel.writeInt(numGigs);
-        parcel.writeInt(totalRating);
-        parcel.writeDouble(avgRating);
-        parcel.writeString(fanartThumbUrl);
-        parcel.writeString(fanartLogoUrl);
-    }
-
-    public Band(Parcel parcel ) {
-        MBID            = parcel.readString();
-        name            = parcel.readString();
-        biography       = parcel.readString();
-        numGigs         = parcel.readInt();
-        totalRating     = parcel.readInt();
-        avgRating       = parcel.readDouble();
-        fanartThumbUrl  = parcel.readString();
-        fanartLogoUrl   = parcel.readString();
-    }
-
-    public static final Parcelable.Creator<Band> CREATOR = new Parcelable.Creator<Band>() {
-        public Band createFromParcel(Parcel in) {
-            return new Band(in);
-        }
-
-        public Band[] newArray(int size) {
-            return new Band[size];
-        }
-    };
 
     // helper functions
     private void computeAverageRating() {

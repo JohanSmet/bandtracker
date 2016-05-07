@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.Predicate;
+import org.parceler.Parcels;
 
 import java.util.HashMap;
 import java.util.List;
@@ -149,11 +150,11 @@ public class ListSelectionCityDelegate implements ListSelectionActivity.Delegate
     @Override
     public Parcelable selectedRow(int section, int row) {
         if (section == 0) {
-            return DataContext.cityCreate(mManualInput, DataContext.countryFetch(mParamCountry));
+            return Parcels.wrap(DataContext.cityCreate(mManualInput, DataContext.countryFetch(mParamCountry)));
         } else if (section == 1) {
-            return mOldCities.get(row);
+            return Parcels.wrap(mOldCities.get(row));
         } else if (section == 2) {
-            return DataContext.cityCreate(mNewCities.get(row), DataContext.countryFetch(mParamCountry));
+            return Parcels.wrap(DataContext.cityCreate(mNewCities.get(row), DataContext.countryFetch(mParamCountry)));
         }
 
         return null;

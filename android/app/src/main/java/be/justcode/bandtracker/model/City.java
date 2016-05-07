@@ -1,15 +1,16 @@
 package be.justcode.bandtracker.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.raizlabs.android.dbflow.annotation.ForeignKey;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
+import org.parceler.Parcel;
+import org.parceler.Parcel.Serialization;
+
 @Table(database = AppDatabase.class, allFields = true)
-public class City extends BaseModel implements Parcelable {
+@Parcel(Serialization.BEAN)
+public class City extends BaseModel {
 
     // construction
     public City() {
@@ -67,38 +68,6 @@ public class City extends BaseModel implements Parcelable {
     public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
-
-    // parcelable interface
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int flags) {
-        parcel.writeLong(id);
-        parcel.writeString(name);
-        parcel.writeParcelable(country, flags);
-        parcel.writeDouble(longitude);
-        parcel.writeDouble(latitude);
-    }
-
-    public City(Parcel parcel) {
-        id          = parcel.readLong();
-        name        = parcel.readString();
-        country     = parcel.readParcelable(Country.class.getClassLoader());
-        longitude   = parcel.readDouble();
-        latitude    = parcel.readDouble();
-    }
-
-    public static final Parcelable.Creator<City> CREATOR = new Parcelable.Creator<City>() {
-        public City createFromParcel(Parcel in) {
-            return new City(in);
-        }
-
-        @Override
-        public City[] newArray(int size) { return new City[size]; }
-    };
 
     // member variables
     @PrimaryKey(autoincrement=true)
