@@ -2,6 +2,7 @@ package be.justcode.bandtracker.activity;
 
 import be.justcode.bandtracker.R;
 import be.justcode.bandtracker.clients.bandtracker.BandTrackerClient;
+import be.justcode.bandtracker.clients.bandtracker.BandTrackerTourDateYear;
 import be.justcode.bandtracker.model.Band;
 import be.justcode.bandtracker.model.DataContext;
 import be.justcode.bandtracker.model.Gig;
@@ -98,7 +99,7 @@ public class BandDetailsActivity extends AppCompatActivity {
         AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
             @Override
             public void run() {
-                List<Integer> dates = BandTrackerClient.getInstance().tourDateYears(mBand.getMBID());
+                List<BandTrackerTourDateYear> dates = BandTrackerClient.getInstance().tourDateYearsCount(mBand.getMBID());
 
                 if (dates != null)
                     mTourDateYears = new ArrayList<>(dates);
@@ -234,5 +235,5 @@ public class BandDetailsActivity extends AppCompatActivity {
 
     private BandsGigsAdapter mListAdapter;
 
-    private ArrayList<Integer> mTourDateYears;
+    private ArrayList<BandTrackerTourDateYear> mTourDateYears;
 }

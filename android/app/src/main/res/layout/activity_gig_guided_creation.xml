@@ -56,7 +56,6 @@
                     android:layout_width="fill_parent"
                     android:layout_height="40dp"
                     android:layout_toEndOf="@+id/lblYear"
-                    android:spinnerMode="dropdown"
                     android:layout_centerVertical="true"
                     />
 

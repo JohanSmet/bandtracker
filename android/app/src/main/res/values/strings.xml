@@ -37,5 +37,7 @@
     <string name="page_timeline">Timeline</string>
     <string name="dummyLocation"><![CDATA[<Location>]]></string>
     <string name="dummyYear"><![CDATA[<Year>]]></string>
+    <string name="spinner_year_count">(%1$d tourdates)</string>
+    <string name="dummy_spinner_year"><![CDATA[<year>]]></string>
 
 </resources>

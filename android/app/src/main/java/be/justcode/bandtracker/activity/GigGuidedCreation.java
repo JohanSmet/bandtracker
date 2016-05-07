@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.Predicate;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -30,6 +31,7 @@ import java.util.concurrent.CountDownLatch;
 import be.justcode.bandtracker.R;
 import be.justcode.bandtracker.clients.bandtracker.BandTrackerClient;
 import be.justcode.bandtracker.clients.bandtracker.BandTrackerTourDate;
+import be.justcode.bandtracker.clients.bandtracker.BandTrackerTourDateYear;
 import be.justcode.bandtracker.model.Band;
 import be.justcode.bandtracker.model.Country;
 import be.justcode.bandtracker.model.DataContext;
@@ -45,10 +47,10 @@ public class GigGuidedCreation extends AppCompatActivity {
     private static final int REQUEST_COUNTRY = 1;
 
 
-    public static void run(Context context, Band band, ArrayList<Integer> years) {
+    public static void run(Context context, Band band, ArrayList<BandTrackerTourDateYear> years) {
         Intent intent = new Intent(context, GigGuidedCreation.class);
         intent.putExtra(INTENT_BAND_PARAMETER, band);
-        intent.putIntegerArrayListExtra(INTENT_YEARS_PARAMETER, years);
+        intent.putExtra(INTENT_YEARS_PARAMETER, Parcels.wrap(years));
         context.startActivity(intent);
     }
 
@@ -68,7 +70,7 @@ public class GigGuidedCreation extends AppCompatActivity {
         // read params
         Bundle bundle = getIntent().getExtras();
         mBand  = bundle.getParcelable(INTENT_BAND_PARAMETER);
-        mYears = bundle.getIntegerArrayList(INTENT_YEARS_PARAMETER);
+        mYears = Parcels.unwrap(bundle.getParcelable(INTENT_YEARS_PARAMETER));
 
         setTitle(mBand.getName());
 
@@ -78,11 +80,11 @@ public class GigGuidedCreation extends AppCompatActivity {
         imgCountry  = (ImageView) findViewById(R.id.imgCountry);
 
         // initialize year picker
-        pickYear.setAdapter(new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_item, mYears));
+        pickYear.setAdapter(new TourDateYearsAdapter(this, mYears));
         pickYear.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mFilterYear = (Integer) parent.getItemAtPosition(position);
+                mFilterYear = ((BandTrackerTourDateYear) parent.getItemAtPosition(position)).getYear();
                 updateFilter();
             }
 
@@ -214,6 +216,57 @@ public class GigGuidedCreation extends AppCompatActivity {
     // nested classes
     //
 
+    private class TourDateYearsAdapter extends ArrayAdapter<BandTrackerTourDateYear> {
+
+        public TourDateYearsAdapter(Context context, List<BandTrackerTourDateYear> years) {
+            super(context, 0, years);
+        }
+
+        @Override
+        public View getDropDownView(int position, View convertView, ViewGroup parent) {
+            BandTrackerTourDateYear year = getItem(position);
+
+            if (convertView == null) {
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.spinner_item_year, parent, false);
+                convertView.setTag(new ViewHolder(convertView));
+            }
+
+            ViewHolder holder = (ViewHolder) convertView.getTag();
+
+            holder.lblYear.setText(Integer.toString(year.getYear()));
+            holder.lblCount.setText(String.format(getContext().getString(R.string.spinner_year_count), year.getCount()));
+
+            return convertView;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            BandTrackerTourDateYear year = getItem(position);
+
+            if (convertView == null) {
+                convertView = LayoutInflater.from(getContext()).inflate(android.R.layout.simple_spinner_item, parent, false);
+            }
+
+            TextView label = (TextView) convertView.findViewById(android.R.id.text1);
+            label.setText(Integer.toString(year.getYear()));
+
+            return convertView;
+
+        }
+
+        private class ViewHolder {
+
+            public ViewHolder(View view) {
+                lblYear  = (TextView) view.findViewById(R.id.lblYear);
+                lblCount = (TextView) view.findViewById(R.id.lblCount);
+            }
+
+            public TextView lblYear;
+            public TextView lblCount;
+        }
+    }
+
     private class FilterResultsAdapter extends ArrayAdapter<BandTrackerTourDate> {
         public FilterResultsAdapter(Context context, List<BandTrackerTourDate> tourDates) {
             super(context, 0, tourDates);
@@ -255,7 +308,7 @@ public class GigGuidedCreation extends AppCompatActivity {
 
     // member variables
     private Band                mBand;
-    private ArrayList<Integer>  mYears;
+    private ArrayList<BandTrackerTourDateYear>  mYears;
 
     private Country             mFilterCountry = null;
     private Integer             mFilterYear    = 0;
