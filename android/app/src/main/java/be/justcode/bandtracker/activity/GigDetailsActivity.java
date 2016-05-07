@@ -74,6 +74,11 @@ public class GigDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gig_details);
 
+        // read params
+        Bundle bundle = getIntent().getExtras();
+        mMode = bundle.getInt(INTENT_MODE_PARAMETER);
+        mBand = Parcels.unwrap(bundle.getParcelable(INTENT_BAND_PARAMETER));
+
         // toolbar
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolBar);
         setSupportActionBar(toolBar);
@@ -81,11 +86,7 @@ public class GigDetailsActivity extends AppCompatActivity {
         // actionbar
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
-
-        // read params
-        Bundle bundle = getIntent().getExtras();
-        mMode = bundle.getInt(INTENT_MODE_PARAMETER);
-        mBand = Parcels.unwrap(bundle.getParcelable(INTENT_BAND_PARAMETER));
+        ab.setTitle(mBand.getName());
 
         // init gig to be shown / edited
         if (mMode == MODE_CREATE) {
