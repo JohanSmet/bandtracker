@@ -8,6 +8,7 @@ import java.util.List;
 
 import be.justcode.bandtracker.App;
 import be.justcode.bandtracker.R;
+import be.justcode.bandtracker.clients.Headers;
 import be.justcode.bandtracker.clients.OkHttpBuilder;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -20,11 +21,6 @@ import retrofit.http.Query;
 public class FanartTvClient {
 
     private static final String LOG_TAG = "FanartTvClient";
-
-    public static final String HEADER_CACHE_CONTROL         = "Cache-Control";
-    public static final String CACHE_CONTROL_SERVER         = "max-age=0";
-    public static final String CACHE_CONTROL_PREFER_CACHE   = "max-age=315360000";
-    public static final String CACHE_CONTROL_ONLY_CACHE     = "only-if-cached";
 
     private FanartTvClient() {
         if (restClient == null) {
@@ -56,7 +52,7 @@ public class FanartTvClient {
 
     private interface IFanartTv {
         @GET("/v3/music/{bandId}")
-        public FanartTvArtist getArtist(@Path("bandId") String bandId, @Query("api_key") String api_key, @retrofit.http.Header(HEADER_CACHE_CONTROL) String cacheControlValue);
+        public FanartTvArtist getArtist(@Path("bandId") String bandId, @Query("api_key") String api_key, @retrofit.http.Header(Headers.HEADER_CACHE_CONTROL) String cacheControlValue);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -67,7 +63,7 @@ public class FanartTvClient {
     public FanartTvBandUrls getBandUrls(String bandId) {
 
         try {
-            FanartTvArtist response = restClient.getArtist(bandId, fanartApiKey, CACHE_CONTROL_PREFER_CACHE );
+            FanartTvArtist response = restClient.getArtist(bandId, fanartApiKey, Headers.CACHE_CONTROL_PREFER_CACHE );
 
             if (response == null)
                 return null;

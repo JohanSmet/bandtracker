@@ -13,6 +13,7 @@ import java.util.List;
 
 import be.justcode.bandtracker.App;
 import be.justcode.bandtracker.R;
+import be.justcode.bandtracker.clients.Headers;
 import be.justcode.bandtracker.clients.OkHttpBuilder;
 import be.justcode.bandtracker.model.City;
 import be.justcode.bandtracker.model.Venue;
@@ -32,11 +33,6 @@ import retrofit.http.Query;
 public class BandTrackerClient
 {
     private static final String LOG_TAG = "BandTrackerClient";
-
-    public static final String HEADER_CACHE_CONTROL         = "Cache-Control";
-    public static final String CACHE_CONTROL_SERVER         = "max-age=0";
-    public static final String CACHE_CONTROL_PREFER_CACHE   = "max-age=315360000";
-    public static final String CACHE_CONTROL_ONLY_CACHE     = "only-if-cached";
 
     private BandTrackerClient() {
 
@@ -86,7 +82,7 @@ public class BandTrackerClient
         public List<BandTrackerBand> findBands(@Query("name") String pattern);
 
         @GET("/api/bandImage/{bandId}")
-        public Response getBandImage(@Path("bandId") String bandId, @retrofit.http.Header(HEADER_CACHE_CONTROL) String cacheControlValue);
+        public Response getBandImage(@Path("bandId") String bandId, @retrofit.http.Header(Headers.HEADER_CACHE_CONTROL) String cacheControlValue);
 
         @GET("/api/country/sync")
         public CountrySyncResponse countrySync(@Query("syncId") int syncId);
@@ -162,7 +158,7 @@ public class BandTrackerClient
                 login();
             }
 
-            Response response = restClient.getBandImage(bandId, CACHE_CONTROL_PREFER_CACHE);
+            Response response = restClient.getBandImage(bandId, Headers.CACHE_CONTROL_PREFER_CACHE);
 
             if (response == null || response.getStatus() != 200)
                 return null;
