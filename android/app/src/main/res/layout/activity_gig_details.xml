@@ -144,6 +144,7 @@
                     android:timePickerMode="spinner"/>
             </TableRow>
 
+
             <TableRow
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -338,6 +339,32 @@
 
             </TableRow>
 
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/rowViewSetlist"
+                android:background="#fff"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="23dp"
+                >
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    >
+
+                    <Button
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/btnGigSetlist"
+                        android:text="View the setlist"
+                        />
+
+                </RelativeLayout>
+
+            </TableRow>
 
         </TableLayout>
 

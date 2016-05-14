@@ -197,11 +197,27 @@ public class SetlistFmClient {
     //
 
     public class Setlist {
+        public String getUrl() {
+            return url;
+        }
+
+        public List<SetlistPart> getSetlistParts() {
+            return setlistParts;
+        }
+
         String              url;
         List<SetlistPart>   setlistParts = new ArrayList<>();
     }
 
     public class SetlistPart {
+        public String getName() {
+            return name;
+        }
+
+        public List<String> getSongs() {
+            return songs;
+        }
+
         String          name;
         List<String>    songs = new ArrayList<>();
     }

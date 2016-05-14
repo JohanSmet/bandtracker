@@ -39,5 +39,11 @@
     <string name="dummyYear"><![CDATA[<Year>]]></string>
     <string name="spinner_year_count">(%1$d tourdates)</string>
     <string name="dummy_spinner_year"><![CDATA[<year>]]></string>
+    <string name="dummyName"><![CDATA[<name>]]></string>
+
+    <string name="setlist_notfound">No set list available for the requested date.</string>
+    <string name="setlist_courtesy">Set list courtesy of setlist.fm</string>
+    <string name="setlist_website">(click here to view this setlist on the setlist.fm website)</string>
+    <string name="setlist_title">Set List</string>
 
 </resources>

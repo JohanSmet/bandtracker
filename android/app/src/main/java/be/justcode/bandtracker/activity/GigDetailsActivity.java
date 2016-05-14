@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.RatingBar;
 import android.widget.Switch;
@@ -24,7 +25,6 @@ import be.justcode.bandtracker.R;
 import be.justcode.bandtracker.model.Band;
 import be.justcode.bandtracker.model.City;
 import be.justcode.bandtracker.model.Country;
-import be.justcode.bandtracker.model.DataContext;
 import be.justcode.bandtracker.model.Gig;
 import be.justcode.bandtracker.model.Venue;
 import be.justcode.bandtracker.utils.DateUtils;
@@ -109,10 +109,20 @@ public class GigDetailsActivity extends AppCompatActivity {
         toggleSupport            = (Switch) findViewById(R.id.toggleSupport);
         ratingBar                = (RatingBar) findViewById(R.id.ratingBar);
         editComments             = (TextView) findViewById(R.id.editComments);
+        rowViewSetlist           = findViewById(R.id.rowViewSetlist);
 
         initDatePicker(pickStartDate, lblStartDate, mGig.getStartDate());
         initTimePicker(pickStartTime, lblStartTime, mGig.getStartDate());
         uiFieldsSetMode(mMode != MODE_VIEW);
+
+        // buttons
+        final Button btnSetlist = (Button) findViewById(R.id.btnGigSetlist);
+        btnSetlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GigSetlistActivity.viewSetlist(GigDetailsActivity.this, mGig);
+            }
+        });
 
         // initial view setup
         pickerViewsHideAll();
@@ -246,6 +256,7 @@ public class GigDetailsActivity extends AppCompatActivity {
         editComments.setEnabled(editMode);
         toggleSupport.setEnabled(editMode);
         ratingBar.setEnabled(editMode);
+        rowViewSetlist.setVisibility(editMode ? View.GONE : View.VISIBLE);
     }
 
     private void initNewGig() {
@@ -329,6 +340,7 @@ public class GigDetailsActivity extends AppCompatActivity {
     private Switch      toggleSupport;
     private RatingBar   ratingBar;
     private TextView    editComments;
+    private View        rowViewSetlist;
 
     private MenuItem    menuGigSave;
     private MenuItem    menuGigEdit;
