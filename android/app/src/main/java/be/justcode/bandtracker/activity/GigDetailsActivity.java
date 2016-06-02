@@ -124,6 +124,14 @@ public class GigDetailsActivity extends AppCompatActivity {
             }
         });
 
+        final Button btnYoutube = (Button) findViewById(R.id.btnSearchYoutube);
+        btnYoutube.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GigYoutubeActivity.searchYoutube(GigDetailsActivity.this, mGig, "");
+            }
+        });
+
         // initial view setup
         pickerViewsHideAll();
         gigToFields();

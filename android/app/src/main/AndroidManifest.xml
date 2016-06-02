@@ -27,8 +27,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="be.justcode.bandtracker.activity.MainActivity"/>
         </activity>
-        <activity android:name=".activity.GigDetailsActivity"
-                  android:launchMode="singleTop">
+        <activity
+            android:name=".activity.GigDetailsActivity"
+            android:launchMode="singleTop">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="be.justcode.bandtracker.activity.BandDetailsActivity"/>
@@ -49,6 +50,8 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="be.justcode.bandtracker.activity.GigDetailsActivity"/>
+        </activity>
+        <activity android:name=".activity.GigYoutubeActivity">
         </activity>
     </application>
 

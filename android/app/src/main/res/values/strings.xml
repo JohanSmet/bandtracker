@@ -45,5 +45,9 @@
     <string name="setlist_courtesy">Set list courtesy of setlist.fm</string>
     <string name="setlist_website">(click here to view this setlist on the setlist.fm website)</string>
     <string name="setlist_title">Set List</string>
+    <string name="gigdetails_view_setlist">View the setlist</string>
+    <string name="gigdetails_search_youtube">Search for videos on YouTube</string>
+    <string name="dummy_title"><![CDATA[<title>]]></string>
+    <string name="setlist_youtube">(tap on a song to search for related videos on YouTube)</string>
 
 </resources>

@@ -17,4 +17,12 @@
     <string name="setlistfm_port">80</string>
     <string name="setlistfm_key">e8ed1d50-86d5-4112-92a6-59041dfea3ac</string>
 
+    <!-- youtube -->
+    <string name="youtube_proto">https</string>
+    <string name="youtube_host">www.googleapis.com</string>
+    <string name="youtube_port">443</string>
+    <string name="youtube_baseurl">/youtube/v3/</string>
+    <string name="youtube_data_key">AIzaSyC25Jy1svKz81oP_Ef90XDzXfXUnuMUtBM</string>
+    <string name="youtube_player_key"> AIzaSyAHk-rZLgBAWsL2xR7KdociaHV4Qph-_PQ </string>
+
 </resources>

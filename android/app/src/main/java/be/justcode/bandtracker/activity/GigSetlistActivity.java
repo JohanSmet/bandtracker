@@ -188,12 +188,24 @@ public class GigSetlistActivity extends AppCompatActivity {
             return null;
         }
 
+        public void rowClicked(int position) {
+            String song = getItem(position);
+            GigYoutubeActivity.searchYoutube(GigSetlistActivity.this, mGig, song);
+        }
+
         // view holder
         public class ViewHolder extends RecyclerView.ViewHolder {
 
             public ViewHolder(View view) {
                 super(view);
                 lblSongName = (TextView) view.findViewById(android.R.id.text1);
+
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        rowClicked(getAdapterPosition());
+                    }
+                });
             }
 
             // member variables
