@@ -1,11 +1,26 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="TableLayoutSectioned">
+        <item name="android:background">@color/colorListSeparator</item>
+    </style>
+
+    <style name="TableRowMinorOffset">
+        <item name="android:minHeight">48dp</item>
+        <item name="android:background">?android:attr/colorBackground</item>
+    </style>
+
+    <style name="TableRowMajorOffset">
+        <item name="android:minHeight">48dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:background">?android:attr/colorBackground</item>
     </style>
 
 </resources>

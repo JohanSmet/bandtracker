@@ -22,15 +22,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolBar"
         android:animateLayoutChanges="true"
-        android:background="#ccc"
+        style="@style/TableLayoutSectioned"
         >
 
         <TableRow
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:background="#fff"
-            android:layout_marginBottom="1dp"
+            style="@style/TableRowMinorOffset"
             >
 
             <RelativeLayout
@@ -66,9 +64,7 @@
         <TableRow
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:background="#fff"
-            android:layout_marginBottom="1dp"
+            style="@style/TableRowMinorOffset"
             >
 
             <RelativeLayout
@@ -115,7 +111,7 @@
         <TableRow
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="#ccc"
+            android:background="@color/colorAccent"
             >
 
             <TextView

@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolBar"
         android:padding="8dp"
-        android:background="#80bebebe"
+        android:background="@color/colorAccent"
         >
         <TextView
             android:id="@+id/lblLocation"
@@ -94,7 +94,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:padding="8dp"
-        android:background="#80bebebe"
+        android:background="@color/colorAccent"
         android:onClick="pnlFooter_clicked"
         >
         <TextView

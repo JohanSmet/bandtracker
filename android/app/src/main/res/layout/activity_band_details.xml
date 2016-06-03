@@ -88,7 +88,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="32dp"
-        android:background="#80bebebe"
+        android:background="@color/colorAccent"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="2dp"
         >

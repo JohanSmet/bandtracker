@@ -25,16 +25,14 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:animateLayoutChanges="true"
-            android:background="#ccc"
+            android:background="@color/colorListSeparator"
             >
 
             <TableRow
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="#fff"
-                android:layout_marginBottom="1dp"
                 android:clickable="true"
-                android:minHeight="48dp"
+                style="@style/TableRowMinorOffset"
                 android:onClick="rowStartDatePicker_clicked">
 
                 <RelativeLayout
@@ -71,8 +69,7 @@
             <TableRow
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#fff"
-                android:layout_marginBottom="1dp"
+                style="@style/TableRowMinorOffset"
                 android:id="@+id/rowStartDatePicker"
                 >
 
@@ -90,10 +87,8 @@
             <TableRow
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="#fff"
-                android:layout_marginBottom="1dp"
+                style="@style/TableRowMinorOffset"
                 android:clickable="true"
-                android:minHeight="48dp"
                 android:onClick="rowStartTimePicker_clicked">
 
                 <RelativeLayout
@@ -130,8 +125,7 @@
             <TableRow
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#fff"
-                android:layout_marginBottom="1dp"
+                style="@style/TableRowMinorOffset"
                 android:id="@+id/rowStartTimePicker"
                 >
 
@@ -148,10 +142,8 @@
             <TableRow
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="#fff"
-                android:minHeight="48dp"
-                android:layout_marginBottom="1dp"
-                android:layout_marginTop="23dp"
+                android:background="?android:attr/colorBackground"
+                style="@style/TableRowMajorOffset"
                 >
 
                 <EditText
@@ -171,9 +163,7 @@
             <TableRow
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="#fff"
-                android:minHeight="48dp"
-                android:layout_marginBottom="1dp"
+                style="@style/TableRowMinorOffset"
                 >
 
                 <EditText
@@ -195,9 +185,7 @@
             <TableRow
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="#fff"
-                android:minHeight="48dp"
-                android:layout_marginBottom="1dp"
+                style="@style/TableRowMinorOffset"
                 >
 
                 <EditText
@@ -219,9 +207,7 @@
             <TableRow
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="#fff"
-                android:minHeight="48dp"
-                android:layout_marginBottom="1dp"
+                style="@style/TableRowMinorOffset"
                 >
 
                 <EditText
@@ -242,9 +228,7 @@
             <TableRow
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="#fff"
-                android:minHeight="48dp"
-                android:layout_marginBottom="1dp"
+                style="@style/TableRowMinorOffset"
                 >
 
                 <RelativeLayout
@@ -278,9 +262,7 @@
             <TableRow
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="#fff"
-                android:layout_marginBottom="1dp"
-                android:layout_marginTop="23dp"
+                style="@style/TableRowMajorOffset"
                 >
 
                 <RelativeLayout
@@ -316,9 +298,7 @@
             <TableRow
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="#fff"
-                android:minHeight="48dp"
-                android:layout_marginBottom="1dp"
+                style="@style/TableRowMinorOffset"
                 >
 
                 <EditText
@@ -343,8 +323,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/rowViewSetlist"
-                android:background="#fff"
-                android:layout_marginTop="23dp"
+                style="@style/TableRowMajorOffset"
                 >
 
                 <RelativeLayout
@@ -369,7 +348,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/rowSearchYoutube"
-                android:background="#fff"
+                style="@style/TableRowMinorOffset"
                 >
 
                 <RelativeLayout
