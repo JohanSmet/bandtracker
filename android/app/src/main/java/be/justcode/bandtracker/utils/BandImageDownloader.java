@@ -51,6 +51,8 @@ public class BandImageDownloader {
 
         protected void onPostExecute(String result) {
             Picasso.with(mContext).load(result)
+                    .fit()
+                    .centerInside()
                     .into(mImgView);
         }
 
