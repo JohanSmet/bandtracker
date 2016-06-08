@@ -110,6 +110,7 @@ public class GigDetailsActivity extends AppCompatActivity {
         ratingBar                = (RatingBar) findViewById(R.id.ratingBar);
         editComments             = (TextView) findViewById(R.id.editComments);
         rowViewSetlist           = findViewById(R.id.rowViewSetlist);
+        rowSearchYoutube          = findViewById(R.id.rowSearchYoutube);
 
         initDatePicker(pickStartDate, lblStartDate, mGig.getStartDate());
         initTimePicker(pickStartTime, lblStartTime, mGig.getStartDate());
@@ -265,6 +266,7 @@ public class GigDetailsActivity extends AppCompatActivity {
         toggleSupport.setEnabled(editMode);
         ratingBar.setEnabled(editMode);
         rowViewSetlist.setVisibility(editMode ? View.GONE : View.VISIBLE);
+        rowSearchYoutube.setVisibility(editMode ? View.GONE : View.VISIBLE);
     }
 
     private void initNewGig() {
@@ -349,6 +351,7 @@ public class GigDetailsActivity extends AppCompatActivity {
     private RatingBar   ratingBar;
     private TextView    editComments;
     private View        rowViewSetlist;
+    private View        rowSearchYoutube;
 
     private MenuItem    menuGigSave;
     private MenuItem    menuGigEdit;
