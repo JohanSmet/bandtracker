@@ -24,7 +24,9 @@
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
                    android:scaleType="center"
-                   android:src="@drawable/play_circle"/>
+                   android:src="@drawable/play_circle"
+                   android:contentDescription="@string/youtubeThumbDescription"
+            />
 
     </RelativeLayout>
 

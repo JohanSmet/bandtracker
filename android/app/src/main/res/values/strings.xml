@@ -49,5 +49,8 @@
     <string name="gigdetails_search_youtube">Search for videos on YouTube</string>
     <string name="dummy_title"><![CDATA[<title>]]></string>
     <string name="setlist_youtube">(tap on a song to search for related videos on YouTube)</string>
+    <string name="countryImageDescription">Flag of the country</string>
+    <string name="dummy_band_name"><![CDATA[<Band Name>]]></string>
+    <string name="youtubeThumbDescription">Youtube Thumbnail</string>
 
 </resources>

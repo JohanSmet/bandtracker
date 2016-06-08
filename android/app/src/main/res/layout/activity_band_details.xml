@@ -46,7 +46,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/imgBand"
-                android:scaleType="fitCenter"/>
+                android:scaleType="fitCenter"
+                android:contentDescription="@string/bandImageDescription"
+                />
 
             <RatingBar
                 android:id="@+id/bandRating"
