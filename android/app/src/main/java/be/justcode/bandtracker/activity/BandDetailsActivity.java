@@ -121,16 +121,10 @@ public class BandDetailsActivity extends AppCompatActivity {
     private void displayBand() {
         txtBiography.setText(Html.fromHtml(mBand.getBiography()));
 
-        switch (mBand.getNumGigs()) {
-            case 0 :
-                txtGigListHeader.setText(getString(R.string.band_details_giglist_none));
-                break;
-            case 1 :
-                txtGigListHeader.setText(getString(R.string.band_details_giglist_single));
-                break;
-            default :
-                String title = getString(R.string.band_details_giglist_multiple);
-                txtGigListHeader.setText(String.format(title, mBand.getNumGigs()));
+        if (mBand.getNumGigs() != 0) {
+            txtGigListHeader.setText(getResources().getQuantityString(R.plurals.band_details_giglist, mBand.getNumGigs(), mBand.getNumGigs()));
+        } else {
+            txtGigListHeader.setText(R.string.band_details_giglist_none);
         }
 
         BandImageDownloader.thumbnail(mBand, this, imgBand);

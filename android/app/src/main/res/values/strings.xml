@@ -2,9 +2,11 @@
     <string name="app_name">BandTracker</string>
     <string name="action_band_add">Add</string>
     <string name="action_band_search">Search</string>
-    <string name="band_details_giglist_multiple">You have been to %1$d gigs:</string>
-    <string name="band_details_giglist_single">You have been to one gig:</string>
     <string name="band_details_giglist_none">You have not been to any gigs yet.</string>
+    <plurals name="band_details_giglist">
+        <item quantity="one">You have been to one gig:</item>
+        <item quantity="other">You have been to %1$d gigs:</item>
+    </plurals>
     <string name="lblStartDate">Starts</string>
     <string name="lblStarTime"/>
     <string name="lblSupportAct">Support Act</string>
@@ -20,8 +22,10 @@
     <string name="action_gig_save">Save</string>
     <string name="action_gig_delete">Delete</string>
     <string name="dummyBandName"><![CDATA[<Band Name>]]></string>
-    <string name="band_list_numgigs_multiple">(%1$d gigs)</string>
-    <string name="band_list_numgigs_single">(1 gig)</string>
+    <plurals name="band_list_numgigs">
+        <item quantity="one">(1 gig)</item>
+        <item quantity="other">(%1$d gigs)</item>
+    </plurals>
     <string name="band_list_numgigs_none">(no gigs)</string>
     <string name="bandImageDescription">Band Picture</string>
     <string name="logoImageDescription">Band Logo</string>
@@ -37,7 +41,10 @@
     <string name="page_timeline">Timeline</string>
     <string name="dummyLocation"><![CDATA[<Location>]]></string>
     <string name="dummyYear"><![CDATA[<Year>]]></string>
-    <string name="spinner_year_count">(%1$d tourdates)</string>
+    <plurals name="spinner_year_count">
+        <item quantity="other">(%1$d tourdates)</item>
+        <item quantity="one">(1 tourdate)</item>
+    </plurals>
     <string name="dummy_spinner_year"><![CDATA[<year>]]></string>
     <string name="dummyName"><![CDATA[<name>]]></string>
 
@@ -52,5 +59,6 @@
     <string name="countryImageDescription">Flag of the country</string>
     <string name="dummy_band_name"><![CDATA[<Band Name>]]></string>
     <string name="youtubeThumbDescription">Youtube Thumbnail</string>
+    <string name="band_details_header"><![CDATA[<header>]]></string>
 
 </resources>

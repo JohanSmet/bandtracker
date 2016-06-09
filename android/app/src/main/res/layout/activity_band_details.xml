@@ -99,7 +99,7 @@
             android:id="@+id/txtGigListHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/band_details_giglist_multiple"
+            android:text="@string/band_details_header"
             android:layout_centerVertical="true"
             android:layout_alignParentStart="true"
             android:layout_marginStart="8dp"

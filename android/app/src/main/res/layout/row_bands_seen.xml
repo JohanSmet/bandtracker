@@ -37,7 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="@string/band_list_numgigs_multiple"
+        android:text="@string/band_list_numgigs_none"
         android:textColor="@color/primary_text_default_material_dark"
         android:layout_below="@+id/lblBandName"
         android:layout_alignStart="@+id/lblBandName"

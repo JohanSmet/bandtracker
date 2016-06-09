@@ -106,8 +106,11 @@ public class MainBandsFragment extends Fragment {
 
             holder.ratingBar.setRating((float) band.getAvgRating() / 10.0f);
 
-            int textId = (band.getNumGigs() == 0) ? R.string.band_list_numgigs_none : (band.getNumGigs() == 1 ) ? R.string.band_list_numgigs_single : R.string.band_list_numgigs_multiple;
-            holder.lblNumGigs.setText(String.format(getString(textId), band.getNumGigs()));
+            if (band.getNumGigs() != 0) {
+                holder.lblNumGigs.setText(getResources().getQuantityString(R.plurals.band_list_numgigs, band.getNumGigs(), band.getNumGigs()));
+            } else {
+                holder.lblNumGigs.setText(String.format(getString(R.string.band_list_numgigs_none)));
+            }
         }
 
         @Override

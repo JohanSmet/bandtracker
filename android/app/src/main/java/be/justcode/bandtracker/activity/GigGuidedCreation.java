@@ -234,7 +234,7 @@ public class GigGuidedCreation extends AppCompatActivity {
             ViewHolder holder = (ViewHolder) convertView.getTag();
 
             holder.lblYear.setText(Integer.toString(year.getYear()));
-            holder.lblCount.setText(String.format(getContext().getString(R.string.spinner_year_count), year.getCount()));
+            holder.lblCount.setText(getResources().getQuantityString(R.plurals.spinner_year_count, year.getCount(), year.getCount()));
 
             return convertView;
         }

@@ -20,7 +20,7 @@
         android:id="@+id/lblCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/spinner_year_count"
+        android:text="@plurals/spinner_year_count"
         android:layout_toEndOf="@+id/lblYear"
         android:layout_centerVertical="true"
         android:layout_marginStart="8dp"
