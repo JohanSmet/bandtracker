@@ -7,45 +7,38 @@
     android:layout_height="match_parent"
     tools:context="be.justcode.bandtracker.activity.BandDetailsActivity">
 
-    <LinearLayout
+    <android.support.percent.PercentRelativeLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolBar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        />
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            />
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:baselineAligned="true"
-        android:layout_weight=".30">
-
-        <LinearLayout
-            android:orientation="vertical"
+        <android.support.percent.PercentRelativeLayout
+            android:id="@+id/pnlHeaderLeft"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight=".50" >
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            android:layout_height="0dp"
+            android:layout_below="@+id/toolBar"
+            app:layout_widthPercent="50%"
+            app:layout_heightPercent="30%"
+            >
 
             <ImageView
+                android:id="@+id/imgBand"
                 android:layout_marginTop="4dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="4dp"
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="4dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/imgBand"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                app:layout_heightPercent="85%"
                 android:scaleType="fitCenter"
                 android:contentDescription="@string/bandImageDescription"
                 />
@@ -54,71 +47,70 @@
                 android:id="@+id/bandRating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerInParent="true"
+                android:layout_below="@+id/imgBand"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
                 android:numStars="5"
                 android:rating="3"
                 style = "?android:attr/ratingBarStyleSmall"
                 android:progressTint="@color/colorPrimary"
                 />
+        </android.support.percent.PercentRelativeLayout>
 
-            </RelativeLayout>
-        </LinearLayout>
-
-        <LinearLayout
+        <ScrollView
+            android:layout_toEndOf="@+id/pnlHeaderLeft"
+            android:layout_below="@+id/toolBar"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight=".50" >
-
-            <ScrollView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars="vertical"
-                android:fillViewport="true">
+            android:layout_height="0dp"
+            app:layout_widthPercent="50%"
+            app:layout_heightPercent="30%"
+            android:scrollbars="vertical"
+            android:fillViewport="true">
 
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="Biography"
-                    android:id="@+id/txtBiography"/>
+                    android:text="@string/dummy_biography"
+                    android:id="@+id/txtBiography"
+                    />
 
-            </ScrollView>
-        </LinearLayout>
+        </ScrollView>
 
-    </LinearLayout>
+        <RelativeLayout
+            android:id="@+id/pnlDivider"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:background="@color/colorAccent"
+            android:layout_below="@id/pnlHeaderLeft"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="2dp"
+            >
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="32dp"
-        android:background="@color/colorAccent"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="2dp"
-        >
+            <TextView
+                android:id="@+id/txtGigListHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/band_details_header"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="8dp"
+                android:scrollbars="vertical"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold"
+                />
 
-        <TextView
-            android:id="@+id/txtGigListHeader"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/band_details_header"
-            android:layout_centerVertical="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="8dp"
-            android:scrollbars="vertical"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textStyle="bold"
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/listBandGigs"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_below="@+id/pnlDivider"
+            app:layout_heightPercent="70%"
             />
 
-    </RelativeLayout>
+    </android.support.percent.PercentRelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:id="@+id/listBandGigs"
-        android:layout_gravity="bottom"
-        android:layout_weight=".70"
-        />
-
-    </LinearLayout>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btnGigAdd"
         android:layout_width="wrap_content"

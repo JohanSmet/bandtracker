@@ -60,5 +60,6 @@
     <string name="dummy_band_name"><![CDATA[<Band Name>]]></string>
     <string name="youtubeThumbDescription">Youtube Thumbnail</string>
     <string name="band_details_header"><![CDATA[<header>]]></string>
+    <string name="dummy_biography"><![CDATA[<biography>]]></string>
 
 </resources>
