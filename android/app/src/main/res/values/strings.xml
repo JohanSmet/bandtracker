@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">BandTracker</string>
-    <string name="action_band_add">Add</string>
-    <string name="action_band_search">Search</string>
     <string name="band_details_giglist_none">You have not been to any gigs yet.</string>
     <plurals name="band_details_giglist">
         <item quantity="one">You have been to one gig:</item>
@@ -34,7 +32,6 @@
     <string name="filter_year">Filter on year:</string>
     <string name="button_manual_create">Manually create a gig</string>
 
-    <string name="band_search_title">Add a new band</string>
     <string name="country_search_popular">Popular countries</string>
 
     <string name="page_bands">Bands</string>
