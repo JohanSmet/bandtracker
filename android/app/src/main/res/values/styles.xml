@@ -23,4 +23,8 @@
         <item name="android:background">?android:attr/colorBackground</item>
     </style>
 
+    <style name="LinearLayoutAccentHeader">
+        <item name="android:background">?android:attr/colorAccent</item>
+    </style>
+
 </resources>
