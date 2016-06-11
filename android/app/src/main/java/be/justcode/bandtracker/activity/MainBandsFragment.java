@@ -109,7 +109,7 @@ public class MainBandsFragment extends Fragment {
             if (band.getNumGigs() != 0) {
                 holder.lblNumGigs.setText(getResources().getQuantityString(R.plurals.band_list_numgigs, band.getNumGigs(), band.getNumGigs()));
             } else {
-                holder.lblNumGigs.setText(String.format(getString(R.string.band_list_numgigs_none)));
+                holder.lblNumGigs.setText(getString(R.string.band_list_numgigs_none));
             }
         }
 
