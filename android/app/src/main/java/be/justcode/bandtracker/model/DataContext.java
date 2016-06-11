@@ -44,9 +44,9 @@ public class DataContext
 
     public static FlowCursorList<Band> bandCursor(String name) {
         if (!name.isEmpty()) {
-            return new FlowCursorList<Band>(true, SQLite.select().from(Band.class).where(Band_Table.name.like("%" + name + "%")).orderBy(Band_Table.avgRating, false));
+            return new FlowCursorList<>(true, SQLite.select().from(Band.class).where(Band_Table.name.like("%" + name + "%")).orderBy(Band_Table.avgRating, false));
         } else {
-            return new FlowCursorList<Band>(true, SQLite.select().from(Band.class).orderBy(Band_Table.avgRating, false));
+            return new FlowCursorList<>(true, SQLite.select().from(Band.class).orderBy(Band_Table.avgRating, false));
         }
     }
 
@@ -125,7 +125,7 @@ public class DataContext
 
     public static List<City> cityList(String name, Country country) {
 
-        List<SQLCondition> conds = new ArrayList<SQLCondition>();
+        List<SQLCondition> conds = new ArrayList<>();
 
         if (!name.isEmpty()) {
             conds.add(City_Table.name.like("%" + name + "%"));
@@ -173,7 +173,7 @@ public class DataContext
 
     public static List<Venue> venueList(String name, City city, Country country) {
 
-        List<SQLCondition> conds = new ArrayList<SQLCondition>();
+        List<SQLCondition> conds = new ArrayList<>();
 
         if (!name.isEmpty()) {
             conds.add(Venue_Table.name.is(name));
@@ -196,14 +196,14 @@ public class DataContext
     // gig
     public static FlowCursorList<Gig> gigCursor(Band band) {
 
-        return new FlowCursorList<Gig>(true, SQLite.select().from(Gig.class)
+        return new FlowCursorList<>(true, SQLite.select().from(Gig.class)
                                                 .where(Gig_Table.band_MBID.is(band.getMBID()))
                                                 .orderBy(Gig_Table.startDate, false)
                                       );
     }
 
     public static FlowCursorList<Gig> gigTimelineCursor() {
-        return new FlowCursorList<Gig>(true, SQLite.select().from(Gig.class)
+        return new FlowCursorList<>(true, SQLite.select().from(Gig.class)
                                                 .orderBy(Gig_Table.startDate, false)
                                       );
     }
@@ -233,7 +233,7 @@ public class DataContext
                 .orderBy(PropertyFactory.from("total"), false)
                 .queryList();
 
-        List<Country> result = new ArrayList<Country>();
+        List<Country> result = new ArrayList<>();
 
         for (Gig gig : gigCountries) {
             result.add(gig.getCountry());
