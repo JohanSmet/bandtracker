@@ -138,20 +138,25 @@ public class SetlistFmClient {
 
                 String name = reader.nextName();
 
-                if (name.equals("@itemsPerPage")) {
-                    itemsPerPage = Integer.parseInt(reader.nextString());
-                } else if (name.equals("@page")) {
-                    page = Integer.parseInt(reader.nextString());
-                } else if (name.equals("@total")) {
-                    total = Integer.parseInt(reader.nextString());
-                } else if (name.equals("setlist")) {
-                    if (reader.peek() == JsonToken.BEGIN_ARRAY) {
-                        result = new SetlistFmSetlists(itemsPerPage, page, total, (SetlistFmSetlist[]) new Gson().fromJson(reader, SetlistFmSetlist[].class));
-                    } else if(reader.peek() == JsonToken.BEGIN_OBJECT) {
-                        result = new SetlistFmSetlists(itemsPerPage, page, total, (SetlistFmSetlist) new Gson().fromJson(reader, SetlistFmSetlist.class));
-                    } else {
-                        throw new JsonParseException("Unexpected token " + reader.peek());
-                    }
+                switch (name) {
+                    case "@itemsPerPage":
+                        itemsPerPage = Integer.parseInt(reader.nextString());
+                        break;
+                    case "@page":
+                        page = Integer.parseInt(reader.nextString());
+                        break;
+                    case "@total":
+                        total = Integer.parseInt(reader.nextString());
+                        break;
+                    case "setlist":
+                        if (reader.peek() == JsonToken.BEGIN_ARRAY) {
+                            result = new SetlistFmSetlists(itemsPerPage, page, total, (SetlistFmSetlist[]) new Gson().fromJson(reader, SetlistFmSetlist[].class));
+                        } else if (reader.peek() == JsonToken.BEGIN_OBJECT) {
+                            result = new SetlistFmSetlists(itemsPerPage, page, total, (SetlistFmSetlist) new Gson().fromJson(reader, SetlistFmSetlist.class));
+                        } else {
+                            throw new JsonParseException("Unexpected token " + reader.peek());
+                        }
+                        break;
                 }
             }
 

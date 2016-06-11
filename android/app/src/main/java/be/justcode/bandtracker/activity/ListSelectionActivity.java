@@ -173,16 +173,18 @@ public class ListSelectionActivity extends AppCompatActivity {
     }
 
     private Delegate delegateFactory(String type, HashMap<String, String> params) {
-        if (type.equals(ListSelectionCountryDelegate.TYPE))
-            return new ListSelectionCountryDelegate(this, params);
-        else if (type.equals(ListSelectionCityDelegate.TYPE))
-            return new ListSelectionCityDelegate(this, params);
-        else if (type.equals(ListSelectionVenueDelegate.TYPE))
-            return new ListSelectionVenueDelegate(this, params);
-        else if (type.equals(ListSelectionBandDelegate.TYPE))
-            return new ListSelectionBandDelegate(this, params);
-        else
-            return null;
+        switch (type) {
+            case ListSelectionCountryDelegate.TYPE:
+                return new ListSelectionCountryDelegate(this, params);
+            case ListSelectionCityDelegate.TYPE:
+                return new ListSelectionCityDelegate(this, params);
+            case ListSelectionVenueDelegate.TYPE:
+                return new ListSelectionVenueDelegate(this, params);
+            case ListSelectionBandDelegate.TYPE:
+                return new ListSelectionBandDelegate(this, params);
+            default:
+                return null;
+        }
     }
 
     private String loadFilterPattern() {
