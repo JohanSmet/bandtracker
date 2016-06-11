@@ -3,6 +3,7 @@ package be.justcode.bandtracker.activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
@@ -29,6 +30,7 @@ public class ListSelectionVenueDelegate implements ListSelectionActivity.Delegat
     public static final String PARAM_CITY       = "param_city";
 
     private static final String SHARED_PREFERENCES_KEY = "be.justcode.bandtracker.ListSelectionVenueDelegate";
+    private static final String LOG_TAG                = "ListSelectionVenue";
 
     ListSelectionVenueDelegate(Context context, HashMap<String, String> params) {
 
@@ -144,6 +146,7 @@ public class ListSelectionVenueDelegate implements ListSelectionActivity.Delegat
                     });
 
                 } catch (InterruptedException e) {
+                    Log.d(LOG_TAG, "post-process", e);
                 }
 
                 return null;
