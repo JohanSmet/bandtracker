@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Parcelable;
+import android.support.annotation.LayoutRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
@@ -35,14 +36,14 @@ public class ListSelectionActivity extends AppCompatActivity {
     private static final String PREF_SEARCH_STRING   = "search_pattern";
 
     public interface Delegate {
-        public int          numberOfSections();
-        public String       titleForSection(int section);
-        public int          numRowsForSection(int section);
-        public int          rowLayout();
-        public void         configureRowView(View view, int section, int row);
-        public void         filterUpdate(BaseAdapter adapter, String newFilter);
-        public Parcelable   selectedRow(int section, int row);
-        public String persistenceKey();
+        public int              numberOfSections();
+        public String           titleForSection(int section);
+        public int              numRowsForSection(int section);
+        public @LayoutRes int   rowLayout();
+        public void             configureRowView(View view, int section, int row);
+        public void             filterUpdate(BaseAdapter adapter, String newFilter);
+        public Parcelable       selectedRow(int section, int row);
+        public String           persistenceKey();
     }
 
     public static void create(Activity parent, String delegateType, int requestCode, String defaultPattern, HashMap<String, String> params) {
