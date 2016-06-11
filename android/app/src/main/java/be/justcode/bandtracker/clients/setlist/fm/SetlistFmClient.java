@@ -26,7 +26,6 @@ import be.justcode.bandtracker.clients.OkHttpBuilder;
 import be.justcode.bandtracker.model.Gig;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
-import retrofit.client.OkClient;
 import retrofit.converter.GsonConverter;
 import retrofit.http.GET;
 import retrofit.http.Query;

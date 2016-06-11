@@ -1,6 +1,5 @@
 package be.justcode.bandtracker.utils;
 
-import android.content.Context;
 import android.os.AsyncTask;
 
 import be.justcode.bandtracker.clients.fanart.tv.FanartTvClient;

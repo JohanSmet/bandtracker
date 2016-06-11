@@ -1,17 +1,13 @@
 package be.justcode.bandtracker.model;
 
-import android.util.Base64;
-
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
-import com.raizlabs.android.dbflow.data.Blob;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import be.justcode.bandtracker.clients.bandtracker.BandTrackerCountry;
 
 import org.parceler.Parcel;
 import org.parceler.Parcel.Serialization;
-import org.parceler.ParcelConverter;
 
 @Table(database = AppDatabase.class, allFields = true)
 @Parcel(value = Serialization.BEAN)
