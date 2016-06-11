@@ -15,11 +15,18 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import retrofit.client.OkClient;
+
 public class OkHttpBuilder
 {
     private static final String LOG_TAG = "OkHttpBuilder";
 
-    public static OkHttpClient getClient(Context context, boolean enableCache) {
+    public static OkClient getClient(Context context, boolean enableCache) {
+        OkHttpClient httpClient = getHttpClient(context, enableCache);
+        return new OkClient(httpClient);
+    }
+
+    public static OkHttpClient getHttpClient(Context context, boolean enableCache) {
         try {
             // create client
             OkHttpClient client = new OkHttpClient();
@@ -33,12 +40,12 @@ public class OkHttpBuilder
 
             return client;
         } catch (Exception e) {
-            Log.w(LOG_TAG, "getClient", e);
-            return null;
+            Log.w(LOG_TAG, "getHttpClient", e);
+            throw new RuntimeException(e);
         }
     }
 
-    public static OkHttpClient getUnsafeClient(Context context, boolean enableCache)
+    public static OkHttpClient getUnsafeHttpClient(Context context, boolean enableCache)
     {
         try {
             // Create a trust manager that does not validate certificate chains

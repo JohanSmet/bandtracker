@@ -9,6 +9,7 @@ import be.justcode.bandtracker.model.Gig;
 import be.justcode.bandtracker.utils.BandImageDownloader;
 import be.justcode.bandtracker.utils.CountryCache;
 import be.justcode.bandtracker.utils.DateUtils;
+import be.justcode.bandtracker.utils.ViewUtils;
 
 import android.content.Context;
 import android.content.Intent;
@@ -66,8 +67,10 @@ public class BandDetailsActivity extends AppCompatActivity {
 
         // actionbar
         ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
-        ab.setTitle(mBand.getName());
+        if (ab != null) {
+            ab.setDisplayHomeAsUpEnabled(true);
+            ab.setTitle(mBand.getName());
+        }
 
         // init fields
         txtBiography     = (TextView)  findViewById(R.id.txtBiography);
@@ -79,14 +82,16 @@ public class BandDetailsActivity extends AppCompatActivity {
         // recycler view
         final RecyclerView rvGigs = (RecyclerView) findViewById(R.id.listBandGigs);
 
-        mListAdapter = new BandsGigsAdapter();
-        rvGigs.setAdapter(mListAdapter);
-        rvGigs.setLayoutManager(new LinearLayoutManager(this));
-        rvGigs.setHasFixedSize(true);
+        if (rvGigs != null) {
+            mListAdapter = new BandsGigsAdapter();
+            rvGigs.setAdapter(mListAdapter);
+            rvGigs.setLayoutManager(new LinearLayoutManager(this));
+            rvGigs.setHasFixedSize(true);
+        }
 
         // add gig button
         final FloatingActionButton btnGigAdd = (FloatingActionButton) findViewById(R.id.btnGigAdd);
-        btnGigAdd.setOnClickListener(new View.OnClickListener() {
+        ViewUtils.setOnClickListener(btnGigAdd,new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mTourDateYears != null && !mTourDateYears.isEmpty()) {
@@ -211,7 +216,7 @@ public class BandDetailsActivity extends AppCompatActivity {
             TextView     lblDate;
             RatingBar    ratingBar;
             ImageView    imgFlag;
-        };
+        }
 
         // member variables
         private FlowCursorList<Gig> mCursor;

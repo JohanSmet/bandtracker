@@ -2,6 +2,7 @@ package be.justcode.bandtracker.clients.bandtracker;
 
 import java.util.Date;
 
+import be.justcode.bandtracker.model.Country;
 import be.justcode.bandtracker.utils.CountryCache;
 
 public class BandTrackerTourDate {
@@ -60,7 +61,8 @@ public class BandTrackerTourDate {
         }
 
         if (!venueSet && countryCode != null && !countryCode.isEmpty()) {
-            location += separator + CountryCache.getCountry(countryCode).getName();
+            Country country = CountryCache.getCountry(countryCode);
+            location += separator + ((country != null) ? country.getName() : countryCode);
         }
 
         return location;

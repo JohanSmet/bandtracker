@@ -15,8 +15,6 @@ import be.justcode.bandtracker.App;
 import be.justcode.bandtracker.R;
 import be.justcode.bandtracker.clients.Headers;
 import be.justcode.bandtracker.clients.OkHttpBuilder;
-import be.justcode.bandtracker.model.City;
-import be.justcode.bandtracker.model.Venue;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -46,7 +44,7 @@ public class BandTrackerClient
             restClient = new RestAdapter.Builder()
                 .setEndpoint(serverBaseUrl())
                 .setConverter(gsonConverter)
-                .setClient(new OkClient(OkHttpBuilder.getUnsafeClient(App.getContext(), true)))
+                .setClient(new OkClient(OkHttpBuilder.getUnsafeHttpClient(App.getContext(), true)))
                 .setRequestInterceptor(new RequestInterceptor()
                 {
                     @Override

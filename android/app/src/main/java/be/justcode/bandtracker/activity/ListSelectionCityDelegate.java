@@ -26,7 +26,6 @@ public class ListSelectionCityDelegate implements ListSelectionActivity.Delegate
     private static final String SHARED_PREFERENCES_KEY = "be.justcode.bandtracker.ListSelectionCityDelegate";
 
     ListSelectionCityDelegate(Context context, HashMap<String, String> params) {
-        mContext = context;
 
         if (params != null && params.containsKey(PARAM_COUNTRY))
             mParamCountry = params.get(PARAM_COUNTRY);
@@ -170,7 +169,6 @@ public class ListSelectionCityDelegate implements ListSelectionActivity.Delegate
     // member variables
     //
 
-    private Context         mContext;
     private String          mParamCountry = "";
     private String          mManualInput = "";
     private List<City>      mOldCities;

@@ -65,44 +65,50 @@ public class GigGuidedCreation extends AppCompatActivity {
 
         // actionbar
         ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
+        if (ab != null) {
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
 
         // read params
         Bundle bundle = getIntent().getExtras();
         mBand  = Parcels.unwrap(bundle.getParcelable(INTENT_BAND_PARAMETER));
-        mYears = Parcels.unwrap(bundle.getParcelable(INTENT_YEARS_PARAMETER));
+        ArrayList<BandTrackerTourDateYear> tourDateYears = Parcels.unwrap(bundle.getParcelable(INTENT_YEARS_PARAMETER));
 
         setTitle(mBand.getName());
 
         // fields
-        pickYear = (Spinner) findViewById(R.id.pickYear);
+        Spinner pickYear = (Spinner) findViewById(R.id.pickYear);
         editCountry = (EditText) findViewById(R.id.editCountry);
         imgCountry  = (ImageView) findViewById(R.id.imgCountry);
 
         // initialize year picker
-        pickYear.setAdapter(new TourDateYearsAdapter(this, mYears));
-        pickYear.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mFilterYear = ((BandTrackerTourDateYear) parent.getItemAtPosition(position)).getYear();
-                updateFilter();
-            }
+        if (pickYear != null) {
+            pickYear.setAdapter(new TourDateYearsAdapter(this, tourDateYears));
+            pickYear.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    mFilterYear = ((BandTrackerTourDateYear) parent.getItemAtPosition(position)).getYear();
+                    updateFilter();
+                }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                }
+            });
+        }
 
         // initialize tourdates list
-        mListAdapter = new FilterResultsAdapter(this, new ArrayList<BandTrackerTourDate>());
         final ListView listView = (ListView) findViewById(R.id.listTourDates);
-        listView.setAdapter(mListAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                createGig(mListAdapter.getItem(position));
-            }
-        });
+        if (listView != null) {
+            mListAdapter = new FilterResultsAdapter(this, new ArrayList<BandTrackerTourDate>());
+            listView.setAdapter(mListAdapter);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    createGig(mListAdapter.getItem(position));
+                }
+            });
+        }
     }
 
     @Override
@@ -303,19 +309,17 @@ public class GigGuidedCreation extends AppCompatActivity {
             public TextView     lblDate;
             public RatingBar    ratingBar;
             public ImageView    imgFlag;
-        };
+        }
     }
 
     // member variables
     private Band                mBand;
-    private ArrayList<BandTrackerTourDateYear>  mYears;
 
     private Country             mFilterCountry = null;
     private Integer             mFilterYear    = 0;
 
     private FilterResultsAdapter        mListAdapter;
 
-    private Spinner             pickYear;
     private EditText            editCountry;
     private ImageView           imgCountry;
 

@@ -28,6 +28,7 @@ import be.justcode.bandtracker.model.Country;
 import be.justcode.bandtracker.model.Gig;
 import be.justcode.bandtracker.model.Venue;
 import be.justcode.bandtracker.utils.DateUtils;
+import be.justcode.bandtracker.utils.ViewUtils;
 
 public class GigDetailsActivity extends AppCompatActivity {
 
@@ -85,8 +86,10 @@ public class GigDetailsActivity extends AppCompatActivity {
 
         // actionbar
         ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
-        ab.setTitle(mBand.getName());
+        if (ab != null) {
+            ab.setDisplayHomeAsUpEnabled(true);
+            ab.setTitle(mBand.getName());
+        }
 
         // init gig to be shown / edited
         if (mMode == MODE_CREATE) {
@@ -98,8 +101,8 @@ public class GigDetailsActivity extends AppCompatActivity {
         // fields
         mPickerRows[PICKER_DATE] = findViewById(R.id.rowStartDatePicker);
         mPickerRows[PICKER_TIME] = findViewById(R.id.rowStartTimePicker);
-        lblStartDate             = (TextView) findViewById(R.id.lblStartDate);
-        lblStartTime             = (TextView) findViewById(R.id.lblStartTime);
+        TextView lblStartDate    = (TextView) findViewById(R.id.lblStartDate);
+        TextView lblStartTime    = (TextView) findViewById(R.id.lblStartTime);
         pickStartDate            = (DatePicker) findViewById(R.id.pickStartDate);
         pickStartTime            = (TimePicker) findViewById(R.id.pickStartTime);
         editCountry              = (TextView) findViewById(R.id.editCountry);
@@ -118,7 +121,7 @@ public class GigDetailsActivity extends AppCompatActivity {
 
         // buttons
         final Button btnSetlist = (Button) findViewById(R.id.btnGigSetlist);
-        btnSetlist.setOnClickListener(new View.OnClickListener() {
+        ViewUtils.setOnClickListener(btnSetlist, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 GigSetlistActivity.viewSetlist(GigDetailsActivity.this, mGig);
@@ -126,7 +129,7 @@ public class GigDetailsActivity extends AppCompatActivity {
         });
 
         final Button btnYoutube = (Button) findViewById(R.id.btnSearchYoutube);
-        btnYoutube.setOnClickListener(new View.OnClickListener() {
+        ViewUtils.setOnClickListener(btnYoutube,new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 GigYoutubeActivity.searchYoutube(GigDetailsActivity.this, mGig, "");
@@ -339,8 +342,6 @@ public class GigDetailsActivity extends AppCompatActivity {
 
     private View[]      mPickerRows = new View[2];
     private boolean[]   mPickerEditing = new boolean[2];
-    private TextView    lblStartDate;
-    private TextView    lblStartTime;
     private DatePicker  pickStartDate;
     private TimePicker  pickStartTime;
     private TextView    editCountry;

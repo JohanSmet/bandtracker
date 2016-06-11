@@ -25,6 +25,7 @@ import be.justcode.bandtracker.model.Gig;
 import be.justcode.bandtracker.utils.BandImageDownloader;
 import be.justcode.bandtracker.utils.BasicHeaderDecoration;
 import be.justcode.bandtracker.utils.DateUtils;
+import be.justcode.bandtracker.utils.ViewUtils;
 
 public class GigSetlistActivity extends AppCompatActivity {
 
@@ -56,17 +57,17 @@ public class GigSetlistActivity extends AppCompatActivity {
 
         // actionbar
         ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
-        ab.setTitle(getString(R.string.setlist_title));
+        if (ab != null) {
+            ab.setDisplayHomeAsUpEnabled(true);
+            ab.setTitle(getString(R.string.setlist_title));
+        }
 
         // fields
-        lblLocation = (TextView) findViewById(R.id.lblLocation);
-        lblDate     = (TextView) findViewById(R.id.lblDate);
-        lblNotFound = (TextView) findViewById(R.id.lblSetlistNotFound);
-        imgLogo     = (ImageView) findViewById(R.id.imgLogo);
+        lblNotFound          = (TextView) findViewById(R.id.lblSetlistNotFound);
+        ImageView imgLogo    = (ImageView) findViewById(R.id.imgLogo);
 
-        lblLocation.setText(mGig.formatLocation());
-        lblDate.setText(DateUtils.dateToString(mGig.getStartDate()));
+        ViewUtils.setText(this, R.id.lblLocation, mGig.formatLocation());
+        ViewUtils.setText(this, R.id.lblDate, DateUtils.dateToString(mGig.getStartDate()));
         BandImageDownloader.logo(mGig.getBand(), App.getContext(), imgLogo);
 
         // setup listview
@@ -256,8 +257,5 @@ public class GigSetlistActivity extends AppCompatActivity {
     String      mUrl = "";
 
     private RecyclerView rvSetlist;
-    private TextView     lblLocation;
-    private TextView     lblDate;
     private TextView     lblNotFound;
-    private ImageView    imgLogo;
 }

@@ -80,31 +80,41 @@ public class ListSelectionActivity extends AppCompatActivity {
 
         // actionbar
         ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
+        if (ab != null) {
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
 
         // listview
-        mListAdapter = new SelectionListAdapter(this);
         ListView listView = (ListView) findViewById(R.id.listSelection);
-        listView.setAdapter(mListAdapter);
+        if (listView != null) {
+            mListAdapter = new SelectionListAdapter(this);
+            listView.setAdapter(mListAdapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                int[] sectionRow = mListAdapter.positionToSectionRow(position);
-                if (mDelegate != null && sectionRow[1] >= 0) {
-                    Intent intent = new Intent();
-                    intent.putExtra("result", mDelegate.selectedRow(sectionRow[0], sectionRow[1]));
-                    setResult(RESULT_OK, intent);
-                    finish();
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                    int[] sectionRow = mListAdapter.positionToSectionRow(position);
+                    if (mDelegate != null && sectionRow[1] >= 0) {
+                        Intent intent = new Intent();
+                        intent.putExtra("result", mDelegate.selectedRow(sectionRow[0], sectionRow[1]));
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        final SearchView searchView = new SearchView(getSupportActionBar().getThemedContext());
+        ActionBar ab = getSupportActionBar();
+
+        if (ab == null) {
+            return super.onCreateOptionsMenu(menu);
+        }
+
+        final SearchView searchView = new SearchView(ab.getThemedContext());
 
         if (mDefaultPattern.isEmpty()) {
             mDefaultPattern = loadFilterPattern();

@@ -29,7 +29,7 @@ public class FanartTvClient {
             String serverBaseUrl = App.getContext().getString(R.string.fanarttv_proto) + "://" + serverHost + ":" + App.getContext().getString(R.string.fanarttv_port);
             fanartApiKey         = App.getContext().getString(R.string.fanarttv_key);
 
-            gsonConverter = new GsonConverter(new GsonBuilder()
+            GsonConverter gsonConverter = new GsonConverter(new GsonBuilder()
                     .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
                     .create()
             );
@@ -37,7 +37,7 @@ public class FanartTvClient {
             restClient = new RestAdapter.Builder()
                     .setEndpoint(serverBaseUrl)
                     .setConverter(gsonConverter)
-                    .setClient(new OkClient(OkHttpBuilder.getClient(App.getContext(), true)))
+                    .setClient(new OkClient(OkHttpBuilder.getHttpClient(App.getContext(), true)))
                     // .setLogLevel(RestAdapter.LogLevel.FULL)
                     .build()
                     .create(IFanartTv.class)
@@ -119,7 +119,6 @@ public class FanartTvClient {
 
     private IFanartTv     restClient;
     private String        fanartApiKey;
-    private GsonConverter gsonConverter;
 
     private static FanartTvClient instance;
 

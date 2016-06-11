@@ -26,7 +26,6 @@ public class ListSelectionBandDelegate implements ListSelectionActivity.Delegate
     private static final String SHARED_PREFERENCES_KEY  = "be.justcode.bandtracker.ListSelectionBandDelegate";
 
     ListSelectionBandDelegate(Context context, HashMap<String, String> params) {
-        mContext = context;
     }
 
     @Override
@@ -161,7 +160,6 @@ public class ListSelectionBandDelegate implements ListSelectionActivity.Delegate
     // member variables
     //
 
-    private Context                 mContext;
     private List<Band>              mOldBands;
     private List<BandTrackerBand>   mNewBands;
 

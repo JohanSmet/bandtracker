@@ -62,14 +62,16 @@ public class GigYoutubeActivity extends AppCompatActivity {
 
         // actionbar
         ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
+        if (ab != null) {
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
 
         // setup listview
         rvYoutube = (RecyclerView) findViewById(R.id.listYoutube);
         rvYoutube.setLayoutManager(new LinearLayoutManager(this));
 
         // ask youtube for videos in the background
-        new YoutubeSearchTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null);
+        new YoutubeSearchTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     @Override

@@ -27,11 +27,15 @@ public class MainActivity extends AppCompatActivity {
 
         // viewpager
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
-        viewPager.setAdapter(new MainFragmentPagerAdapter(getSupportFragmentManager()));
+        if (viewPager != null) {
+            viewPager.setAdapter(new MainFragmentPagerAdapter(getSupportFragmentManager()));
+        }
 
         // tablayout
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabContainer);
-        tabLayout.setupWithViewPager(viewPager);
+        if (tabLayout != null) {
+            tabLayout.setupWithViewPager(viewPager);
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

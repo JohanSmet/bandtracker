@@ -17,7 +17,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import be.justcode.bandtracker.App;
@@ -41,16 +40,15 @@ public class SetlistFmClient {
 
             String serverHost    = App.getContext().getString(R.string.setlistfm_host);
             String serverBaseUrl = App.getContext().getString(R.string.setlistfm_proto) + "://" + serverHost + ":" + App.getContext().getString(R.string.setlistfm_port);
-            apiKey               = App.getContext().getString(R.string.setlistfm_key);
+            String apiKey = App.getContext().getString(R.string.setlistfm_key);
 
-            Gson gson = new GsonBuilder()
-                                .create();
+            Gson gson = new GsonBuilder().create();
 
             restClient = new RestAdapter.Builder()
                     .setEndpoint(serverBaseUrl)
                     .setConverter(new GsonConverter(gson))
-                    .setClient(new OkClient(OkHttpBuilder.getClient(App.getContext(), true)))
-                            // .setLogLevel(RestAdapter.LogLevel.FULL)
+                    .setClient(OkHttpBuilder.getClient(App.getContext(), true))
+                 // .setLogLevel(RestAdapter.LogLevel.FULL)
                     .build()
                     .create(IFanartTv.class)
             ;
@@ -302,7 +300,6 @@ public class SetlistFmClient {
     //
 
     private IFanartTv     restClient;
-    private String        apiKey;
     private DateFormat    setlistFmDate = new SimpleDateFormat("dd-MM-yyyy");
 
     private static SetlistFmClient instance;
