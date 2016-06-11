@@ -93,7 +93,7 @@ public class MainTimelineFragment extends Fragment {
             holder.lblDate.setText(DateUtils.dateToShortString(gig.getStartDate()));
 
             if (gig.getCountry() != null)
-                holder.imgCountry.setImageDrawable(CountryCache.get(getActivity(), gig.getCountry().getCode()).getDrawable());
+                holder.imgCountry.setImageDrawable(CountryCache.getFlagDrawable(gig.getCountry().getCode()));
             else
                 holder.imgCountry.setImageDrawable(null);
         }

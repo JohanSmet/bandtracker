@@ -9,23 +9,18 @@ import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import be.justcode.bandtracker.clients.bandtracker.BandTrackerCountry;
 
-import org.parceler.Parcel;
-import org.parceler.Parcel.Serialization;
-import org.parceler.ParcelConverter;
-
 @Table(database = AppDatabase.class, allFields = true)
-@Parcel(value = Serialization.BEAN)
-public class Country extends BaseModel {
+public class CountryFlag extends BaseModel {
 
     // construction
-    public Country() {
-        code    = "";
-        name    = "";
+    public CountryFlag() {
+        code = "";
+        flag = null;
     }
 
-    public Country(BandTrackerCountry serverCountry) {
-        code        = serverCountry.getCode();
-        name        = serverCountry.getName();
+    public CountryFlag(BandTrackerCountry serverCountry) {
+        code    = serverCountry.getCode();
+        flag    = new Blob(Base64.decode(serverCountry.getFlag(), Base64.DEFAULT));
     }
 
     // getters
@@ -33,8 +28,12 @@ public class Country extends BaseModel {
         return code;
     }
 
-    public String getName() {
-        return name;
+    public Blob getFlag() {
+        return flag;
+    }
+
+    public byte[] getFlagData() {
+        return flag.getBlob();
     }
 
     // setters
@@ -42,13 +41,16 @@ public class Country extends BaseModel {
         this.code = code;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFlagData(byte[] flagData) {
+        this.flag = new Blob(flagData);
+    }
+
+    public void setFlag(Blob flag) {
+        this.flag = flag;
     }
 
     // member variables
-
     @PrimaryKey
     private String  code;
-    private String  name;
+    private Blob    flag;
 }

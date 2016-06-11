@@ -121,7 +121,7 @@ public class GigGuidedCreation extends AppCompatActivity {
         if (requestCode == REQUEST_COUNTRY) {
             mFilterCountry = Parcels.unwrap(data.getParcelableExtra("result"));
             editCountry.setText(mFilterCountry.getName());
-            imgCountry.setImageDrawable(CountryCache.get(this, mFilterCountry.getCode()).getDrawable());
+            imgCountry.setImageDrawable(CountryCache.getFlagDrawable(mFilterCountry.getCode()));
             updateFilter();
         }
     }
@@ -297,7 +297,7 @@ public class GigGuidedCreation extends AppCompatActivity {
 
             holder.lblLocation.setText(tourDate.formatLocation());
             holder.lblDate.setText(DateUtils.dateToString(tourDate.getStartDate()));
-            holder.imgFlag.setImageDrawable(CountryCache.get(GigGuidedCreation.this, tourDate.getCountryCode()).getDrawable());
+            holder.imgFlag.setImageDrawable(CountryCache.getFlagDrawable(tourDate.getCountryCode()));
             holder.ratingBar.setVisibility(View.GONE);
 
 

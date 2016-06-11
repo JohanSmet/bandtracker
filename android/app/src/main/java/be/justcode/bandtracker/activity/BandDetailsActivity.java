@@ -175,7 +175,7 @@ public class BandDetailsActivity extends AppCompatActivity {
             holder.ratingBar.setRating(gig.getRating() / 10);
 
             if (gig.getCountry() != null)
-                holder.imgFlag.setImageDrawable(CountryCache.get(BandDetailsActivity.this, gig.getCountry().getCode()).getDrawable());
+                holder.imgFlag.setImageDrawable(CountryCache.getFlagDrawable(gig.getCountry().getCode()));
             else
                 holder.imgFlag.setImageDrawable(null);
         }

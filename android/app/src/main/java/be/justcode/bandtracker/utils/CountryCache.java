@@ -6,41 +6,52 @@ import android.graphics.drawable.BitmapDrawable;
 
 import java.util.HashMap;
 
+import be.justcode.bandtracker.App;
 import be.justcode.bandtracker.model.Country;
+import be.justcode.bandtracker.model.CountryFlag;
 import be.justcode.bandtracker.model.DataContext;
 
 public class CountryCache {
 
-    public static CountryDrawable get(Context context, String code) {
-        CountryDrawable cd = mCache.get(code);
+    public static Country getCountry(String code) {
+        CountryData cd = get(code);
+        return cd.getCountry();
+    }
+
+    public static BitmapDrawable getFlagDrawable(String code) {
+        CountryData cd = get(code);
+        return cd.getDrawable();
+    }
+
+    public static String getCountryName(String code) {
+        CountryData cd = get(code);
+
+        if (cd != null && cd.getCountry() != null) {
+            return cd.getCountry().getName();
+        }
+
+        return "?";
+    }
+
+    private static CountryData get(String code) {
+        CountryData cd = mCache.get(code);
 
         if (cd == null) {
-            Country country = DataContext.countryFetch(code);
-            byte[]  flag = country.getFlagData();
-            cd = new CountryDrawable(country, new BitmapDrawable(context.getResources(), BitmapFactory.decodeByteArray(flag, 0, flag.length)));
+            cd = new CountryData(DataContext.countryFetch(code), DataContext.countryFlagFetch(code));
             mCache.put(code, cd);
         }
 
         return cd;
     }
 
-    public static Country getCountry(String code) {
-
-        CountryDrawable cd = mCache.get(code);
-
-        if (cd != null) {
-            return cd.getCountry();
-        }
-
-        return null;
-    }
-
     // nested types
-    public static class CountryDrawable  {
+    private static class CountryData {
 
-        public CountryDrawable(Country country, BitmapDrawable drawable) {
+        public CountryData(Country country, CountryFlag flag) {
             this.mCountry = country;
-            this.mDrawable = drawable;
+
+            byte[] flagData = flag.getFlagData();
+            this.mDrawable = new BitmapDrawable(App.getContext().getResources(), BitmapFactory.decodeByteArray(flagData, 0, flagData.length));
         }
 
         public Country getCountry() {
@@ -56,6 +67,6 @@ public class CountryCache {
     }
 
     // member variables
-    private static HashMap<String, CountryDrawable>    mCache = new HashMap<>();
+    private static HashMap<String, CountryData>    mCache = new HashMap<>();
 
 }

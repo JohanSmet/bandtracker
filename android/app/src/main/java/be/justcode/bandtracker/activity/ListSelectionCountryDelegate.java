@@ -65,7 +65,7 @@ public class ListSelectionCountryDelegate implements ListSelectionActivity.Deleg
 
         if (country != null) {
             ((TextView) view.findViewById(R.id.lblCountry)).setText(country.getName());
-            ((ImageView) view.findViewById(R.id.imgCountry)).setImageDrawable(CountryCache.get(mContext, country.getCode()).getDrawable());
+            ((ImageView) view.findViewById(R.id.imgCountry)).setImageDrawable(CountryCache.getFlagDrawable(country.getCode()));
         }
     }
 

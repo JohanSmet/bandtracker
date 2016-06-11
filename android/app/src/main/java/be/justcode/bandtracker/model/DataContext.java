@@ -67,16 +67,24 @@ public class DataContext
         Delete.table(Country.class);
     }
 
-    public static Country countryCreate(BandTrackerCountry serverCountry) {
+    public static void countryCreate(BandTrackerCountry serverCountry) {
         Country country = new Country(serverCountry);
         country.save();
-        return country;
+
+        CountryFlag flag = new CountryFlag(serverCountry);
+        flag.save();
     }
 
     public static Country countryFetch(String code) {
         return new Select().from(Country.class)
                            .where(Country_Table.code.is(code))
                            .querySingle();
+    }
+
+    public static CountryFlag countryFlagFetch(String code) {
+        return new Select().from(CountryFlag.class)
+                    .where(CountryFlag_Table.code.is(code))
+                    .querySingle();
     }
 
     public static List<Country> countryList(String pattern) {
