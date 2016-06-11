@@ -61,13 +61,7 @@ public class ListSelectionCountryDelegate implements ListSelectionActivity.Deleg
     @Override
     public void configureRowView(View view, int section, int row) {
 
-        Country country = null;
-
-        if (section == 1) {
-            country = mFilteredCountries.get(row);
-        } else {
-            country = mPopularCountries.get(row);
-        }
+        Country country = (section == 1) ? mFilteredCountries.get(row) :  mPopularCountries.get(row);
 
         if (country != null) {
             ((TextView) view.findViewById(R.id.lblCountry)).setText(country.getName());

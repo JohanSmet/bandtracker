@@ -171,7 +171,7 @@ public class SetlistFmClient {
         @Override
         public SetlistFmSets read(JsonReader reader) throws IOException {
 
-            SetlistFmSets result = null;
+            SetlistFmSets result;
 
             reader.beginObject();
             reader.nextName();
