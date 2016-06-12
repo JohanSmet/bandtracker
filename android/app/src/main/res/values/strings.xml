@@ -58,5 +58,8 @@
     <string name="youtubeThumbDescription">Youtube Thumbnail</string>
     <string name="band_details_header"><![CDATA[<header>]]></string>
     <string name="dummy_biography"><![CDATA[<biography>]]></string>
+    <string name="header_results">Results</string>
+    <string name="dummy_location"><![CDATA[<location>]]></string>
+    <string name="dummy_date"><![CDATA[<date>]]></string>
 
 </resources>

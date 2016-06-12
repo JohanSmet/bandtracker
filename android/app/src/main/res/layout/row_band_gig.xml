@@ -29,7 +29,7 @@
         android:id="@+id/lblLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Location"
+        android:text="@string/dummy_location"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_marginStart="4dp"
         />
@@ -38,7 +38,7 @@
         android:id="@+id/lblDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Date"
+        android:text="@string/dummy_date"
         android:layout_below="@+id/lblLocation"
         android:layout_alignStart="@+id/lblLocation"
         android:layout_toStartOf="@+id/ratingBar"

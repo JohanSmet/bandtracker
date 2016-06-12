@@ -34,8 +34,8 @@
             <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:paddingLeft="12dp"
-                android:paddingRight="8dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="8dp"
                 >
 
                 <TextView
@@ -119,7 +119,7 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:text="Results"
+                android:text="@string/header_results"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="2dp"

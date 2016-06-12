@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.raizlabs.android.dbflow.list.FlowCursorList;
 
+import java.util.Locale;
+
 import be.justcode.bandtracker.App;
 import be.justcode.bandtracker.R;
 import be.justcode.bandtracker.model.Band;
@@ -165,7 +167,7 @@ public class MainTimelineFragment extends Fragment {
         @Override
         protected void fillHeaderView(View headerView, int position) {
             int year = DateUtils.dateYear(mTimelineAdapter.getItem(position).getStartDate());
-            lblYear.setText(Integer.toString(year));
+            lblYear.setText(String.format(Locale.getDefault(), "%d", year));
         }
 
         @Override

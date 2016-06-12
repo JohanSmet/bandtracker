@@ -26,6 +26,7 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
 
 import be.justcode.bandtracker.R;
@@ -239,7 +240,7 @@ public class GigGuidedCreation extends AppCompatActivity {
 
             ViewHolder holder = (ViewHolder) convertView.getTag();
 
-            holder.lblYear.setText(Integer.toString(year.getYear()));
+            holder.lblYear.setText(String.format(Locale.getDefault(), "%d", year.getYear()));
             holder.lblCount.setText(getResources().getQuantityString(R.plurals.spinner_year_count, year.getCount(), year.getCount()));
 
             return convertView;
@@ -255,7 +256,7 @@ public class GigGuidedCreation extends AppCompatActivity {
             }
 
             TextView label = (TextView) convertView.findViewById(android.R.id.text1);
-            label.setText(Integer.toString(year.getYear()));
+            label.setText(String.format(Locale.getDefault(), "%d", year.getYear()));
 
             return convertView;
 
