@@ -27,4 +27,10 @@
         <item name="android:background">?android:attr/colorPrimary</item>
     </style>
 
+    <style name="ToolbarStyle" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <item name="colorAccent">?android:attr/textColor</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+    </style>
+
 </resources>
