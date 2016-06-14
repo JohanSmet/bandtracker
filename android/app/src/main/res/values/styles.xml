@@ -24,7 +24,7 @@
     </style>
 
     <style name="LinearLayoutAccentHeader">
-        <item name="android:background">?android:attr/colorAccent</item>
+        <item name="android:background">?android:attr/colorPrimary</item>
     </style>
 
 </resources>
