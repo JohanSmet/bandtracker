@@ -11,10 +11,10 @@ import UIKit
 
 class NavigationUtils {
 
-    class func replaceViewController(navigationController : UINavigationController, newViewController newVC : UIViewController) {
+    class func replaceViewController(_ navigationController : UINavigationController, newViewController newVC : UIViewController) {
         // replace the current controller with the new controller
         var controllerStack = navigationController.viewControllers
-        controllerStack.removeAtIndex(controllerStack.count - 1)
+        controllerStack.remove(at: controllerStack.count - 1)
         controllerStack.append(newVC)
         navigationController.setViewControllers(controllerStack, animated: false)
     }

@@ -20,7 +20,7 @@ class FanartTvClient {
     // variables
     //
     
-    private var webClient : WebApiClient = WebApiClient(dataOffset: 0)
+    fileprivate var webClient : WebApiClient = WebApiClient(dataOffset: 0)
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
@@ -36,34 +36,34 @@ class FanartTvClient {
     // request interface
     //
 
-    func getBandFanart(bandMbid : String, completionHandler : (fanart : BandFanart?, error : String?) -> Void) {
+    func getBandFanart(_ bandMbid : String, completionHandler : @escaping (_ fanart : BandFanart?, _ error : String?) -> Void) {
         
         // configure request
         let parameters : [String : AnyObject] = [
-            "api_key": FanartTvClient.API_KEY
+            "api_key": FanartTvClient.API_KEY as AnyObject
         ]
         
         webClient.startTaskGET(FanartTvClient.BASE_URL, method: "music/\(bandMbid)", parameters: parameters) { result, error in
             
             if let basicError = error as? NSError {
-                return completionHandler(fanart: nil, error: FanartTvClient.formatBasicError(basicError))
-            } else if let httpError = error as? NSHTTPURLResponse {
-                return completionHandler(fanart: nil, error: FanartTvClient.formatHttpError(httpError))
+                return completionHandler(nil, FanartTvClient.formatBasicError(basicError))
+            } else if let httpError = error as? HTTPURLResponse {
+                return completionHandler(nil, FanartTvClient.formatHttpError(httpError))
             }
             
             // don't exit this scope with calling the completion handler
             var bandFanart = BandFanart(bandThumbnailUrl: "", bandLogoUrl: "")
-            defer { completionHandler(fanart : bandFanart, error: nil) }
+            defer { completionHandler(bandFanart, nil) }
             
             // parse the response
             guard let postResult = result as? NSDictionary else { return }
             
             if let thumbs = postResult["artistthumb"] as? [AnyObject] {
-                bandFanart.bandThumbnailUrl = ((thumbs[0] as! [String : AnyObject])["url"] as! String).stringByReplacingOccurrencesOfString("/fanart/", withString: "/preview/")
+                bandFanart.bandThumbnailUrl = ((thumbs[0] as! [String : AnyObject])["url"] as! String).replacingOccurrences(of: "/fanart/", with: "/preview/")
             }
             
             if let logos = postResult["hdmusiclogo"] as? [AnyObject] {
-                bandFanart.bandLogoUrl = ((logos[0] as! [String : AnyObject])["url"] as! String).stringByReplacingOccurrencesOfString("/fanart/", withString: "/preview/")
+                bandFanart.bandLogoUrl = ((logos[0] as! [String : AnyObject])["url"] as! String).replacingOccurrences(of: "/fanart/", with: "/preview/")
             }
             
         }
@@ -74,11 +74,11 @@ class FanartTvClient {
     // helper functions
     //
     
-    private class func formatBasicError(error : NSError) -> String {
+    fileprivate class func formatBasicError(_ error : NSError) -> String {
         return error.localizedDescription
     }
     
-    private class func formatHttpError(response : NSHTTPURLResponse) -> String {
+    fileprivate class func formatHttpError(_ response : HTTPURLResponse) -> String {
         
         if (response.statusCode == 403) {
             return NSLocalizedString("cliInvalidCredentials", comment:"Invalid username or password")

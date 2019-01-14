@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 protocol CoreDataObserverDelegate {
-    func coreDataObserver(coreDataObserver : CoreDataObserver, didChange object : NSManagedObject)
+    func coreDataObserver(_ coreDataObserver : CoreDataObserver, didChange object : NSManagedObject)
 }
 
 class CoreDataObserver : NSObject {
@@ -22,8 +22,8 @@ class CoreDataObserver : NSObject {
     
     var delegate : CoreDataObserverDelegate?
     
-    private var context         : NSManagedObjectContext
-    private var observedObjects : [NSManagedObject] = []
+    fileprivate var context         : NSManagedObjectContext
+    fileprivate var observedObjects : [NSManagedObject] = []
     
     ////////////////////////////////////////////////////////////////////////////////
     //
@@ -39,7 +39,7 @@ class CoreDataObserver : NSObject {
     // interface
     //
     
-    func startObservingObject(subject : NSManagedObject) {
+    func startObservingObject(_ subject : NSManagedObject) {
         if observedObjects.isEmpty {
             activateObserver()
         }
@@ -47,10 +47,10 @@ class CoreDataObserver : NSObject {
         observedObjects.append(subject)
     }
     
-    func stopObservingObject(subject : NSManagedObject) {
+    func stopObservingObject(_ subject : NSManagedObject) {
         
-        if let idx = observedObjects.indexOf(subject) {
-            observedObjects.removeAtIndex(idx)
+        if let idx = observedObjects.index(of: subject) {
+            observedObjects.remove(at: idx)
         }
         
         if observedObjects.isEmpty {
@@ -64,22 +64,22 @@ class CoreDataObserver : NSObject {
     // helper functions
     //
     
-    private func activateObserver() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "dataModelChangeNotification:",
-                                                            name: NSManagedObjectContextObjectsDidChangeNotification,
+    fileprivate func activateObserver() {
+        NotificationCenter.default.addObserver(self, selector: #selector(CoreDataObserver.dataModelChangeNotification(_:)),
+                                                            name: NSNotification.Name.NSManagedObjectContextObjectsDidChange,
                                                             object: context)
     }
     
-    private func deactivateObserver() {
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: NSManagedObjectContextObjectsDidChangeNotification, object: context)
+    fileprivate func deactivateObserver() {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: context)
     }
     
-    func dataModelChangeNotification(notification: NSNotification) {
+    func dataModelChangeNotification(_ notification: Notification) {
         guard let delegate = self.delegate else { return }
         
         if let updatedObjects = notification.userInfo?[NSUpdatedObjectsKey] as? NSSet {
             for observed in observedObjects {
-                if updatedObjects.containsObject(observed) {
+                if updatedObjects.contains(observed) {
                     delegate.coreDataObserver(self, didChange: observed)
                 }
             }

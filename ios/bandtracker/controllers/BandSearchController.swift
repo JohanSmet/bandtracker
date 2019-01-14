@@ -20,16 +20,16 @@ class BandSearchController: UITableViewController,
     let SECTION_NEW  = 1
     let SECTION_OLD  = 2
     
-    private var searchController : UISearchController! = nil
+    fileprivate var searchController : UISearchController! = nil
     
-    private var lastTimeStamp    : NSTimeInterval = 0
-    private var lastSearchText   : String = ""
-    private var lastBandList     : [BandTrackerClient.Band] = []
+    fileprivate var lastTimeStamp    : TimeInterval = 0
+    fileprivate var lastSearchText   : String = ""
+    fileprivate var lastBandList     : [BandTrackerClient.Band] = []
     
-    private var sections         : [Int] = [0, 0]
-    private var newBandList      : [BandTrackerClient.Band] = []
-    private var existingBandList : [Band] = []
-    private var error            : String = ""
+    fileprivate var sections         : [Int] = [0, 0]
+    fileprivate var newBandList      : [BandTrackerClient.Band] = []
+    fileprivate var existingBandList : [Band] = []
+    fileprivate var error            : String = ""
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
@@ -48,11 +48,11 @@ class BandSearchController: UITableViewController,
         navigationItem.titleView = searchController.searchBar
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
         // dismiss the search controller (to prevent "already presenting" errors next time)
-        searchController.active = false
+        searchController.isActive = false
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -60,7 +60,7 @@ class BandSearchController: UITableViewController,
     // UISearchResultsUpdating
     //
     
-    func updateSearchResultsForSearchController(searchController: UISearchController) {
+    func updateSearchResults(for searchController: UISearchController) {
         
         guard let searchText = searchController.searchBar.text else { return }
         
@@ -69,7 +69,7 @@ class BandSearchController: UITableViewController,
             existingBandList.removeAll()
             newBandList.removeAll()
             lastBandList.removeAll()
-            lastTimeStamp = NSDate.timeIntervalSinceReferenceDate()
+            lastTimeStamp = Date.timeIntervalSinceReferenceDate
             lastSearchText = ""
             tableView.reloadData()
             return
@@ -81,7 +81,7 @@ class BandSearchController: UITableViewController,
             existingBandList = dataContext().bandList(searchText)
             localFilterNewBands(searchText)
             
-            lastTimeStamp  = NSDate.timeIntervalSinceReferenceDate()
+            lastTimeStamp  = Date.timeIntervalSinceReferenceDate
             tableView.reloadData()
             return
         }
@@ -96,7 +96,7 @@ class BandSearchController: UITableViewController,
             
             
             if let error = error {
-                dispatch_async(dispatch_get_main_queue()) {
+                DispatchQueue.main.async {
                     self.error = error
                     self.existingBandList.removeAll()
                     self.newBandList.removeAll()
@@ -111,14 +111,14 @@ class BandSearchController: UITableViewController,
             
             if let bands = bands {
                 newBands = bands.filter { (newBand) in
-                    return !existingBands.contains({existingBand in newBand.MBID == existingBand.bandMBID})
+                    return !existingBands.contains(where: {existingBand in newBand.MBID == existingBand.bandMBID})
                 }
                 
             } else {
                 newBands = []
             }
            
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 self.error            = ""
                 self.lastTimeStamp    = timestamp
                 self.lastSearchText   = searchText
@@ -137,15 +137,17 @@ class BandSearchController: UITableViewController,
     // UITableViewDataSource
     //
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         var count = 0
         
         if !self.newBandList.isEmpty {
-            self.sections[count++] = SECTION_NEW
+            self.sections[count] = SECTION_NEW
+            count = count + 1
         }
         
         if !self.existingBandList.isEmpty {
-            self.sections[count++] = SECTION_OLD
+            self.sections[count] = SECTION_OLD
+            count = count + 1
         }
         
         if error.isEmpty {
@@ -157,7 +159,7 @@ class BandSearchController: UITableViewController,
         return count
     }
     
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if sections[section] == SECTION_OLD {
             return NSLocalizedString("conAlreadyAddedBands", comment: "Already added bands")
         } else {
@@ -165,7 +167,7 @@ class BandSearchController: UITableViewController,
         }
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if sections[section] == SECTION_NEW {
             return self.newBandList.count
         } else {
@@ -173,9 +175,9 @@ class BandSearchController: UITableViewController,
         }
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // get a cell
-        let cell = tableView.dequeueReusableCellWithIdentifier("SearchBandCell")!
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SearchBandCell")!
         
         // indexPath should not go out of range (anymore - earlier versions had a race condition), but just be safe
         guard validIndexPath(indexPath) else  { return cell }
@@ -195,7 +197,7 @@ class BandSearchController: UITableViewController,
     // UITableViewDelegate
     //
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let band : Band!
         
@@ -217,7 +219,7 @@ class BandSearchController: UITableViewController,
     // helper functions
     //
     
-    private func validIndexPath(indexPath : NSIndexPath) -> Bool {
+    fileprivate func validIndexPath(_ indexPath : IndexPath) -> Bool {
         
         // valid section ?
         if indexPath.section < 0 || indexPath.section > 1 {
@@ -234,9 +236,9 @@ class BandSearchController: UITableViewController,
         return true
     }
     
-    private func localFilterNewBands(filterText : String) {
-        let lcSearchText = filterText.lowercaseString
-        newBandList = lastBandList.filter() { $0.name.lowercaseString.containsString(lcSearchText)}
+    fileprivate func localFilterNewBands(_ filterText : String) {
+        let lcSearchText = filterText.lowercased()
+        newBandList = lastBandList.filter() { $0.name.lowercased().contains(lcSearchText)}
     }
     
 }

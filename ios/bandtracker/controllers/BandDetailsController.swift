@@ -24,8 +24,8 @@ class BandDetailsController :   UIViewController,
     var band            : Band!
     var tourDateYears   : [Int] = []
     
-    lazy var gigFetchedResultsController: NSFetchedResultsController = {
-        let fetchRequest = NSFetchRequest(entityName: "Gig")
+    lazy var gigFetchedResultsController: NSFetchedResultsController = { () -> NSFetchedResultsController<NSFetchRequestResult> in 
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Gig")
         fetchRequest.predicate       = NSPredicate(format: "band.bandMBID == %@", self.band.bandMBID)
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "startDate", ascending: true)]
         
@@ -38,7 +38,7 @@ class BandDetailsController :   UIViewController,
         return fetchedResultsController
     }()
     
-    private var coreDataObserver : CoreDataObserver!
+    fileprivate var coreDataObserver : CoreDataObserver!
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
@@ -59,10 +59,10 @@ class BandDetailsController :   UIViewController,
     // class functions
     //
     
-    class func create(band : Band) -> BandDetailsController {
+    class func create(_ band : Band) -> BandDetailsController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
-        let newVc = storyboard.instantiateViewControllerWithIdentifier("BandDetailsController") as! BandDetailsController
+        let newVc = storyboard.instantiateViewController(withIdentifier: "BandDetailsController") as! BandDetailsController
         newVc.band = band
         
         return newVc
@@ -107,10 +107,10 @@ class BandDetailsController :   UIViewController,
         super.viewDidLayoutSubviews()
         
         // make sure the biography is shown from the start
-        biography.setContentOffset(CGPointMake(0,0), animated: false)
+        biography.setContentOffset(CGPoint(x: 0,y: 0), animated: false)
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         coreDataObserver.startObservingObject(band)
@@ -120,7 +120,7 @@ class BandDetailsController :   UIViewController,
         ratingControl.rating    = band.avgRating.floatValue
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         coreDataObserver.stopObservingObject(band)
@@ -131,7 +131,7 @@ class BandDetailsController :   UIViewController,
     // actions
     //
     
-    @IBAction func addGig(sender: AnyObject) {
+    @IBAction func addGig(_ sender: AnyObject) {
         if !tourDateYears.isEmpty {
             let newVC = GigGuidedCreationController.create(band!, tourDateYears: tourDateYears)
             navigationController?.pushViewController(newVC, animated: true)
@@ -146,24 +146,24 @@ class BandDetailsController :   UIViewController,
     // UITableViewDataSource
     //
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return self.gigFetchedResultsController.sections?.count ?? 0
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let sectionInfo = gigFetchedResultsController.sections![section]
         return sectionInfo.numberOfObjects
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("gigSeenCell", forIndexPath: indexPath) as! SeenGigTableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "gigSeenCell", for: indexPath) as! SeenGigTableViewCell
         configureCell(cell, indexPath: indexPath)
         return cell
     }
     
-    func configureCell(cell : SeenGigTableViewCell?, indexPath : NSIndexPath) {
+    func configureCell(_ cell : SeenGigTableViewCell?, indexPath : IndexPath) {
         guard let cell = cell else { return }
-        guard let gig = gigFetchedResultsController.objectAtIndexPath(indexPath) as? Gig else { return }
+        guard let gig = gigFetchedResultsController.object(at: indexPath) as? Gig else { return }
         
         cell.setFields(gig)
     }
@@ -173,16 +173,16 @@ class BandDetailsController :   UIViewController,
     // UITableViewDelegate
     //
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        let gig = gigFetchedResultsController.objectAtIndexPath(indexPath) as! Gig
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let gig = gigFetchedResultsController.object(at: indexPath) as! Gig
         let newVC = GigDetailsController.displayGig(gig)
         navigationController?.pushViewController(newVC, animated: true)
     }
     
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            let gig = gigFetchedResultsController.objectAtIndexPath(indexPath) as! Gig
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let gig = gigFetchedResultsController.object(at: indexPath) as! Gig
             dataContext().deleteGig(gig)
         }
     }
@@ -192,28 +192,28 @@ class BandDetailsController :   UIViewController,
     // NSFetchedResultsControllerDelegate
     //
     
-    func controllerWillChangeContent(controller: NSFetchedResultsController) {
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableGigs.beginUpdates()
     }
     
-    func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?,
-        forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?,
+        for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
             switch (type) {
-            case .Insert :
+            case .insert :
                 if indexPath == nil {       // Swift 2.0 BUG with running 8.4
-                    tableGigs.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
+                    tableGigs.insertRows(at: [newIndexPath!], with: .fade)
                 }
-            case .Delete :
-                tableGigs.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
-            case .Update :
-                configureCell(tableGigs.cellForRowAtIndexPath(indexPath!) as? SeenGigTableViewCell, indexPath: indexPath!)
-            case .Move :
-                tableGigs.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
-                tableGigs.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
+            case .delete :
+                tableGigs.deleteRows(at: [indexPath!], with: .fade)
+            case .update :
+                configureCell(tableGigs.cellForRow(at: indexPath!) as? SeenGigTableViewCell, indexPath: indexPath!)
+            case .move :
+                tableGigs.deleteRows(at: [indexPath!], with: .fade)
+                tableGigs.insertRows(at: [newIndexPath!], with: .fade)
             }
     }
     
-    func controllerDidChangeContent(controller: NSFetchedResultsController) {
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableGigs.endUpdates()
     }
     
@@ -222,8 +222,8 @@ class BandDetailsController :   UIViewController,
     // class functions
     //
     
-    func coreDataObserver(coreDataObserver : CoreDataObserver, didChange object : NSManagedObject) {
-        dispatch_async(dispatch_get_main_queue()) {
+    func coreDataObserver(_ coreDataObserver : CoreDataObserver, didChange object : NSManagedObject) {
+        DispatchQueue.main.async {
             self.setBandimage()
         }
     }
@@ -233,7 +233,7 @@ class BandDetailsController :   UIViewController,
     // helper functions
     //
     
-    private func setUIFields() {
+    fileprivate func setUIFields() {
         pageTitle.title         = band.name
         
         do {
@@ -246,7 +246,7 @@ class BandDetailsController :   UIViewController,
                 + "</style>"
                 + band.biography
             
-            let text = try NSMutableAttributedString(  data: bio.dataUsingEncoding(NSUTF8StringEncoding)!,
+            let text = try NSMutableAttributedString(  data: bio.data(using: String.Encoding.utf8)!,
                 options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType],
                 documentAttributes: nil);
             biography.attributedText = text
@@ -259,7 +259,7 @@ class BandDetailsController :   UIViewController,
         setBandimage()
     }
     
-    private func setGigTitle() {
+    fileprivate func setGigTitle() {
         if band.gigs.count > 1 {
             gigTitle.text = String(format: NSLocalizedString("conGigListTitleMultiple", comment: "You have been to %0$d gigs:"), arguments: [band.gigs.count])
         } else if band.gigs.count == 1 {
@@ -269,7 +269,7 @@ class BandDetailsController :   UIViewController,
         }
     }
     
-    private func setBandimage() {
+    fileprivate func setBandimage() {
         UrlFetcher.loadImageFromUrl(band.getImageUrl()) { image in
             self.imageIndicator.stopAnimating()
             self.bandImage.image = image

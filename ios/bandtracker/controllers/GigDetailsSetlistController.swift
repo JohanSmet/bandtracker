@@ -18,11 +18,11 @@ class GigDetailsSetlistController : UIViewController ,
     // variables
     //
     
-    private var gig         : Gig!
+    fileprivate var gig         : Gig!
     
-    private var set : [SetlistFmClient.SetPart] = []
-    private var error : String = ""
-    private var urlString : String?
+    fileprivate var set : [SetlistFmClient.SetPart] = []
+    fileprivate var error : String = ""
+    fileprivate var urlString : String?
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
@@ -45,11 +45,11 @@ class GigDetailsSetlistController : UIViewController ,
     // static interface
     //
     
-    class func create(gig : Gig) -> GigDetailsSetlistController {
+    class func create(_ gig : Gig) -> GigDetailsSetlistController {
         
         let storyboard = UIStoryboard(name: "Gigs", bundle: nil)
         
-        let newVC = storyboard.instantiateViewControllerWithIdentifier("GigDetailsSetlistController") as! GigDetailsSetlistController
+        let newVC = storyboard.instantiateViewController(withIdentifier: "GigDetailsSetlistController") as! GigDetailsSetlistController
         newVC.gig = gig
         
         return newVC
@@ -69,17 +69,17 @@ class GigDetailsSetlistController : UIViewController ,
         // init tableview
         tableView.dataSource = self
         tableView.delegate   = self
-        tableView.hidden = false
+        tableView.isHidden = false
         
         // init website link
-        let tapRecognizer = UITapGestureRecognizer(target: self, action : "visitSetlistFm")
+        let tapRecognizer = UITapGestureRecognizer(target: self, action : #selector(GigDetailsSetlistController.visitSetlistFm))
         tapRecognizer.numberOfTapsRequired = 1
         labelWebsite.addGestureRecognizer(tapRecognizer)
         
         // load the setlist
         setlistFmClient().searchSetlist(gig) { setlist, setlistUrl, error in
             
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 
                 if let setlist = setlist {
                     self.set = setlist
@@ -94,7 +94,7 @@ class GigDetailsSetlistController : UIViewController ,
                 }
                 
                 self.activityIndicator.stopAnimating()
-                self.tableView.hidden = false
+                self.tableView.isHidden = false
                 self.tableView.reloadData()
                 
                 if let setlistUrl = setlistUrl {
@@ -110,8 +110,8 @@ class GigDetailsSetlistController : UIViewController ,
     //
     
     @IBAction func visitSetlistFm() {
-        if let url = NSURL(string: self.urlString!) {
-            UIApplication.sharedApplication().openURL(url)
+        if let url = URL(string: self.urlString!) {
+            UIApplication.shared.openURL(url)
         }
     }
     
@@ -120,7 +120,7 @@ class GigDetailsSetlistController : UIViewController ,
     // UITableViewDataSource
     //
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         if error.isEmpty {
             TableViewUtils.messageEmptyTable(tableView, isEmpty: set.isEmpty, message: NSLocalizedString("conNoSetlist", comment: "No set list found for this gig."))
         } else {
@@ -130,17 +130,17 @@ class GigDetailsSetlistController : UIViewController ,
         return set.count
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return set[section].songs.count
     }
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return set[section].name
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     
-        let cell = tableView.dequeueReusableCellWithIdentifier("SetListCell", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SetListCell", for: indexPath)
         let song = set[indexPath.section].songs[indexPath.row]
         cell.textLabel!.text = "\(indexPath.row + 1). \(song)"
         return cell
@@ -152,8 +152,8 @@ class GigDetailsSetlistController : UIViewController ,
     // UITableViewDelegate
     //
    
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: false)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: false)
         
         let song = set[indexPath.section].songs[indexPath.row]
         let vc = GigDetailsYoutubeController.create(gig, song: song)
@@ -165,7 +165,7 @@ class GigDetailsSetlistController : UIViewController ,
     // helper functions
     //
     
-    private func setHeaderFields() {
+    fileprivate func setHeaderFields() {
         
         locationLabel.text =  gig.formatLocation()
         dateLabel.text = DateUtils.toDateStringMedium(gig.startDate)

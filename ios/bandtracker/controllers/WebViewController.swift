@@ -16,7 +16,7 @@ class WebViewController : UIViewController {
     // variables
     //
     
-    var request : NSURLRequest?
+    var request : URLRequest?
     var text    : String?
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -34,7 +34,7 @@ class WebViewController : UIViewController {
     class func create(forString text : String) -> WebViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
-        let newVC = storyboard.instantiateViewControllerWithIdentifier("WebViewController") as! WebViewController
+        let newVC = storyboard.instantiateViewController(withIdentifier: "WebViewController") as! WebViewController
         newVC.text = text
         
         return newVC
@@ -42,10 +42,10 @@ class WebViewController : UIViewController {
     
     class func create(forResource resourceName : String) -> WebViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let newVC = storyboard.instantiateViewControllerWithIdentifier("WebViewController") as! WebViewController
+        let newVC = storyboard.instantiateViewController(withIdentifier: "WebViewController") as! WebViewController
         
-        let localResource = NSBundle.mainBundle().URLForResource(resourceName, withExtension: "html")
-        newVC.request = NSURLRequest(URL: localResource!)
+        let localResource = Bundle.main.url(forResource: resourceName, withExtension: "html")
+        newVC.request = URLRequest(url: localResource!)
         
         return newVC
     }

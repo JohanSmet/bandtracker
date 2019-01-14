@@ -17,12 +17,12 @@ protocol ListSelectionControllerDelegate {
     var filterInitialValue  : String { get }
     var cellType            : String { get }
     
-    func numberOfSections(listSelectionController : ListSelectionController) -> Int
-    func titleForSection(listSelectionController : ListSelectionController, section : Int) -> String?
-    func dataForSection(listSelectionController : ListSelectionController, section : Int, filterText : String, completionHandler : (data  : [AnyObject]?) -> Void)
-    func configureCellForItem(listSelectionController : ListSelectionController, cell : UITableViewCell, section : Int, item : AnyObject)
+    func numberOfSections(_ listSelectionController : ListSelectionController) -> Int
+    func titleForSection(_ listSelectionController : ListSelectionController, section : Int) -> String?
+    func dataForSection(_ listSelectionController : ListSelectionController, section : Int, filterText : String, completionHandler : @escaping (_ data  : [AnyObject]?) -> Void)
+    func configureCellForItem(_ listSelectionController : ListSelectionController, cell : UITableViewCell, section : Int, item : AnyObject)
     
-    func didSelectItem(listSelectionController : ListSelectionController, custom : Bool, section : Int, item : AnyObject)
+    func didSelectItem(_ listSelectionController : ListSelectionController, custom : Bool, section : Int, item : AnyObject)
     
 }
 
@@ -37,11 +37,11 @@ class ListSelectionController : UIViewController,
     // variables
     //
     
-    private var delegate        : ListSelectionControllerDelegate!
-    private var numSections     : Int = 0
-    private var selectionData   : [[AnyObject]] = []
+    fileprivate var delegate        : ListSelectionControllerDelegate!
+    fileprivate var numSections     : Int = 0
+    fileprivate var selectionData   : [[AnyObject]] = []
     
-    private var keyboardFix     : KeyboardFix?
+    fileprivate var keyboardFix     : KeyboardFix?
    
     ///////////////////////////////////////////////////////////////////////////////////
     //
@@ -56,10 +56,10 @@ class ListSelectionController : UIViewController,
     // interface to create a selection list
     //
     
-    class func create(delegate : ListSelectionControllerDelegate) -> ListSelectionController {
+    class func create(_ delegate : ListSelectionControllerDelegate) -> ListSelectionController {
         
         let storyboard = UIStoryboard(name: "Gigs", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier("ListSelectionController") as! ListSelectionController
+        let vc = storyboard.instantiateViewController(withIdentifier: "ListSelectionController") as! ListSelectionController
         vc.delegate = delegate
         
         
@@ -82,7 +82,7 @@ class ListSelectionController : UIViewController,
             filterText.placeholder = delegate.filterPlaceHolder
             filterText.text        = delegate.filterInitialValue
         } else {
-            filterText.hidden      = true
+            filterText.isHidden      = true
         }
         
         // table sections
@@ -99,7 +99,7 @@ class ListSelectionController : UIViewController,
         keyboardFix = KeyboardFix(viewController: self, scrollView: tableView)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         refilterData(filterText.text!)
@@ -110,7 +110,7 @@ class ListSelectionController : UIViewController,
         }
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         if let keyboardFix = self.keyboardFix {
@@ -124,13 +124,13 @@ class ListSelectionController : UIViewController,
     // UITableViewDataSource
     //
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         TableViewUtils.messageEmptyTable(tableView, isEmpty: !filterText.text!.isEmpty && !sectionsHaveData() && !delegate.enableCustomValue,
                                          message: NSLocalizedString("conNoResults", comment: "No Results"))
         return numSections + (delegate.enableCustomValue ? 1 : 0)
     }
    
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if delegate.enableCustomValue && section == 0 {
             return 1
@@ -139,8 +139,8 @@ class ListSelectionController : UIViewController,
         return dataForSection(section).count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(delegate.cellType, forIndexPath: indexPath)
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: delegate.cellType, for: indexPath)
         
         if delegate.enableCustomValue && indexPath.section == 0 {
             cell.textLabel?.text = filterText.text
@@ -152,7 +152,7 @@ class ListSelectionController : UIViewController,
         return cell
     }
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if delegate.enableCustomValue && section == 0 {
             return nil
         }
@@ -170,16 +170,16 @@ class ListSelectionController : UIViewController,
     // UITableViewDelegate
     //
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if delegate.enableCustomValue && indexPath.section == 0 {
-            delegate.didSelectItem(self, custom: true, section: 0, item: filterText.text!)
+            delegate.didSelectItem(self, custom: true, section: 0, item: filterText.text! as AnyObject)
         } else {
             let delta = delegate.enableCustomValue ? 1 : 0
             delegate.didSelectItem(self, custom: false, section: indexPath.section - delta, item: itemForIndexPath(indexPath))
         }
         
-        self.navigationController?.popViewControllerAnimated(true)
+        self.navigationController?.popViewController(animated: true)
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -187,10 +187,10 @@ class ListSelectionController : UIViewController,
     // UITextFieldDelegate
     //
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         var newText : NSString = textField.text! as NSString
-        newText = newText.stringByReplacingCharactersInRange(range, withString: string)
+        newText = newText.replacingCharacters(in: range, with: string) as NSString
         textField.text = newText as String
         
         refilterData(textField.text!)
@@ -199,7 +199,7 @@ class ListSelectionController : UIViewController,
         return false
     }
     
-    func textFieldShouldClear(textField: UITextField) -> Bool {
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
         refilterData("")
         tableView.reloadData()
         return true
@@ -210,12 +210,12 @@ class ListSelectionController : UIViewController,
     // helper functions
     //
     
-    private func refilterData(filter : String) {
+    fileprivate func refilterData(_ filter : String) {
         
         for section in 0 ..< numSections {
             delegate.dataForSection(self, section: section, filterText: filter) { data in
                 
-                dispatch_async(dispatch_get_main_queue()) {
+                DispatchQueue.main.async {
                     self.selectionData[section] = data ?? []
                     self.tableView.reloadData()
                 }
@@ -224,17 +224,17 @@ class ListSelectionController : UIViewController,
         
     }
     
-    private func dataForSection(section : Int) -> [AnyObject] {
+    fileprivate func dataForSection(_ section : Int) -> [AnyObject] {
         let delta = delegate.enableCustomValue ? 1 : 0
         return selectionData[section - delta]
     }
     
-    private func itemForIndexPath(indexPath : NSIndexPath) -> AnyObject {
+    fileprivate func itemForIndexPath(_ indexPath : IndexPath) -> AnyObject {
         let delta = delegate.enableCustomValue ? 1 : 0
         return selectionData[indexPath.section - delta][indexPath.row]
     }
     
-    private func sectionsHaveData() -> Bool {
+    fileprivate func sectionsHaveData() -> Bool {
        
         for data in selectionData {
             if !data.isEmpty {

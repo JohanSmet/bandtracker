@@ -15,7 +15,7 @@ class Country : NSManagedObject {
     
     @NSManaged var code         : String
     @NSManaged var name         : String
-    @NSManaged var flag         : NSData!
+    @NSManaged var flag         : Data!
     
     @NSManaged var gigs         : [Gig]
     
@@ -24,15 +24,15 @@ class Country : NSManagedObject {
     // initialisers
     //
     
-    override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
-        super.init(entity: entity, insertIntoManagedObjectContext: context)
+    override init(entity: NSEntityDescription, insertInto context: NSManagedObjectContext?) {
+        super.init(entity: entity, insertInto: context)
     }
     
     init(code : String, name : String, context: NSManagedObjectContext) {
         
         // Core Data
-        let entity =  NSEntityDescription.entityForName("Country", inManagedObjectContext: context)!
-        super.init(entity: entity, insertIntoManagedObjectContext: context)
+        let entity =  NSEntityDescription.entity(forEntityName: "Country", in: context)!
+        super.init(entity: entity, insertInto: context)
         
         // properties
         self.code = code

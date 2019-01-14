@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 @IBDesignable
-public class TimeIntervalPicker :  UIControl,
+open class TimeIntervalPicker :  UIControl,
                                    UIPickerViewDataSource,
                                    UIPickerViewDelegate {
     
@@ -19,9 +19,9 @@ public class TimeIntervalPicker :  UIControl,
     // properties
     //
     
-    public var dayValue : Int {
+    open var dayValue : Int {
         get {
-            return picker.selectedRowInComponent(componentDays)
+            return picker.selectedRow(inComponent: componentDays)
         }
         
         set (day) {
@@ -29,9 +29,9 @@ public class TimeIntervalPicker :  UIControl,
         }
     }
     
-    public var hourValue : Int {
+    open var hourValue : Int {
         get {
-            return picker.selectedRowInComponent(componentHours) % componentRowCount[componentHours]
+            return picker.selectedRow(inComponent: componentHours) % componentRowCount[componentHours]
         }
         
         set (hour) {
@@ -39,9 +39,9 @@ public class TimeIntervalPicker :  UIControl,
         }
     }
     
-    public var minuteValue : Int {
+    open var minuteValue : Int {
         get {
-            return (picker.selectedRowInComponent(componentMinutes) % componentRowCount[componentMinutes]) * minuteInterval
+            return (picker.selectedRow(inComponent: componentMinutes) % componentRowCount[componentMinutes]) * minuteInterval
         }
         set (minute) {
             let row = minute / minuteInterval
@@ -49,13 +49,13 @@ public class TimeIntervalPicker :  UIControl,
         }
     }
     
-    public var timeInterval : NSTimeInterval {
+    open var timeInterval : TimeInterval {
         get {
             let daySec    = dayValue * SECONDS_IN_DAY
             let hourSec   = hourValue * SECONDS_IN_HOUR
             let minuteSec = minuteValue * SECONDS_IN_MINUTE
             
-            return NSTimeInterval(daySec + hourSec + minuteSec)
+            return TimeInterval(daySec + hourSec + minuteSec)
         }
         
         set (interval) {
@@ -69,12 +69,12 @@ public class TimeIntervalPicker :  UIControl,
         }
     }
     
-    public var formattedString : String {
+    open var formattedString : String {
         get {
-            let formatter = NSDateComponentsFormatter()
-            formatter.unitsStyle = .Short
+            let formatter = DateComponentsFormatter()
+            formatter.unitsStyle = .short
             
-            return formatter.stringFromTimeInterval(timeInterval)!
+            return formatter.string(from: timeInterval)!
         }
     }
     
@@ -83,20 +83,20 @@ public class TimeIntervalPicker :  UIControl,
     // private variables
     //
     
-    private var picker : UIPickerView!
+    fileprivate var picker : UIPickerView!
     
-    private let componentRowCount : [Int]   = [10, 24, 12]
-    private let rowInfiniteCount  : Int     = 1200
-    private let componentWidth    : CGFloat = 50
-    private let minuteInterval    : Int     = 60 / 12
+    fileprivate let componentRowCount : [Int]   = [10, 24, 12]
+    fileprivate let rowInfiniteCount  : Int     = 1200
+    fileprivate let componentWidth    : CGFloat = 50
+    fileprivate let minuteInterval    : Int     = 60 / 12
     
-    private let componentDays     : Int     = 0
-    private let componentHours    : Int     = 1
-    private let componentMinutes  : Int     = 2
+    fileprivate let componentDays     : Int     = 0
+    fileprivate let componentHours    : Int     = 1
+    fileprivate let componentMinutes  : Int     = 2
     
-    private let SECONDS_IN_MINUTE : Int = 60
-    private let SECONDS_IN_HOUR   : Int = 60 * 60
-    private let SECONDS_IN_DAY    : Int = 60 * 60 * 24
+    fileprivate let SECONDS_IN_MINUTE : Int = 60
+    fileprivate let SECONDS_IN_HOUR   : Int = 60 * 60
+    fileprivate let SECONDS_IN_DAY    : Int = 60 * 60 * 24
     
     ////////////////////////////////////////////////////////////////////////////////
     //
@@ -119,11 +119,11 @@ public class TimeIntervalPicker :  UIControl,
     // UIPickerViewDataSource
     //
     
-    @objc public func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+    @objc open func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 3
     }
     
-    public func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    open func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         switch (component) {
             case componentDays    : return componentRowCount[component]
             case componentHours   : return rowInfiniteCount          // simulate wrapping
@@ -137,7 +137,7 @@ public class TimeIntervalPicker :  UIControl,
     // UIPickerViewDelegate
     //
     
-    public func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    open func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
        
         switch (component) {
             case componentDays    : return "\(row)"
@@ -147,17 +147,17 @@ public class TimeIntervalPicker :  UIControl,
         }
     }
     
-    public func pickerView(pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
+    open func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
         return componentWidth
     }
     
-    public func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    open func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         // reset to near center position to simulate infinite scrolling
         if component == componentHours || component == componentMinutes {
             pickerView.selectRow(row % componentRowCount[component] + (rowInfiniteCount / 2), inComponent: component, animated: false)
         }
         
-        sendActionsForControlEvents(.ValueChanged)
+        sendActions(for: .valueChanged)
     }
     
     ////////////////////////////////////////////////////////////////////////////////
@@ -165,9 +165,9 @@ public class TimeIntervalPicker :  UIControl,
     // helper functions
     //
     
-    private func createPicker() {
+    fileprivate func createPicker() {
         
-        func addPickerConstraint(picker : UIView, attribute : NSLayoutAttribute, relation : NSLayoutRelation) {
+        func addPickerConstraint(_ picker : UIView, attribute : NSLayoutAttribute, relation : NSLayoutRelation) {
             addConstraint(NSLayoutConstraint(
                             item: picker,
                             attribute: attribute,
@@ -186,10 +186,10 @@ public class TimeIntervalPicker :  UIControl,
         addSubview(picker)
         
         // set constraints to fill entire container
-        addPickerConstraint(picker, attribute: NSLayoutAttribute.Width, relation: NSLayoutRelation.Equal)
-        addPickerConstraint(picker, attribute: NSLayoutAttribute.Height, relation: NSLayoutRelation.Equal)
-        addPickerConstraint(picker, attribute: NSLayoutAttribute.Top, relation: NSLayoutRelation.Equal)
-        addPickerConstraint(picker, attribute: NSLayoutAttribute.Leading, relation: NSLayoutRelation.Equal)
+        addPickerConstraint(picker, attribute: NSLayoutAttribute.width, relation: NSLayoutRelation.equal)
+        addPickerConstraint(picker, attribute: NSLayoutAttribute.height, relation: NSLayoutRelation.equal)
+        addPickerConstraint(picker, attribute: NSLayoutAttribute.top, relation: NSLayoutRelation.equal)
+        addPickerConstraint(picker, attribute: NSLayoutAttribute.leading, relation: NSLayoutRelation.equal)
         
         // center components to simulate infinite scrolling
         picker.selectRow(rowInfiniteCount / 2, inComponent: componentHours, animated: false)

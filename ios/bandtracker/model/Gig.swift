@@ -13,8 +13,8 @@ import CoreData
 
 class Gig : NSManagedObject {
     
-    @NSManaged var startDate    : NSDate
-    @NSManaged var endDate      : NSDate
+    @NSManaged var startDate    : Date
+    @NSManaged var endDate      : Date
     @NSManaged var stage        : String
     @NSManaged var supportAct   : Bool
     @NSManaged var rating       : NSNumber
@@ -26,7 +26,7 @@ class Gig : NSManagedObject {
     @NSManaged var venue        : Venue?
     
     var year : NSNumber {
-        return NSCalendar.currentCalendar().component(.Year, fromDate: startDate)
+        return NSNumber(value: (Calendar.current as NSCalendar).component(.year, from: startDate))
     }
     
     var editCountry             : String = ""
@@ -38,15 +38,15 @@ class Gig : NSManagedObject {
     // initialisers
     //
     
-    override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
-        super.init(entity: entity, insertIntoManagedObjectContext: context)
+    override init(entity: NSEntityDescription, insertInto context: NSManagedObjectContext?) {
+        super.init(entity: entity, insertInto: context)
     }
     
     init(band : Band, context: NSManagedObjectContext) {
         
         // Core Data
-        let entity =  NSEntityDescription.entityForName("Gig", inManagedObjectContext: context)!
-        super.init(entity: entity, insertIntoManagedObjectContext: context)
+        let entity =  NSEntityDescription.entity(forEntityName: "Gig", in: context)!
+        super.init(entity: entity, insertInto: context)
         
         // properties
         self.startDate  = DateUtils.currentTimeRoundMinutes(15)

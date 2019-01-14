@@ -14,7 +14,7 @@ class GigGuidedCreationCell : UITableViewCell {
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     
-    func setLocation(tourDate : BandTrackerClient.TourDate) {
+    func setLocation(_ tourDate : BandTrackerClient.TourDate) {
         var location  : String = ""
         var separator : String = ""
         

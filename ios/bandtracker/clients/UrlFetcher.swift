@@ -11,32 +11,32 @@ import UIKit
 
 class UrlFetcher {
     
-    static private var urlSession : NSURLSession?
+    static fileprivate var urlSession : URLSession?
     
     
    
-    static func loadImageFromUrl(urlString : String, completionHandlerUI : (image : UIImage?) -> Void) {
+    static func loadImageFromUrl(_ urlString : String, completionHandlerUI : @escaping (_ image : UIImage?) -> Void) {
         
         // create session if necessary
         if (urlSession == nil) {
-            let sessionConfiguration = NSURLSessionConfiguration.defaultSessionConfiguration()
-            sessionConfiguration.requestCachePolicy = .ReturnCacheDataElseLoad;
+            let sessionConfiguration = URLSessionConfiguration.default
+            sessionConfiguration.requestCachePolicy = .returnCacheDataElseLoad;
             
-            urlSession = NSURLSession(configuration: sessionConfiguration)
+            urlSession = URLSession(configuration: sessionConfiguration)
         }
         
         // configure request
-        guard let url  = NSURL(string: urlString) else { return }
-        let request = NSURLRequest(URL: url)
+        guard let url  = URL(string: urlString) else { return }
+        let request = URLRequest(url: url)
         
         // execute request
-        let task = urlSession!.dataTaskWithRequest(request) { data, response, urlError in
+        let task = urlSession!.dataTask(with: request, completionHandler: { data, response, urlError in
             if let data = data {
-                dispatch_async(dispatch_get_main_queue()) {
-                    completionHandlerUI(image: UIImage(data: data))
+                DispatchQueue.main.async {
+                    completionHandlerUI(UIImage(data: data))
                 }
             }
-        }
+        }) 
         
         task.resume()
     }

@@ -18,11 +18,11 @@ class GigDetailsYoutubeController : UIViewController,
     // variables
     //
     
-    private var gig         : Gig!
-    private var song        : String!
+    fileprivate var gig         : Gig!
+    fileprivate var song        : String!
     
-    private var videos      : [YoutubeDataClient.Video] = []
-    private var error       : String = ""
+    fileprivate var videos      : [YoutubeDataClient.Video] = []
+    fileprivate var error       : String = ""
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
@@ -42,11 +42,11 @@ class GigDetailsYoutubeController : UIViewController,
     // static interface
     //
     
-    class func create(gig : Gig, song : String? = nil) -> GigDetailsYoutubeController {
+    class func create(_ gig : Gig, song : String? = nil) -> GigDetailsYoutubeController {
         
         let storyboard = UIStoryboard(name: "Gigs", bundle: nil)
         
-        let newVC = storyboard.instantiateViewControllerWithIdentifier("GigDetailsYoutubeController") as! GigDetailsYoutubeController
+        let newVC = storyboard.instantiateViewController(withIdentifier: "GigDetailsYoutubeController") as! GigDetailsYoutubeController
         newVC.gig = gig
         newVC.song = song
         
@@ -67,7 +67,7 @@ class GigDetailsYoutubeController : UIViewController,
         // init table view
         tableView.dataSource = self
         tableView.delegate   = self
-        tableView.hidden     = true
+        tableView.isHidden     = true
         
         // load the videos
         searchForVideos()
@@ -78,9 +78,9 @@ class GigDetailsYoutubeController : UIViewController,
     // UITableViewDelegate
     //
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
         
     }
     
@@ -89,7 +89,7 @@ class GigDetailsYoutubeController : UIViewController,
     // UITableViewDataSource
     //
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         
         let numSections = videos.isEmpty ? 0 : 1
             
@@ -102,12 +102,12 @@ class GigDetailsYoutubeController : UIViewController,
         return numSections
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return videos.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell  = tableView.dequeueReusableCellWithIdentifier("YoutubeCell", forIndexPath: indexPath) as! YoutubeTableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell  = tableView.dequeueReusableCell(withIdentifier: "YoutubeCell", for: indexPath) as! YoutubeTableViewCell
         let video = self.videos[indexPath.row]
         
         cell.videoTitle!.text = video.title
@@ -121,9 +121,9 @@ class GigDetailsYoutubeController : UIViewController,
     // helper functions
     //
     
-    private func searchForVideos() {
+    fileprivate func searchForVideos() {
         youtubeDataClient().searchVideosForGig(gig, song: song, maxResults: 10) { videos, error in
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 
                 if let videos = videos {
                     self.videos = videos
@@ -138,13 +138,13 @@ class GigDetailsYoutubeController : UIViewController,
                 }
                 
                 self.activityIndicator.stopAnimating()
-                self.tableView.hidden = false
+                self.tableView.isHidden = false
                 self.tableView.reloadData()
             }
         }
     }
     
-    private func setHeaderFields() {
+    fileprivate func setHeaderFields() {
         
         if let song = song {
             searchLabel.text = String(format: NSLocalizedString("conYoutubeSearch", comment: "(searched YouTube for \"%0$@\")"), arguments: [song])

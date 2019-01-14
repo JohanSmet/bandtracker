@@ -49,8 +49,8 @@ extension BandTrackerClient {
     struct TourDate {
         
         var bandId : String
-        var startDate : NSDate
-        var endDate : NSDate
+        var startDate : Date
+        var endDate : Date
         var stage : String
         var venue : String
         var city : String

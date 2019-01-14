@@ -24,19 +24,19 @@ class Venue : NSManagedObject {
     // initialisers
     //
     
-    override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
-        super.init(entity: entity, insertIntoManagedObjectContext: context)
+    override init(entity: NSEntityDescription, insertInto context: NSManagedObjectContext?) {
+        super.init(entity: entity, insertInto: context)
     }
     
     init(name : String, longitude : Double, latitude : Double, context: NSManagedObjectContext) {
         
         // Core Data
-        let entity =  NSEntityDescription.entityForName("Venue", inManagedObjectContext: context)!
-        super.init(entity: entity, insertIntoManagedObjectContext: context)
+        let entity =  NSEntityDescription.entity(forEntityName: "Venue", in: context)!
+        super.init(entity: entity, insertInto: context)
         
         // properties
         self.name       = name
-        self.longitude  = longitude
-        self.latitude   = latitude
+        self.longitude  = NSNumber(value: longitude)
+        self.latitude   = NSNumber(value: latitude)
     }
 }

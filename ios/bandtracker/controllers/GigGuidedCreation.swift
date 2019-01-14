@@ -19,11 +19,11 @@ class GigGuidedCreationController : UIViewController,
     // variables
     //
    
-    private var band             : Band!
-    private var years            : [Int] = []
-    private var filterController : GigGuidedCreationFilterController!
-    private var tourDates        : [BandTrackerClient.TourDate] = []
-    private var lastTimeStamp    : NSTimeInterval = 0
+    fileprivate var band             : Band!
+    fileprivate var years            : [Int] = []
+    fileprivate var filterController : GigGuidedCreationFilterController!
+    fileprivate var tourDates        : [BandTrackerClient.TourDate] = []
+    fileprivate var lastTimeStamp    : TimeInterval = 0
     
     ////////////////////////////////////////////////////////////////////////////////
     //
@@ -39,10 +39,10 @@ class GigGuidedCreationController : UIViewController,
     // class functions
     //
     
-    class func create(band : Band, tourDateYears : [Int]) -> GigGuidedCreationController {
+    class func create(_ band : Band, tourDateYears : [Int]) -> GigGuidedCreationController {
         let storyboard = UIStoryboard(name: "Gigs", bundle: nil)
         
-        let newVC = storyboard.instantiateViewControllerWithIdentifier("GigGuidedCreationController") as! GigGuidedCreationController
+        let newVC = storyboard.instantiateViewController(withIdentifier: "GigGuidedCreationController") as! GigGuidedCreationController
         newVC.band  = band
         newVC.years = tourDateYears
         return newVC
@@ -64,14 +64,14 @@ class GigGuidedCreationController : UIViewController,
         refreshData()
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         filterContainerHeight.constant = filterController.tableView.contentSize.height + 0
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "SegueEmbedGuidedFilter" {
-            filterController = segue.destinationViewController as! GigGuidedCreationFilterController
+            filterController = segue.destination as! GigGuidedCreationFilterController
             filterController.band  = band
             filterController.years = years
         }
@@ -92,7 +92,7 @@ class GigGuidedCreationController : UIViewController,
     // GigGuidedCreationFilterDelegate
     //
     
-    func filterValueChanged(filterController: GigGuidedCreationFilterController) {
+    func filterValueChanged(_ filterController: GigGuidedCreationFilterController) {
         refreshData()
     }
     
@@ -101,19 +101,19 @@ class GigGuidedCreationController : UIViewController,
     // UITableViewDatasource
     //
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         
         TableViewUtils.messageEmptyTable(tableView, isEmpty: self.tourDates.isEmpty, message: NSLocalizedString("conNoResults", comment: "No Results"))
         
         return self.tourDates.isEmpty ? 0 : 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.tourDates.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell     = tableView.dequeueReusableCellWithIdentifier("GigGuidedCreationCell", forIndexPath: indexPath) as! GigGuidedCreationCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell     = tableView.dequeueReusableCell(withIdentifier: "GigGuidedCreationCell", for: indexPath) as! GigGuidedCreationCell
         let tourDate = tourDates[indexPath.row]
         
         cell.dateLabel.text = DateUtils.toDateStringMedium(tourDate.startDate)
@@ -127,7 +127,7 @@ class GigGuidedCreationController : UIViewController,
     // UITableViewDelegate
     //
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let newVC = GigDetailsController.createNewGig(band!, tourDate: tourDates[indexPath.row])
         NavigationUtils.replaceViewController(navigationController!, newViewController: newVC)
     }
@@ -160,7 +160,7 @@ class GigGuidedCreationController : UIViewController,
                 }
             }
                                                 
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 self.tourDates = newTourDates
                 self.tableView.reloadData()
             }

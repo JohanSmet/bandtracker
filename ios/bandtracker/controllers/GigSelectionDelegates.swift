@@ -16,58 +16,59 @@ class CountrySelectionDelegate : ListSelectionControllerDelegate {
     let filterPlaceHolder   : String = NSLocalizedString("conCountryPlaceholder", comment: "Enter country")
     let cellType            : String = "SelectionCellImage"
     let filterInitialValue  : String
-    let completionHandler   : (name : String) -> Void
+    let completionHandler   : (_ name : String) -> Void
     
-    init (initialFilter : String, completionHandler : (name : String) -> Void) {
+    init (initialFilter : String, completionHandler : @escaping (_ name : String) -> Void) {
         self.filterInitialValue = initialFilter
         self.completionHandler  = completionHandler
     }
     
-    func numberOfSections(listSelectionController : ListSelectionController) -> Int {
+    func numberOfSections(_ listSelectionController : ListSelectionController) -> Int {
         return 2
     }
     
-    func titleForSection(listSelectionController : ListSelectionController, section : Int) -> String? {
+    func titleForSection(_ listSelectionController : ListSelectionController, section : Int) -> String? {
         if section == 1 {
             return NSLocalizedString("conCountryPopular", comment: "Most popular countries")
         }
         return nil
     }
     
-    func dataForSection(listSelectionController : ListSelectionController, section : Int, filterText : String, completionHandler : (data: [AnyObject]?) -> Void) {
+    func dataForSection(_ listSelectionController : ListSelectionController, section : Int, filterText : String, completionHandler : @escaping (_ data: [AnyObject]?) -> Void) {
         if filterText.isEmpty && section != 1 {
-            return completionHandler(data: nil)
+            return completionHandler(nil)
         }
         
         switch (section) {
             case 0 :
-                completionHandler(data: dataContext().countryList(filterText))
+                completionHandler(dataContext().countryList(filterText))
             case 1 :
-                completionHandler(data: dataContext().gigsTop5Countries())
+                completionHandler(dataContext().gigsTop5Countries())
             default :
-                completionHandler(data: nil)
+                completionHandler(nil)
         }
     }
     
-    func configureCellForItem(listSelectionController : ListSelectionController, cell : UITableViewCell, section : Int, item : AnyObject) {
+    func configureCellForItem(_ listSelectionController : ListSelectionController, cell : UITableViewCell, section : Int, item : AnyObject) {
         guard let country = item as? Country else { return }
         guard let imgCell = cell as? SelectionImageTableViewCell else { return }
         imgCell.title!.text = country.name
         
         if let flag = country.flag {
-            imgCell.img!.image = UIImage(data: flag)
+            imgCell.img!.image = UIImage(data: flag as Data)
         }
     }
     
     
-    func didSelectItem(listSelectionController : ListSelectionController, custom : Bool, section : Int, item : AnyObject) {
+    func didSelectItem(_ listSelectionController : ListSelectionController, custom : Bool, section : Int, item : AnyObject) {
         if let country = item as? Country {
-            completionHandler(name: country.name)
+            completionHandler(country.name)
         }
     }
 }
 
 class CitySelectionDelegate : ListSelectionControllerDelegate {
+   
     
     let enableFilter        : Bool   = true
     let enableCustomValue   : Bool   = true
@@ -75,36 +76,37 @@ class CitySelectionDelegate : ListSelectionControllerDelegate {
     let cellType            : String = "SelectionCellBasic"
     let filterInitialValue  : String
     let countryCode         : String?
-    let completionHandler   : (name : String) -> Void
-    var lastTimeStamp       : NSTimeInterval = 0
+    let completionHandler   : (_ name : String) -> Void
+    var lastTimeStamp       : TimeInterval = 0
     
-    init (initialFilter : String, countryCode: String?, completionHandler : (name : String) -> Void) {
+    init (initialFilter : String, countryCode: String?, completionHandler : @escaping (_ name : String) -> Void) {
         self.filterInitialValue = initialFilter
         self.countryCode        = countryCode
         self.completionHandler  = completionHandler
     }
     
-    func numberOfSections(listSelectionController : ListSelectionController) -> Int {
+    func numberOfSections(_ listSelectionController : ListSelectionController) -> Int {
         return 2
     }
     
-    func titleForSection(listSelectionController : ListSelectionController, section : Int) -> String? {
+    func titleForSection(_ listSelectionController : ListSelectionController, section : Int) -> String? {
         switch (section) {
             case 0 : return NSLocalizedString("conResultsPrevious", comment: "Previously used")
             case 1 : return NSLocalizedString("conResultsNew", comment: "New")
             default : return nil
         }
+    
     }
     
-    func dataForSection(listSelectionController : ListSelectionController, section : Int, filterText : String, completionHandler : (data: [AnyObject]?) -> Void) {
+    func dataForSection(_ listSelectionController: ListSelectionController, section: Int, filterText: String, completionHandler: @escaping ([AnyObject]?) -> Void) {
         
         if filterText.isEmpty {
-            return completionHandler(data: nil)
+            return completionHandler(nil)
         }
         
         switch (section) {
         case 0 :
-            completionHandler(data: dataContext().cityList(filterText))
+            completionHandler(dataContext().cityList(filterText))
         case 1 :
             bandTrackerClient().cityFind(filterText, countryCode: countryCode) { cities, error, timestamp in
                 // do not process results of older request than are currently on the screen
@@ -114,14 +116,14 @@ class CitySelectionDelegate : ListSelectionControllerDelegate {
                 
                 self.lastTimeStamp = timestamp
                 
-                completionHandler(data: cities)
+                completionHandler(cities as! [AnyObject])
             }
         default :
-            completionHandler(data: nil)
+            completionHandler(nil)
         }
     }
     
-    func configureCellForItem(listSelectionController : ListSelectionController, cell : UITableViewCell, section : Int, item : AnyObject) {
+    func configureCellForItem(_ listSelectionController : ListSelectionController, cell : UITableViewCell, section : Int, item : AnyObject) {
         if let city = item as? City {
             cell.textLabel?.text =  city.name
         } else if let city = item as? String {
@@ -131,11 +133,11 @@ class CitySelectionDelegate : ListSelectionControllerDelegate {
         }
     }
     
-    func didSelectItem(listSelectionController : ListSelectionController, custom : Bool, section : Int, item : AnyObject) {
+    func didSelectItem(_ listSelectionController : ListSelectionController, custom : Bool, section : Int, item : AnyObject) {
         if let city = item as? City {
-            completionHandler(name: city.name)
+            completionHandler(city.name)
         } else if let city = item as? String {
-            completionHandler(name: city)
+            completionHandler(city)
         }
     }
 }
@@ -150,21 +152,21 @@ class VenueSelectionDelegate : ListSelectionControllerDelegate {
     let filterInitialValue  : String
     let countryCode         : String?
     let city                : String?
-    let completionHandler   : (name : String) -> Void
-    var lastTimeStamp       : NSTimeInterval = 0
+    let completionHandler   : (_ name : String) -> Void
+    var lastTimeStamp       : TimeInterval = 0
     
-    init (initialFilter : String, countryCode: String?, city : String?, completionHandler : (name : String) -> Void) {
+    init (initialFilter : String, countryCode: String?, city : String?, completionHandler : @escaping (_ name : String) -> Void) {
         self.filterInitialValue = initialFilter
         self.countryCode        = countryCode
         self.city               = city
         self.completionHandler  = completionHandler
     }
     
-    func numberOfSections(listSelectionController : ListSelectionController) -> Int {
+    func numberOfSections(_ listSelectionController : ListSelectionController) -> Int {
         return 2
     }
     
-    func titleForSection(listSelectionController : ListSelectionController, section : Int) -> String? {
+    func titleForSection(_ listSelectionController : ListSelectionController, section : Int) -> String? {
         switch (section) {
             case 0 : return NSLocalizedString("conResultsPrevious", comment: "Previously used")
             case 1 : return NSLocalizedString("conResultsNew", comment: "New")
@@ -172,15 +174,15 @@ class VenueSelectionDelegate : ListSelectionControllerDelegate {
         }
     }
     
-    func dataForSection(listSelectionController : ListSelectionController, section : Int, filterText : String, completionHandler : (data: [AnyObject]?) -> Void) {
+    func dataForSection(_ listSelectionController : ListSelectionController, section : Int, filterText : String, completionHandler : @escaping ([AnyObject]?) -> Void) {
         
         if filterText.isEmpty {
-            return completionHandler(data: nil)
+            return completionHandler(nil)
         }
         
         switch (section) {
         case 0 :
-            completionHandler(data: dataContext().venueList(filterText))
+            completionHandler(dataContext().venueList(filterText))
         case 1 :
             bandTrackerClient().venueFind(filterText, countryCode: countryCode, city : city) { venue, error, timestamp in
                 // do not process results of older request than are currently on the screen
@@ -189,14 +191,14 @@ class VenueSelectionDelegate : ListSelectionControllerDelegate {
                 }
                 
                 self.lastTimeStamp = timestamp
-                completionHandler(data: venue)
+                completionHandler(venue as! [AnyObject])
             }
         default :
-            completionHandler(data: nil)
+            completionHandler(nil)
         }
     }
     
-    func configureCellForItem(listSelectionController : ListSelectionController, cell : UITableViewCell, section : Int, item : AnyObject) {
+    func configureCellForItem(_ listSelectionController : ListSelectionController, cell : UITableViewCell, section : Int, item : AnyObject) {
         if let venue = item as? Venue {
             cell.textLabel?.text = venue.name
         } else if let venue = item as? String {
@@ -206,11 +208,11 @@ class VenueSelectionDelegate : ListSelectionControllerDelegate {
         }
     }
     
-    func didSelectItem(listSelectionController : ListSelectionController, custom : Bool, section : Int, item : AnyObject) {
+    func didSelectItem(_ listSelectionController : ListSelectionController, custom : Bool, section : Int, item : AnyObject) {
         if let venue = item as? Venue {
-            completionHandler(name: venue.name)
+            completionHandler(venue.name)
         } else if let venue = item as? String {
-            completionHandler(name: venue)
+            completionHandler(venue)
         }
     }
 }

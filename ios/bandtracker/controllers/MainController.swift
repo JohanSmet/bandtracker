@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 protocol MainTabSheet {
-    func updateSearchResults(searchText : String)
+    func updateSearchResults(_ searchText : String)
     func addNewItem();
     
     var searchBarVisible : Bool { get }
@@ -43,25 +43,25 @@ class MainController:   UITabBarController,
     // outlets
     //
     
-    @IBAction func actionMore(sender: AnyObject) {
+    @IBAction func actionMore(_ sender: AnyObject) {
        
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let helpAction = UIAlertAction(title: NSLocalizedString("conHelp", comment: "Help"), style: .Default) { action in
+        let helpAction = UIAlertAction(title: NSLocalizedString("conHelp", comment: "Help"), style: .default) { action in
             let vc = WebViewController.create(forResource: "help")
             self.navigationController?.pushViewController(vc, animated: false)
         }
         
-        let licenseAction = UIAlertAction(title: NSLocalizedString("conLicense", comment: "View licenses"), style: .Default) { action in
+        let licenseAction = UIAlertAction(title: NSLocalizedString("conLicense", comment: "View licenses"), style: .default) { action in
             let vc = WebViewController.create(forResource: "licenses")
             self.navigationController?.pushViewController(vc, animated: true)
         }
         
-        let deleteAction = UIAlertAction(title: NSLocalizedString("conDemoDelete", comment: "DEMO - delete all data"), style: .Destructive) { action in
+        let deleteAction = UIAlertAction(title: NSLocalizedString("conDemoDelete", comment: "DEMO - delete all data"), style: .destructive) { action in
             dataContext().deleteAllData()
         }
         
-        let cancelAction = UIAlertAction(title: NSLocalizedString("conCancel", comment: "Cancel"), style: .Cancel) {action in
+        let cancelAction = UIAlertAction(title: NSLocalizedString("conCancel", comment: "Cancel"), style: .cancel) {action in
         }
         
         alertController.addAction(helpAction)
@@ -69,7 +69,7 @@ class MainController:   UITabBarController,
         alertController.addAction(deleteAction)
         alertController.addAction(cancelAction)
         
-        self.presentViewController(alertController, animated: true, completion: nil)
+        self.present(alertController, animated: true, completion: nil)
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -109,9 +109,9 @@ class MainController:   UITabBarController,
     //
     // UITabBarControllerDelegate
     
-    func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         if let tab = viewController as? MainTabSheet {
-            searchController.searchBar.hidden = !tab.searchBarVisible
+            searchController.searchBar.isHidden = !tab.searchBarVisible
             
             var rightBarItems : [UIBarButtonItem] = [buttonMore]
             
@@ -128,7 +128,7 @@ class MainController:   UITabBarController,
     // UISearchResultsUpdating
     //
     
-    func updateSearchResultsForSearchController(searchController: UISearchController) {
+    func updateSearchResults(for searchController: UISearchController) {
         if let tab = self.selectedViewController as? MainTabSheet {
             tab.updateSearchResults(searchController.searchBar.text!)
         }
@@ -139,12 +139,12 @@ class MainController:   UITabBarController,
     // UISearchControllerDelegate
     //
     
-    func didPresentSearchController(searchController: UISearchController) {
+    func didPresentSearchController(_ searchController: UISearchController) {
         searchController.searchBar.showsCancelButton = false
     }
     
-    func searchBarShouldEndEditing(searchBar: UISearchBar) -> Bool {
-        searchController.active = false
+    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
+        searchController.isActive = false
         return true
     }
     
@@ -153,7 +153,7 @@ class MainController:   UITabBarController,
     // actions
     //
     
-    @IBAction func addSeenBand(sender: UIBarButtonItem) {
+    @IBAction func addSeenBand(_ sender: UIBarButtonItem) {
         if let tab = self.selectedViewController as? MainTabSheet {
             tab.addNewItem()
         }

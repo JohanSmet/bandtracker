@@ -11,90 +11,90 @@ import Foundation
 
 class DateUtils {
    
-    static func join(date : NSDate, time : NSDate) -> NSDate {
-        let cal = NSCalendar.currentCalendar()
+    static func join(_ date : Date, time : Date) -> Date {
+        let cal = Calendar.current
         
-        let dateComponents = cal.components([.Year, .Month, .Day], fromDate: date)
-        let timeComponents = cal.components([.Hour, .Minute, .Second], fromDate: time)
+        var dateComponents = (cal as NSCalendar).components([.year, .month, .day], from: date)
+        let timeComponents = (cal as NSCalendar).components([.hour, .minute, .second], from: time)
        
         dateComponents.second = timeComponents.second
         dateComponents.minute = timeComponents.minute
         dateComponents.hour   = timeComponents.hour
         
-        return cal.dateFromComponents(dateComponents)!
+        return cal.date(from: dateComponents)!
     }
     
-    static func currentTimeRoundMinutes(interval : Int) -> NSDate {
+    static func currentTimeRoundMinutes(_ interval : Int) -> Date {
         
-        let cal = NSCalendar.currentCalendar()
+        let cal = Calendar.current
         
-        let dateComponents = cal.components([.Year, .Month, .Day], fromDate: NSDate())
-        let timeComponents = cal.components([.Hour, .Minute], fromDate: NSDate())
+        var dateComponents = (cal as NSCalendar).components([.year, .month, .day], from: Date())
+        let timeComponents = (cal as NSCalendar).components([.hour, .minute], from: Date())
         
         dateComponents.hour   = timeComponents.hour
-        dateComponents.minute = (timeComponents.minute / interval) * interval
+        dateComponents.minute = (timeComponents.minute! / interval) * interval
         
-        return cal.dateFromComponents(dateComponents)!
+        return cal.date(from: dateComponents)!
     }
     
     static func currentYear() -> Int {
-        let cal = NSCalendar.currentCalendar()
-        return cal.component(.Year, fromDate: NSDate())
+        let cal = Calendar.current
+        return (cal as NSCalendar).component(.year, from: Date())
     }
     
-    static func stripTime(date : NSDate) -> NSDate  {
-        let cal = NSCalendar.currentCalendar()
-        let dateComponents = cal.components([.Year, .Month, .Day], fromDate: date)
-        return cal.dateFromComponents(dateComponents)!
+    static func stripTime(_ date : Date) -> Date  {
+        let cal = Calendar.current
+        let dateComponents = (cal as NSCalendar).components([.year, .month, .day], from: date)
+        return cal.date(from: dateComponents)!
     }
     
-    static func add(date : NSDate, interval : NSTimeInterval) -> NSDate {
-        return date.dateByAddingTimeInterval(interval)
+    static func add(_ date : Date, interval : TimeInterval) -> Date {
+        return date.addingTimeInterval(interval)
     }
     
-    static func diff(dateEnd : NSDate, dateBegin : NSDate) -> NSTimeInterval {
-        return dateEnd.timeIntervalSinceDate(dateBegin)
+    static func diff(_ dateEnd : Date, dateBegin : Date) -> TimeInterval {
+        return dateEnd.timeIntervalSince(dateBegin)
     }
     
-    static func toDateStringMedium(date : NSDate) -> String {
+    static func toDateStringMedium(_ date : Date) -> String {
         
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateStyle = .MediumStyle
-        dateFormatter.timeStyle = .NoStyle
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .none
         
-        return dateFormatter.stringFromDate(date)
+        return dateFormatter.string(from: date)
     }
     
-    static func toTimeStringShort(date : NSDate) -> String {
+    static func toTimeStringShort(_ date : Date) -> String {
         
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateStyle = .NoStyle
-        dateFormatter.timeStyle = .ShortStyle
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .none
+        dateFormatter.timeStyle = .short
         
-        return dateFormatter.stringFromDate(date)
+        return dateFormatter.string(from: date)
     }
     
-    static func format(date : NSDate, format : String) -> String {
+    static func format(_ date : Date, format : String) -> String {
         
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = format
        
-        return dateFormatter.stringFromDate(date)
+        return dateFormatter.string(from: date)
     }
     
-    static func format(interval : NSTimeInterval, format : String) -> String {
+    static func format(_ interval : TimeInterval, format : String) -> String {
         
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = format
         
-        let date = NSDate(timeIntervalSinceReferenceDate: interval)
-        return dateFormatter.stringFromDate(date)
+        let date = Date(timeIntervalSinceReferenceDate: interval)
+        return dateFormatter.string(from: date)
     }
     
-    static func dateFromStringISO(dateString : String) -> NSDate? {
-        let dateFormatter = NSDateFormatter()
+    static func dateFromStringISO(_ dateString : String) -> Date? {
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSz"
-        return dateFormatter.dateFromString(dateString)
+        return dateFormatter.date(from: dateString)
     }
     
 }

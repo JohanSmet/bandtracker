@@ -47,7 +47,7 @@ class GigDetailsController :    UITableViewController,
     
     var editable            : Bool = false
     
-    private var keyboardFix     : KeyboardFix?
+    fileprivate var keyboardFix     : KeyboardFix?
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
@@ -78,32 +78,32 @@ class GigDetailsController :    UITableViewController,
     // class functions
     //
     
-    class func createNewGig(band : Band) -> GigDetailsController {
+    class func createNewGig(_ band : Band) -> GigDetailsController {
         let storyboard = UIStoryboard(name: "Gigs", bundle: nil)
         
-        let newVC = storyboard.instantiateViewControllerWithIdentifier("GigDetailsController") as! GigDetailsController
+        let newVC = storyboard.instantiateViewController(withIdentifier: "GigDetailsController") as! GigDetailsController
         newVC.editable  = true
-        newVC.gig       = Gig(band: newVC.scratchContext.objectWithID(band.objectID) as! Band, context: newVC.scratchContext)
+        newVC.gig       = Gig(band: newVC.scratchContext.object(with: band.objectID) as! Band, context: newVC.scratchContext)
         
         return newVC
     }
     
-    class func createNewGig(band : Band, tourDate : BandTrackerClient.TourDate) -> GigDetailsController {
+    class func createNewGig(_ band : Band, tourDate : BandTrackerClient.TourDate) -> GigDetailsController {
         let storyboard = UIStoryboard(name: "Gigs", bundle: nil)
         
-        let newVC = storyboard.instantiateViewControllerWithIdentifier("GigDetailsController") as! GigDetailsController
+        let newVC = storyboard.instantiateViewController(withIdentifier: "GigDetailsController") as! GigDetailsController
         newVC.editable  = true
-        newVC.gig       = dataContext().gigFromTourDate(newVC.scratchContext.objectWithID(band.objectID) as! Band, tourDate: tourDate, context: newVC.scratchContext)
+        newVC.gig       = dataContext().gigFromTourDate(newVC.scratchContext.object(with: band.objectID) as! Band, tourDate: tourDate, context: newVC.scratchContext)
         
         return newVC
     }
     
-    class func displayGig(gig : Gig) -> GigDetailsController {
+    class func displayGig(_ gig : Gig) -> GigDetailsController {
         let storyboard = UIStoryboard(name: "Gigs", bundle: nil)
         
-        let newVC = storyboard.instantiateViewControllerWithIdentifier("GigDetailsController") as! GigDetailsController
+        let newVC = storyboard.instantiateViewController(withIdentifier: "GigDetailsController") as! GigDetailsController
         newVC.editable  = false
-        newVC.gig  = newVC.scratchContext.objectWithID(gig.objectID) as! Gig
+        newVC.gig  = newVC.scratchContext.object(with: gig.objectID) as! Gig
         newVC.gig = gig
         
         return newVC
@@ -128,9 +128,9 @@ class GigDetailsController :    UITableViewController,
         textComments.delegate   = self
         ratingControl.delegate  = self
         
-        textStage.enabled       = editable
-        textComments.enabled    = editable
-        ratingControl.enabled   = editable
+        textStage.isEnabled       = editable
+        textComments.isEnabled    = editable
+        ratingControl.isEnabled   = editable
         
         // initialize gig-record
         gig.prepareForEdit()
@@ -141,7 +141,7 @@ class GigDetailsController :    UITableViewController,
         keyboardFix = KeyboardFix(viewController: self)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         setUIFields()
@@ -152,7 +152,7 @@ class GigDetailsController :    UITableViewController,
         }
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         if let keyboardFix = self.keyboardFix {
@@ -167,18 +167,18 @@ class GigDetailsController :    UITableViewController,
     
     func saveGig() {
         if let gig = gig {
-            gig.supportAct = switchSupportAct.on
+            gig.supportAct = switchSupportAct.isOn
             gig.processEdit()
             
             coreDataStackManager().saveChildContext(scratchContext)
             coreDataStackManager().saveContext()
             
-            gig.band.totalRating = dataContext().totalRatingOfGigs(gig.band)
-            gig.band.avgRating   = gig.band.rating()
+            gig.band.totalRating = NSNumber(value: dataContext().totalRatingOfGigs(gig.band))
+            gig.band.avgRating   = NSNumber(value: gig.band.rating())
             coreDataStackManager().saveChildContext(scratchContext)
             coreDataStackManager().saveContext()
             
-            navigationController?.popViewControllerAnimated(true)
+            navigationController?.popViewController(animated: true)
         }
     }
     
@@ -187,13 +187,13 @@ class GigDetailsController :    UITableViewController,
         createNavigationButtons()
     }
     
-    @IBAction func pickStartChanged(sender: UIDatePicker) {
+    @IBAction func pickStartChanged(_ sender: UIDatePicker) {
         gig.startDate = DateUtils.join(startDatePicker.date, time: startTimePicker.date)
         updateStartLabels()
         validateForm()
     }
     
-    @IBAction func pickDurationChanged(sender: TimeIntervalPicker) {
+    @IBAction func pickDurationChanged(_ sender: TimeIntervalPicker) {
         gig.endDate = DateUtils.add(gig.startDate, interval: durationPicker.timeInterval)
         updateEndLabels()
         validateForm()
@@ -204,11 +204,11 @@ class GigDetailsController :    UITableViewController,
     // UITextFieldDelegate
     //
     
-    func textFieldDidBeginEditing(textField: UITextField) {
-        tableView.scrollRectToVisible(textField.convertRect(textField.frame, toView: tableView), animated: true)
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        tableView.scrollRectToVisible(textField.convert(textField.frame, to: tableView), animated: true)
     }
     
-    func textFieldDidEndEditing(textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         
         if textField == textCountry {
             gig.editCountry = textField.text!
@@ -230,8 +230,8 @@ class GigDetailsController :    UITableViewController,
     // RatingControlDelegate
     //
     
-    func ratingDidChange(ratingControl: RatingControl, newRating: Float, oldRating: Float) {
-        gig.rating = Int(newRating * 10)
+    func ratingDidChange(_ ratingControl: RatingControl, newRating: Float, oldRating: Float) {
+        gig.rating = NSNumber(value: Int(newRating * 10))
         validateForm()
     }
     
@@ -240,10 +240,10 @@ class GigDetailsController :    UITableViewController,
     // UITableViewDelegate
     //
     
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         if indexPath.section == SECTION_DATES {
-            if let index = datePickerRows.indexOf(indexPath.row) {
+            if let index = datePickerRows.index(of: indexPath.row) {
                 return self.datePickerEditing[index] ? datePickerHeight : 0
             }
         } else if indexPath.section == SECTION_LINKS && editable {
@@ -253,24 +253,24 @@ class GigDetailsController :    UITableViewController,
         return self.tableView.rowHeight
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         var doReload = false
         
         if !editable && indexPath.section != SECTION_LINKS {
-            tableView.deselectRowAtIndexPath(indexPath, animated: false)
+            tableView.deselectRow(at: indexPath, animated: false)
             return
         }
         
         if indexPath.section == SECTION_DATES {
-            if let index = datePickerRows.indexOf(indexPath.row + 1) {
+            if let index = datePickerRows.index(of: indexPath.row + 1) {
                 togglePicker(index)
-                tableView.deselectRowAtIndexPath(indexPath, animated: true)
+                tableView.deselectRow(at: indexPath, animated: true)
                 doReload = true
             }
         }
         else if indexPath.section == SECTION_META && indexPath.row == ROW_COUNTRY {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
             
             let countrySelect = ListSelectionController.create(CountrySelectionDelegate(initialFilter: gig.editCountry) { name in
                 self.gig.editCountry = name
@@ -279,7 +279,7 @@ class GigDetailsController :    UITableViewController,
             
             navigationController?.pushViewController(countrySelect, animated: true)
         } else if indexPath.section == SECTION_META && indexPath.row == ROW_CITY {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
             
             let citySelect = ListSelectionController.create(CitySelectionDelegate(initialFilter: gig.editCity, countryCode: gig.country.code) { name in
                 self.gig.editCity = name
@@ -287,7 +287,7 @@ class GigDetailsController :    UITableViewController,
             
             navigationController?.pushViewController(citySelect, animated: true)
         } else if indexPath.section == SECTION_META && indexPath.row == ROW_VENUE {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
             
             let venueSelect = ListSelectionController.create(VenueSelectionDelegate(initialFilter: gig.editVenue, countryCode: gig.country.code, city: gig.editCity) { name in
                 self.gig.editVenue = name
@@ -295,12 +295,12 @@ class GigDetailsController :    UITableViewController,
             
             navigationController?.pushViewController(venueSelect, animated: true)
         } else if indexPath.section == SECTION_LINKS && indexPath.row == ROW_SETLIST {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
          
             let vc = GigDetailsSetlistController.create(gig)
             navigationController?.pushViewController(vc, animated: true)
         } else if indexPath.section == SECTION_LINKS && indexPath.row == ROW_YOUTUBE {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
          
             let vc = GigDetailsYoutubeController.create(gig)
             navigationController?.pushViewController(vc, animated: true)
@@ -319,18 +319,18 @@ class GigDetailsController :    UITableViewController,
     
     func createNavigationButtons() {
         if editable {
-            let buttonSave = UIBarButtonItem(title: NSLocalizedString("conSave", comment: "Save"), style: .Plain, target: self, action: "saveGig")
+            let buttonSave = UIBarButtonItem(title: NSLocalizedString("conSave", comment: "Save"), style: .plain, target: self, action: #selector(GigDetailsController.saveGig))
             self.navigationItem.setRightBarButtonItems([buttonSave], animated: false)
             validateForm()
         } else {
-            let buttonEdit = UIBarButtonItem(title: NSLocalizedString("conEdit", comment: "Edit"), style: .Plain, target: self, action: "editGig")
+            let buttonEdit = UIBarButtonItem(title: NSLocalizedString("conEdit", comment: "Edit"), style: .plain, target: self, action: #selector(GigDetailsController.editGig))
             self.navigationItem.setRightBarButtonItems([buttonEdit], animated: false)
         }
     }
     
-    private func setUIFields() {
-        startDatePicker.date = gig.startDate
-        startTimePicker.date = gig.startDate
+    fileprivate func setUIFields() {
+        startDatePicker.date = gig.startDate as Date
+        startTimePicker.date = gig.startDate as Date
         updateStartLabels()
         
         durationPicker.timeInterval = DateUtils.diff(gig.endDate, dateBegin: gig.startDate)
@@ -343,21 +343,21 @@ class GigDetailsController :    UITableViewController,
         
         ratingControl.rating = gig.rating.floatValue / 10
         
-        switchSupportAct.on = gig.supportAct
+        switchSupportAct.isOn = gig.supportAct
         
         if let flag = gig.country.flag {
-            countryImage.image = UIImage(data: flag)
+            countryImage.image = UIImage(data: flag as Data)
         }
         
         validateForm()
     }
     
-    private func updateStartLabels() {
+    fileprivate func updateStartLabels() {
         dateLabels[START_DATE].text = DateUtils.toDateStringMedium(gig.startDate)
         dateLabels[START_TIME].text = DateUtils.toTimeStringShort(gig.startDate)
     }
     
-    private func updateEndLabels() {
+    fileprivate func updateEndLabels() {
         if durationPicker.timeInterval > 0 {
             dateLabels[DURATION].text = durationPicker.formattedString
         } else {
@@ -365,18 +365,18 @@ class GigDetailsController :    UITableViewController,
         }
     }
     
-    private func togglePicker(picker : Int) {
+    fileprivate func togglePicker(_ picker : Int) {
         
-        for var idx = 0; idx < datePickerEditing.count; ++idx {
+        for idx in 0 ..< datePickerEditing.count {
             datePickerEditing[idx]  = (picker == idx) ? !datePickerEditing[idx] : false
             
-            datePickers[idx].hidden     = !datePickerEditing[idx]
-            dateLabels[idx].textColor   = datePickerEditing[idx] ? UIColor.redColor() : UIColor.blackColor()
+            datePickers[idx].isHidden     = !datePickerEditing[idx]
+            dateLabels[idx].textColor   = datePickerEditing[idx] ? UIColor.red : UIColor.black
         }
         
     }
     
-    private func validateForm() {
+    fileprivate func validateForm() {
          var isValid : Bool = true
         
         // country moet ingevuld zijn
@@ -384,14 +384,14 @@ class GigDetailsController :    UITableViewController,
             isValid = false
         }
      
-        navigationItem.rightBarButtonItem?.enabled = isValid
+        navigationItem.rightBarButtonItem?.isEnabled = isValid
     }
     
-    private func setEditable(editable : Bool) {
+    fileprivate func setEditable(_ editable : Bool) {
         self.editable = editable
-        textStage.enabled       = editable
-        textComments.enabled    = editable
-        ratingControl.enabled   = editable
+        textStage.isEnabled       = editable
+        textComments.isEnabled    = editable
+        ratingControl.isEnabled   = editable
         self.tableView.reloadData()
     }
     

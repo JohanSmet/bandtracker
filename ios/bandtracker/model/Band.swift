@@ -32,15 +32,15 @@ class Band : NSManagedObject {
     // initialisers
     //
     
-    override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
-        super.init(entity: entity, insertIntoManagedObjectContext: context)
+    override init(entity: NSEntityDescription, insertInto context: NSManagedObjectContext?) {
+        super.init(entity: entity, insertInto: context)
     }
     
     init(bandTemplate : BandTrackerClient.Band, context: NSManagedObjectContext) {
         
         // Core Data
-        let entity =  NSEntityDescription.entityForName("Band", inManagedObjectContext: context)!
-        super.init(entity: entity, insertIntoManagedObjectContext: context)
+        let entity =  NSEntityDescription.entity(forEntityName: "Band", in: context)!
+        super.init(entity: entity, insertInto: context)
         
         // properties
         bandMBID    = bandTemplate.MBID

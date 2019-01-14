@@ -22,17 +22,17 @@ class DataContext {
             try deleteResults(NSFetchRequest(entityName: "Band"))
             try deleteResults(NSFetchRequest(entityName: "Venue"))
             try deleteResults(NSFetchRequest(entityName: "City"))
-            coreDataStackManager().saveContext()
+            self.saveContext()
         } catch let error as NSError {
             NSLog("Unresolved error \(error), \(error.userInfo)")
         }
     }
     
-    func deleteResults(fetchRequest : NSFetchRequest) throws {
+    func deleteResults(_ fetchRequest : NSFetchRequest<NSFetchRequestResult>) throws {
         guard let context = coreDataStackManager().managedObjectContext else { return }
         
-        for obj in try context.executeFetchRequest(fetchRequest) {
-            context.deleteObject(obj as! NSManagedObject)
+        for obj in try context.fetch(fetchRequest) {
+            context.delete(obj as! NSManagedObject)
         }
     }
     
@@ -41,42 +41,42 @@ class DataContext {
     // band management
     //
     
-    func createBand(bandTemplate : BandTrackerClient.Band) -> Band {
+    func createBand(_ bandTemplate : BandTrackerClient.Band) -> Band {
         // create band
         let band = Band(bandTemplate: bandTemplate, context: coreDataStackManager().managedObjectContext!)
         
         // save all changes
-        coreDataStackManager().saveContext()
+        self.saveContext()
         
         // fetch extra data
         fanartTvClient().getBandFanart(band.bandMBID) { fanart, error in
             if let fanart = fanart {
                 band.fanartThumbUrl = fanart.bandThumbnailUrl
                 band.fanartLogoUrl  = fanart.bandLogoUrl
-                coreDataStackManager().saveContext()
+                self.saveContext()
             } else {
                 band.fanartThumbUrl = band.imageUrl;
-                coreDataStackManager().saveContext()
+                self.saveContext()
             }
         }
         
         return band
     }
     
-    func deleteBand(band : Band) {
-        coreDataStackManager().managedObjectContext?.deleteObject(band)
-        coreDataStackManager().saveContext()
+    func deleteBand(_ band : Band) {
+        coreDataStackManager().managedObjectContext?.delete(band)
+        saveContext()
     }
     
-    func bandList(nameFilter : String) -> [Band] {
-        let fetchRequest = NSFetchRequest(entityName: "Band")
+    func bandList(_ nameFilter : String) -> [Band] {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Band")
         if nameFilter.characters.count > 0 {
             fetchRequest.predicate       = NSPredicate(format: "name CONTAINS[cd] %@", nameFilter)
         }
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         
         do {
-            return try coreDataStackManager().managedObjectContext!.executeFetchRequest(fetchRequest) as! [Band]
+            return try coreDataStackManager().managedObjectContext!.fetch(fetchRequest) as! [Band]
         } catch let error as NSError {
             NSLog("Unresolved error \(error), \(error.userInfo)")
             return []
@@ -88,12 +88,12 @@ class DataContext {
     // gig management
     //
     
-    func deleteGig(gig : Gig) {
-        coreDataStackManager().managedObjectContext?.deleteObject(gig)
-        coreDataStackManager().saveContext()
+    func deleteGig(_ gig : Gig) {
+        coreDataStackManager().managedObjectContext?.delete(gig)
+        self.saveContext()
     }
     
-    func gigFromTourDate(band : Band, tourDate : BandTrackerClient.TourDate, context : NSManagedObjectContext = coreDataStackManager().managedObjectContext!) -> Gig {
+    func gigFromTourDate(_ band : Band, tourDate : BandTrackerClient.TourDate, context : NSManagedObjectContext = coreDataStackManager().managedObjectContext!) -> Gig {
         
         let gig = Gig(band: band, context: context)
         gig.startDate   = DateUtils.stripTime(tourDate.startDate)
@@ -107,14 +107,14 @@ class DataContext {
         return gig
     }
     
-    func gigTourDatePresent(band : Band, tourDate : BandTrackerClient.TourDate) -> Bool {
+    func gigTourDatePresent(_ band : Band, tourDate : BandTrackerClient.TourDate) -> Bool {
         
-        let fetchRequest = NSFetchRequest(entityName: "Gig")
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Gig")
         fetchRequest.predicate      = NSPredicate(format: "band.bandMBID == %@ && startDate == %@ && country.code == %@ && city.name == %@",
-                                                    band.bandMBID, DateUtils.stripTime(tourDate.startDate), tourDate.countryCode, tourDate.city);
+                                                    band.bandMBID, DateUtils.stripTime(tourDate.startDate) as CVarArg, tourDate.countryCode, tourDate.city);
         
         do {
-            if let results = try coreDataStackManager().managedObjectContext?.executeFetchRequest(fetchRequest) {
+            if let results = try coreDataStackManager().managedObjectContext?.fetch(fetchRequest) {
                 if !results.isEmpty {
                     return true
                 }
@@ -126,20 +126,20 @@ class DataContext {
         return false
     }
     
-    func totalRatingOfGigs(band : Band) -> Int {
+    func totalRatingOfGigs(_ band : Band) -> Int {
         
         let sumExpDesc = NSExpressionDescription()
         sumExpDesc.name = "sumRating"
         sumExpDesc.expression = NSExpression(forFunction: "sum:", arguments: [NSExpression(forKeyPath: "rating")])
-        sumExpDesc.expressionResultType = .Integer32AttributeType
+        sumExpDesc.expressionResultType = .integer32AttributeType
         
-        let fetchRequest = NSFetchRequest(entityName: "Gig")
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Gig")
         fetchRequest.predicate      = NSPredicate(format: "band.bandMBID == %@", band.bandMBID)
-        fetchRequest.resultType     = .DictionaryResultType
+        fetchRequest.resultType     = .dictionaryResultType
         fetchRequest.propertiesToFetch = [sumExpDesc]
         
         do {
-            if let results = try coreDataStackManager().managedObjectContext?.executeFetchRequest(fetchRequest) {
+            if let results = try coreDataStackManager().managedObjectContext?.fetch(fetchRequest) {
                 let dict = results[0] as! [String : Int]
                 return dict["sumRating"]!
             }
@@ -155,22 +155,23 @@ class DataContext {
         let countExpDesc = NSExpressionDescription()
         countExpDesc.name = "count"
         countExpDesc.expression = NSExpression(forFunction: "count:", arguments: [NSExpression(forKeyPath: "startDate")])
-        countExpDesc.expressionResultType = .Integer32AttributeType
+        countExpDesc.expressionResultType = .integer32AttributeType
         
-        let fetchRequest = NSFetchRequest(entityName: "Gig")
-        fetchRequest.resultType         = .DictionaryResultType
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Gig")
+        fetchRequest.resultType         = .dictionaryResultType
         fetchRequest.propertiesToFetch  = ["country", countExpDesc]
         fetchRequest.propertiesToGroupBy = ["country"]
+        
+        let sort = NSSortDescriptor	(key: "country", ascending: false)
+        fetchRequest.sortDescriptors = [sort]
         
         var topCountries : [Country] = []
         
         do {
-            if let results = try coreDataStackManager().managedObjectContext?.executeFetchRequest(fetchRequest) {
-                let ordered = results.sort({$0["count"] as! Int > $1["count"] as! Int})
-                
-                for result in ordered {
+            if let results = try coreDataStackManager().managedObjectContext?.fetch(fetchRequest) {
+                for result in results {
                     let objectId = (result as! NSDictionary)["country"] as! NSManagedObjectID
-                    topCountries.append(coreDataStackManager().managedObjectContext?.objectWithID(objectId) as! Country)
+                    topCountries.append(coreDataStackManager().managedObjectContext?.object(with: objectId) as! Country)
                 }
             }
         } catch let error as NSError {
@@ -187,11 +188,11 @@ class DataContext {
     
     func countryDictionary() -> [String : Country] {
         
-        let fetchRequest = NSFetchRequest(entityName: "Country")
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Country")
         var results : [String : Country] = [:]
         
         do {
-            for country in try coreDataStackManager().managedObjectContext!.executeFetchRequest(fetchRequest) as! [Country] {
+            for country in try coreDataStackManager().managedObjectContext!.fetch(fetchRequest) as! [Country] {
                 results[country.code] = country
             }
         } catch let error as NSError {
@@ -201,13 +202,13 @@ class DataContext {
         return results
     }
     
-    func countryByCode(countryCode : String, context : NSManagedObjectContext = coreDataStackManager().managedObjectContext!) -> Country {
+    func countryByCode(_ countryCode : String, context : NSManagedObjectContext = coreDataStackManager().managedObjectContext!) -> Country {
         // try to fetch an existing record
-        let fetchRequest        = NSFetchRequest(entityName: "Country")
+        let fetchRequest        = NSFetchRequest<NSFetchRequestResult>(entityName: "Country")
         fetchRequest.predicate  = NSPredicate(format: "code == %@", countryCode)
         
         do {
-            let results = try context.executeFetchRequest(fetchRequest) as! [Country]
+            let results = try context.fetch(fetchRequest) as! [Country]
             
             if results.count > 0 {
                 return results[0]
@@ -222,14 +223,14 @@ class DataContext {
         return country
     }
     
-    func countryByName(countryName : String, context : NSManagedObjectContext = coreDataStackManager().managedObjectContext!) -> Country {
+    func countryByName(_ countryName : String, context : NSManagedObjectContext = coreDataStackManager().managedObjectContext!) -> Country {
         
         // try to fetch an existing record
-        let fetchRequest        = NSFetchRequest(entityName: "Country")
+        let fetchRequest        = NSFetchRequest<NSFetchRequestResult>(entityName: "Country")
         fetchRequest.predicate  = NSPredicate(format: "name == %@", countryName)
         
         do {
-            let results = try context.executeFetchRequest(fetchRequest) as! [Country]
+            let results = try context.fetch(fetchRequest) as! [Country]
            
             if results.count > 0 {
                 return results[0]
@@ -244,14 +245,14 @@ class DataContext {
         return country
     }
     
-    func countryList(nameFilter : String) -> [Country] {
+    func countryList(_ nameFilter : String) -> [Country] {
         
-        let fetchRequest = NSFetchRequest(entityName: "Country")
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Country")
         fetchRequest.predicate       = NSPredicate(format: "name CONTAINS[cd] %@", nameFilter)
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         
         do {
-            return try coreDataStackManager().managedObjectContext!.executeFetchRequest(fetchRequest) as! [Country]
+            return try coreDataStackManager().managedObjectContext!.fetch(fetchRequest) as! [Country]
         } catch let error as NSError {
             NSLog("Unresolved error \(error), \(error.userInfo)")
             return []
@@ -264,18 +265,18 @@ class DataContext {
     // city
     //
     
-    func cityByName(cityName : String, context : NSManagedObjectContext = coreDataStackManager().managedObjectContext!) -> City? {
+    func cityByName(_ cityName : String, context : NSManagedObjectContext = coreDataStackManager().managedObjectContext!) -> City? {
         
         if cityName.characters.count <= 0 {
             return nil
         }
         
         // try to fetch an existing record
-        let fetchRequest        = NSFetchRequest(entityName: "City")
+        let fetchRequest        = NSFetchRequest<NSFetchRequestResult>(entityName: "City")
         fetchRequest.predicate  = NSPredicate(format: "name == %@", cityName)
         
         do {
-            let results = try context.executeFetchRequest(fetchRequest) as! [City]
+            let results = try context.fetch(fetchRequest) as! [City]
             
             if results.count > 0 {
                 return results[0]
@@ -289,13 +290,13 @@ class DataContext {
         return City(name: cityName, longitude: 0, latitude: 0, context: context)
     }
     
-    func cityList(nameFilter : String) -> [City] {
-        let fetchRequest        = NSFetchRequest(entityName: "City")
+    func cityList(_ nameFilter : String) -> [City] {
+        let fetchRequest        = NSFetchRequest<NSFetchRequestResult>(entityName: "City")
         fetchRequest.predicate  = NSPredicate(format: "name CONTAINS[cd] %@", nameFilter)
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         
         do {
-            return try coreDataStackManager().managedObjectContext!.executeFetchRequest(fetchRequest) as! [City]
+            return try coreDataStackManager().managedObjectContext!.fetch(fetchRequest) as! [City]
         } catch let error as NSError {
             NSLog("Unresolved error \(error), \(error.userInfo)")
             return []
@@ -307,18 +308,18 @@ class DataContext {
     // venue
     //
     
-    func venueByName(venueName : String, context : NSManagedObjectContext = coreDataStackManager().managedObjectContext!) -> Venue? {
+    func venueByName(_ venueName : String, context : NSManagedObjectContext = coreDataStackManager().managedObjectContext!) -> Venue? {
         
         if venueName.characters.count <= 0 {
             return nil
         }
         
         // try to fetch an existing record
-        let fetchRequest        = NSFetchRequest(entityName: "Venue")
+        let fetchRequest        = NSFetchRequest<NSFetchRequestResult>(entityName: "Venue")
         fetchRequest.predicate  = NSPredicate(format: "name == %@", venueName)
         
         do {
-            let results = try context.executeFetchRequest(fetchRequest) as! [Venue]
+            let results = try context.fetch(fetchRequest) as! [Venue]
             
             if results.count > 0 {
                 return results[0]
@@ -332,16 +333,28 @@ class DataContext {
         return Venue(name: venueName, longitude: 0, latitude: 0, context: context)
     }
     
-    func venueList(nameFilter : String) -> [Venue] {
-        let fetchRequest        = NSFetchRequest(entityName: "Venue")
+    func venueList(_ nameFilter : String) -> [Venue] {
+        let fetchRequest        = NSFetchRequest<NSFetchRequestResult>(entityName: "Venue")
         fetchRequest.predicate  = NSPredicate(format: "name CONTAINS[cd] %@", nameFilter)
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         
         do {
-            return try coreDataStackManager().managedObjectContext!.executeFetchRequest(fetchRequest) as! [Venue]
+            return try coreDataStackManager().managedObjectContext!.fetch(fetchRequest) as! [Venue]
         } catch let error as NSError {
             NSLog("Unresolved error \(error), \(error.userInfo)")
             return []
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////
+    //
+    // helper functions
+    //
+
+    
+    private func saveContext() {
+        if !coreDataStackManager().saveContext() {
+            NSLog("Error saving context")
         }
     }
     

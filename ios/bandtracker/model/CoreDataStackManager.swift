@@ -17,32 +17,32 @@ class CoreDataStackManager {
     lazy var managedObjectContext: NSManagedObjectContext? = {
         
         // create the managed object model
-        let modelURL = NSBundle.mainBundle().URLForResource(MODEL_NAME, withExtension: "momd")!
-        let model    = NSManagedObjectModel(contentsOfURL: modelURL)!
+        let modelURL = Bundle.main.url(forResource: MODEL_NAME, withExtension: "momd")!
+        let model    = NSManagedObjectModel(contentsOf: modelURL)!
         
         // create the coordinator with the model
         let coordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
         
         // build the path to the database file
-        let fileManager = NSFileManager.defaultManager()
-        let urls = fileManager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
-        let storeUrl = urls.first!.URLByAppendingPathComponent(SQLITE_FILE_NAME)
+        let fileManager = FileManager.default
+        let urls = fileManager.urls(for: .documentDirectory, in: .userDomainMask)
+        let storeUrl = urls.first!.appendingPathComponent(SQLITE_FILE_NAME)
         
         
         do {
             
             // deploy pre-populated database on first run
-            if !storeUrl.checkResourceIsReachableAndReturnError(nil) {
-                if let bundleUrl = NSBundle.mainBundle().URLForResource(MODEL_NAME, withExtension: "sqlite") {
-                    try fileManager.copyItemAtURL(bundleUrl, toURL: storeUrl)
+            if !(storeUrl as NSURL).checkResourceIsReachableAndReturnError(nil) {
+                if let bundleUrl = Bundle.main.url(forResource: MODEL_NAME, withExtension: "sqlite") {
+                    try fileManager.copyItem(at: bundleUrl, to: storeUrl)
                 }
             }
             
             // create the persistent store
-            try coordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: storeUrl, options: nil)
+            try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeUrl, options: nil)
             
             // finally, create the managed object context
-            var managedObjectContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
+            var managedObjectContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
             managedObjectContext.persistentStoreCoordinator = coordinator
             
             return managedObjectContext
@@ -55,8 +55,8 @@ class CoreDataStackManager {
     }()
     
     func childObjectContext() -> NSManagedObjectContext {
-        let context = NSManagedObjectContext(concurrencyType: .PrivateQueueConcurrencyType)
-        context.parentContext = managedObjectContext
+        let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        context.parent = managedObjectContext
         return context
     }
     
@@ -79,7 +79,7 @@ class CoreDataStackManager {
         }
     }
     
-    func saveChildContext(childContext : NSManagedObjectContext) -> Bool {
+    func saveChildContext(_ childContext : NSManagedObjectContext) -> Bool {
         do {
             try childContext.save()
             return true

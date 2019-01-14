@@ -11,31 +11,31 @@ import UIKit
 
 class TableViewUtils {
     
-    class func messageEmptyTable(tableView: UITableView, isEmpty : Bool, message : String)  {
+    class func messageEmptyTable(_ tableView: UITableView, isEmpty : Bool, message : String)  {
         
         if isEmpty {
             
-            let msgLabel = UILabel(frame: CGRectMake(16, 20, tableView.bounds.width - 32, 20))
+            let msgLabel = UILabel(frame: CGRect(x: 16, y: 20, width: tableView.bounds.width - 32, height: 20))
             
             msgLabel.text = message
-            msgLabel.textColor = UIColor.grayColor()
+            msgLabel.textColor = UIColor.gray
             msgLabel.numberOfLines = 0
-            msgLabel.textAlignment = .Center
+            msgLabel.textAlignment = .center
             msgLabel.font = UIFont(name: "Lato", size: 20)
-            msgLabel.lineBreakMode = .ByWordWrapping
+            msgLabel.lineBreakMode = .byWordWrapping
             msgLabel.sizeToFit()
             msgLabel.frame.origin.x = (tableView.bounds.width - msgLabel.bounds.width) / 2
             
-            let msgView = UIView(frame: CGRectMake(0, 0, tableView.bounds.width, tableView.bounds.height))
+            let msgView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: tableView.bounds.height))
             msgView.addSubview(msgLabel)
             
             
             tableView.backgroundView = msgView
-            tableView.separatorStyle = .None;
+            tableView.separatorStyle = .none;
             
         } else {
             tableView.backgroundView = nil
-            tableView.separatorStyle = .SingleLine
+            tableView.separatorStyle = .singleLine
         }
         
     }

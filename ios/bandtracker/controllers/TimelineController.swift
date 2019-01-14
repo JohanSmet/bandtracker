@@ -18,8 +18,8 @@ class TimelineController:   UITableViewController,
     // variables
     //
     
-    lazy var fetchedResultsController: NSFetchedResultsController = {
-        let fetchRequest = NSFetchRequest(entityName: "Gig")
+    lazy var fetchedResultsController: NSFetchedResultsController = { () -> NSFetchedResultsController<NSFetchRequestResult> in 
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Gig")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "startDate", ascending:false)]
         
         let fetchedResultsController = NSFetchedResultsController (
@@ -45,7 +45,7 @@ class TimelineController:   UITableViewController,
         keyboardFix = KeyboardFix(viewController: self)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // handle keyboard properly
@@ -54,7 +54,7 @@ class TimelineController:   UITableViewController,
         }
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         if let keyboardFix = self.keyboardFix {
@@ -67,30 +67,30 @@ class TimelineController:   UITableViewController,
     // UITableViewDataSource
     //
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return self.fetchedResultsController.sections?.count ?? 0
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let sectionInfo = fetchedResultsController.sections![section]
         return sectionInfo.numberOfObjects
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("TimelineCell", forIndexPath: indexPath)  as! TimelineTableViewCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TimelineCell", for: indexPath)  as! TimelineTableViewCell
         configureCell(cell, indexPath: indexPath)
         return cell
     }
     
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         let theSection = self.fetchedResultsController.sections![section]
         let firstGig = theSection.objects![0] as! Gig
         return "\(firstGig.year)"
     }
     
-    private func configureCell(cell : TimelineTableViewCell?, indexPath : NSIndexPath) {
+    fileprivate func configureCell(_ cell : TimelineTableViewCell?, indexPath : IndexPath) {
         guard let cell = cell else { return }
-        guard let gig = fetchedResultsController.objectAtIndexPath(indexPath) as? Gig else { return }
+        guard let gig = fetchedResultsController.object(at: indexPath) as? Gig else { return }
         cell.setFields(gig)
     }
     
@@ -99,10 +99,10 @@ class TimelineController:   UITableViewController,
     // UITableViewDelegate
     //
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         
-        let gig     = fetchedResultsController.objectAtIndexPath(indexPath) as! Gig
+        let gig     = fetchedResultsController.object(at: indexPath) as! Gig
         let newVC   = GigDetailsController.displayGig(gig)
         navigationController?.pushViewController(newVC, animated: true)
     }
@@ -112,39 +112,39 @@ class TimelineController:   UITableViewController,
     // NSFetchedResultsControllerDelegate
     //
     
-    func controllerWillChangeContent(controller: NSFetchedResultsController) {
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
     }
     
-    func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?,
-                    forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?,
+                    for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
        switch (type) {
-            case .Insert :
+            case .insert :
                 if indexPath == nil {       // Swift 2.0 BUG with running 8.4
-                    tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
+                    tableView.insertRows(at: [newIndexPath!], with: .fade)
                 }
-            case .Delete :
-                tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
-            case .Update :
-                configureCell(tableView.cellForRowAtIndexPath(indexPath!) as? TimelineTableViewCell, indexPath: indexPath!)
-            case .Move :
-                tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
-                tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
+            case .delete :
+                tableView.deleteRows(at: [indexPath!], with: .fade)
+            case .update :
+                configureCell(tableView.cellForRow(at: indexPath!) as? TimelineTableViewCell, indexPath: indexPath!)
+            case .move :
+                tableView.deleteRows(at: [indexPath!], with: .fade)
+                tableView.insertRows(at: [newIndexPath!], with: .fade)
             }
     }
     
-    func controller(controller: NSFetchedResultsController, didChangeSection sectionInfo: NSFetchedResultsSectionInfo, atIndex sectionIndex: Int, forChangeType type: NSFetchedResultsChangeType) {
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
         switch (type) {
-            case .Insert :
-                tableView.insertSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
-            case .Delete :
-                tableView.deleteSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
-            default :
-                false
+            case .insert :
+                tableView.insertSections(IndexSet(integer: sectionIndex), with: .fade)
+            case .delete :
+                tableView.deleteSections(IndexSet(integer: sectionIndex), with: .fade)
+            default:
+                let _ = false
         }
     }
     
-    func controllerDidChangeContent(controller: NSFetchedResultsController) {
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()
     }
     
@@ -153,7 +153,7 @@ class TimelineController:   UITableViewController,
     // MainTabSheet
     //
     
-    func updateSearchResults(searchText : String) {
+    func updateSearchResults(_ searchText : String) {
         // update the predicate to correspond to the filter string
         if searchText.characters.count > 0 {
             fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "band.name CONTAINS[cd] %@", searchText)

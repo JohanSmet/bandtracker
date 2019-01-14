@@ -17,7 +17,7 @@ class WebApiClient {
     //
     
     // shared session
-    var urlSession : NSURLSession
+    var urlSession : URLSession
     var dataOffset : Int = 0
     
     static var runningTasks = 0
@@ -28,11 +28,11 @@ class WebApiClient {
     //
     
     init() {
-        self.urlSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+        self.urlSession = URLSession(configuration: URLSessionConfiguration.default)
     }
     
     init(dataOffset : Int) {
-        self.urlSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+        self.urlSession = URLSession(configuration: URLSessionConfiguration.default)
         self.dataOffset = dataOffset
     }
     
@@ -42,14 +42,14 @@ class WebApiClient {
     // wrappers for GET-request
     //
     
-    func startTaskGET(serverURL: String, method: String, parameters : [String : AnyObject], completionHandler: (result: AnyObject!, error: AnyObject?) -> Void) -> NSURLSessionDataTask? {
+    func startTaskGET(_ serverURL: String, method: String, parameters : [String : AnyObject], completionHandler: @escaping (_ result: AnyObject?, _ error: AnyObject?) -> Void) -> URLSessionDataTask? {
         return startTaskHTTP("GET", serverURL: serverURL, apiMethod: method,
                              parameters: parameters, extraHeaders: [:], jsonBody: nil,
                              completionHandler: completionHandler)
     }
     
-    func startTaskGET(serverURL: String, method: String, parameters : [String : AnyObject], extraHeaders : [String : String],
-                      completionHandler: (result: AnyObject!, error: AnyObject?) -> Void) -> NSURLSessionDataTask? {
+    func startTaskGET(_ serverURL: String, method: String, parameters : [String : AnyObject], extraHeaders : [String : String],
+                      completionHandler: @escaping (_ result: AnyObject?, _ error: AnyObject?) -> Void) -> URLSessionDataTask? {
         return startTaskHTTP("GET", serverURL: serverURL, apiMethod: method,
                              parameters: parameters, extraHeaders: extraHeaders, jsonBody: nil,
                              completionHandler: completionHandler)
@@ -60,15 +60,15 @@ class WebApiClient {
     // wrapper for POST-request
     //
     
-    func startTaskPOST(serverURL: String, method: String, parameters : [String : AnyObject], jsonBody: AnyObject,
-                       completionHandler: (result: AnyObject!, error: AnyObject?) -> Void) -> NSURLSessionDataTask? {
+    func startTaskPOST(_ serverURL: String, method: String, parameters : [String : AnyObject], jsonBody: AnyObject,
+                       completionHandler: @escaping (_ result: AnyObject?, _ error: AnyObject?) -> Void) -> URLSessionDataTask? {
         return startTaskHTTP("POST", serverURL: serverURL, apiMethod: method,
                              parameters: parameters, extraHeaders: [:], jsonBody: jsonBody,
                              completionHandler: completionHandler)
     }
 
-    func startTaskPOST(serverURL: String, method: String, parameters : [String : AnyObject], extraHeaders: [String : String], jsonBody: AnyObject,
-                       completionHandler: (result: AnyObject!, error: AnyObject?) -> Void) -> NSURLSessionDataTask? {
+    func startTaskPOST(_ serverURL: String, method: String, parameters : [String : AnyObject], extraHeaders: [String : String], jsonBody: AnyObject,
+                       completionHandler: @escaping (_ result: AnyObject?, _ error: AnyObject?) -> Void) -> URLSessionDataTask? {
         return startTaskHTTP("POST", serverURL: serverURL, apiMethod: method,
                              parameters: parameters, extraHeaders: extraHeaders, jsonBody: jsonBody,
                              completionHandler: completionHandler)
@@ -79,15 +79,15 @@ class WebApiClient {
     // wrapper for DELETE-request
     //
     
-    func startTaskDELETE(serverURL : String, apiMethod : String, parameters : [String : AnyObject],
-                         completionHandler: (result: AnyObject!, error: AnyObject?) -> Void) -> NSURLSessionDataTask? {
+    func startTaskDELETE(_ serverURL : String, apiMethod : String, parameters : [String : AnyObject],
+                         completionHandler: @escaping (_ result: AnyObject?, _ error: AnyObject?) -> Void) -> URLSessionDataTask? {
         return startTaskHTTP("DELETE", serverURL: serverURL, apiMethod: apiMethod,
                              parameters: parameters, extraHeaders: [:], jsonBody: nil,
                              completionHandler: completionHandler)
     }
     
-    func startTaskDELETE(serverURL : String, apiMethod : String, parameters : [String : AnyObject], extraHeaders: [String : String],
-                         completionHandler: (result: AnyObject!, error: AnyObject?) -> Void) -> NSURLSessionDataTask? {
+    func startTaskDELETE(_ serverURL : String, apiMethod : String, parameters : [String : AnyObject], extraHeaders: [String : String],
+                         completionHandler: @escaping (_ result: AnyObject?, _ error: AnyObject?) -> Void) -> URLSessionDataTask? {
         return startTaskHTTP("DELETE", serverURL: serverURL, apiMethod: apiMethod,
                              parameters: parameters, extraHeaders: extraHeaders, jsonBody: nil,
                              completionHandler: completionHandler)
@@ -98,15 +98,15 @@ class WebApiClient {
     // generic HTTP-request
     //
     
-    func startTaskHTTP(httpMethod : String, serverURL: String, apiMethod: String, parameters : [String : AnyObject], extraHeaders: [String : String], jsonBody: AnyObject?,
-        completionHandler: (result: AnyObject!, error: AnyObject?) -> Void) -> NSURLSessionDataTask? {
+    func startTaskHTTP(_ httpMethod : String, serverURL: String, apiMethod: String, parameters : [String : AnyObject], extraHeaders: [String : String], jsonBody: AnyObject?,
+        completionHandler: @escaping (_ result: AnyObject?, _ error: AnyObject?) -> Void) -> URLSessionDataTask? {
             
             // build the url
-            let url = NSURL(string: serverURL + apiMethod + WebApiClient.formatURLParameters(parameters))!
+            let url = URL(string: serverURL + apiMethod + WebApiClient.formatURLParameters(parameters))!
             
             // configure the request
-            let request = NSMutableURLRequest(URL: url)
-            request.HTTPMethod = httpMethod
+            var request = URLRequest(url: url)
+            request.httpMethod = httpMethod
            
             // headers
             request.addValue("application/json", forHTTPHeaderField: "Accept")
@@ -119,9 +119,9 @@ class WebApiClient {
             if let jsonBody: AnyObject = jsonBody {
                 
                 do {
-                    try request.HTTPBody = NSJSONSerialization.dataWithJSONObject(jsonBody, options: NSJSONWritingOptions.PrettyPrinted)
+                    try request.httpBody = JSONSerialization.data(withJSONObject: jsonBody, options: JSONSerialization.WritingOptions.prettyPrinted)
                 } catch let error as NSError {
-                    completionHandler(result: nil, error: String.localizedStringWithFormat(NSLocalizedString("cliInternalJsonError", comment:"Internal error : invalid jsonBody (error: %s)"), error))
+                    completionHandler(nil, String.localizedStringWithFormat(NSLocalizedString("cliInternalJsonError", comment:"Internal error : invalid jsonBody (error: %s)"), error) as AnyObject)
                     return nil                              // exit !!!
                 }
                 
@@ -131,32 +131,32 @@ class WebApiClient {
             WebApiClient.startingTask()
             
             // submit the request
-            let task = urlSession.dataTaskWithRequest(request) { data, response, urlError in
+            let task = urlSession.dataTask(with: request, completionHandler: { data, response, urlError in
                 
                 defer { WebApiClient.endingTask() }
                 
                 // check for basic connectivity errors
                 if let error = urlError {
-                    completionHandler(result: nil, error: error)
+                    completionHandler(nil, error as AnyObject)
                     return
                 }
                 
                 // check for HTTP errors
-                if let httpResponse = response as? NSHTTPURLResponse {
+                if let httpResponse = response as? HTTPURLResponse {
                     if WebApiClient.httpStatusIsError(httpResponse.statusCode) {
-                        completionHandler(result: nil, error: httpResponse)
+                        completionHandler(nil, httpResponse)
                         return
                     }
                 }
                 
                 // parse the JSON
                 do {
-                    let parseResult: AnyObject! = try WebApiClient.parseJSON(data!.subdataWithRange(NSMakeRange(self.dataOffset, data!.length - self.dataOffset)))
-                    completionHandler(result: parseResult, error: nil)
+                    let parseResult: AnyObject! = try WebApiClient.parseJSON(data!.subdata(in: self.dataOffset ..< data!.count - self.dataOffset))
+                    completionHandler(parseResult, nil)
                 } catch let error as NSError {
-                    completionHandler(result: nil, error: error)
+                    completionHandler(nil, error)
                 }
-            }
+            }) 
             
             // submit the request to the server
             task.resume()
@@ -170,7 +170,7 @@ class WebApiClient {
     // helper functions
     //
     
-    private class func formatURLParameters(parameters : [String : AnyObject]) -> String {
+    fileprivate class func formatURLParameters(_ parameters : [String : AnyObject]) -> String {
      
         var result = ""
         var delim  = "?"
@@ -181,7 +181,7 @@ class WebApiClient {
             let stringValue = "\(value)"
             
             // escape the value
-            let escValue = stringValue.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
+            let escValue = stringValue.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
             
             // append to the result
             result += delim + key + "=" + "\(escValue!)"
@@ -191,30 +191,30 @@ class WebApiClient {
         return result;
     }
     
-    private class func parseJSON(data : NSData) throws -> AnyObject! {
-        let parsedResult : AnyObject? = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments)
-        return parsedResult
+    fileprivate class func parseJSON(_ data : Data) throws -> AnyObject! {
+        let parsedResult : Any? = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments)
+        return parsedResult as AnyObject?
     }
     
-    private class func httpStatusIsError(statusCode : Int) -> Bool {
+    fileprivate class func httpStatusIsError(_ statusCode : Int) -> Bool {
         
         return statusCode >= 400
         
     }
     
-    private class func startingTask() {
+    fileprivate class func startingTask() {
         
-        dispatch_async(dispatch_get_main_queue()) {
-            ++runningTasks
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        DispatchQueue.main.async {
+            runningTasks += 1
+            UIApplication.shared.isNetworkActivityIndicatorVisible = true
         }
     }
     
-    private class func endingTask() {
+    fileprivate class func endingTask() {
         
-        dispatch_async(dispatch_get_main_queue()) {
-            --runningTasks
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = runningTasks > 0
+        DispatchQueue.main.async {
+            runningTasks -= 1
+            UIApplication.shared.isNetworkActivityIndicatorVisible = runningTasks > 0
         }
     }
     

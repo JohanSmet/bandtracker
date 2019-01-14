@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 protocol RatingControlDelegate {
-    func ratingDidChange(ratingControl : RatingControl, newRating : Float, oldRating : Float);
+    func ratingDidChange(_ ratingControl : RatingControl, newRating : Float, oldRating : Float);
 }
 
 @IBDesignable
@@ -18,8 +18,8 @@ class RatingControl : UIControl {
     
     @IBInspectable var numberOfStars : Int = 5
     @IBInspectable var gapBetweenStars : CGFloat = 3
-    @IBInspectable var strokeColor : UIColor = UIColor.blackColor()
-    @IBInspectable var fillColor : UIColor = UIColor.yellowColor()
+    @IBInspectable var strokeColor : UIColor = UIColor.black
+    @IBInspectable var fillColor : UIColor = UIColor.yellow
     
     @IBInspectable var rating : Float = 5 {
         didSet {
@@ -27,7 +27,7 @@ class RatingControl : UIControl {
         }
     }
     
-    private var starSize : CGFloat = 0
+    fileprivate var starSize : CGFloat = 0
     var delegate : RatingControlDelegate?
     
     ////////////////////////////////////////////////////////////////////////////////
@@ -35,7 +35,7 @@ class RatingControl : UIControl {
     // custom draw routine
     //
 
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         
         // determine the size of the stars
         let availableWidth = rect.width - (gapBetweenStars * CGFloat(numberOfStars - 1)) - 4.5
@@ -52,8 +52,8 @@ class RatingControl : UIControl {
         strokeColor.setStroke()
         
         // draw the stars
-        for var starIdx: Int = 0; starIdx < numberOfStars; ++starIdx {
-            let path = createStarPath(CGPointMake(x, y), numPoints: 5, innerRadius: innerRadius, outerRadius: outerRadius)
+        for starIdx: Int in 0 ..< numberOfStars {
+            let path = createStarPath(CGPoint(x: x, y: y), numPoints: 5, innerRadius: innerRadius, outerRadius: outerRadius)
             
             if Float(starIdx + 1) <= rating {
                 path.fill()
@@ -75,34 +75,34 @@ class RatingControl : UIControl {
     // handle input
     //
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        if !enabled {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if !isEnabled {
             return
         }
         
         for touch in touches {
-            handleTouchAtPoint(touch.locationInView(self))
+            handleTouchAtPoint(touch.location(in: self))
         }
     }
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        if !enabled {
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if !isEnabled {
             return
         }
         
         for touch in touches {
-            handleTouchAtPoint(touch.locationInView(self))
+            handleTouchAtPoint(touch.location(in: self))
         }
     }
     
-    private func handleTouchAtPoint(location : CGPoint) {
+    fileprivate func handleTouchAtPoint(_ location : CGPoint) {
         
         var starPos : CGFloat = 4.5
         let oldRating = rating
         rating = 0
         
         while rating <= 5 && location.x >= starPos {
-            ++rating
+            rating += 1
             starPos += starSize + gapBetweenStars
         }
         
@@ -120,11 +120,11 @@ class RatingControl : UIControl {
     // helper functions
     //
     
-    private func createStarPath(center : CGPoint, numPoints : Int, innerRadius : CGFloat, outerRadius : CGFloat) -> UIBezierPath {
+    fileprivate func createStarPath(_ center : CGPoint, numPoints : Int, innerRadius : CGFloat, outerRadius : CGFloat) -> UIBezierPath {
         
         let path  = UIBezierPath()
-        var angle      = CGFloat((3 * M_PI) / 2)
-        let angleDelta = CGFloat(M_PI) / CGFloat(numPoints)
+        var angle      = CGFloat((3 * Float.pi) / 2)
+        let angleDelta = CGFloat(Float.pi) / CGFloat(numPoints)
        
         for idx in 0 ..< numPoints * 2 {
             
@@ -134,13 +134,13 @@ class RatingControl : UIControl {
             angle += angleDelta
             
             if idx == 0 {
-                path.moveToPoint(CGPointMake(x, y))
+                path.move(to: CGPoint(x: x, y: y))
             } else {
-                path.addLineToPoint(CGPointMake(x, y))
+                path.addLine(to: CGPoint(x: x, y: y))
             }
         }
         
-        path.closePath()
+        path.close()
         
         return path
     }

@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 protocol GigGuidedCreationFilterDelegate {
-    func filterValueChanged(filterController : GigGuidedCreationFilterController)
+    func filterValueChanged(_ filterController : GigGuidedCreationFilterController)
 }
 
 class GigGuidedCreationFilterController : UITableViewController,
@@ -22,10 +22,10 @@ class GigGuidedCreationFilterController : UITableViewController,
     // constants
     //
     
-    private let ROW_YEAR_PICKER = 0
-    private let ROW_COUNTRY     = 1
+    fileprivate let ROW_YEAR_PICKER = 0
+    fileprivate let ROW_COUNTRY     = 1
     
-    private let HEIGHT_YEAR_PICKER : CGFloat = 162
+    fileprivate let HEIGHT_YEAR_PICKER : CGFloat = 162
     
     ////////////////////////////////////////////////////////////////////////////////
     //
@@ -44,8 +44,8 @@ class GigGuidedCreationFilterController : UITableViewController,
     
     var band      : Band!
     
-    var startDate : NSDate!
-    var endDate   : NSDate!
+    var startDate : Date!
+    var endDate   : Date!
     var country   : Country!
     var delegate  : GigGuidedCreationFilterDelegate!
     
@@ -80,7 +80,7 @@ class GigGuidedCreationFilterController : UITableViewController,
     // UITableViewDelegate
     //
     
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         if indexPath.row == ROW_YEAR_PICKER {
             return HEIGHT_YEAR_PICKER
@@ -89,9 +89,9 @@ class GigGuidedCreationFilterController : UITableViewController,
         return self.tableView.rowHeight
     }
    
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
         
         // country selection
         if indexPath.row == ROW_COUNTRY {
@@ -111,11 +111,11 @@ class GigGuidedCreationFilterController : UITableViewController,
     // UIViewPickerDataSource
     //
     
-    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
-    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return years.count
     }
     
@@ -124,11 +124,11 @@ class GigGuidedCreationFilterController : UITableViewController,
     // UIViewPickerDelegate
     //
     
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return "\(years[row])"
     }
     
-    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         selYear = years[row]
         recomputeYearLimits()
         saveDefaults()
@@ -140,7 +140,7 @@ class GigGuidedCreationFilterController : UITableViewController,
     // helper functions
     //
     
-    private func setDefaultYear() {
+    fileprivate func setDefaultYear() {
         if !years.isEmpty {
             yearPicker.selectRow(years.count - 1, inComponent: 0, animated: false)
             selYear = years.last!
@@ -149,46 +149,46 @@ class GigGuidedCreationFilterController : UITableViewController,
         }
     }
     
-    private func recomputeYearLimits() {
+    fileprivate func recomputeYearLimits() {
         startDate = computeStartDate(selYear)
         endDate   = computeEndDate()
     }
     
-    private func computeStartDate(year : Int) -> NSDate {
-        let components = NSDateComponents()
+    fileprivate func computeStartDate(_ year : Int) -> Date {
+        var components = DateComponents()
         components.day   = 1
         components.month = 1
         components.year  = year
-        return NSCalendar.currentCalendar().dateFromComponents(components)!
+        return Calendar.current.date(from: components)!
     }
     
-    private func computeEndDate() -> NSDate {
-        let offset  = NSDateComponents()
+    fileprivate func computeEndDate() -> Date {
+        var offset  = DateComponents()
         offset.day  = -1
         offset.year = 1
-        return NSCalendar.currentCalendar().dateByAddingComponents(offset, toDate: startDate, options: [])!
+        return (Calendar.current as NSCalendar).date(byAdding: offset, to: startDate, options: [])!
     }
     
-    private func delegateValueChanged() {
+    fileprivate func delegateValueChanged() {
         if let delegate = delegate {
             delegate.filterValueChanged(self)
         }
     }
     
-    private func loadDefaults() -> Bool {
-        let defaults = NSUserDefaults.standardUserDefaults();
+    fileprivate func loadDefaults() -> Bool {
+        let defaults = UserDefaults.standard;
         
         // load defaults if band is still the same as last time
-        guard let bandId = defaults.stringForKey("guidedGigBand") else { return false }
+        guard let bandId = defaults.string(forKey: "guidedGigBand") else { return false }
         
         if bandId != band.bandMBID {
             return false
         }
         
-        let defYear     = defaults.integerForKey("guidedGigYear")
-        let defCountry  = defaults.stringForKey("guidedGigCountry") ?? ""
+        let defYear     = defaults.integer(forKey: "guidedGigYear")
+        let defCountry  = defaults.string(forKey: "guidedGigCountry") ?? ""
         
-        for (idx, year) in years.enumerate() {
+        for (idx, year) in years.enumerated() {
             if year >= defYear {
                 yearPicker.selectRow(idx, inComponent: 0, animated: false)
                 selYear = year
@@ -206,16 +206,16 @@ class GigGuidedCreationFilterController : UITableViewController,
         return true
     }
     
-    private func saveDefaults() {
-        let defaults = NSUserDefaults.standardUserDefaults();
+    fileprivate func saveDefaults() {
+        let defaults = UserDefaults.standard;
         
-        defaults.setObject(band.bandMBID,   forKey: "guidedGigBand")
-        defaults.setInteger(selYear,        forKey: "guidedGigYear")
+        defaults.set(band.bandMBID,   forKey: "guidedGigBand")
+        defaults.set(selYear,        forKey: "guidedGigYear")
         
         if let country = country {
-            defaults.setObject(country.code, forKey: "guidedGigCountry")
+            defaults.set(country.code, forKey: "guidedGigCountry")
         } else {
-            defaults.setObject("", forKey: "guidedGigCountry")
+            defaults.set("", forKey: "guidedGigCountry")
         }
     }
 }

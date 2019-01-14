@@ -15,15 +15,15 @@ class DataLoader {
     // request interface
     //
    
-    static func loadCountries(completionHandlerUI : (error : String?) -> Void) {
+    static func loadCountries(_ completionHandlerUI : @escaping (_ error : String?) -> Void) {
         
         // load information about last synchronization
-        let defaults = NSUserDefaults.standardUserDefaults();
-        let syncId = defaults.integerForKey("countrySyncId")
+        let defaults = UserDefaults.standard;
+        let syncId = defaults.integer(forKey: "countrySyncId")
         
-        if let syncDate = defaults.objectForKey("countrySyncDate") as? NSDate {
+        if let syncDate = defaults.object(forKey: "countrySyncDate") as? Date {
             // don't try to sync more than once a day
-            if NSCalendar.currentCalendar().isDateInToday(syncDate) {
+            if Calendar.current.isDateInToday(syncDate) {
                 return
             }
         }
@@ -40,20 +40,20 @@ class DataLoader {
                 for serverCountry in serverCountries! {
                     if let oldCountry = countries[serverCountry.code] {
                         oldCountry.name = serverCountry.name
-                        oldCountry.flag = NSData(base64EncodedString: serverCountry.flag, options: .IgnoreUnknownCharacters)
+                        oldCountry.flag = Data(base64Encoded: serverCountry.flag, options: .ignoreUnknownCharacters)
                     } else {
                         let country = Country(code: serverCountry.code, name: serverCountry.name, context: coreDataStackManager().managedObjectContext!)
-                        country.flag = NSData(base64EncodedString: serverCountry.flag, options: .IgnoreUnknownCharacters)
+                        country.flag = Data(base64Encoded: serverCountry.flag, options: .ignoreUnknownCharacters)
                     }
                 }
                 
                 try coreDataStackManager().managedObjectContext!.save()
                 
-                defaults.setInteger(syncId, forKey: "countrySyncId")
-                defaults.setObject(NSDate(), forKey: "countrySyncDate")
+                defaults.set(syncId, forKey: "countrySyncId")
+                defaults.set(Date(), forKey: "countrySyncDate")
                 
             } catch let error as NSError {
-                completionHandlerUI(error: error.description)
+                completionHandlerUI(error.description)
             }
         }
     }
@@ -64,9 +64,9 @@ class DataLoader {
     // utility functions
     //
     
-    private static func runCompletionHandler(error : String?, completionHandlerUI : (error : String?) -> Void) {
-        dispatch_async(dispatch_get_main_queue()) {
-            completionHandlerUI(error: error)
+    fileprivate static func runCompletionHandler(_ error : String?, completionHandlerUI : @escaping (_ error : String?) -> Void) {
+        DispatchQueue.main.async {
+            completionHandlerUI(error)
         }
     }
 }

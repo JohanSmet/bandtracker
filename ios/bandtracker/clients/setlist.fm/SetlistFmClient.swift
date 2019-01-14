@@ -37,26 +37,26 @@ class SetlistFmClient : WebApiClient {
     // request interface
     //
     
-    func searchSetlist(gig : Gig, completionHandler : (setList : [SetPart]?, setListUrl : String?, error : String?) -> Void) {
+    func searchSetlist(_ gig : Gig, completionHandler : @escaping (_ setList : [SetPart]?, _ setListUrl : String?, _ error : String?) -> Void) {
         
         // configure request
         let parameters : [String : AnyObject] = [
-            "artistMbid": gig.band.bandMBID,
-            "date" : DateUtils.format(gig.startDate, format: "dd-MM-yyyy")
+            "artistMbid": gig.band.bandMBID as AnyObject,
+            "date" : (DateUtils.format(gig.startDate, format: "dd-MM-yyyy")) as AnyObject
         ]
         
         // perform request
-        startTaskGET(SetlistFmClient.BASE_URL, method: "search/setlists.json", parameters: parameters) { result, error in
+        let _ = startTaskGET(SetlistFmClient.BASE_URL, method: "search/setlists.json", parameters: parameters) { result, error in
             if let basicError = error as? NSError {
-                return completionHandler(setList: nil, setListUrl : nil, error: SetlistFmClient.formatBasicError(basicError))
-            } else if let httpError = error as? NSHTTPURLResponse {
-                return completionHandler(setList: nil, setListUrl : nil, error: SetlistFmClient.formatHttpError(httpError))
+                return completionHandler(nil, nil, SetlistFmClient.formatBasicError(basicError))
+            } else if let httpError = error as? HTTPURLResponse {
+                return completionHandler(nil, nil, SetlistFmClient.formatHttpError(httpError))
             }
             
             // don't exit this scope with calling the completion handler
             var setList : [SetPart] = []
             var setUrl  : String = ""
-            defer { completionHandler(setList : setList, setListUrl : setUrl, error: nil) }
+            defer { completionHandler(setList, setUrl, nil) }
             
             // parse the results
             guard let postResult = result as? NSDictionary else { return }
@@ -88,11 +88,11 @@ class SetlistFmClient : WebApiClient {
     // helper functions
     //
     
-    private class func formatBasicError(error : NSError) -> String {
+    fileprivate class func formatBasicError(_ error : NSError) -> String {
         return error.localizedDescription
     }
     
-    private class func formatHttpError(response : NSHTTPURLResponse) -> String {
+    fileprivate class func formatHttpError(_ response : HTTPURLResponse) -> String {
         
         if (response.statusCode == 403) {
             return NSLocalizedString("cliInvalidCredentials", comment:"Invalid username or password")
@@ -103,7 +103,7 @@ class SetlistFmClient : WebApiClient {
         }
     }
     
-    private func parseSet(fmSet :  [String : AnyObject]) -> SetPart? {
+    fileprivate func parseSet(_ fmSet :  [String : AnyObject]) -> SetPart? {
         var set = SetPart()
         
         if let name = fmSet["name"] as? String {

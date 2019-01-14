@@ -21,7 +21,7 @@ class YoutubeDataClient {
     // variables
     //
     
-    private var webClient : WebApiClient = WebApiClient(dataOffset: 0)
+    fileprivate var webClient : WebApiClient = WebApiClient(dataOffset: 0)
     
     ///////////////////////////////////////////////////////////////////////////////////
     //
@@ -37,16 +37,16 @@ class YoutubeDataClient {
     // request interface
     //
     
-    func searchVideosForGig(gig : Gig, song : String?, maxResults : Int, completionHandler : (videos : [Video]?, error : String?) -> Void) {
+    func searchVideosForGig(_ gig : Gig, song : String?, maxResults : Int, completionHandler : @escaping (_ videos : [Video]?, _ error : String?) -> Void) {
         
         var parameters : [String : AnyObject] = [
-            "key" :     YoutubeDataClient.API_KEY,
-            "videoEmbeddable" : "true",
-            "type" :            "video",
-            "order" :           "relevance",
-            "part" :            "snippet",
-            "fields" :          "items(id,snippet)",
-            "maxResults" :      maxResults
+            "key" :     YoutubeDataClient.API_KEY as AnyObject,
+            "videoEmbeddable" : "true" as AnyObject,
+            "type" :            "video" as AnyObject,
+            "order" :           "relevance" as AnyObject,
+            "part" :            "snippet" as AnyObject,
+            "fields" :          "items(id,snippet)" as AnyObject,
+            "maxResults" :      maxResults as AnyObject
         ]
         
         // build the search query
@@ -65,19 +65,19 @@ class YoutubeDataClient {
             query += " " + song
         }
         
-        parameters["q"] = query
+        parameters["q"] = query as AnyObject
         
         // perform the query
-        webClient.startTaskGET(YoutubeDataClient.BASE_URL, method: "search", parameters: parameters) { result, error in
+        let _ = webClient.startTaskGET(YoutubeDataClient.BASE_URL, method: "search", parameters: parameters) { result, error in
             if let basicError = error as? NSError {
-                return completionHandler(videos: nil, error: YoutubeDataClient.formatBasicError(basicError))
-            } else if let httpError = error as? NSHTTPURLResponse {
-                return completionHandler(videos: nil, error: YoutubeDataClient.formatHttpError(httpError))
+                return completionHandler(nil, YoutubeDataClient.formatBasicError(basicError))
+            } else if let httpError = error as? HTTPURLResponse {
+                return completionHandler(nil, YoutubeDataClient.formatHttpError(httpError))
             }
             
             // don't exit this scope with calling the completion handler
             var videos : [Video] = []
-            defer { completionHandler(videos : videos, error: nil) }
+            defer { completionHandler(videos, nil) }
             
             // parse the results
             guard let postResult = result as? NSDictionary else { return }
@@ -102,11 +102,11 @@ class YoutubeDataClient {
     // helper functions
     //
     
-    private class func formatBasicError(error : NSError) -> String {
+    fileprivate class func formatBasicError(_ error : NSError) -> String {
         return error.localizedDescription
     }
     
-    private class func formatHttpError(response : NSHTTPURLResponse) -> String {
+    fileprivate class func formatHttpError(_ response : HTTPURLResponse) -> String {
         
         if (response.statusCode == 403) {
             return NSLocalizedString("cliInvalidCredentials", comment:"Invalid username or password")

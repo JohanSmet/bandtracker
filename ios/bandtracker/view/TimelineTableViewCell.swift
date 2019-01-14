@@ -18,20 +18,20 @@ class TimelineTableViewCell : UITableViewCell {
     @IBOutlet weak var countryImage: UIImageView!
     
     
-    func setFields(gig : Gig) {
+    func setFields(_ gig : Gig) {
     
         bandLabel.text      = gig.band.name
         dateLabel.text      = DateUtils.toDateStringMedium(gig.startDate)
         ratingControl.rating = gig.rating.floatValue / 10
         if let flag = gig.country.flag {
-            countryImage.image   = UIImage(data: flag)
+            countryImage.image   = UIImage(data: flag as Data)
         }
         
         setLocation(gig)
         
     }
     
-    private func setLocation(gig : Gig) {
+    fileprivate func setLocation(_ gig : Gig) {
         var location  : String = ""
         var separator : String = ""
         var venueSet  : Bool   = false

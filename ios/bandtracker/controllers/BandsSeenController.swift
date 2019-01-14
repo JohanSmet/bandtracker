@@ -19,8 +19,8 @@ class BandsSeenController:  UITableViewController,
     // variables
     //
     
-    lazy var fetchedResultsController: NSFetchedResultsController = {
-        let fetchRequest = NSFetchRequest(entityName: "Band")
+    lazy var fetchedResultsController: NSFetchedResultsController = { () -> NSFetchedResultsController<NSFetchRequestResult> in 
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Band")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "avgRating", ascending:false), NSSortDescriptor(key: "name", ascending: true)]
         
         let fetchedResultsController = NSFetchedResultsController (
@@ -45,7 +45,7 @@ class BandsSeenController:  UITableViewController,
         updateSearchResults("")
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // handle keyboard properly
@@ -54,7 +54,7 @@ class BandsSeenController:  UITableViewController,
         }
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         if let keyboardFix = self.keyboardFix {
@@ -67,25 +67,25 @@ class BandsSeenController:  UITableViewController,
     // UITableViewDataSource
     //
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return self.fetchedResultsController.sections?.count ?? 0
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let sectionInfo = fetchedResultsController.sections![section] 
         return sectionInfo.numberOfObjects
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("SeenBandCell", forIndexPath: indexPath) as! SeenBandTableViewCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SeenBandCell", for: indexPath) as! SeenBandTableViewCell
         configureCell(cell, indexPath: indexPath)
         return cell
     }
     
-    private func configureCell(cell : SeenBandTableViewCell?, indexPath : NSIndexPath) {
+    fileprivate func configureCell(_ cell : SeenBandTableViewCell?, indexPath : IndexPath) {
         
         guard let cell = cell else { return }
-        guard let band = fetchedResultsController.objectAtIndexPath(indexPath) as? Band else { return }
+        guard let band = fetchedResultsController.object(at: indexPath) as? Band else { return }
         
         cell.bandName.text          = band.name
         cell.numberOfGigs.text      = String(format: NSLocalizedString("conGigCount", comment: "(%0$d gigs)"), arguments: [band.gigs.count])
@@ -107,17 +107,17 @@ class BandsSeenController:  UITableViewController,
     // UITableViewDelegate
     //
     
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            let band = fetchedResultsController.objectAtIndexPath(indexPath) as! Band
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let band = fetchedResultsController.object(at: indexPath) as! Band
             dataContext().deleteBand(band)
         }
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let detailVc = BandDetailsController.create(fetchedResultsController.objectAtIndexPath(indexPath) as! Band)
-        self.navigationController?.showViewController(detailVc, sender: self)
+        let detailVc = BandDetailsController.create(fetchedResultsController.object(at: indexPath) as! Band)
+        self.navigationController?.show(detailVc, sender: self)
     }
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -125,32 +125,32 @@ class BandsSeenController:  UITableViewController,
     // NSFetchedResultsControllerDelegate
     //
     
-    func controllerWillChangeContent(controller: NSFetchedResultsController) {
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
     }
     
-    func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?,
-                    forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?,
+                    for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch (type) {
-            case .Insert :
+            case .insert :
                 if indexPath == nil {               // Swift 2.0 BUG with running 8.4
-                    tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
+                    tableView.insertRows(at: [newIndexPath!], with: .fade)
                 }
-            case .Delete :
-                tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
-            case .Update :
-                configureCell(tableView.cellForRowAtIndexPath(indexPath!) as? SeenBandTableViewCell, indexPath: indexPath!)
-            case .Move :
+            case .delete :
+                tableView.deleteRows(at: [indexPath!], with: .fade)
+            case .update :
+                configureCell(tableView.cellForRow(at: indexPath!) as? SeenBandTableViewCell, indexPath: indexPath!)
+            case .move :
                 if indexPath != newIndexPath {      // potential iOS 9 swift 2.0 with running 8.4
-                    tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
-                    tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
+                    tableView.deleteRows(at: [indexPath!], with: .fade)
+                    tableView.insertRows(at: [newIndexPath!], with: .fade)
                 } else {
-                    configureCell(tableView.cellForRowAtIndexPath(indexPath!) as? SeenBandTableViewCell, indexPath: indexPath!)
+                    configureCell(tableView.cellForRow(at: indexPath!) as? SeenBandTableViewCell, indexPath: indexPath!)
                 }
         }
     }
     
-    func controllerDidChangeContent(controller: NSFetchedResultsController) {
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()
     }
     
@@ -159,7 +159,7 @@ class BandsSeenController:  UITableViewController,
     // MainTabSheet
     //
     
-    func updateSearchResults(searchText : String) {
+    func updateSearchResults(_ searchText : String) {
         
         // update the predicate to correspond to the filter string
         if searchText.characters.count > 0 {
@@ -179,7 +179,7 @@ class BandsSeenController:  UITableViewController,
     }
     
     func addNewItem() {
-        self.performSegueWithIdentifier("bandSearchSegue", sender: self)
+        self.performSegue(withIdentifier: "bandSearchSegue", sender: self)
     }
         
     var searchBarVisible : Bool { return true }
