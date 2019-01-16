@@ -155,7 +155,7 @@ class TimelineController:   UITableViewController,
     
     func updateSearchResults(_ searchText : String) {
         // update the predicate to correspond to the filter string
-        if searchText.characters.count > 0 {
+        if !searchText.isEmpty {
             fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "band.name CONTAINS[cd] %@", searchText)
         } else {
             fetchedResultsController.fetchRequest.predicate = nil

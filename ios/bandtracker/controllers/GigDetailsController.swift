@@ -103,7 +103,7 @@ class GigDetailsController :    UITableViewController,
         
         let newVC = storyboard.instantiateViewController(withIdentifier: "GigDetailsController") as! GigDetailsController
         newVC.editable  = false
-        newVC.gig  = newVC.scratchContext.object(with: gig.objectID) as! Gig
+        newVC.gig  = newVC.scratchContext.object(with: gig.objectID) as? Gig
         newVC.gig = gig
         
         return newVC
@@ -165,24 +165,21 @@ class GigDetailsController :    UITableViewController,
     // actions
     //
     
-    func saveGig() {
+    @objc func saveGig() {
         if let gig = gig {
             gig.supportAct = switchSupportAct.isOn
             gig.processEdit()
-            
-            coreDataStackManager().saveChildContext(scratchContext)
-            coreDataStackManager().saveContext()
+            saveContext()
             
             gig.band.totalRating = NSNumber(value: dataContext().totalRatingOfGigs(gig.band))
             gig.band.avgRating   = NSNumber(value: gig.band.rating())
-            coreDataStackManager().saveChildContext(scratchContext)
-            coreDataStackManager().saveContext()
-            
+            saveContext()
+
             navigationController?.popViewController(animated: true)
         }
     }
     
-    func editGig() {
+    @objc func editGig() {
         setEditable(true)
         createNavigationButtons()
     }
@@ -393,6 +390,11 @@ class GigDetailsController :    UITableViewController,
         textComments.isEnabled    = editable
         ratingControl.isEnabled   = editable
         self.tableView.reloadData()
+    }
+    
+    fileprivate func saveContext() {
+        let _ = coreDataStackManager().saveChildContext(scratchContext)
+        let _ = coreDataStackManager().saveContext()
     }
     
 }

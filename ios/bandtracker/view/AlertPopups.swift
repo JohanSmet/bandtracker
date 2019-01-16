@@ -12,13 +12,13 @@ import UIKit
 func alertOkAsync(_ viewController : UIViewController, message : String, title : String? = nil) {
     
     DispatchQueue.main.async(execute: {
-        alertOk(viewController, message: message, title: title)
+        let _ = alertOk(viewController, message: message, title: title)
     })
 }
 
 func alertOk(_ viewController : UIViewController, message : String, title : String? = nil) -> UIView {
-    let alert = UIAlertController(title: title ?? NSLocalizedString("viewAttention", comment: "Attention"), message: message, preferredStyle: UIAlertControllerStyle.alert)
-    alert.addAction(UIAlertAction(title: NSLocalizedString("viewOk", comment: "OK"), style: UIAlertActionStyle.default, handler: nil))
+    let alert = UIAlertController(title: title ?? NSLocalizedString("viewAttention", comment: "Attention"), message: message, preferredStyle: UIAlertController.Style.alert)
+    alert.addAction(UIAlertAction(title: NSLocalizedString("viewOk", comment: "OK"), style: UIAlertAction.Style.default, handler: nil))
     viewController.present(alert, animated: true, completion: nil)
     return alert.view
 }

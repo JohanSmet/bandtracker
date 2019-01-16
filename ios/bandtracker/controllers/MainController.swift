@@ -82,7 +82,7 @@ class MainController:   UITabBarController,
         
         // make sure core data can be initialised properly
         if coreDataStackManager().managedObjectContext == nil {
-            alertOk(self, message: NSLocalizedString("conCoreDataError", comment: "Unable to initalize CoreData-backend"))
+            let _ = alertOk(self, message: NSLocalizedString("conCoreDataError", comment: "Unable to initalize CoreData-backend"))
             return
         }
         

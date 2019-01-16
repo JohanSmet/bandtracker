@@ -116,7 +116,7 @@ class CitySelectionDelegate : ListSelectionControllerDelegate {
                 
                 self.lastTimeStamp = timestamp
                 
-                completionHandler(cities as! [AnyObject])
+                completionHandler(cities! as [AnyObject])
             }
         default :
             completionHandler(nil)
@@ -191,7 +191,7 @@ class VenueSelectionDelegate : ListSelectionControllerDelegate {
                 }
                 
                 self.lastTimeStamp = timestamp
-                completionHandler(venue as! [AnyObject])
+                completionHandler((venue! as [AnyObject]))
             }
         default :
             completionHandler(nil)

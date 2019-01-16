@@ -65,23 +65,23 @@ class KeyboardFix : NSObject {
     //
     
     fileprivate func subscribeToKeyboardNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(KeyboardFix.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(KeyboardFix.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(KeyboardFix.keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(KeyboardFix.keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     fileprivate func unsubscribeFromKeyboardNotifications() {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    func keyboardWillShow(_ notification: Notification) {
+    @objc func keyboardWillShow(_ notification: Notification) {
         
         // keyboard height
         let kbHeight = getKeyboardHeight(notification)
         
         // update the insets of the scroll view
         if let scrollView = scrollView {
-            let contentInsets:UIEdgeInsets   = UIEdgeInsetsMake(0.0, 0.0, kbHeight, 0.0)
+            let contentInsets:UIEdgeInsets   = UIEdgeInsets.init(top: 0.0, left: 0.0, bottom: kbHeight, right: 0.0)
             scrollView.contentInset          = contentInsets
             scrollView.scrollIndicatorInsets = contentInsets
         
@@ -102,7 +102,7 @@ class KeyboardFix : NSObject {
         viewController.view.addGestureRecognizer(tapRecognizer!)
     }
     
-    func keyboardWillHide(_ notification: Notification) {
+    @objc func keyboardWillHide(_ notification: Notification) {
         viewController.view.removeGestureRecognizer(tapRecognizer!)
         
         // reset insets
@@ -115,7 +115,7 @@ class KeyboardFix : NSObject {
     
     fileprivate func getKeyboardHeight(_ notification : Notification) -> CGFloat {
         let userInfo = notification.userInfo
-        let keyboardSize = userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue
+        let keyboardSize = userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue
         return keyboardSize.cgRectValue.height
     }
     
@@ -124,7 +124,7 @@ class KeyboardFix : NSObject {
     // tap recognizer
     //
     
-    func handleTap() {
+    @objc func handleTap() {
         // viewController.view.endEditing(true)
         viewController.view.window?.endEditing(true)
     }

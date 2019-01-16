@@ -70,7 +70,7 @@ class DataContext {
     
     func bandList(_ nameFilter : String) -> [Band] {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Band")
-        if nameFilter.characters.count > 0 {
+        if !nameFilter.isEmpty {
             fetchRequest.predicate       = NSPredicate(format: "name CONTAINS[cd] %@", nameFilter)
         }
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
@@ -267,7 +267,7 @@ class DataContext {
     
     func cityByName(_ cityName : String, context : NSManagedObjectContext = coreDataStackManager().managedObjectContext!) -> City? {
         
-        if cityName.characters.count <= 0 {
+        if cityName.isEmpty {
             return nil
         }
         
@@ -310,7 +310,7 @@ class DataContext {
     
     func venueByName(_ venueName : String, context : NSManagedObjectContext = coreDataStackManager().managedObjectContext!) -> Venue? {
         
-        if venueName.characters.count <= 0 {
+        if venueName.isEmpty {
             return nil
         }
         

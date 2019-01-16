@@ -43,7 +43,7 @@ class FanartTvClient {
             "api_key": FanartTvClient.API_KEY as AnyObject
         ]
         
-        webClient.startTaskGET(FanartTvClient.BASE_URL, method: "music/\(bandMbid)", parameters: parameters) { result, error in
+        let _ = webClient.startTaskGET(FanartTvClient.BASE_URL, method: "music/\(bandMbid)", parameters: parameters) { result, error in
             
             if let basicError = error as? NSError {
                 return completionHandler(nil, FanartTvClient.formatBasicError(basicError))

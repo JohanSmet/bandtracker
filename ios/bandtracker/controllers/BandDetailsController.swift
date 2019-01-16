@@ -180,7 +180,7 @@ class BandDetailsController :   UIViewController,
         navigationController?.pushViewController(newVC, animated: true)
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let gig = gigFetchedResultsController.object(at: indexPath) as! Gig
             dataContext().deleteGig(gig)
@@ -247,7 +247,7 @@ class BandDetailsController :   UIViewController,
                 + band.biography
             
             let text = try NSMutableAttributedString(  data: bio.data(using: String.Encoding.utf8)!,
-                options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType],
+                options: convertToNSAttributedStringDocumentReadingOptionKeyDictionary([convertFromNSAttributedStringDocumentAttributeKey(NSAttributedString.DocumentAttributeKey.documentType): convertFromNSAttributedStringDocumentType(NSAttributedString.DocumentType.html)]),
                 documentAttributes: nil);
             biography.attributedText = text
         } catch {
@@ -275,4 +275,19 @@ class BandDetailsController :   UIViewController,
             self.bandImage.image = image
         }
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSAttributedStringDocumentReadingOptionKeyDictionary(_ input: [String: Any]) -> [NSAttributedString.DocumentReadingOptionKey: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (NSAttributedString.DocumentReadingOptionKey(rawValue: key), value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromNSAttributedStringDocumentAttributeKey(_ input: NSAttributedString.DocumentAttributeKey) -> String {
+	return input.rawValue
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromNSAttributedStringDocumentType(_ input: NSAttributedString.DocumentType) -> String {
+	return input.rawValue
 }

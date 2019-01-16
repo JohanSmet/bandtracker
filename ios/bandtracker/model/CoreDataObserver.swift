@@ -74,7 +74,7 @@ class CoreDataObserver : NSObject {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: context)
     }
     
-    func dataModelChangeNotification(_ notification: Notification) {
+    @objc func dataModelChangeNotification(_ notification: Notification) {
         guard let delegate = self.delegate else { return }
         
         if let updatedObjects = notification.userInfo?[NSUpdatedObjectsKey] as? NSSet {

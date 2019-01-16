@@ -65,7 +65,7 @@ class BandSearchController: UITableViewController,
         guard let searchText = searchController.searchBar.text else { return }
         
         // check minimum length of the search pattern
-        if searchText.characters.count < 2 {
+        if searchText.count < 2 {
             existingBandList.removeAll()
             newBandList.removeAll()
             lastBandList.removeAll()
@@ -76,7 +76,7 @@ class BandSearchController: UITableViewController,
         }
         
         // no need to search online when the new search pattern is the old pattern with an appended suffix
-        if lastSearchText.characters.count >= 2 && searchText.hasPrefix(lastSearchText) {
+        if lastSearchText.count >= 2 && searchText.hasPrefix(lastSearchText) {
             
             existingBandList = dataContext().bandList(searchText)
             localFilterNewBands(searchText)

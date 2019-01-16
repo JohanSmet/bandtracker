@@ -167,7 +167,7 @@ open class TimeIntervalPicker :  UIControl,
     
     fileprivate func createPicker() {
         
-        func addPickerConstraint(_ picker : UIView, attribute : NSLayoutAttribute, relation : NSLayoutRelation) {
+        func addPickerConstraint(_ picker : UIView, attribute : NSLayoutConstraint.Attribute, relation : NSLayoutConstraint.Relation) {
             addConstraint(NSLayoutConstraint(
                             item: picker,
                             attribute: attribute,
@@ -186,10 +186,10 @@ open class TimeIntervalPicker :  UIControl,
         addSubview(picker)
         
         // set constraints to fill entire container
-        addPickerConstraint(picker, attribute: NSLayoutAttribute.width, relation: NSLayoutRelation.equal)
-        addPickerConstraint(picker, attribute: NSLayoutAttribute.height, relation: NSLayoutRelation.equal)
-        addPickerConstraint(picker, attribute: NSLayoutAttribute.top, relation: NSLayoutRelation.equal)
-        addPickerConstraint(picker, attribute: NSLayoutAttribute.leading, relation: NSLayoutRelation.equal)
+        addPickerConstraint(picker, attribute: NSLayoutConstraint.Attribute.width, relation: NSLayoutConstraint.Relation.equal)
+        addPickerConstraint(picker, attribute: NSLayoutConstraint.Attribute.height, relation: NSLayoutConstraint.Relation.equal)
+        addPickerConstraint(picker, attribute: NSLayoutConstraint.Attribute.top, relation: NSLayoutConstraint.Relation.equal)
+        addPickerConstraint(picker, attribute: NSLayoutConstraint.Attribute.leading, relation: NSLayoutConstraint.Relation.equal)
         
         // center components to simulate infinite scrolling
         picker.selectRow(rowInfiniteCount / 2, inComponent: componentHours, animated: false)

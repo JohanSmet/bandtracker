@@ -107,7 +107,7 @@ class BandsSeenController:  UITableViewController,
     // UITableViewDelegate
     //
     
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let band = fetchedResultsController.object(at: indexPath) as! Band
             dataContext().deleteBand(band)
@@ -162,7 +162,7 @@ class BandsSeenController:  UITableViewController,
     func updateSearchResults(_ searchText : String) {
         
         // update the predicate to correspond to the filter string
-        if searchText.characters.count > 0 {
+        if !searchText.isEmpty {
             fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "name CONTAINS[cd] %@", searchText)
         } else {
             fetchedResultsController.fetchRequest.predicate = nil
