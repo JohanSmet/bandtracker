@@ -29,7 +29,7 @@ class YoutubeDataClient {
     //
     
     static let BASE_URL : String = "https://www.googleapis.com/youtube/v3/"
-    static let API_KEY : String  = "AIzaSyDPoRz5z-Xdrc4sP8N_gCOwdtTkGgZtBFg"
+    static let API_KEY : String  = "AIzaSyBS-EXEjMgFtHdF3sqIt5kZmhltUIxTGGo"
     
     
     ///////////////////////////////////////////////////////////////////////////////////
