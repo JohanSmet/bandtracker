@@ -20,7 +20,7 @@ class SetlistFmClient : WebApiClient {
     // configuration
     //
     
-    static let BASE_URL : String = "http://api.setlist.fm/rest/0.1/"
+    static let BASE_URL : String = "https://api.setlist.fm/rest/1.0/"
     static let API_KEY : String  = "e8ed1d50-86d5-4112-92a6-59041dfea3ac"
     
     ///////////////////////////////////////////////////////////////////////////////////
@@ -45,8 +45,13 @@ class SetlistFmClient : WebApiClient {
             "date" : (DateUtils.format(gig.startDate, format: "dd-MM-yyyy")) as AnyObject
         ]
         
+        let extraHeaders : [String : String] = [
+            "x-api-key": SetlistFmClient.API_KEY,
+            "Accept-Language": "en"
+        ]
+
         // perform request
-        let _ = startTaskGET(SetlistFmClient.BASE_URL, method: "search/setlists.json", parameters: parameters) { result, error in
+        let _ = startTaskGET(SetlistFmClient.BASE_URL, method: "search/setlists", parameters: parameters, extraHeaders: extraHeaders) { result, error in
             if let basicError = error as? NSError {
                 return completionHandler(nil, nil, SetlistFmClient.formatBasicError(basicError))
             } else if let httpError = error as? HTTPURLResponse {
@@ -60,7 +65,8 @@ class SetlistFmClient : WebApiClient {
             
             // parse the results
             guard let postResult = result as? NSDictionary else { return }
-            guard let fmSetlist = (postResult["setlists"] as? NSDictionary)?["setlist"] as? NSDictionary else { return }
+            guard let fmSetlists = postResult["setlist"] as? NSArray else {return}
+            guard let fmSetlist =  fmSetlists[0] as? NSDictionary else { return }
             setUrl = fmSetlist["url"] as? String ?? ""
             
             guard let fmSetsObject = (fmSetlist["sets"] as? NSDictionary)?["set"] else { return }
@@ -108,14 +114,16 @@ class SetlistFmClient : WebApiClient {
         
         if let name = fmSet["name"] as? String {
             set.name = name
-        } else if let encore = fmSet["@encore"] as? String {
+        } else if let encore = fmSet["encore"] as? String {
+            set.name = "Encore \(encore)"
+        } else if let encore = fmSet["encore"] as? NSNumber {
             set.name = "Encore \(encore)"
         }
         
         guard let songs = fmSet["song"] as? [[String : AnyObject]] else { return nil }
         
         for song in songs {
-            set.songs.append(song["@name"] as! String)
+            set.songs.append(song["name"] as! String)
         }
         
         return set
