@@ -100,7 +100,7 @@ public class MainTimelineFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return mCursor.getCount();
+            return (int) mCursor.getCount();
         }
 
         public Gig getItem(int position) {

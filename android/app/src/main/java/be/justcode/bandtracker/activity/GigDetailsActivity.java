@@ -294,7 +294,7 @@ public class GigDetailsActivity extends AppCompatActivity {
         editCity.setText(mGig.getCityName());
         editVenue.setText(mGig.getVenueName());
         editStage.setText(mGig.getStage());
-        toggleSupport.setChecked(mGig.getSupportAct());
+        toggleSupport.setChecked(mGig.isSupportAct());
         ratingBar.setRating(mGig.getRating() / 10.0f);
         editComments.setText(mGig.getComments());
     }

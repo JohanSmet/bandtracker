@@ -182,7 +182,7 @@ public class BandDetailsActivity extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
-            return mCursor.getCount();
+            return (int) mCursor.getCount();
         }
 
         public void rowClicked(int position) {

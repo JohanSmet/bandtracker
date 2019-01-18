@@ -38,9 +38,9 @@ public class Band extends BaseModel
     }
 
     @Override
-    public void save() {
+    public boolean save() {
         computeTotals();
-        super.save();
+        return super.save();
     }
 
     // getters

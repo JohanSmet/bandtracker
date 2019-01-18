@@ -115,7 +115,7 @@ public class MainBandsFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return mCursor.getCount();
+            return (int) mCursor.getCount();
         }
 
         public void refresh() {

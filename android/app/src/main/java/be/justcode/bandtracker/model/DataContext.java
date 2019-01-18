@@ -4,10 +4,10 @@ import android.content.Context;
 
 import com.raizlabs.android.dbflow.list.FlowCursorList;
 import com.raizlabs.android.dbflow.sql.language.Delete;
-import com.raizlabs.android.dbflow.sql.language.SQLCondition;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.sql.language.Select;
 import com.raizlabs.android.dbflow.sql.language.property.PropertyFactory;
+import com.raizlabs.android.dbflow.sql.language.SQLOperator;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -44,9 +44,9 @@ public class DataContext
 
     public static FlowCursorList<Band> bandCursor(String name) {
         if (!name.isEmpty()) {
-            return new FlowCursorList<>(true, SQLite.select().from(Band.class).where(Band_Table.name.like("%" + name + "%")).orderBy(Band_Table.avgRating, false));
+            return SQLite.select().from(Band.class).where(Band_Table.name.like("%" + name + "%")).orderBy(Band_Table.avgRating, false).cursorList();
         } else {
-            return new FlowCursorList<>(true, SQLite.select().from(Band.class).orderBy(Band_Table.avgRating, false));
+            return SQLite.select().from(Band.class).orderBy(Band_Table.avgRating, false).cursorList();
         }
     }
 
@@ -125,7 +125,7 @@ public class DataContext
 
     public static List<City> cityList(String name, Country country) {
 
-        List<SQLCondition> conds = new ArrayList<>();
+        List<SQLOperator> conds = new ArrayList<>();
 
         if (!name.isEmpty()) {
             conds.add(City_Table.name.like("%" + name + "%"));
@@ -173,7 +173,7 @@ public class DataContext
 
     public static List<Venue> venueList(String name, City city, Country country) {
 
-        List<SQLCondition> conds = new ArrayList<>();
+        List<SQLOperator> conds = new ArrayList<>();
 
         if (!name.isEmpty()) {
             conds.add(Venue_Table.name.is(name));
@@ -195,17 +195,17 @@ public class DataContext
 
     // gig
     public static FlowCursorList<Gig> gigCursor(Band band) {
+        return SQLite.select().from(Gig.class)
+                .where(Gig_Table.band_MBID.is(band.getMBID()))
+                .orderBy(Gig_Table.startDate, false)
+                .cursorList();
 
-        return new FlowCursorList<>(true, SQLite.select().from(Gig.class)
-                                                .where(Gig_Table.band_MBID.is(band.getMBID()))
-                                                .orderBy(Gig_Table.startDate, false)
-                                      );
     }
 
     public static FlowCursorList<Gig> gigTimelineCursor() {
-        return new FlowCursorList<>(true, SQLite.select().from(Gig.class)
-                                                .orderBy(Gig_Table.startDate, false)
-                                      );
+        return SQLite.select().from(Gig.class)
+                .orderBy(Gig_Table.startDate, false)
+                .cursorList();
     }
 
     public static List<Gig> gigList(Band band) {

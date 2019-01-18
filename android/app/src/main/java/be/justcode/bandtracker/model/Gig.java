@@ -71,7 +71,7 @@ public class Gig extends BaseModel {
         return stage;
     }
 
-    public boolean getSupportAct() {
+    public boolean isSupportAct() {
         return supportAct;
     }
 

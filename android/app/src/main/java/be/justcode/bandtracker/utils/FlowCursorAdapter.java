@@ -11,7 +11,7 @@ public class FlowCursorAdapter<T extends Model> extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return (mCursor != null) ? mCursor.getCount() : 0;
+        return (mCursor != null) ? (int) mCursor.getCount() : 0;
     }
 
     @Override
