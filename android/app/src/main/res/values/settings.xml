@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- bandtracker client -->
-    <string name="bandtracker_proto">https</string>
-    <string name="bandtracker_host">/bandtracker-justcode.rhcloud.com</string>
-    <string name="bandtracker_port">443</string>
+    <string name="bandtracker_proto">http</string>
+    <string name="bandtracker_host">/ct-nodejs</string>
+    <string name="bandtracker_port">80</string>
 
     <!-- fanarttv client-->
     <string name="fanarttv_proto">http</string>
