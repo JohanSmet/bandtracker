@@ -4,19 +4,11 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonParseException;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonToken;
-import com.google.gson.stream.JsonWriter;
 
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import be.justcode.bandtracker.App;
@@ -26,6 +18,7 @@ import be.justcode.bandtracker.clients.OkHttpBuilder;
 import be.justcode.bandtracker.model.Gig;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
+import retrofit.RequestInterceptor;
 import retrofit.converter.GsonConverter;
 import retrofit.http.GET;
 import retrofit.http.Query;
@@ -39,7 +32,7 @@ public class SetlistFmClient {
 
             String serverHost    = App.getContext().getString(R.string.setlistfm_host);
             String serverBaseUrl = App.getContext().getString(R.string.setlistfm_proto) + "://" + serverHost + ":" + App.getContext().getString(R.string.setlistfm_port);
-            String apiKey = App.getContext().getString(R.string.setlistfm_key);
+            final String apiKey = App.getContext().getString(R.string.setlistfm_key);
 
             Gson gson = new GsonBuilder().create();
 
@@ -47,9 +40,18 @@ public class SetlistFmClient {
                     .setEndpoint(serverBaseUrl)
                     .setConverter(new GsonConverter(gson))
                     .setClient(OkHttpBuilder.getClient(App.getContext(), true))
-                 // .setLogLevel(RestAdapter.LogLevel.FULL)
+                    .setRequestInterceptor(new RequestInterceptor() {
+                        @Override
+                        public void intercept(RequestFacade request) {
+                            request.addHeader("x-api-key", apiKey);
+                            request.addHeader("Accept-Language", "en");
+                            request.addHeader("Accept", "application/json");
+                        }
+
+                    })
+                    //.setLogLevel(RestAdapter.LogLevel.FULL)
                     .build()
-                    .create(IFanartTv.class)
+                    .create(ISetlistFm.class)
             ;
         }
     }
@@ -59,8 +61,8 @@ public class SetlistFmClient {
     // REST-interface
     //
 
-    private interface IFanartTv {
-        @GET("/rest/0.1/search/setlists.json")
+    private interface ISetlistFm {
+        @GET("/rest/1.0/search/setlists")
         public SetlistFmResponse getSetList(@Query("artistMbid") String artistMbid, @Query("date") String date, @retrofit.http.Header(Headers.HEADER_CACHE_CONTROL) String cacheControlValue);
     }
 
@@ -77,15 +79,15 @@ public class SetlistFmClient {
             if (response == null)
                 return null;
 
-            SetlistFmSetlist remoteSetlist = response.setlists.setlists.get(0);
+            SetlistFmSetlist remoteSetlist = response.setlist.get(0);
 
             if (remoteSetlist == null)
                 return null;
 
             Setlist setlist = new Setlist();
-            setlist.url = remoteSetlist.url;
+            setlist.url = remoteSetlist.sets.url;
 
-            for (SetlistFmSet remoteSet : remoteSetlist.sets.sets) {
+            for (SetlistFmSet remoteSet : remoteSetlist.sets.set) {
                 SetlistPart part = new SetlistPart();
 
                 if (remoteSet.name != null) {
@@ -108,88 +110,6 @@ public class SetlistFmClient {
         } catch (RetrofitError e) {
             Log.d(LOG_TAG, "searchSetlist", e);
             return null;
-        }
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    //
-    // gson type adapters
-    //
-
-    public class SetlistFmSetlistsTypeAdapter extends TypeAdapter<SetlistFmSetlists> {
-
-        @Override
-        public void write(JsonWriter out, SetlistFmSetlists value) throws IOException {
-            new Gson().toJson(value, SetlistFmSetlists.class, out);
-        }
-
-        @Override
-        public SetlistFmSetlists read(JsonReader reader) throws IOException {
-
-            reader.beginObject();
-
-            int itemsPerPage = 0;
-            int page = 0;
-            int total = 0;
-            SetlistFmSetlists result = null;
-
-            while (reader.hasNext()) {
-
-                String name = reader.nextName();
-
-                switch (name) {
-                    case "@itemsPerPage":
-                        itemsPerPage = Integer.parseInt(reader.nextString());
-                        break;
-                    case "@page":
-                        page = Integer.parseInt(reader.nextString());
-                        break;
-                    case "@total":
-                        total = Integer.parseInt(reader.nextString());
-                        break;
-                    case "setlist":
-                        if (reader.peek() == JsonToken.BEGIN_ARRAY) {
-                            result = new SetlistFmSetlists(itemsPerPage, page, total, (SetlistFmSetlist[]) new Gson().fromJson(reader, SetlistFmSetlist[].class));
-                        } else if (reader.peek() == JsonToken.BEGIN_OBJECT) {
-                            result = new SetlistFmSetlists(itemsPerPage, page, total, (SetlistFmSetlist) new Gson().fromJson(reader, SetlistFmSetlist.class));
-                        } else {
-                            throw new JsonParseException("Unexpected token " + reader.peek());
-                        }
-                        break;
-                }
-            }
-
-            reader.endObject();
-
-            return result;
-        }
-    }
-
-    public class SetlistFmSetsTypeAdapter extends TypeAdapter<SetlistFmSets> {
-
-        @Override
-        public void write(JsonWriter out, SetlistFmSets value) throws IOException {
-            new Gson().toJson(value, SetlistFmSets.class, out);
-        }
-
-        @Override
-        public SetlistFmSets read(JsonReader reader) throws IOException {
-
-            SetlistFmSets result;
-
-            reader.beginObject();
-            reader.nextName();
-
-            if (reader.peek() == JsonToken.BEGIN_ARRAY) {
-                result = new SetlistFmSets((SetlistFmSet[]) new Gson().fromJson(reader, SetlistFmSet[].class));
-            } else if (reader.peek() == JsonToken.BEGIN_OBJECT) {
-                result = new SetlistFmSets((SetlistFmSet) new Gson().fromJson(reader, SetlistFmSet.class));
-            } else {
-                throw new JsonParseException("Unexpected token " + reader.peek());
-            }
-
-            reader.endObject();
-            return result;
         }
     }
 
@@ -224,78 +144,36 @@ public class SetlistFmClient {
         List<String>    songs = new ArrayList<>();
     }
 
+    // Setlist.fm serialization
     private class SetlistFmResponse {
-        SetlistFmSetlists setlists;
-    }
-
-    @JsonAdapter(SetlistFmSetlistsTypeAdapter.class)
-    private class SetlistFmSetlists {
-
-        SetlistFmSetlists(int itemsPerPage, int page, int total, SetlistFmSetlist... setlists) {
-            this.itemsPerPage = itemsPerPage;
-            this.page         = page;
-            this.total        = total;
-            this.setlists     = Arrays.asList(setlists);
-        }
-
-        int itemsPerPage;
-        int page;
-        int total;
-
-        List<SetlistFmSetlist> setlists;
+        String                  type;
+        int                     itemsPerPage;
+        int                     page;
+        int                     total;
+        List<SetlistFmSetlist>  setlist;
     }
 
     private class SetlistFmSetlist {
-        @SerializedName("@id")
-        String  id ;
-        @SerializedName("@versionId")
-        String  versionId;
-        @SerializedName("@tour")
-        String  tour;
-        @SerializedName("@info")
-        String  info;
-        String  url;
-
-        SetlistFmArtist artist;
-        SetlistFmSets   sets;
+        String                  id;
+        String                  versionId;
+        SetlistFmSets           sets;
     }
 
-    private class SetlistFmArtist {
-
-        @SerializedName("@disambiguation")
-        String disambiguation;
-        @SerializedName("@mbid")
-        String mbid;
-        @SerializedName("@name")
-        String name;
-        @SerializedName("@sortName")
-        String sortName;
-    }
-
-    @JsonAdapter(SetlistFmSetsTypeAdapter.class)
     private class SetlistFmSets {
-
-        SetlistFmSets(SetlistFmSet... sets) {
-            this.sets = Arrays.asList(sets);
-        }
-
-        List<SetlistFmSet>  sets;
+        List<SetlistFmSet>      set;
+        String                  url;
     }
 
     private class SetlistFmSet {
-        @SerializedName("@encore")
-        int encore = 0;
+        int                     encore = 0;
+        String                  name;
 
         @SerializedName("song")
-        List<SetlistFmSong> songs;
-
-        @SerializedName("name")
-        String name;
+        List<SetlistFmSong>     songs;
     }
 
     private class SetlistFmSong {
-        @SerializedName("@name")
-        String  name;
+        String                  name;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -303,7 +181,7 @@ public class SetlistFmClient {
     // member variables
     //
 
-    private IFanartTv     restClient;
+    private ISetlistFm    restClient;
     private DateFormat    setlistFmDate = new SimpleDateFormat("dd-MM-yyyy");
 
     private static SetlistFmClient instance;
