@@ -24,4 +24,8 @@
     <string name="youtube_baseurl">/youtube/v3/</string>
     <string name="youtube_data_key">AIzaSyCDj5H---CR0h2DKGrfO_3tW3g8wr0R4XQ</string>
     <string name="youtube_player_key">AIzaSyAI-g-q9rFuf_hxG23-PV_rLT3CzKIUiRs</string>
+
+    <!-- general -->
+    <bool name="demo_mode">true</bool>
+
 </resources>
